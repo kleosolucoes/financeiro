@@ -1,28 +1,74 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import Lancamento from './components/Lancamento'
+import {connect} from 'react-redux';
+import { 
+	Container, 
+	ListGroup, 
+	Alert, 
+	Collapse,
+	Navbar,
+	NavbarToggler,
+	NavbarBrand,
+	Nav,
+	NavItem,
+	NavLink,
+} from 'reactstrap'
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+class App extends React.Component {
+
+	constructor(props) {
+		super(props);
+
+		this.toggle = this.toggle.bind(this);
+		this.state = {
+			isOpen: false
+		};
+	}
+	toggle() {
+		this.setState({
+			isOpen: !this.state.isOpen
+		});
+	}
+
+	render() {
+		const { lancamentos } = this.props
+		return (
+			<Container>
+				<Navbar color="light" light expand="md">
+					<NavbarBrand href="/">Financeiro</NavbarBrand>
+					<NavbarToggler onClick={this.toggle} />
+					<Collapse isOpen={this.state.isOpen} navbar>
+						<Nav className="ml-auto" navbar>
+							<NavItem>
+								<NavLink href="/components/">Components</NavLink>
+							</NavItem>
+							<NavItem>
+								<NavLink href="https://github.com/reactstrap/reactstrap">GitHub</NavLink>
+							</NavItem>
+						</Nav>
+					</Collapse>
+				</Navbar>
+				<Alert>Lançamentos</Alert>
+				<ListGroup>
+					{
+						lancamentos &&
+							lancamentos.map((lancamento, indice) => 
+								<Lancamento 
+									key={indice} 
+									lancamento={lancamento}
+								/>
+							)
+					}
+				</ListGroup>
+			</Container>
+		)
+	}
 }
 
-export default App;
+function mapStateToProps({ lancamentos }){
+	return {
+		lancamentos,
+	}
+}
+
+export default connect(mapStateToProps, null)(App)
