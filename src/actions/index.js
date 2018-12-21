@@ -1,56 +1,88 @@
-export const PEGAR_PROSPECTOS = 'PEGAR_PROSPECTOS'
-export const ADICIONAR_PROSPECTOS = 'ADICIONAR_PROSPECTOS'
-export const ALTERAR_PROSPECTO = 'ALTERAR_PROSPECTO'
-export const PEGAR_ADMINISTRACAO = 'PEGAR_ADMINISTRACAO'
-export const ALTERAR_ADMINISTRACAO = 'ALTERAR_ADMINISTRACAO'
-export const PEGAR_ITEMS_AGENDA = 'PEGAR_ITEMS_AGENDA'
-export const ADICIONAR_ITEM_AGENDA = 'ADICIONAR_ITEM_AGENDA'
+export const PEGAR_LANCAMENTOS = 'PEGAR_LANCAMENTOS'
+export const SALVAR_LANCAMENTO = 'SALVAR_LANCAMENTO'
+export const PEGAR_CATEGORIAS = 'PEGAR_CATEGORIAS'
+export const SALVAR_CATEGORIA = 'SALVAR_CATEGORIA'
+export const PEGAR_ENTIDADES = 'PEGAR_ENTIDADES'
+export const SALVAR_ENTIDADE = 'SALVAR_ENTIDADE'
+export const PEGAR_USUARIOS = 'PEGAR_USUARIOS'
+export const SALVAR_USUARIO = 'SALVAR_USUARIO'
+export const PEGAR_SITUACOES = 'PEGAR_SITUACOES'
+export const PEGAR_LANCAMENTO_SITUACOES = 'PEGAR_LANCAMENTO_SITUACOES'
+export const SALVAR_LANCAMENTO_SITUACAO = 'SALVAR_LANCAMENTO_SITUACAO'
 
-export function pegarProspectos(prospectos){ 
+export function pegarLancamentos(elementos){ 
 	return {
-		type: PEGAR_PROSPECTOS,
-		prospectos,
+		type: PEGAR_LANCAMENTOS,
+		elementos,
 	}
 }
 
-export function adicionarProspectos(prospectos){ 
+export function salvarLancamento(elemento){ 
 	return {
-		type: ADICIONAR_PROSPECTOS,
-		prospectos,
+		type: SALVAR_LANCAMENTO,
+		elemento,
 	}
 }
 
-export function alterarProspecto(prospecto){ 
+export function pegarCategorias(elementos){ 
 	return {
-		type: ALTERAR_PROSPECTO,
-		prospecto,
+		type: PEGAR_CATEGORIAS,
+		elementos,
 	}
 }
 
-export function pegarAdministracao(administracao){ 
+export function salvarCategoria(elemento){ 
 	return {
-		type: PEGAR_ADMINISTRACAO,
-		administracao,
+		type: SALVAR_CATEGORIA,
+		elemento,
 	}
 }
 
-export function alterarAdministracao(administracao){ 
+export function pegarEentidades(elementos){ 
 	return {
-		type: ALTERAR_ADMINISTRACAO,
-		administracao,
+		type: PEGAR_ENTIDADES,
+		elementos,
 	}
 }
 
-export function pegarItemsAgenda(items){
+export function salvarEntidade(elemento){ 
 	return {
-		type: PEGAR_ITEMS_AGENDA,
-		items,
+		type: SALVAR_ENTIDADE,
+		elemento,
 	}
 }
 
-export function adicionarItemAgenda(item){
+export function pegarUsuarios(elementos){ 
 	return {
-		type: ADICIONAR_ITEM_AGENDA,
-		item,
+		type: PEGAR_USUARIOS,
+		elementos,
+	}
+}
+
+export function salvarUsuario(elemento){ 
+	return {
+		type: SALVAR_USUARIO,
+		elemento,
+	}
+}
+
+export function pegarLancamentoSituacoes(elementos){ 
+	return {
+		type: PEGAR_LANCAMENTO_SITUACOES,
+		elementos,
+	}
+}
+
+export function salvarLancamentoSituacao(elemento){ 
+	return {
+		type: SALVAR_LANCAMENTO_SITUACAO,
+		elemento,
+	}
+}
+
+export function pegarSituacoes(elementos){ 
+	return {
+		type: PEGAR_SITUACOES,
+		elementos,
 	}
 }

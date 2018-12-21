@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter} from 'react-router-dom';
 import App from './App';
 import {createStore, applyMiddleware} from 'redux';
 import rootReducer from './reducers';
@@ -9,19 +8,17 @@ import thunk from 'redux-thunk';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const logger = store => next => action => { 
-            console.group(action.type);
-            console.info('despachando', action);
-            let resultado = next(action);
-            console.log('proximo', store.getState());
-            console.groupEnd(action.type);
-            return resultado;
-        };
+	console.group(action.type);
+	console.info('despachando', action);
+	let resultado = next(action);
+	console.log('proximo', store.getState());
+	console.groupEnd(action.type);
+	return resultado;
+};
 
 const store = createStore(rootReducer, applyMiddleware(logger,thunk));
 ReactDOM.render(
-        <Provider store={store}>
-            <BrowserRouter>
-                <App />
-            </BrowserRouter>
-        </Provider>
-        , document.getElementById('root'));
+	<Provider store={store}>
+		<App />
+	</Provider>
+	, document.getElementById('root'));

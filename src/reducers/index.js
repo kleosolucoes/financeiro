@@ -1,25 +1,42 @@
 import { combineReducers } from 'redux'
+import {
+	PEGAR_LANCAMENTOS,
+	SALVAR_LANCAMENTO,
+	PEGAR_CATEGORIAS,
+	SALVAR_CATEGORIA,
+	PEGAR_ENTIDADES,
+	SALVAR_ENTIDADE,
+	PEGAR_USUARIOS,
+	SALVAR_USUARIO,
+	PEGAR_SITUACOES,
+	PEGAR_LANCAMENTO_SITUACOES,
+	SALVAR_LANCAMENTO_SITUACAO,
+} from '../actions'
 
 const stateCategorias = [
 	{
 		id: 1,
 		nome: 'Categoria 1',
 		data_criacao: '2018-12-16',
+		data_inativacao: null,
 	},
 	{
 		id: 2,
 		nome: 'Categoria 2',
 		data_criacao: '2018-12-16',
+		data_inativacao: null,
 	},
 	{
 		id: 3,
 		nome: 'Categoria 3',
 		data_criacao: '2018-12-16',
+		data_inativacao: null,
 	},
 	{
 		id: 4,
 		nome: 'Categoria 4',
 		data_criacao: '2018-12-16',
+		data_inativacao: null,
 	},
 ]
 
@@ -28,43 +45,50 @@ const stateEntidadesTipo = [
 		id: 1,
 		nome: 'EMPRESA',
 		data_criacao: '2018-12-16',
+		data_inativacao: null,
 	},
 	{
 		id: 2,
 		nome: 'CLIENTE',
 		data_criacao: '2018-12-16',
+		data_inativacao: null,
 	},
 	{
 		id: 3,
 		nome: 'FORNECEDOR',
 		data_criacao: '2018-12-16',
+		data_inativacao: null,
 	},
 ]
 
 const stateEntidades = [
 	{
 		id: 1,
-		entidade_tipo_id: '1',
+		entidade_tipo_id: 1,
 		nome: 'Entidade 1',
 		data_criacao: '2018-12-16',
+		data_inativacao: null,
 	},
 	{
 		id: 2,
-		entidade_tipo_id: '2',
+		entidade_tipo_id: 2,
 		nome: 'Entidade 2',
 		data_criacao: '2018-12-16',
+		data_inativacao: null,
 	},
 	{
 		id: 3,
-		entidade_tipo_id: '3',
+		entidade_tipo_id: 3,
 		nome: 'Entidade 3',
 		data_criacao: '2018-12-16',
+		data_inativacao: null,
 	},
 	{
 		id: 4,
-		entidade_tipo_id: '3',
+		entidade_tipo_id: 3,
 		nome: 'Entidade 4',
 		data_criacao: '2018-12-16',
+		data_inativacao: null,
 	},
 ]
 
@@ -76,6 +100,7 @@ const stateUsuarios = [
 		nome: 'Leonardo Pereira Magalhães',
 		nivel: 1,
 		data_criacao: '2018-12-16',
+		data_inativacao: null,
 	},
 ]
 
@@ -87,7 +112,8 @@ const stateLancamentos = [
 		categoria_id: 1,
 		credito_debito: 'C',
 		usuario_id: 1,
-		entidade_id: 1
+		entidade_id: 1,
+		data_inativacao: null,
 	},
 	{
 		id: 2,
@@ -96,7 +122,8 @@ const stateLancamentos = [
 		categoria_id: 1,
 		credito_debito: 'C',
 		usuario_id: 1,
-		entidade_id: 1
+		entidade_id: 1,
+		data_inativacao: null,
 	},
 	{
 		id: 3,
@@ -105,7 +132,8 @@ const stateLancamentos = [
 		categoria_id: 4,
 		credito_debito: 'D',
 		usuario_id: 1,
-		entidade_id: 2
+		entidade_id: 2,
+		data_inativacao: null,
 	},
 	{
 		id: 4,
@@ -114,7 +142,8 @@ const stateLancamentos = [
 		categoria_id: 2,
 		credito_debito: 'D',
 		usuario_id: 1,
-		entidade_id: 1
+		entidade_id: 1,
+		data_inativacao: null,
 	},
 	{
 		id: 5,
@@ -123,7 +152,8 @@ const stateLancamentos = [
 		categoria_id: 3,
 		credito_debito: 'D',
 		usuario_id: 1,
-		entidade_id: 4
+		entidade_id: 4,
+		data_inativacao: null,
 	},
 ]
 
@@ -163,6 +193,22 @@ function entidadesTipo(state = stateEntidadesTipo, action){
 
 function entidades(state = stateEntidades, action){
 	switch(action.type){
+		case PEGAR_ENTIDADES:
+			return [...state, ...action.elementos]
+		case SALVAR_ENTIDADE:
+			if(action.elemento.id === null){
+				action.elemento.id = Date.now()
+				return [...state, action.elemento]
+			}else{
+				const estadoAtualizado = state.map(elemento => {
+					if(elemento.id === action.elemento.id){
+						return action.elemento
+					}else{
+						return elemento
+					}
+				})
+				return [...estadoAtualizado]
+			}
 		default:
 			return state
 	}
@@ -170,6 +216,22 @@ function entidades(state = stateEntidades, action){
 
 function categorias(state = stateCategorias, action){
 	switch(action.type){
+		case PEGAR_CATEGORIAS:
+			return [...state, ...action.elementos]
+		case SALVAR_CATEGORIA:
+			if(action.elemento.id === null){
+				action.elemento.id = Date.now()
+				return [...state, action.elemento]
+			}else{
+				const estadoAtualizado = state.map(elemento => {
+					if(elemento.id === action.elemento.id){
+						return action.elemento
+					}else{
+						return elemento
+					}
+				})
+				return [...estadoAtualizado]
+			}
 		default:
 			return state
 	}
@@ -177,6 +239,22 @@ function categorias(state = stateCategorias, action){
 
 function lancamentos(state = stateLancamentos, action){
 	switch(action.type){
+		case PEGAR_LANCAMENTOS:
+			return [...state, ...action.elementos]
+		case SALVAR_LANCAMENTO:
+			if(action.elemento.id === null){
+				action.elemento.id = Date.now()
+				return [...state, action.elemento]
+			}else{
+				const estadoAtualizado = state.map(elemento => {
+					if(elemento.id === action.elemento.id){
+						return action.elemento
+					}else{
+						return elemento
+					}
+				})
+				return [...estadoAtualizado]
+			}
 		default:
 			return state
 	}
@@ -184,6 +262,22 @@ function lancamentos(state = stateLancamentos, action){
 
 function usuarios(state = stateUsuarios, action){
 	switch(action.type){
+		case PEGAR_USUARIOS:
+			return [...state, ...action.elementos]
+		case SALVAR_USUARIO:
+			if(action.elemento.id === null){
+				action.elemento.id = Date.now()
+				return [...state, action.elemento]
+			}else{
+				const estadoAtualizado = state.map(elemento => {
+					if(elemento.id === action.elemento.id){
+						return action.elemento
+					}else{
+						return elemento
+					}
+				})
+				return [...estadoAtualizado]
+			}
 		default:
 			return state
 	}
@@ -191,6 +285,8 @@ function usuarios(state = stateUsuarios, action){
 
 function situacoes(state = stateSituacoes, action){
 	switch(action.type){
+		case PEGAR_SITUACOES:
+			return [...state, ...action.elementos]
 		default:
 			return state
 	}
@@ -198,6 +294,22 @@ function situacoes(state = stateSituacoes, action){
 
 function lancamentoSituacao(state = stateLancamentoSituacao, action){
 	switch(action.type){
+		case PEGAR_LANCAMENTO_SITUACOES:
+			return [...state, ...action.elementos]
+		case SALVAR_LANCAMENTO_SITUACAO:
+			if(action.elemento.id === null){
+				action.elemento.id = Date.now()
+				return [...state, action.elemento]
+			}else{
+				const estadoAtualizado = state.map(elemento => {
+					if(elemento.id === action.elemento.id){
+						return action.elemento
+					}else{
+						return elemento
+					}
+				})
+				return [...estadoAtualizado]
+			}
 		default:
 			return state
 	}

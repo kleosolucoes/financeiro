@@ -1,74 +1,40 @@
 import React from 'react'
-import Lancamento from './components/Lancamento'
-import {connect} from 'react-redux';
+import Listagens from './components/Listagens'
+import Menu from './components/Menu'
 import { 
 	Container, 
-	ListGroup, 
 	Alert, 
-	Collapse,
-	Navbar,
-	NavbarToggler,
-	NavbarBrand,
-	Nav,
-	NavItem,
-	NavLink,
 } from 'reactstrap'
+import { 
+	STRING_PRINCIPAL,
+} from './helpers/constantes'
 
 class App extends React.Component {
 
-	constructor(props) {
-		super(props);
+	state = {
+		//tela: 'principal',
+		tela: 'categorias',
+	}
 
-		this.toggle = this.toggle.bind(this);
-		this.state = {
-			isOpen: false
-		};
-	}
-	toggle() {
-		this.setState({
-			isOpen: !this.state.isOpen
-		});
-	}
+	alterarTela = (tela) => this.setState({tela})
 
 	render() {
-		const { lancamentos } = this.props
+		const { tela } = this.state
 		return (
 			<Container>
-				<Navbar color="light" light expand="md">
-					<NavbarBrand href="/">Financeiro</NavbarBrand>
-					<NavbarToggler onClick={this.toggle} />
-					<Collapse isOpen={this.state.isOpen} navbar>
-						<Nav className="ml-auto" navbar>
-							<NavItem>
-								<NavLink href="/components/">Components</NavLink>
-							</NavItem>
-							<NavItem>
-								<NavLink href="https://github.com/reactstrap/reactstrap">GitHub</NavLink>
-							</NavItem>
-						</Nav>
-					</Collapse>
-				</Navbar>
-				<Alert>Lançamentos</Alert>
-				<ListGroup>
-					{
-						lancamentos &&
-							lancamentos.map((lancamento, indice) => 
-								<Lancamento 
-									key={indice} 
-									lancamento={lancamento}
-								/>
-							)
-					}
-				</ListGroup>
+				<Menu alterarTela={this.alterarTela} />
+				<Alert>{tela}</Alert>
+				{
+					tela === STRING_PRINCIPAL &&
+						<p>{tela}</p>
+				}
+				{
+					tela !== STRING_PRINCIPAL &&
+					<Listagens tipo={tela} />
+				}
 			</Container>
 		)
 	}
 }
 
-function mapStateToProps({ lancamentos }){
-	return {
-		lancamentos,
-	}
-}
-
-export default connect(mapStateToProps, null)(App)
+export default App
