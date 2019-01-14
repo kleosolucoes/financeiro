@@ -69,7 +69,7 @@ class Listagens extends React.Component {
 										elementos.map((elemento, indice) => 
 											<ElementoListagem 
 												key={indice}
-												elemento={elemento}
+												elemento_id={elemento.id}
 												tipo={tipo}
 												mostrarSalvar={this.mostrarSalvar}
 											/>
