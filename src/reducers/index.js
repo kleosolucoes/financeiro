@@ -108,9 +108,10 @@ const stateLancamentos = [
 	{
 		id: 1,
 		data_criacao: '2018-12-16',
-		valor: 100.00,
-		categoria_id: 1,
+		valor: 15000.00,
+		categoria_id: 'Entrada Dízimo',
 		credito_debito: 'C',
+		situacao_id: 5,
 		usuario_id: 1,
 		entidade_id: 1,
 		data_inativacao: null,
@@ -118,9 +119,10 @@ const stateLancamentos = [
 	{
 		id: 2,
 		data_criacao: '2018-12-16',
-		valor: 100.00,
-		categoria_id: 1,
+		valor: 1000.00,
+		categoria_id: 'Entrada Dízimo',
 		credito_debito: 'C',
+		situacao_id: 4,
 		usuario_id: 1,
 		entidade_id: 1,
 		data_inativacao: null,
@@ -128,9 +130,10 @@ const stateLancamentos = [
 	{
 		id: 3,
 		data_criacao: '2018-12-16',
-		valor: 100.00,
-		categoria_id: 4,
+		valor: 500.00,
+		categoria_id: 'Aluguel',
 		credito_debito: 'D',
+		situacao_id: 5,
 		usuario_id: 1,
 		entidade_id: 2,
 		data_inativacao: null,
@@ -138,9 +141,10 @@ const stateLancamentos = [
 	{
 		id: 4,
 		data_criacao: '2018-12-16',
-		valor: 100.00,
-		categoria_id: 2,
+		valor: 500.00,
+		categoria_id: 'Conta de Água',
 		credito_debito: 'D',
+		situacao_id: 4,
 		usuario_id: 1,
 		entidade_id: 1,
 		data_inativacao: null,
@@ -148,9 +152,10 @@ const stateLancamentos = [
 	{
 		id: 5,
 		data_criacao: '2018-12-16',
-		valor: 100.00,
-		categoria_id: 3,
+		valor: 400.00,
+		categoria_id: 'Conta de Luz',
 		credito_debito: 'D',
+		situacao_id: 4,
 		usuario_id: 1,
 		entidade_id: 4,
 		data_inativacao: null,
@@ -172,6 +177,14 @@ const stateSituacoes = [
 		id: 3,
 		name: 'Recusado',
 		data_criacao: '2018-12-16',
+	},
+	{
+		id: 4,
+		name: 'Pago',
+	},
+	{
+		id: 5,
+		name: 'Não Pago',
 	}
 ]
 

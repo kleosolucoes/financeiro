@@ -1,7 +1,7 @@
 import React from 'react'
-import { 
-	ListGroupItem, 
-	Row, 
+import {
+	ListGroupItem,
+	Row,
 	Col,
 	Button,
 } from 'reactstrap'
@@ -12,7 +12,7 @@ import {
 	salvarUsuario,
 } from '../actions'
 import {connect} from 'react-redux'
-import { 
+import {
 	STRING_LANCAMENTOS,
 	STRING_CATEGORIAS,
 	STRING_EMPRESAS,
@@ -26,8 +26,8 @@ class ElementoListagem extends React.Component {
 	ajudadorDeRemocao(){
 		const resposta = window.confirm('Realmente deseja remover?');
 		if(resposta){
-			const { 
-				tipo, 
+			const {
+				tipo,
 				salvarLancamento,
 				salvarCategoria,
 				salvarEntidade,
@@ -40,7 +40,7 @@ class ElementoListagem extends React.Component {
 			dia = dia.padStart(2, '0')
 			elemento.data_inativacao =  dia + '/' + (dataAtual.getMonth()+1) + '/' + dataAtual.getFullYear()
 
-			let funcaoSalvar = null 
+			let funcaoSalvar = null
 			if(tipo === STRING_CATEGORIAS){
 				funcaoSalvar = salvarCategoria
 			}
@@ -62,36 +62,60 @@ class ElementoListagem extends React.Component {
 	}
 
 	render() {
-		const { elemento, mostrarSalvar } = this.props
+		const {tipo, elemento, mostrarSalvar } = this.props
 		return (
 			<ListGroupItem>
+			{
+				tipo === STRING_LANCAMENTOS &&
+				<div>
+					<Row>
+						<Col>
+							{elemento.categoria_id}
+						</Col>
+						<Col style={{textAlign:'right'}}>
+							{elemento.valor}
+						</Col>
+					</Row>
+					<Row>
+						<Col>
+							{elemento.data_criacao} - {elemento.credito_debito}
+						</Col>
+						<Col style={{textAlign:'right'}}>
+							{elemento.situacao_id}
+						</Col>
+					</Row>
+				</div>
+			}
+			{
+				tipo !== STRING_LANCAMENTOS &&
 				<Row>
 					<Col>
 						{elemento.id}
-					</Col>	
+					</Col>
 					<Col>
 						{elemento.data_criacao}
-					</Col>	
+					</Col>
 					{
 						elemento.nome &&
 							<Col>
 								{elemento.nome}
-							</Col>	
+							</Col>
 							}
 							<Col>
-								<Button 
+								<Button
 									onClick={() => {mostrarSalvar(elemento)}}>
 									Alterar
 								</Button>
-							</Col>	
+							</Col>
 							<Col>
-								<Button 
+								<Button
 									onClick={() => {this.ajudadorDeRemocao()}}
 									color="danger">
 									Remover
 								</Button>
 							</Col>
 						</Row>
+						}
 					</ListGroupItem>
 		)
 	}
