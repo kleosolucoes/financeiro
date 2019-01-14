@@ -13,7 +13,7 @@ class App extends React.Component {
 
 	state = {
 		//tela: 'principal',
-		tela: 'categorias',
+		tela: 'lancamentos',
 	}
 
 	alterarTela = (tela) => this.setState({tela})

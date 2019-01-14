@@ -97,6 +97,25 @@ class ElementoListagem extends React.Component {
 	}
 }
 
+const mapStateToProps = (state, { tipo, elemento_id }) => {
+	let elemento = null
+	if(tipo === STRING_LANCAMENTOS){
+		elemento = state.lancamentos && state.lancamentos.find(elemento => elemento.id === elemento_id)
+	}
+	if(tipo === STRING_CATEGORIAS){
+		elemento = state.categorias && state.categorias.find(elemento => elemento.id === elemento_id)
+	}
+	if(tipo === STRING_EMPRESAS || tipo === STRING_FORNECEDORES || tipo === STRING_CLIENTES){
+		elemento = state.entidades && state.entidades.find(elemento => elemento.id === elemento_id)
+	}
+	if(tipo === STRING_USUARIOS){
+		elemento = state.usuarios && state.usuarios.find(elemento => elemento.id === elemento_id)
+	}
+	return {
+		elemento,
+	}
+}
+
 function mapDispatchToProps(dispatch){
 	return {
 		salvarLancamento: (elemento) => dispatch(salvarLancamento(elemento)),
@@ -106,4 +125,4 @@ function mapDispatchToProps(dispatch){
 	}
 }
 
-export default connect(null, mapDispatchToProps)(ElementoListagem)
+export default connect(mapStateToProps, mapDispatchToProps)(ElementoListagem)
