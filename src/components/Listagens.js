@@ -199,7 +199,6 @@ class Listagens extends React.Component {
 										</FormGroup>
 									</div>
 							}
-							<ListGroup flush>
 								{
 									elementosFiltrados &&
 										elementosFiltrados.map((elemento, indice) =>
@@ -210,8 +209,7 @@ class Listagens extends React.Component {
 												mostrarSalvar={this.mostrarSalvar}
 											/>
 										)
-								}
-							</ListGroup>
+								}							
 						</div>
 				}
 			</div>
