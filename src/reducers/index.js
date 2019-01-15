@@ -16,25 +16,25 @@ import {
 const stateCategorias = [
 	{
 		id: 1,
-		nome: 'Categoria 1',
+		nome: 'Entrada Dízimo',
 		data_criacao: '2018-12-16',
 		data_inativacao: null,
 	},
 	{
 		id: 2,
-		nome: 'Categoria 2',
+		nome: 'Aluguel',
 		data_criacao: '2018-12-16',
 		data_inativacao: null,
 	},
 	{
 		id: 3,
-		nome: 'Categoria 3',
+		nome: 'Conta de Água',
 		data_criacao: '2018-12-16',
 		data_inativacao: null,
 	},
 	{
 		id: 4,
-		nome: 'Categoria 4',
+		nome: 'Conta de Luz',
 		data_criacao: '2018-12-16',
 		data_inativacao: null,
 	},
@@ -108,10 +108,10 @@ const stateLancamentos = [
 	{
 		id: 1,
 		data_criacao: '2018-12-16',
+		data: '22/11/2019',
 		valor: 15000.00,
-		categoria_id: 'Entrada Dízimo',
+		categoria_id: 1,
 		credito_debito: 'C',
-		situacao_id: 5,
 		usuario_id: 1,
 		entidade_id: 1,
 		data_inativacao: null,
@@ -119,10 +119,10 @@ const stateLancamentos = [
 	{
 		id: 2,
 		data_criacao: '2018-12-16',
+		data: '03/01/2019',
 		valor: 1000.00,
-		categoria_id: 'Entrada Dízimo',
+		categoria_id: 1,
 		credito_debito: 'C',
-		situacao_id: 4,
 		usuario_id: 1,
 		entidade_id: 1,
 		data_inativacao: null,
@@ -130,10 +130,10 @@ const stateLancamentos = [
 	{
 		id: 3,
 		data_criacao: '2018-12-16',
+		data: '01/10/2019',
 		valor: 500.00,
-		categoria_id: 'Aluguel',
+		categoria_id: 2,
 		credito_debito: 'D',
-		situacao_id: 5,
 		usuario_id: 1,
 		entidade_id: 2,
 		data_inativacao: null,
@@ -141,10 +141,10 @@ const stateLancamentos = [
 	{
 		id: 4,
 		data_criacao: '2018-12-16',
+		data: '14/01/2019',
 		valor: 500.00,
-		categoria_id: 'Conta de Água',
+		categoria_id: 3,
 		credito_debito: 'D',
-		situacao_id: 4,
 		usuario_id: 1,
 		entidade_id: 1,
 		data_inativacao: null,
@@ -152,10 +152,10 @@ const stateLancamentos = [
 	{
 		id: 5,
 		data_criacao: '2018-12-16',
+		data: '09/01/2019',
 		valor: 400.00,
-		categoria_id: 'Conta de Luz',
+		categoria_id: 4,
 		credito_debito: 'D',
-		situacao_id: 4,
 		usuario_id: 1,
 		entidade_id: 4,
 		data_inativacao: null,
@@ -165,26 +165,26 @@ const stateLancamentos = [
 const stateSituacoes = [
 	{
 		id: 1,
-		name: 'Pendente',
+		nome: 'Pendente',
 		data_criacao: '2018-12-16',
 	},
 	{
 		id: 2,
-		name: 'Aceito',
+		nome: 'Aceito',
 		data_criacao: '2018-12-16',
 	},
 	{
 		id: 3,
-		name: 'Recusado',
+		nome: 'Recusado',
 		data_criacao: '2018-12-16',
 	},
 	{
 		id: 4,
-		name: 'Pago',
+		nome: 'Pago',
 	},
 	{
 		id: 5,
-		name: 'Não Pago',
+		nome: 'Não Pago',
 	}
 ]
 
@@ -192,8 +192,37 @@ const stateLancamentoSituacao = [
 	{
 		id: 1,
 		lancamento_id: 1,
-		situacao_id: 1,
+		situacao_id: 5,
 		data_criacao: '2018-12-16',
+		data_inativacao: null,
+	},
+	{
+		id: 2,
+		lancamento_id: 2,
+		situacao_id: 4,
+		data_criacao: '2018-12-16',
+		data_inativacao: null,
+	},
+	{
+		id: 3,
+		lancamento_id: 3,
+		situacao_id: 5,
+		data_criacao: '2018-12-16',
+		data_inativacao: null,
+	},
+	{
+		id: 4,
+		lancamento_id: 4,
+		situacao_id: 4,
+		data_criacao: '2018-12-16',
+		data_inativacao: null,
+	},
+	{
+		id: 5,
+		lancamento_id: 5,
+		situacao_id: 4,
+		data_criacao: '2018-12-16',
+		data_inativacao: null,
 	},
 ]
 

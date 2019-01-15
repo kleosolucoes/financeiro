@@ -2,11 +2,16 @@ import React from 'react'
 import ElementoListagem from './ElementoListagem'
 import ElementoSalvar from './ElementoSalvar'
 import {connect} from 'react-redux'
-import { 
-	ListGroup, 
+import {
+	ListGroup,
 	Button,
+	Card,
+	CardTitle,
+	CardText,
+	CardDeck,
+	CardBody,
 } from 'reactstrap'
-import { 
+import {
 	STRING_LANCAMENTOS,
 	STRING_CATEGORIAS,
 	STRING_EMPRESAS,
@@ -21,9 +26,32 @@ import {
 class Listagens extends React.Component {
 
 	componentDidMount(){
-		const { tipo } = this.props
+		const { tipo, elementos, lancamentoSituacao } = this.props
+		let aPagar = 0
+		let saldoAtual = 0
+		let aReceber =  0
+		elementos.map(elemento => {
+			let lancamentoSituacaoAtiva = lancamentoSituacao.find(
+				lancamentoSituacao => lancamentoSituacao.lancamento_id === elemento.id && lancamentoSituacao.data_inativacao === null)
+			if(lancamentoSituacaoAtiva.situacao_id === 5 && elemento.credito_debito === 'D'){
+				aPagar += elemento.valor
+			}
+			if(lancamentoSituacaoAtiva.situacao_id === 5 && elemento.credito_debito === 'C'){
+				aReceber += elemento.valor
+			}
+			if(lancamentoSituacaoAtiva.situacao_id === 4 && elemento.credito_debito === 'C'){
+				saldoAtual += elemento.valor
+			}
+			if(lancamentoSituacaoAtiva.situacao_id === 4 && elemento.credito_debito === 'D'){
+				saldoAtual -= elemento.valor
+			}
+			return false
+		})
 		this.setState({
-			tela: tipo,	
+			tela: tipo,
+			aPagar,
+			saldoAtual,
+			aReceber,
 		})
 	}
 
@@ -31,6 +59,9 @@ class Listagens extends React.Component {
 		mostrarSalvar: false,
 		elemento: null,
 		tela: null,
+		aPagar: 0,
+		saldoAtual: 0,
+		aReceber: 0,
 	}
 
 	mostrarSalvar = (elemento) => this.setState({mostrarSalvar: true, elemento})
@@ -38,7 +69,7 @@ class Listagens extends React.Component {
 
 	render() {
 		const { elementos, tipo } = this.props
-		const { mostrarSalvar, elemento } = this.state
+		const { mostrarSalvar, elemento, aPagar, saldoAtual, aReceber } = this.state
 
 		if(this.state.tela !== tipo){
 			this.setState({
@@ -60,14 +91,34 @@ class Listagens extends React.Component {
 				{
 					!mostrarSalvar &&
 						<div>
-							<Button	onClick={() => {this.mostrarSalvar(null)}}>
-								Cadastrar
-							</Button>
-							<ListGroup>
+						{
+							tipo === 	STRING_LANCAMENTOS &&
+							<CardDeck>
+					      <Card body outline color="secondary">
+					        <CardBody>
+					          <CardTitle className="text-danger">A Pagar</CardTitle>
+					          <CardText className="text-danger"><h1>{aPagar}</h1></CardText>
+					        </CardBody>
+					      </Card>
+					      <Card body outline color="secondary">
+					        <CardBody>
+					          <CardTitle className="text-success">Saldo Atual</CardTitle>
+					          <CardText className="text-success"><h1>{saldoAtual}</h1></CardText>
+					        </CardBody>
+					      </Card>
+					      <Card body outline color="secondary">
+					        <CardBody>
+					          <CardTitle className="text-success">A Receber</CardTitle>
+					          <CardText className="text-success"><h1>{aReceber}</h1></CardText>
+					        </CardBody>
+					      </Card>
+					    </CardDeck>
+						}
+							<ListGroup flush>
 								{
 									elementos &&
-										elementos.map((elemento, indice) => 
-											<ElementoListagem 
+										elementos.map((elemento, indice) =>
+											<ElementoListagem
 												key={indice}
 												elemento_id={elemento.id}
 												tipo={tipo}
@@ -76,6 +127,9 @@ class Listagens extends React.Component {
 										)
 								}
 							</ListGroup>
+							<Button	onClick={() => {this.mostrarSalvar(null)}}>
+								Cadastrar
+							</Button>
 						</div>
 				}
 			</div>
@@ -105,6 +159,7 @@ const mapStateToProps = (state, { tipo }) => {
 	}
 	return {
 		elementos,
+		lancamentoSituacao: state.lancamentoSituacao,
 	}
 }
 

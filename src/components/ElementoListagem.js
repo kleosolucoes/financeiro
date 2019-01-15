@@ -4,6 +4,10 @@ import {
 	Row,
 	Col,
 	Button,
+	Card,
+	CardTitle,
+	CardText,
+	Badge,
 } from 'reactstrap'
 import {
 	salvarLancamento,
@@ -60,30 +64,46 @@ class ElementoListagem extends React.Component {
 			}
 		}
 	}
-
+	state = {
+		corDoBox: 'secondary',
+		corDasLetras: 'text-muted',
+		elementoCreditoDebito: '',
+	}
+	componentDidMount(){
+		const {situacao, elemento} = this.props
+		if(situacao.id === 4 && elemento.credito_debito === 'C'){
+			this.setState({corDoBox: 'success'})
+			this.setState({corDasLetras: 'text-success'})
+		}
+		if(situacao.id === 4 && elemento.credito_debito === 'D'){
+			this.setState({corDoBox: 'danger'})
+			this.setState({corDasLetras: 'text-danger'})
+		}
+		if(elemento.credito_debito === 'C'){
+			this.setState({elementoCreditoDebito: 'Recebimentos'})
+		}
+		if(elemento.credito_debito === 'D'){
+			this.setState({elementoCreditoDebito: 'Despesas'})
+		}
+	}
 	render() {
-		const {tipo, elemento, mostrarSalvar } = this.props
+		const {tipo, elemento, categoria, situacao, mostrarSalvar } = this.props
+		const {corDasLetras, corDoBox, elementoCreditoDebito} = this.state
 		return (
 			<ListGroupItem>
 			{
 				tipo === STRING_LANCAMENTOS &&
 				<div>
-					<Row>
-						<Col>
-							{elemento.categoria_id}
-						</Col>
-						<Col style={{textAlign:'right'}}>
-							{elemento.valor}
-						</Col>
-					</Row>
-					<Row>
-						<Col>
-							{elemento.data_criacao} - {elemento.credito_debito}
-						</Col>
-						<Col style={{textAlign:'right'}}>
-							{elemento.situacao_id}
-						</Col>
-					</Row>
+					<Card body outline color={corDoBox}>
+		        <CardTitle>
+							<p className={corDasLetras}>{categoria.nome}</p>
+							<p className={corDasLetras}>R$ {elemento.valor}</p>
+						</CardTitle>
+		        <CardText>
+							<p className={corDasLetras}>{elemento.data} - {elementoCreditoDebito}</p>
+						</CardText>
+		         <Badge color={corDoBox}>{situacao.nome}</Badge>
+	      	</Card>
 				</div>
 			}
 			{
@@ -123,8 +143,10 @@ class ElementoListagem extends React.Component {
 
 const mapStateToProps = (state, { tipo, elemento_id }) => {
 	let elemento = null
+	let lancamentoSituacao = null
 	if(tipo === STRING_LANCAMENTOS){
 		elemento = state.lancamentos && state.lancamentos.find(elemento => elemento.id === elemento_id)
+		lancamentoSituacao = state.lancamentoSituacao && state.lancamentoSituacao.find(lancamentoSituacao => lancamentoSituacao.data_inativacao === null && lancamentoSituacao.lancamento_id === elemento.id)
 	}
 	if(tipo === STRING_CATEGORIAS){
 		elemento = state.categorias && state.categorias.find(elemento => elemento.id === elemento_id)
@@ -137,6 +159,8 @@ const mapStateToProps = (state, { tipo, elemento_id }) => {
 	}
 	return {
 		elemento,
+		categoria: state.categorias && state.categorias.find(categoria => categoria.id === elemento.categoria_id),
+		situacao:  state.situacoes && state.situacoes.find(situacao => situacao.id === lancamentoSituacao.situacao_id),
 	}
 }
 

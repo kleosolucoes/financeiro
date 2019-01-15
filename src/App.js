@@ -1,11 +1,11 @@
 import React from 'react'
 import Listagens from './components/Listagens'
 import Menu from './components/Menu'
-import { 
-	Container, 
-	Alert, 
+import {
+	Container,
+	Alert,
 } from 'reactstrap'
-import { 
+import {
 	STRING_PRINCIPAL,
 } from './helpers/constantes'
 
@@ -21,7 +21,7 @@ class App extends React.Component {
 	render() {
 		const { tela } = this.state
 		return (
-			<Container>
+			<Container style={{backgroundColor: '#f2f2f2'}}>
 				<Menu alterarTela={this.alterarTela} />
 				<Alert>{tela}</Alert>
 				{
