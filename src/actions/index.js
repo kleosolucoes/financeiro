@@ -17,10 +17,11 @@ export function pegarLancamentos(elementos){
 	}
 }
 
-export function salvarLancamento(elemento){ 
+export function salvarLancamento(elemento, novo = false){ 
 	return {
 		type: SALVAR_LANCAMENTO,
 		elemento,
+		novo,
 	}
 }
 
@@ -31,24 +32,26 @@ export function pegarCategorias(elementos){
 	}
 }
 
-export function salvarCategoria(elemento){ 
+export function salvarCategoria(elemento, novo = false){ 
 	return {
 		type: SALVAR_CATEGORIA,
 		elemento,
+		novo,
 	}
 }
 
-export function pegarEentidades(elementos){ 
+export function pegarEntidades(elementos){ 
 	return {
 		type: PEGAR_ENTIDADES,
 		elementos,
 	}
 }
 
-export function salvarEntidade(elemento){ 
+export function salvarEntidade(elemento, novo = false){ 
 	return {
 		type: SALVAR_ENTIDADE,
 		elemento,
+		novo,
 	}
 }
 
@@ -59,10 +62,11 @@ export function pegarUsuarios(elementos){
 	}
 }
 
-export function salvarUsuario(elemento){ 
+export function salvarUsuario(elemento, novo = false){ 
 	return {
 		type: SALVAR_USUARIO,
 		elemento,
+		novo,
 	}
 }
 
@@ -73,10 +77,11 @@ export function pegarLancamentoSituacoes(elementos){
 	}
 }
 
-export function salvarLancamentoSituacao(elemento){ 
+export function salvarLancamentoSituacao(elemento, novo = false){ 
 	return {
 		type: SALVAR_LANCAMENTO_SITUACAO,
 		elemento,
+		novo,
 	}
 }
 
