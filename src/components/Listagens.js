@@ -34,7 +34,14 @@ class Listagens extends React.Component {
 
 		this.state = {
 			tela: props.tipo,
-			...this.atualizarOsGrandeNumeros()
+			...this.atualizarOsGrandeNumeros(),
+			mostrarSalvar: false,
+			elemento: null,
+			aPagar: 0,
+			saldoAtual: 0,
+			aReceber: 0,
+			mes: (new Date().getMonth() + 1),
+			ano: new Date().getFullYear(),
 		}
 	}
 
@@ -75,17 +82,6 @@ class Listagens extends React.Component {
 		}
 	}
 
-	state = {
-		mostrarSalvar: false,
-		elemento: null,
-		tela: null,
-		aPagar: 0,
-		saldoAtual: 0,
-		aReceber: 0,
-		mes: (new Date().getMonth() + 1),
-		ano: new Date().getFullYear(),
-	}
-
 	mostrarSalvar = (elemento) => this.setState({mostrarSalvar: true, elemento})
 	esconderSalvar = () => this.setState({mostrarSalvar: false, elemento: null})
 	atualizarCampoMes = (valor) => this.setState({mes: valor})
@@ -94,6 +90,11 @@ class Listagens extends React.Component {
 	render() {
 		const { elementos, tipo } = this.props
 		const { mostrarSalvar, elemento, aPagar, saldoAtual, aReceber, mes, ano } = this.state
+		let elementosFiltrados = elementos.filter(
+			elemento => {
+				let dataSplit = elemento.data.split('/')
+				return mes == dataSplit[1] && ano == dataSplit[2]
+			})
 
 		if(this.state.tela !== tipo){
 			this.setState({
@@ -125,57 +126,57 @@ class Listagens extends React.Component {
 				{
 					!mostrarSalvar &&
 						<div>
-						{
-							tipo === 	STRING_LANCAMENTOS &&
-							<div>
-								<Row>
-									<Col sm="4">
-										<Alert color="dark">Saldo Atual: {saldoAtual}</Alert>
-									</Col>
-									<Col sm="4">
-				          	<Alert color="danger">A Pagar: {aPagar}</Alert>
-									</Col>
-									<Col sm="4">
-				          	<Alert color="success">A Receber: {aReceber}</Alert>
-									</Col>
-								</Row>
+							{
+								tipo === STRING_LANCAMENTOS &&
+									<div>
+										<Row>
+											<Col sm="4">
+												<Alert color="dark">Saldo Atual: {saldoAtual}</Alert>
+											</Col>
+											<Col sm="4">
+												<Alert color="danger">A Pagar: {aPagar}</Alert>
+											</Col>
+											<Col sm="4">
+												<Alert color="success">A Receber: {aReceber}</Alert>
+											</Col>
+										</Row>
 
-								<FormGroup>
-									<Label for="mes">* Mês:</Label>
-									<Input
-										type="select"
-										name="mes"
-										id="mes"
-										value={mes}
-										onChange={(event) => {this.atualizarCampoMes(event.target.value)}}
-									>
-										<option value='0'>Selecione</option>
-										{
-											arrayMes.map(mes => mes)
-										}
-									</Input>
-								</FormGroup>
-								<FormGroup>
-									<Label for="ano">* Ano:</Label>
-									<Input
-										type="select"
-										name="ano"
-										id="ano"
-										value={ano}
-										onChange={(event) => {this.atualizarCampoAno(event.target.value)}}
-									>
-										<option value='0'>Selecione</option>
-										{
-											arrayAnos.map(ano => ano)
-										}
-									</Input>
-								</FormGroup>
-							</div>
-						}
+										<FormGroup>
+											<Label for="mes">* Mês:</Label>
+											<Input
+												type="select"
+												name="mes"
+												id="mes"
+												value={mes}
+												onChange={(event) => {this.atualizarCampoMes(event.target.value)}}
+											>
+												<option value='0'>Selecione</option>
+												{
+													arrayMes.map(mes => mes)
+												}
+											</Input>
+										</FormGroup>
+										<FormGroup>
+											<Label for="ano">* Ano:</Label>
+											<Input
+												type="select"
+												name="ano"
+												id="ano"
+												value={ano}
+												onChange={(event) => {this.atualizarCampoAno(event.target.value)}}
+											>
+												<option value='0'>Selecione</option>
+												{
+													arrayAnos.map(ano => ano)
+												}
+											</Input>
+										</FormGroup>
+									</div>
+							}
 							<ListGroup flush>
 								{
-									elementos &&
-										elementos.map((elemento, indice) =>
+									elementosFiltrados &&
+										elementosFiltrados.map((elemento, indice) =>
 											<ElementoListagem
 												key={indice}
 												elemento_id={elemento.id}
