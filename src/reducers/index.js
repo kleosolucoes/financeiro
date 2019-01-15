@@ -165,25 +165,10 @@ const stateLancamentos = [
 const stateSituacoes = [
 	{
 		id: 1,
-		nome: 'Pendente',
-		data_criacao: '2018-12-16',
-	},
-	{
-		id: 2,
-		nome: 'Aceito',
-		data_criacao: '2018-12-16',
-	},
-	{
-		id: 3,
-		nome: 'Recusado',
-		data_criacao: '2018-12-16',
-	},
-	{
-		id: 4,
 		nome: 'Pago',
 	},
 	{
-		id: 5,
+		id: 2,
 		nome: 'Não Pago',
 	}
 ]
@@ -238,8 +223,7 @@ function entidades(state = stateEntidades, action){
 		case PEGAR_ENTIDADES:
 			return [...state, ...action.elementos]
 		case SALVAR_ENTIDADE:
-			if(action.elemento.id === null){
-				action.elemento.id = Date.now()
+			if(action.novo){
 				return [...state, action.elemento]
 			}else{
 				const estadoAtualizado = state.map(elemento => {
@@ -261,8 +245,7 @@ function categorias(state = stateCategorias, action){
 		case PEGAR_CATEGORIAS:
 			return [...state, ...action.elementos]
 		case SALVAR_CATEGORIA:
-			if(action.elemento.id === null){
-				action.elemento.id = Date.now()
+			if(action.novo){
 				return [...state, action.elemento]
 			}else{
 				const estadoAtualizado = state.map(elemento => {
@@ -284,11 +267,10 @@ function lancamentos(state = stateLancamentos, action){
 		case PEGAR_LANCAMENTOS:
 			return [...state, ...action.elementos]
 		case SALVAR_LANCAMENTO:
-			if(action.elemento.id === null){
-				action.elemento.id = Date.now()
+			if(action.novo){
 				return [...state, action.elemento]
 			}else{
-				const estadoAtualizado = state.map(elemento => {
+				const estadoAtualizado = state.map(elementolancamentoSituacao => {
 					if(elemento.id === action.elemento.id){
 						return action.elemento
 					}else{
@@ -307,8 +289,7 @@ function usuarios(state = stateUsuarios, action){
 		case PEGAR_USUARIOS:
 			return [...state, ...action.elementos]
 		case SALVAR_USUARIO:
-			if(action.elemento.id === null){
-				action.elemento.id = Date.now()
+			if(action.novo){
 				return [...state, action.elemento]
 			}else{
 				const estadoAtualizado = state.map(elemento => {
@@ -339,8 +320,7 @@ function lancamentoSituacao(state = stateLancamentoSituacao, action){
 		case PEGAR_LANCAMENTO_SITUACOES:
 			return [...state, ...action.elementos]
 		case SALVAR_LANCAMENTO_SITUACAO:
-			if(action.elemento.id === null){
-				action.elemento.id = Date.now()
+			if(action.novo === true){
 				return [...state, action.elemento]
 			}else{
 				const estadoAtualizado = state.map(elemento => {
