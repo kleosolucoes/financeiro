@@ -35,20 +35,22 @@ class ElementoListagem extends React.Component {
 	}
 
 	componentDidMount(){
-		const {situacao, categoria } = this.props
-		if(situacao.id === STRING_PAGO && categoria.credito_debito === 'C'){
-			this.setState({corDoBox: 'success'})
-			this.setState({corDasLetras: 'text-success'})
-		}
-		if(situacao.id === STRING_PAGO && categoria.credito_debito === 'D'){
-			this.setState({corDoBox: 'danger'})
-			this.setState({corDasLetras: 'text-danger'})
-		}
-		if(categoria.credito_debito === 'C'){
-			this.setState({elementoCreditoDebito: 'Recebimentos'})
-		}
-		if(categoria.credito_debito === 'D'){
-			this.setState({elementoCreditoDebito: 'Despesas'})
+		if( this.props.tipo === STRING_LANCAMENTOS){
+			const {situacao, categoria } = this.props
+			if(situacao.id === STRING_PAGO && categoria.credito_debito === 'C'){
+				this.setState({corDoBox: 'success'})
+				this.setState({corDasLetras: 'text-success'})
+			}
+			if(situacao.id === STRING_PAGO && categoria.credito_debito === 'D'){
+				this.setState({corDoBox: 'danger'})
+				this.setState({corDasLetras: 'text-danger'})
+			}
+			if(categoria.credito_debito === 'C'){
+				this.setState({elementoCreditoDebito: 'Recebimentos'})
+			}
+			if(categoria.credito_debito === 'D'){
+				this.setState({elementoCreditoDebito: 'Despesas'})
+			}
 		}
 	}
 	render() {
@@ -151,10 +153,14 @@ class ElementoListagem extends React.Component {
 const mapStateToProps = (state, { tipo, elemento_id }) => {
 	let elemento = null
 	let lancamentoSituacao = null
+	let categoria = null
+	let situacao = null
 	if(tipo === STRING_LANCAMENTOS){
 		elemento = state.lancamentos && state.lancamentos.find(elemento => elemento.id === elemento_id)
 		lancamentoSituacao = state.lancamentoSituacao &&
 			state.lancamentoSituacao.find(lancamentoSituacao => lancamentoSituacao.data_inativacao === null && lancamentoSituacao.lancamento_id === elemento.id)
+		categoria = state.categorias && state.categorias.find(categoria => categoria.id === elemento.categoria_id)
+		situacao = state.situacoes && state.situacoes.find(situacao => situacao.id === lancamentoSituacao.situacao_id)
 	}
 	if(tipo === STRING_CATEGORIAS){
 		elemento = state.categorias && state.categorias.find(elemento => elemento.id === elemento_id)
@@ -167,8 +173,8 @@ const mapStateToProps = (state, { tipo, elemento_id }) => {
 	}
 	return {
 		elemento,
-		categoria: state.categorias && state.categorias.find(categoria => categoria.id === elemento.categoria_id),
-		situacao:  state.situacoes && state.situacoes.find(situacao => situacao.id === lancamentoSituacao.situacao_id),
+		categoria,
+		situacao,
 	}
 }
 

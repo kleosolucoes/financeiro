@@ -48,8 +48,13 @@ class Listagens extends React.Component {
 
 	componentDidUpdate(prevProps){
 		if(this.props.elementos.length !== prevProps.elementos.length){
+
+			let grandesNumeros = {}
+			if(this.props.tipo === STRING_LANCAMENTOS){
+				grandesNumeros = {...this.atualizarOsGrandeNumeros(),}
+			}
 			this.setState({
-				...this.atualizarOsGrandeNumeros(),
+				...grandesNumeros,
 				elementos: this.props.elementos,
 			})
 		}
@@ -106,6 +111,8 @@ class Listagens extends React.Component {
 					let anoDoFiltroInteiro = parseInt(ano)
 					return mesDoFiltroInteiro === mesInteiro && anoDoFiltroInteiro=== anoInteiro
 				})
+		}else{
+			elementosFiltrados = elementos
 		}
 
 		if(this.state.tela !== tipo){
