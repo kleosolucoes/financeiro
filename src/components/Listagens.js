@@ -33,16 +33,16 @@ class Listagens extends React.Component {
 		elementos.map(elemento => {
 			let lancamentoSituacaoAtiva = lancamentoSituacao.find(
 				lancamentoSituacao => lancamentoSituacao.lancamento_id === elemento.id && lancamentoSituacao.data_inativacao === null)
-			if(lancamentoSituacaoAtiva.situacao_id === 5 && elemento.credito_debito === 'D'){
+			if(lancamentoSituacaoAtiva.situacao_id === 2 && elemento.credito_debito === 'D'){
 				aPagar += elemento.valor
 			}
-			if(lancamentoSituacaoAtiva.situacao_id === 5 && elemento.credito_debito === 'C'){
+			if(lancamentoSituacaoAtiva.situacao_id === 2 && elemento.credito_debito === 'C'){
 				aReceber += elemento.valor
 			}
-			if(lancamentoSituacaoAtiva.situacao_id === 4 && elemento.credito_debito === 'C'){
+			if(lancamentoSituacaoAtiva.situacao_id === 1 && elemento.credito_debito === 'C'){
 				saldoAtual += elemento.valor
 			}
-			if(lancamentoSituacaoAtiva.situacao_id === 4 && elemento.credito_debito === 'D'){
+			if(lancamentoSituacaoAtiva.situacao_id === 1 && elemento.credito_debito === 'D'){
 				saldoAtual -= elemento.valor
 			}
 			return false

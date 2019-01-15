@@ -71,11 +71,11 @@ class ElementoListagem extends React.Component {
 	}
 	componentDidMount(){
 		const {situacao, elemento} = this.props
-		if(situacao.id === 4 && elemento.credito_debito === 'C'){
+		if(situacao.id === 1 && elemento.credito_debito === 'C'){
 			this.setState({corDoBox: 'success'})
 			this.setState({corDasLetras: 'text-success'})
 		}
-		if(situacao.id === 4 && elemento.credito_debito === 'D'){
+		if(situacao.id === 1 && elemento.credito_debito === 'D'){
 			this.setState({corDoBox: 'danger'})
 			this.setState({corDasLetras: 'text-danger'})
 		}

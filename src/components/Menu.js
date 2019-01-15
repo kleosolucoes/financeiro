@@ -1,5 +1,5 @@
 import React from 'react'
-import { 
+import {
 	Navbar,
 	NavbarBrand,
 	NavbarToggler,
@@ -40,44 +40,44 @@ class Menu extends React.Component {
 				<Collapse isOpen={this.state.isOpen} navbar>
 					<Nav className="ml-auto" navbar>
 						<NavItem>
-							<NavLink 
-								onClick={() => {this.alterarTela('lancamentos')} } 
+							<NavLink
+								onClick={() => {this.alterarTela('lancamentos')} }
 								href='#'>
 								Lançamentos
 							</NavLink>
 						</NavItem>
 						<NavItem>
-							<NavLink 
-								onClick={() => {this.alterarTela('categorias')} } 
+							<NavLink
+								onClick={() => {this.alterarTela('categorias')} }
 								href='#'>
 								Categorias
 							</NavLink>
 						</NavItem>
 						<NavItem>
-							<NavLink 
-								onClick={() => {this.alterarTela('empresas')} } 
+							<NavLink
+								onClick={() => {this.alterarTela('empresas')} }
 								href='#'>
 								Empresas
 							</NavLink>
 						</NavItem>
 						<NavItem>
-							<NavLink 
-								onClick={() => {this.alterarTela('fornecedores')} } 
+							<NavLink
+								onClick={() => {this.alterarTela('fornecedores')} }
 
 								href='#'>
 								Fornecedores
 							</NavLink>
 						</NavItem>
 						<NavItem>
-							<NavLink 
-								onClick={() => {this.alterarTela('clientes')} } 
+							<NavLink
+								onClick={() => {this.alterarTela('clientes')} }
 								href='#'>
 								Clientes
 							</NavLink>
 						</NavItem>
 						<NavItem>
-							<NavLink 
-								onClick={() => {this.alterarTela('usuarios')} } 
+							<NavLink
+								onClick={() => {this.alterarTela('usuarios')} }
 								href='#'>
 								Usuários
 							</NavLink>
@@ -89,4 +89,4 @@ class Menu extends React.Component {
 	}
 }
 
-export default Menu 
+export default Menu
