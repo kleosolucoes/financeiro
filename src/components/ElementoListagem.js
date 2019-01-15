@@ -95,12 +95,12 @@ class ElementoListagem extends React.Component {
 				tipo === STRING_LANCAMENTOS &&
 				<div>
 					<Card body outline color={corDoBox}>
-		        <CardTitle>
-							<p className={corDasLetras}>{categoria.nome}</p>
-							<p className={corDasLetras}>R$ {elemento.valor}</p>
+		        <CardTitle className={corDasLetras}>
+							{categoria.nome} - 
+							R$ {elemento.valor}
 						</CardTitle>
-		        <CardText>
-							<p className={corDasLetras}>{elemento.data} - {elementoCreditoDebito}</p>
+		        <CardText className={corDasLetras}>
+							{elemento.data} - {elementoCreditoDebito}
 						</CardText>
 		         <Badge color={corDoBox}>{situacao.nome}</Badge>
 	      	</Card>

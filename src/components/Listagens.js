@@ -5,11 +5,12 @@ import {connect} from 'react-redux'
 import {
 	ListGroup,
 	Button,
-	Card,
-	CardTitle,
-	CardText,
-	CardDeck,
-	CardBody,
+	Row,
+	Col,
+	Alert,
+	FormGroup,
+	Label,
+	Input,
 } from 'reactstrap'
 import {
 	STRING_LANCAMENTOS,
@@ -62,20 +63,34 @@ class Listagens extends React.Component {
 		aPagar: 0,
 		saldoAtual: 0,
 		aReceber: 0,
+		mes: (new Date().getMonth() + 1),
+		ano: new Date().getFullYear(),
 	}
 
 	mostrarSalvar = (elemento) => this.setState({mostrarSalvar: true, elemento})
 	esconderSalvar = () => this.setState({mostrarSalvar: false, elemento: null})
+	atualizarCampoMes = (valor) => this.setState({mes: valor})
+	atualizarCampoAno = (valor) => this.setState({ano: valor})
 
 	render() {
 		const { elementos, tipo } = this.props
-		const { mostrarSalvar, elemento, aPagar, saldoAtual, aReceber } = this.state
+		const { mostrarSalvar, elemento, aPagar, saldoAtual, aReceber, mes, ano } = this.state
 
 		if(this.state.tela !== tipo){
 			this.setState({
 				tela: tipo,
 				mostrarSalvar: false,
 			})
+		}
+
+		let arrayMes = []
+		for(let indiceMes = 1; indiceMes <= 12; indiceMes++){
+			arrayMes.push(<option key={indiceMes} value={indiceMes}>{indiceMes}</option>)
+		}
+		let arrayAnos = []
+		const anoAtual = new Date().getFullYear()
+		for(let indiceAno = 2019; indiceAno <= anoAtual; indiceAno++){
+			arrayAnos.push(<option key={indiceAno} value={indiceAno}>{indiceAno}</option>)
 		}
 
 		return (
@@ -93,26 +108,50 @@ class Listagens extends React.Component {
 						<div>
 						{
 							tipo === 	STRING_LANCAMENTOS &&
-							<CardDeck>
-					      <Card body outline color="secondary">
-					        <CardBody>
-					          <CardTitle className="text-danger">A Pagar</CardTitle>
-					          <CardText className="text-danger"><h1>{aPagar}</h1></CardText>
-					        </CardBody>
-					      </Card>
-					      <Card body outline color="secondary">
-					        <CardBody>
-					          <CardTitle className="text-success">Saldo Atual</CardTitle>
-					          <CardText className="text-success"><h1>{saldoAtual}</h1></CardText>
-					        </CardBody>
-					      </Card>
-					      <Card body outline color="secondary">
-					        <CardBody>
-					          <CardTitle className="text-success">A Receber</CardTitle>
-					          <CardText className="text-success"><h1>{aReceber}</h1></CardText>
-					        </CardBody>
-					      </Card>
-					    </CardDeck>
+							<div>
+								<Row>
+									<Col sm="4">
+										<Alert color="dark">Saldo Atual: {saldoAtual}</Alert>
+									</Col>
+									<Col sm="4">
+				          	<Alert color="danger">A Pagar: {aPagar}</Alert>
+									</Col>
+									<Col sm="4">
+				          	<Alert color="success">A Receber: {aReceber}</Alert>
+									</Col>
+								</Row>
+
+								<FormGroup>
+									<Label for="mes">* Mês:</Label>
+									<Input
+										type="select"
+										name="mes"
+										id="mes"
+										value={mes}
+										onChange={(event) => {this.atualizarCampoMes(event.target.value)}}
+									>
+										<option value='0'>Selecione</option>
+										{
+											arrayMes.map(mes => mes)
+										}
+									</Input>
+								</FormGroup>
+								<FormGroup>
+									<Label for="ano">* Ano:</Label>
+									<Input
+										type="select"
+										name="ano"
+										id="ano"
+										value={ano}
+										onChange={(event) => {this.atualizarCampoAno(event.target.value)}}
+									>
+										<option value='0'>Selecione</option>
+										{
+											arrayAnos.map(ano => ano)
+										}
+									</Input>
+								</FormGroup>
+							</div>
 						}
 							<ListGroup flush>
 								{

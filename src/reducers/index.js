@@ -270,7 +270,7 @@ function lancamentos(state = stateLancamentos, action){
 			if(action.novo){
 				return [...state, action.elemento]
 			}else{
-				const estadoAtualizado = state.map(elementolancamentoSituacao => {
+				const estadoAtualizado = state.map(elemento => {
 					if(elemento.id === action.elemento.id){
 						return action.elemento
 					}else{
