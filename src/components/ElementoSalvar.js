@@ -26,13 +26,14 @@ import {
 	salvarUsuario,
 } from '../actions'
 import {connect} from 'react-redux'
+import { formatReal, getMoney } from '../helpers/funcoes'
 
 class ElementoSalvar extends React.Component {
 
 	state = {
 		nome: '',
 		categoria_id: 0,
-		valor: '',
+		valor: '0,00',
 		situacao_id: 0,
 		dia: new Date().getDate(),
 		mes: (new Date().getMonth() + 1),
@@ -112,7 +113,7 @@ class ElementoSalvar extends React.Component {
 								<FormGroup>
 									<Label for="valor">* Valor:</Label>
 									<Input 
-										type="number" 
+										type="text" 
 										name="valor" 
 										id="valor" 
 										value={valor} 
@@ -196,7 +197,7 @@ class ElementoSalvar extends React.Component {
 									</Input>
 								</FormGroup>
 								<FormGroup>
-									<Label for="ano">Descrição</Label>
+									<Label for="descricao">Descrição</Label>
 									<Input 
 										type="textarea" 
 										name="descricao" 
@@ -239,7 +240,12 @@ class ElementoSalvar extends React.Component {
 
 	atualizarCampoNome = (valor) => this.setState({nome: valor})
 	atualizarCampoCategoria = (valor) => this.setState({categoria_id: valor})
-	atualizarCampoValor = (valor) => this.setState({valor})
+	atualizarCampoValor = (valor) => {
+		const valorInteiro = getMoney(valor) + ''
+		const valorComZerosAEsquerda = valorInteiro.padStart(3, '0')
+		const valorFormatado = formatReal(valorComZerosAEsquerda)
+		this.setState({valor: valorFormatado})
+	}
 	atualizarCampoSituacao = (valor) => this.setState({situacao_id: valor})
 	atualizarCampoDia = (valor) => this.setState({dia: valor})
 	atualizarCampoMes = (valor) => this.setState({mes: valor})
@@ -279,7 +285,7 @@ class ElementoSalvar extends React.Component {
 				mensagemDeErro = true
 				this.setState({situacaoValidade: true})
 			}
-			if(valor === ''){
+			if(valor === '0,00'){
 				mensagemDeErro = true
 				this.setState({valorValidade: true})
 			}
@@ -330,10 +336,14 @@ class ElementoSalvar extends React.Component {
 					elemento.entidade_tipo_id = ENTIDADE_TIPO_CLIENTE
 				}
 				if(tipo === STRING_LANCAMENTOS){
-					elemento.categoria_id = this.state.categoria_id
+					elemento.categoria_id = parseInt(this.state.categoria_id)
 					elemento.valor = this.state.valor
 					elemento.descricao = this.state.descricao
-					elemento.data = this.state.dia + '/' + this.state.mes + '/' + this.state.ano
+					let diaData = this.state.dia + ''
+					diaData = diaData.padStart(2, '0')
+					let mesData = this.state.mes + ''
+					mesData = mesData.padStart(2, '0')
+					elemento.data = diaData + '/' + mesData + '/' + this.state.ano
 
 					elementoAssociativo = {
 						id: Date.now(),
