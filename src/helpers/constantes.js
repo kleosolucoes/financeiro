@@ -9,3 +9,6 @@ export const STRING_USUARIOS = 'usuarios'
 export const ENTIDADE_TIPO_EMPRESA = 1
 export const ENTIDADE_TIPO_FORNECEDOR = 2
 export const ENTIDADE_TIPO_CLIENTE = 3
+
+export const STRING_PAGO = 1;
+export const STRING_NAO_PAGO = 2;

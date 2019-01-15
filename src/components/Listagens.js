@@ -10,6 +10,7 @@ import {
 	CardText,
 	CardDeck,
 	CardBody,
+	Row,
 } from 'reactstrap'
 import {
 	STRING_LANCAMENTOS,
@@ -21,38 +22,57 @@ import {
 	ENTIDADE_TIPO_EMPRESA,
 	ENTIDADE_TIPO_FORNECEDOR,
 	ENTIDADE_TIPO_CLIENTE,
+	STRING_PAGO,
+	STRING_NAO_PAGO,
 } from '../helpers/constantes'
+import { getMoney, formatReal } from '../helpers/funcoes'
 
 class Listagens extends React.Component {
 
-	componentDidMount(){
-		const { tipo, elementos, lancamentoSituacao } = this.props
+	constructor(props){
+		super(props)
+
+		this.state = {
+			tela: props.tipo,
+			...this.atualizarOsGrandeNumeros()
+		}
+	}
+
+	componentDidUpdate(prevProps){
+		if(this.props.elementos.length !== prevProps.elementos.length){
+			this.setState({...this.atualizarOsGrandeNumeros()})
+		}
+	}
+
+	atualizarOsGrandeNumeros(){
+		const { elementos, lancamentoSituacao, categorias } = this.props
 		let aPagar = 0
 		let saldoAtual = 0
 		let aReceber =  0
 		elementos.map(elemento => {
 			let lancamentoSituacaoAtiva = lancamentoSituacao.find(
 				lancamentoSituacao => lancamentoSituacao.lancamento_id === elemento.id && lancamentoSituacao.data_inativacao === null)
-			if(lancamentoSituacaoAtiva.situacao_id === 2 && elemento.credito_debito === 'D'){
-				aPagar += elemento.valor
+			let categoria = categorias.find(categoria => categoria.id === elemento.categoria_id)
+			const valor = getMoney(elemento.valor)
+			if(lancamentoSituacaoAtiva.situacao_id === STRING_NAO_PAGO && categoria.credito_debito === 'D'){
+				aPagar += valor
 			}
-			if(lancamentoSituacaoAtiva.situacao_id === 2 && elemento.credito_debito === 'C'){
-				aReceber += elemento.valor
+			if(lancamentoSituacaoAtiva.situacao_id === STRING_NAO_PAGO && categoria.credito_debito === 'C'){
+				aReceber += valor
 			}
-			if(lancamentoSituacaoAtiva.situacao_id === 1 && elemento.credito_debito === 'C'){
-				saldoAtual += elemento.valor
+			if(lancamentoSituacaoAtiva.situacao_id === STRING_PAGO && categoria.credito_debito === 'C'){
+				saldoAtual += valor
 			}
-			if(lancamentoSituacaoAtiva.situacao_id === 1 && elemento.credito_debito === 'D'){
-				saldoAtual -= elemento.valor
+			if(lancamentoSituacaoAtiva.situacao_id === STRING_PAGO && categoria.credito_debito === 'D'){
+				saldoAtual -= valor
 			}
 			return false
 		})
-		this.setState({
-			tela: tipo,
-			aPagar,
-			saldoAtual,
-			aReceber,
-		})
+		return {
+			aPagar: formatReal(aPagar),
+			saldoAtual: formatReal(saldoAtual),
+			aReceber: formatReal(aReceber),
+		}
 	}
 
 	state = {
@@ -91,29 +111,34 @@ class Listagens extends React.Component {
 				{
 					!mostrarSalvar &&
 						<div>
-						{
-							tipo === 	STRING_LANCAMENTOS &&
-							<CardDeck>
-					      <Card body outline color="secondary">
-					        <CardBody>
-					          <CardTitle className="text-danger">A Pagar</CardTitle>
-					          <CardText className="text-danger"><h1>{aPagar}</h1></CardText>
-					        </CardBody>
-					      </Card>
-					      <Card body outline color="secondary">
-					        <CardBody>
-					          <CardTitle className="text-success">Saldo Atual</CardTitle>
-					          <CardText className="text-success"><h1>{saldoAtual}</h1></CardText>
-					        </CardBody>
-					      </Card>
-					      <Card body outline color="secondary">
-					        <CardBody>
-					          <CardTitle className="text-success">A Receber</CardTitle>
-					          <CardText className="text-success"><h1>{aReceber}</h1></CardText>
-					        </CardBody>
-					      </Card>
-					    </CardDeck>
-						}
+							<Row style={{padding: 10}}>
+								<Button onClick={() => {this.mostrarSalvar(null)}}>
+									Cadastrar
+								</Button>
+							</Row>
+							{
+								tipo === STRING_LANCAMENTOS &&
+									<CardDeck>
+										<Card body outline color="secondary">
+											<CardBody>
+												<CardTitle className="text-danger">A Pagar</CardTitle>
+												<CardText className="text-danger">{aPagar}</CardText>
+											</CardBody>
+										</Card>
+										<Card body outline color="secondary">
+											<CardBody>
+												<CardTitle className="text-success">Saldo Atual</CardTitle>
+												<CardText className="text-success">{saldoAtual}</CardText>
+											</CardBody>
+										</Card>
+										<Card body outline color="secondary">
+											<CardBody>
+												<CardTitle className="text-success">A Receber</CardTitle>
+												<CardText className="text-success">{aReceber}</CardText>
+											</CardBody>
+										</Card>
+									</CardDeck>
+							}
 							<ListGroup flush>
 								{
 									elementos &&
@@ -127,9 +152,6 @@ class Listagens extends React.Component {
 										)
 								}
 							</ListGroup>
-							<Button	onClick={() => {this.mostrarSalvar(null)}}>
-								Cadastrar
-							</Button>
 						</div>
 				}
 			</div>
@@ -160,6 +182,7 @@ const mapStateToProps = (state, { tipo }) => {
 	return {
 		elementos,
 		lancamentoSituacao: state.lancamentoSituacao,
+		categorias: state.categorias
 	}
 }
 

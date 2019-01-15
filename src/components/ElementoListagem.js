@@ -23,9 +23,87 @@ import {
 	STRING_FORNECEDORES,
 	STRING_CLIENTES,
 	STRING_USUARIOS,
+	STRING_PAGO,
 } from '../helpers/constantes'
 
 class ElementoListagem extends React.Component {
+
+	state = {
+		corDoBox: 'secondary',
+		corDasLetras: 'text-muted',
+		elementoCreditoDebito: '',
+	}
+
+	componentDidMount(){
+		const {situacao, categoria } = this.props
+		if(situacao.id === STRING_PAGO && categoria.credito_debito === 'C'){
+			this.setState({corDoBox: 'success'})
+			this.setState({corDasLetras: 'text-success'})
+		}
+		if(situacao.id === STRING_PAGO && categoria.credito_debito === 'D'){
+			this.setState({corDoBox: 'danger'})
+			this.setState({corDasLetras: 'text-danger'})
+		}
+		if(categoria.credito_debito === 'C'){
+			this.setState({elementoCreditoDebito: 'Recebimentos'})
+		}
+		if(categoria.credito_debito === 'D'){
+			this.setState({elementoCreditoDebito: 'Despesas'})
+		}
+	}
+	render() {
+		const {tipo, elemento, categoria, situacao, mostrarSalvar } = this.props
+		const {corDasLetras, corDoBox, elementoCreditoDebito} = this.state
+		return (
+			<ListGroupItem>
+				{
+					tipo === STRING_LANCAMENTOS &&
+						<div>
+							<Card body outline color={corDoBox}>
+								<CardTitle>
+									<p className={corDasLetras}>{categoria.nome}</p>
+									<p className={corDasLetras}>R$ {elemento.valor}</p>
+								</CardTitle>
+								<CardText>
+									<p className={corDasLetras}>{elemento.data} - {elementoCreditoDebito}</p>
+								</CardText>
+								<Badge color={corDoBox}>{situacao.nome}</Badge>
+							</Card>
+						</div>
+				}
+				{
+					tipo !== STRING_LANCAMENTOS &&
+						<Row>
+							<Col>
+								{elemento.id}
+							</Col>
+							<Col>
+								{elemento.data_criacao}
+							</Col>
+							{
+								elemento.nome &&
+									<Col>
+										{elemento.nome}
+									</Col>
+							}
+							<Col>
+								<Button
+									onClick={() => {mostrarSalvar(elemento)}}>
+									Alterar
+								</Button>
+							</Col>
+							<Col>
+								<Button
+									onClick={() => {this.ajudadorDeRemocao()}}
+									color="danger">
+									Remover
+								</Button>
+							</Col>
+						</Row>
+				}
+			</ListGroupItem>
+		)
+	}
 
 	ajudadorDeRemocao(){
 		const resposta = window.confirm('Realmente deseja remover?');
@@ -64,81 +142,7 @@ class ElementoListagem extends React.Component {
 			}
 		}
 	}
-	state = {
-		corDoBox: 'secondary',
-		corDasLetras: 'text-muted',
-		elementoCreditoDebito: '',
-	}
-	componentDidMount(){
-		const {situacao, elemento} = this.props
-		if(situacao.id === 1 && elemento.credito_debito === 'C'){
-			this.setState({corDoBox: 'success'})
-			this.setState({corDasLetras: 'text-success'})
-		}
-		if(situacao.id === 1 && elemento.credito_debito === 'D'){
-			this.setState({corDoBox: 'danger'})
-			this.setState({corDasLetras: 'text-danger'})
-		}
-		if(elemento.credito_debito === 'C'){
-			this.setState({elementoCreditoDebito: 'Recebimentos'})
-		}
-		if(elemento.credito_debito === 'D'){
-			this.setState({elementoCreditoDebito: 'Despesas'})
-		}
-	}
-	render() {
-		const {tipo, elemento, categoria, situacao, mostrarSalvar } = this.props
-		const {corDasLetras, corDoBox, elementoCreditoDebito} = this.state
-		return (
-			<ListGroupItem>
-			{
-				tipo === STRING_LANCAMENTOS &&
-				<div>
-					<Card body outline color={corDoBox}>
-		        <CardTitle>
-							<p className={corDasLetras}>{categoria.nome}</p>
-							<p className={corDasLetras}>R$ {elemento.valor}</p>
-						</CardTitle>
-		        <CardText>
-							<p className={corDasLetras}>{elemento.data} - {elementoCreditoDebito}</p>
-						</CardText>
-		         <Badge color={corDoBox}>{situacao.nome}</Badge>
-	      	</Card>
-				</div>
-			}
-			{
-				tipo !== STRING_LANCAMENTOS &&
-				<Row>
-					<Col>
-						{elemento.id}
-					</Col>
-					<Col>
-						{elemento.data_criacao}
-					</Col>
-					{
-						elemento.nome &&
-							<Col>
-								{elemento.nome}
-							</Col>
-							}
-							<Col>
-								<Button
-									onClick={() => {mostrarSalvar(elemento)}}>
-									Alterar
-								</Button>
-							</Col>
-							<Col>
-								<Button
-									onClick={() => {this.ajudadorDeRemocao()}}
-									color="danger">
-									Remover
-								</Button>
-							</Col>
-						</Row>
-						}
-					</ListGroupItem>
-		)
-	}
+
 }
 
 const mapStateToProps = (state, { tipo, elemento_id }) => {
@@ -146,7 +150,8 @@ const mapStateToProps = (state, { tipo, elemento_id }) => {
 	let lancamentoSituacao = null
 	if(tipo === STRING_LANCAMENTOS){
 		elemento = state.lancamentos && state.lancamentos.find(elemento => elemento.id === elemento_id)
-		lancamentoSituacao = state.lancamentoSituacao && state.lancamentoSituacao.find(lancamentoSituacao => lancamentoSituacao.data_inativacao === null && lancamentoSituacao.lancamento_id === elemento.id)
+		lancamentoSituacao = state.lancamentoSituacao && 
+			state.lancamentoSituacao.find(lancamentoSituacao => lancamentoSituacao.data_inativacao === null && lancamentoSituacao.lancamento_id === elemento.id)
 	}
 	if(tipo === STRING_CATEGORIAS){
 		elemento = state.categorias && state.categorias.find(elemento => elemento.id === elemento_id)
