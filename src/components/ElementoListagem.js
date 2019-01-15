@@ -56,32 +56,30 @@ class ElementoListagem extends React.Component {
 		const {corDasLetras, corDoBox, elementoCreditoDebito} = this.state
 		return (
 			<ListGroupItem>
-			{
-				tipo === STRING_LANCAMENTOS &&
-				<div>
-					<Card body outline color={corDoBox}>
-		        <CardTitle className={corDasLetras}>
-							{categoria.nome} - 
-							R$ {elemento.valor}
-						</CardTitle>
-		        <CardText className={corDasLetras}>
-							{elemento.data} - {elementoCreditoDebito}
-						</CardText>
-		         <Badge color={corDoBox}>{situacao.nome}</Badge>
-	      	</Card>
-				</div>
-			}
-			{
-				tipo !== STRING_LANCAMENTOS &&
-				<Row>
-					<Col>
-						{elemento.id}
-					</Col>
-					<Col>
-						{elemento.data_criacao}
-					</Col>
-					{
-						elemento.nome &&
+				{
+					tipo === STRING_LANCAMENTOS &&
+						<div>
+							<Card body outline color={corDoBox}>
+								<CardTitle className={corDasLetras}>
+									{categoria.nome} - 
+									R$ {elemento.valor}
+								</CardTitle>
+								<CardText className={corDasLetras}>
+									{elemento.data} - {elementoCreditoDebito}
+								</CardText>
+								<Badge color={corDoBox}>{situacao.nome}</Badge>
+							</Card>
+						</div>
+				}
+				{
+					tipo !== STRING_LANCAMENTOS &&
+						<Row>
+							<Col>
+								{elemento.id}
+							</Col>
+							<Col>
+								{elemento.data_criacao}
+							</Col>
 							<Col>
 								{elemento.data_criacao}
 							</Col>
