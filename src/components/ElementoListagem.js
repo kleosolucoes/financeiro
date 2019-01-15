@@ -55,13 +55,13 @@ class ElementoListagem extends React.Component {
 		const {tipo, elemento, categoria, situacao, mostrarSalvar } = this.props
 		const {corDasLetras, corDoBox, elementoCreditoDebito} = this.state
 		return (
-			<ListGroupItem>
+			<div style={{marginBottom:15, marginTop:15}}>
 				{
 					tipo === STRING_LANCAMENTOS &&
 						<div>
 							<Card body outline color={corDoBox}>
 								<CardTitle className={corDasLetras}>
-									{categoria.nome} - 
+									{categoria.nome} -
 									R$ {elemento.valor}
 								</CardTitle>
 								<CardText className={corDasLetras}>
@@ -104,7 +104,7 @@ class ElementoListagem extends React.Component {
 							</Col>
 						</Row>
 				}
-			</ListGroupItem>
+			</div>
 		)
 	}
 
