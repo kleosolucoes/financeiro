@@ -32,22 +32,26 @@ class Listagens extends React.Component {
 	constructor(props){
 		super(props)
 
+		let grandesNumeros = {}
+		if(props.tipo === STRING_LANCAMENTOS){
+			grandesNumeros = {...this.atualizarOsGrandeNumeros(),}
+		}
+
 		this.state = {
-			tela: props.tipo,
-			...this.atualizarOsGrandeNumeros(),
 			mostrarSalvar: false,
 			elemento: null,
-			aPagar: 0,
-			saldoAtual: 0,
-			aReceber: 0,
 			mes: (new Date().getMonth() + 1),
 			ano: new Date().getFullYear(),
+			...grandesNumeros,
 		}
 	}
 
 	componentDidUpdate(prevProps){
 		if(this.props.elementos.length !== prevProps.elementos.length){
-			this.setState({...this.atualizarOsGrandeNumeros()})
+			this.setState({
+				...this.atualizarOsGrandeNumeros(),
+				elementos: this.props.elementos,
+			})
 		}
 	}
 
@@ -88,13 +92,21 @@ class Listagens extends React.Component {
 	atualizarCampoAno = (valor) => this.setState({ano: valor})
 
 	render() {
-		const { elementos, tipo } = this.props
 		const { mostrarSalvar, elemento, aPagar, saldoAtual, aReceber, mes, ano } = this.state
-		let elementosFiltrados = elementos.filter(
-			elemento => {
-				let dataSplit = elemento.data.split('/')
-				return mes == dataSplit[1] && ano == dataSplit[2]
-			})
+		const { tipo, elementos, } = this.props
+
+		let elementosFiltrados = null
+		if(tipo === STRING_LANCAMENTOS){
+			elementosFiltrados = elementos.filter(
+				elemento => {
+					let dataSplit = elemento.data.split('/')
+					let mesInteiro = parseInt(dataSplit[1])
+					let anoInteiro = parseInt(dataSplit[2])
+					let mesDoFiltroInteiro = parseInt(mes)
+					let anoDoFiltroInteiro = parseInt(ano)
+					return mesDoFiltroInteiro === mesInteiro && anoDoFiltroInteiro=== anoInteiro
+				})
+		}
 
 		if(this.state.tela !== tipo){
 			this.setState({
@@ -126,6 +138,13 @@ class Listagens extends React.Component {
 				{
 					!mostrarSalvar &&
 						<div>
+							<Row style={{padding:10}}>
+								<Col style={{textAlign: 'right'}}>
+									<Button onClick={() => {this.mostrarSalvar(null)}}>
+										Cadastrar
+									</Button>
+								</Col>
+							</Row>
 							{
 								tipo === STRING_LANCAMENTOS &&
 									<div>
