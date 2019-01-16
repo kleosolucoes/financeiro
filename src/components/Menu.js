@@ -8,6 +8,7 @@ import {
 	NavItem,
 	NavLink,
 } from 'reactstrap'
+import { capitalizeFirstLetter } from '../helpers/funcoes'
 
 class Menu extends React.Component {
 
@@ -31,11 +32,11 @@ class Menu extends React.Component {
 		this.toggle()
 		alterarTela(tela)
 	}
-
-	render() {
+		render() {
+		const { nomeDaTela } = this.props
 		return (
 			<Navbar color="light" light expand="md">
-				<NavbarBrand href="/">Financeiro</NavbarBrand>
+				<NavbarBrand href="/">Financeiro - {capitalizeFirstLetter(nomeDaTela)}</NavbarBrand>
 				<NavbarToggler onClick={this.toggle} />
 				<Collapse isOpen={this.state.isOpen} navbar>
 					<Nav className="ml-auto" navbar>

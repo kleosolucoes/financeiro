@@ -1,13 +1,15 @@
 import React from 'react'
-import { 
+import {
 	Button,
 	Form,
 	FormGroup,
 	Label,
 	Input,
 	Alert,
+	Row,
+	Col,
 } from 'reactstrap'
-import { 
+import {
 	STRING_LANCAMENTOS,
 	STRING_CATEGORIAS,
 	STRING_EMPRESAS,
@@ -42,7 +44,7 @@ class ElementoSalvar extends React.Component {
 		mostrarMensagemDeError: false,
 		categoriaValidade: null,
 		valorValidade: null,
-		situacaoValidade: null, 
+		situacaoValidade: null,
 		diaValidade: null,
 		mesValidade: null,
 		anoValidade: null,
@@ -73,7 +75,7 @@ class ElementoSalvar extends React.Component {
 			arrayMes.push(<option key={indiceMes} value={indiceMes}>{indiceMes}</option>)
 		}
 		let arrayAnos = []
-		const anoAtual = new Date().getFullYear() 
+		const anoAtual = new Date().getFullYear()
 		for(let indiceAno = 2019; indiceAno <= anoAtual; indiceAno++){
 			arrayAnos.push(<option key={indiceAno} value={indiceAno}>{indiceAno}</option>)
 		}
@@ -87,19 +89,19 @@ class ElementoSalvar extends React.Component {
 							<div>
 								<FormGroup>
 									<Label for="categoria_id">* Categoria:</Label>
-									<Input 
-										type="select" 
-										name="categoria_id" 
-										id="categoria_id" 
+									<Input
+										type="select"
+										name="categoria_id"
+										id="categoria_id"
 										value={categoria_id}
 										onChange={this.atualizarCampo}
 										invalid={categoriaValidade}
 									>
 										<option value='0'>Selecione</option>
 										{
-											categorias && 
+											categorias &&
 											categorias.map(
-												categoria => 
+												categoria =>
 												<option
 													key={categoria.id}
 													value={categoria.id}
@@ -112,11 +114,12 @@ class ElementoSalvar extends React.Component {
 								</FormGroup>
 								<FormGroup>
 									<Label for="valor">* Valor:</Label>
-									<Input 
-										type="text" 
-										name="valor" 
-										id="valor" 
-										value={valor} 
+									<Input
+										style={{height: `5rem`, fontSize: `3rem`}}
+										type="text"
+										name="valor"
+										id="valor"
+										value={valor}
 										bsSize='lg'
 										onChange={this.atualizarCampo}
 										invalid={valorValidade}
@@ -124,19 +127,19 @@ class ElementoSalvar extends React.Component {
 								</FormGroup>
 								<FormGroup>
 									<Label for="situacao_id">* Pago:</Label>
-									<Input 
-										type="select" 
-										name="situacao_id" 
-										id="situacao_id" 
-										value={situacao_id} 
+									<Input
+										type="select"
+										name="situacao_id"
+										id="situacao_id"
+										value={situacao_id}
 										onChange={this.atualizarCampo}
 										invalid={situacaoValidade}
 									>
 										<option value='0'>Selecione</option>
 										{
-											situacoes && 
+											situacoes &&
 											situacoes.map(
-												situacao => 
+												situacao =>
 												<option
 													key={situacao.id}
 													value={situacao.id}
@@ -148,61 +151,69 @@ class ElementoSalvar extends React.Component {
 									</Input>
 								</FormGroup>
 								<Label for="data">Data do lançamento:</Label>
-								<FormGroup>
-									<Label for="dia">* Dia:</Label>
-									<Input 
-										type="select" 
-										name="dia" 
-										id="dia" 
-										value={dia} 
-										onChange={this.atualizarCampo}
-										invalid={diaValidade}
-									>
-										<option value='0'>Selecione</option>
-										{
-											arrayDias.map(dia => dia)
-										}
-									</Input>
-								</FormGroup>
-								<FormGroup>
-									<Label for="mes">* Mês:</Label>
-									<Input 
-										type="select" 
-										name="mes" 
-										id="mes" 
-										value={mes} 
-										onChange={this.atualizarCampo}
-										invalid={mesValidade}
-									>
-										<option value='0'>Selecione</option>
-										{
-											arrayMes.map(mes => mes)
-										}
-									</Input>
-								</FormGroup>
-								<FormGroup>
-									<Label for="ano">* Ano:</Label>
-									<Input 
-										type="select" 
-										name="ano" 
-										id="ano" 
-										value={ano} 
-										onChange={this.atualizarCampo}
-										invalid={anoValidade}
-									>
-										<option value='0'>Selecione</option>
-										{
-											arrayAnos.map(ano => ano)
-										}
-									</Input>
-								</FormGroup>
+								<Row>
+									<Col>
+										<FormGroup>
+											<Label for="dia">* Dia:</Label>
+											<Input
+												type="select"
+												name="dia"
+												id="dia"
+												value={dia}
+												onChange={this.atualizarCampo}
+												invalid={diaValidade}
+											>
+												<option value='0'>Selecione</option>
+												{
+													arrayDias.map(dia => dia)
+												}
+											</Input>
+										</FormGroup>
+									</Col>
+									<Col>
+										<FormGroup>
+											<Label for="mes">* Mês:</Label>
+											<Input
+												type="select"
+												name="mes"
+												id="mes"
+												value={mes}
+												onChange={this.atualizarCampo}
+												invalid={mesValidade}
+											>
+												<option value='0'>Selecione</option>
+												{
+													arrayMes.map(mes => mes)
+												}
+											</Input>
+										</FormGroup>
+									</Col>
+									<Col>
+										<FormGroup>
+											<Label for="ano">* Ano:</Label>
+											<Input
+												type="select"
+												name="ano"
+												id="ano"
+												value={ano}
+												onChange={this.atualizarCampo}
+												invalid={anoValidade}
+											>
+												<option value='0'>Selecione</option>
+												{
+													arrayAnos.map(ano => ano)
+												}
+											</Input>
+										</FormGroup>
+									</Col>
+								</Row>
 								<FormGroup>
 									<Label for="descricao">Descrição</Label>
-									<Input 
-										type="textarea" 
-										name="descricao" 
-										id="descricao" 
-										value={descricao} 
+									<Input
+										type="textarea"
+										name="descricao"
+										id="descricao"
+										value={descricao}
 										onChange={this.atualizarCampo}
 									>
 									</Input>
@@ -210,30 +221,32 @@ class ElementoSalvar extends React.Component {
 							</div>
 					}
 					{
-						(tipo === STRING_CATEGORIAS 
-							|| tipo === STRING_EMPRESAS 
+						(tipo === STRING_CATEGORIAS
+							|| tipo === STRING_EMPRESAS
 							|| tipo === STRING_FORNECEDORES
 							|| tipo === STRING_CLIENTES
-							|| tipo === STRING_USUARIOS) && 
+							|| tipo === STRING_USUARIOS) &&
 							<FormGroup>
 								<Label for="nome">Nome</Label>
-								<Input 
-									type="text" 
-									name="nome" 
-									id="nome" 
-									placeholder="Nome Completo" 
+								<Input
+									type="text"
+									name="nome"
+									id="nome"
+									placeholder="Nome Completo"
 									value={nome}
 									onChange={this.atualizarCampo}
 								/>
 							</FormGroup>
 					}
 					{
-						mostrarMensagemDeError && 
+						mostrarMensagemDeError &&
 						<Alert color='danger'>Preencha todos os dados com asteristicos</Alert>
 					}
+					<div style={{overflow: 'auto'}}>
 					<Button color='success' style={{float: 'right', marginLeft: 10}} onClick={() => {this.ajudadorDeSubmit()}} >Submit</Button>
 				<Button style={{float: 'right', marginLeft: 10}} onClick={() => {esconderSalvar()}} >Voltar</Button>
-			</Form>			
+				</div>
+			</Form>
 		</div>
 		)
 	}
@@ -250,8 +263,8 @@ class ElementoSalvar extends React.Component {
 	}
 
 	ajudadorDeSubmit(){
-		const { 
-			tipo, 
+		const {
+			tipo,
 			esconderSalvar,
 			salvarLancamento,
 			salvarLancamentoSituacao,
@@ -354,7 +367,7 @@ class ElementoSalvar extends React.Component {
 
 			}
 
-			let funcaoSalvar = null 
+			let funcaoSalvar = null
 			if(tipo === STRING_CATEGORIAS){
 				funcaoSalvar = salvarCategoria
 			}

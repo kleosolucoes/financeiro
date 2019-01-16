@@ -10,3 +10,7 @@ export function formatReal( int ){
 export function getMoney( str ){
 	return parseInt( str.replace(/[\D]+/g,'') );
 }
+
+export function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}

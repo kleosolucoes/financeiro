@@ -1,6 +1,7 @@
 import React from 'react'
 import Listagens from './components/Listagens'
 import Menu from './components/Menu'
+import {FolhaDeEstilo} from './components/FolhaDeEstilo'
 import {
 	Container,
 	Alert,
@@ -21,9 +22,8 @@ class App extends React.Component {
 	render() {
 		const { tela } = this.state
 		return (
-			<Container style={{backgroundColor: '#f2f2f2'}}>
-				<Menu alterarTela={this.alterarTela} />
-				<Alert>{tela}</Alert>
+			<Container style={FolhaDeEstilo.containerStyle}>
+				<Menu alterarTela={this.alterarTela} nomeDaTela={tela} />				
 				{
 					tela === STRING_PRINCIPAL &&
 						<p>{tela}</p>

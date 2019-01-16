@@ -10,6 +10,7 @@ import {
 	FormGroup,
 	Label,
 	Input,
+	ListGroup,
 } from 'reactstrap'
 import {
 	STRING_LANCAMENTOS,
@@ -151,64 +152,74 @@ class Listagens extends React.Component {
 									</Button>
 								</Col>
 							</Row>
+
 							{
 								tipo === STRING_LANCAMENTOS &&
 									<div>
-										<Row>
-											<Col sm="4">
-												<Alert color="dark">Saldo Atual: {saldoAtual}</Alert>
-											</Col>
-											<Col sm="4">
-												<Alert color="danger">A Pagar: {aPagar}</Alert>
-											</Col>
-											<Col sm="4">
-												<Alert color="success">A Receber: {aReceber}</Alert>
-											</Col>
-										</Row>
-
-										<FormGroup>
-											<Label for="mes">* Mês:</Label>
-											<Input
-												type="select"
-												name="mes"
-												id="mes"
-												value={mes}
-												onChange={(event) => {this.atualizarCampoMes(event.target.value)}}
-											>
-												<option value='0'>Selecione</option>
-												{
-													arrayMes.map(mes => mes)
-												}
-											</Input>
-										</FormGroup>
-										<FormGroup>
-											<Label for="ano">* Ano:</Label>
-											<Input
-												type="select"
-												name="ano"
-												id="ano"
-												value={ano}
-												onChange={(event) => {this.atualizarCampoAno(event.target.value)}}
-											>
-												<option value='0'>Selecione</option>
-												{
-													arrayAnos.map(ano => ano)
-												}
-											</Input>
-										</FormGroup>
+											<Row style={{textAlign: 'center'}}>
+												<Col sm="4">
+													<Alert color="dark">Saldo Atual: {saldoAtual}</Alert>
+												</Col>
+												<Col sm="4">
+													<Alert color="danger">A Pagar: {aPagar}</Alert>
+												</Col>
+												<Col sm="4">
+													<Alert color="success">A Receber: {aReceber}</Alert>
+												</Col>
+											</Row>
+											<Row>
+												<Col>
+													<FormGroup>
+														<Label for="mes">* Mês:</Label>
+														<Input
+															type="select"
+															name="mes"
+															id="mes"
+															value={mes}
+															onChange={(event) => {this.atualizarCampoMes(event.target.value)}}
+														>
+															<option value='0'>Selecione</option>
+															{
+																arrayMes.map(mes => mes)
+															}
+														</Input>
+													</FormGroup>
+												</Col>
+													<Col>
+													<FormGroup>
+														<Label for="ano">* Ano:</Label>
+														<Input
+															type="select"
+															name="ano"
+															id="ano"
+															value={ano}
+															onChange={(event) => {this.atualizarCampoAno(event.target.value)}}
+														>
+															<option value='0'>Selecione</option>
+															{
+																arrayAnos.map(ano => ano)
+															}
+														</Input>
+													</FormGroup>
+												</Col>
+											</Row>
 									</div>
 							}
 							{
 								elementosFiltrados &&
-									elementosFiltrados.map((elemento) =>
-										<ElementoListagem
-											key={elemento.id}
-											elemento_id={elemento.id}
-											tipo={tipo}
-											mostrarSalvar={this.mostrarSalvar}
-										/>
-									)
-							}							
+									<ListGroup flush>
+									{
+										elementosFiltrados.map((elemento) =>
+											<ElementoListagem
+												key={elemento.id}
+												elemento_id={elemento.id}
+												tipo={tipo}
+												mostrarSalvar={this.mostrarSalvar}
+											/>
+										)
+									}
+									</ListGroup>
+							}
 						</div>
 				}
 			</div>
