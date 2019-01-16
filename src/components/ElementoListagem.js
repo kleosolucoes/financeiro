@@ -1,6 +1,5 @@
 import React from 'react'
 import {
-	ListGroupItem,
 	Row,
 	Col,
 	Button,
@@ -35,7 +34,7 @@ class ElementoListagem extends React.Component {
 	}
 
 	componentDidMount(){
-		if( this.props.tipo === STRING_LANCAMENTOS){
+		if(this.props.tipo === STRING_LANCAMENTOS){
 			const {situacao, categoria } = this.props
 			if(situacao.id === STRING_PAGO && categoria.credito_debito === 'C'){
 				this.setState({corDoBox: 'success'})
@@ -53,6 +52,7 @@ class ElementoListagem extends React.Component {
 			}
 		}
 	}
+
 	render() {
 		const {tipo, elemento, categoria, situacao, mostrarSalvar } = this.props
 		const {corDasLetras, corDoBox, elementoCreditoDebito} = this.state

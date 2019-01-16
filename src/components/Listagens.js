@@ -3,7 +3,6 @@ import ElementoListagem from './ElementoListagem'
 import ElementoSalvar from './ElementoSalvar'
 import {connect} from 'react-redux'
 import {
-	ListGroup,
 	Button,
 	Row,
 	Col,
@@ -199,17 +198,17 @@ class Listagens extends React.Component {
 										</FormGroup>
 									</div>
 							}
-								{
-									elementosFiltrados &&
-										elementosFiltrados.map((elemento, indice) =>
-											<ElementoListagem
-												key={indice}
-												elemento_id={elemento.id}
-												tipo={tipo}
-												mostrarSalvar={this.mostrarSalvar}
-											/>
-										)
-								}							
+							{
+								elementosFiltrados &&
+									elementosFiltrados.map((elemento) =>
+										<ElementoListagem
+											key={elemento.id}
+											elemento_id={elemento.id}
+											tipo={tipo}
+											mostrarSalvar={this.mostrarSalvar}
+										/>
+									)
+							}							
 						</div>
 				}
 			</div>

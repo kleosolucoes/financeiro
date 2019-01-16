@@ -62,7 +62,7 @@ class ElementoSalvar extends React.Component {
 	render() {
 		const { tipo, esconderSalvar, categorias, situacoes } = this.props
 		const { nome, categoria_id, valor, situacao_id, dia, mes, ano, descricao, mostrarMensagemDeError,
-		categoriaValidade, valorValidade, situacaoValidade, diaValidade, mesValidade, anoValidade, } = this.state
+			categoriaValidade, valorValidade, situacaoValidade, diaValidade, mesValidade, anoValidade, } = this.state
 
 		let arrayDias = []
 		for(let indiceDia = 1; indiceDia <= 31; indiceDia++){
@@ -92,7 +92,7 @@ class ElementoSalvar extends React.Component {
 										name="categoria_id" 
 										id="categoria_id" 
 										value={categoria_id}
-										onChange={(event) => {this.atualizarCampoCategoria(event.target.value)}}
+										onChange={this.atualizarCampo}
 										invalid={categoriaValidade}
 									>
 										<option value='0'>Selecione</option>
@@ -118,7 +118,7 @@ class ElementoSalvar extends React.Component {
 										id="valor" 
 										value={valor} 
 										bsSize='lg'
-										onChange={(event) => {this.atualizarCampoValor(event.target.value)}}
+										onChange={this.atualizarCampo}
 										invalid={valorValidade}
 									/>
 								</FormGroup>
@@ -129,7 +129,7 @@ class ElementoSalvar extends React.Component {
 										name="situacao_id" 
 										id="situacao_id" 
 										value={situacao_id} 
-										onChange={(event) => {this.atualizarCampoSituacao(event.target.value)}}
+										onChange={this.atualizarCampo}
 										invalid={situacaoValidade}
 									>
 										<option value='0'>Selecione</option>
@@ -155,7 +155,7 @@ class ElementoSalvar extends React.Component {
 										name="dia" 
 										id="dia" 
 										value={dia} 
-										onChange={(event) => {this.atualizarCampoDia(event.target.value)}}
+										onChange={this.atualizarCampo}
 										invalid={diaValidade}
 									>
 										<option value='0'>Selecione</option>
@@ -171,7 +171,7 @@ class ElementoSalvar extends React.Component {
 										name="mes" 
 										id="mes" 
 										value={mes} 
-										onChange={(event) => {this.atualizarCampoMes(event.target.value)}}
+										onChange={this.atualizarCampo}
 										invalid={mesValidade}
 									>
 										<option value='0'>Selecione</option>
@@ -187,7 +187,7 @@ class ElementoSalvar extends React.Component {
 										name="ano" 
 										id="ano" 
 										value={ano} 
-										onChange={(event) => {this.atualizarCampoAno(event.target.value)}}
+										onChange={this.atualizarCampo}
 										invalid={anoValidade}
 									>
 										<option value='0'>Selecione</option>
@@ -203,7 +203,7 @@ class ElementoSalvar extends React.Component {
 										name="descricao" 
 										id="descricao" 
 										value={descricao} 
-										onChange={(event) => {this.atualizarCampoDescricao(event.target.value)}}
+										onChange={this.atualizarCampo}
 									>
 									</Input>
 								</FormGroup>
@@ -223,7 +223,7 @@ class ElementoSalvar extends React.Component {
 									id="nome" 
 									placeholder="Nome Completo" 
 									value={nome}
-									onChange={(event) => {this.atualizarCampoNome(event.target.value)}}
+									onChange={this.atualizarCampo}
 								/>
 							</FormGroup>
 					}
@@ -238,19 +238,16 @@ class ElementoSalvar extends React.Component {
 		)
 	}
 
-	atualizarCampoNome = (valor) => this.setState({nome: valor})
-	atualizarCampoCategoria = (valor) => this.setState({categoria_id: valor})
-	atualizarCampoValor = (valor) => {
-		const valorInteiro = getMoney(valor) + ''
-		const valorComZerosAEsquerda = valorInteiro.padStart(3, '0')
-		const valorFormatado = formatReal(valorComZerosAEsquerda)
-		this.setState({valor: valorFormatado})
+	atualizarCampo = (event) => {
+		let valor = event.target.value
+		const name = event.target.name
+		if(name === 'valor'){
+			const valorInteiro = getMoney(valor) + ''
+			const valorComZerosAEsquerda = valorInteiro.padStart(3, '0')
+			valor = formatReal(valorComZerosAEsquerda)
+		}
+		this.setState({[name]: valor})
 	}
-	atualizarCampoSituacao = (valor) => this.setState({situacao_id: valor})
-	atualizarCampoDia = (valor) => this.setState({dia: valor})
-	atualizarCampoMes = (valor) => this.setState({mes: valor})
-	atualizarCampoAno = (valor) => this.setState({ano: valor})
-	atualizarCampoDescricao = (valor) => this.setState({descricao: valor})
 
 	ajudadorDeSubmit(){
 		const { 
@@ -276,7 +273,7 @@ class ElementoSalvar extends React.Component {
 				mes,
 				ano,
 			} = this.state
-			
+
 			if(parseInt(categoria_id) === 0){
 				mensagemDeErro = true
 				this.setState({categoriaValidade: true})
