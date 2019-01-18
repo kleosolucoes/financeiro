@@ -3,9 +3,6 @@ import {
 	Row,
 	Col,
 	Button,
-	Card,
-	CardTitle,
-	CardText,
 	Badge,
 	ListGroupItem,
 } from 'reactstrap'
@@ -24,6 +21,7 @@ import {
 	STRING_CLIENTES,
 	STRING_USUARIOS,
 	STRING_PAGO,
+	STRING_NAO_PAGO,
 } from '../helpers/constantes'
 
 class ElementoListagem extends React.Component {
@@ -62,9 +60,10 @@ class ElementoListagem extends React.Component {
 		const {corDasLetras, corDoBox, corDaBadge, elementoCreditoDebito} = this.state
 		return (
 			<div style={{paddingBottom:10, paddingTop:10}}>
+				<ListGroupItem>
 				{
 					tipo === STRING_LANCAMENTOS &&
-						<ListGroupItem>
+						<div>
 						<Row>
 							<Col>
 								<h3><Badge style={{width: '100%'}} color={corDoBox}>{elementoCreditoDebito}</Badge></h3>
@@ -83,10 +82,21 @@ class ElementoListagem extends React.Component {
 									{elemento.data}
 								</Col>
 								<Col>
-									<strong className={corDaBadge}>{situacao.nome}</strong>
+									{
+										(situacao.id === STRING_NAO_PAGO) &&
+										<Button
+											color={corDoBox}
+											onClick={() => {mostrarSalvar(elemento)}}>
+											<strong>{situacao.nome}</strong>
+										</Button>
+									}
+									{
+										(situacao.id === STRING_PAGO) &&
+										<strong className={corDaBadge}>{situacao.nome}</strong>
+									}
 								</Col>
 							</Row>
-						</ListGroupItem>
+						</div>
 				}
 				{
 					tipo !== STRING_LANCAMENTOS &&
@@ -121,6 +131,7 @@ class ElementoListagem extends React.Component {
 							</Col>
 						</Row>
 				}
+				</ListGroupItem>
 			</div>
 		)
 	}

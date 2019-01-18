@@ -1,10 +1,12 @@
 import React from 'react'
+import { capitalizeFirstLetter } from './helpers/funcoes'
 import Listagens from './components/Listagens'
 import Menu from './components/Menu'
 import {FolhaDeEstilo} from './components/FolhaDeEstilo'
 import {
 	Container,
-	Alert,
+	Breadcrumb,
+	BreadcrumbItem,
 } from 'reactstrap'
 import {
 	STRING_PRINCIPAL,
@@ -23,7 +25,12 @@ class App extends React.Component {
 		const { tela } = this.state
 		return (
 			<Container style={FolhaDeEstilo.containerStyle}>
-				<Menu alterarTela={this.alterarTela} nomeDaTela={tela} />				
+				<Menu alterarTela={this.alterarTela} nomeDaTela={tela} />
+				<div>
+		      <Breadcrumb>
+		        <BreadcrumbItem active><h5>{capitalizeFirstLetter(tela)}</h5></BreadcrumbItem>
+		      </Breadcrumb>
+				</div>
 				{
 					tela === STRING_PRINCIPAL &&
 						<p>{tela}</p>

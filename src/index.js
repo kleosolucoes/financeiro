@@ -6,7 +6,6 @@ import rootReducer from './reducers';
 import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {FolhaDeEstilo} from './components/FolhaDeEstilo'
 
 const logger = store => next => action => {
 	console.group(action.type);

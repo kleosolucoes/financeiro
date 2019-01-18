@@ -48,6 +48,8 @@ class ElementoSalvar extends React.Component {
 		diaValidade: null,
 		mesValidade: null,
 		anoValidade: null,
+		corDoBackGroundDoValor: '#fff',
+		corDaFonteDoValor: '#000',
 	}
 
 	componentDidMount(){
@@ -61,10 +63,25 @@ class ElementoSalvar extends React.Component {
 		}
 	}
 
+	 escolherCorDoBackGround = creditoOuDebito => {
+		let corBackGround = ''
+		let corDaFonte = ''
+		if (creditoOuDebito === 'C'){
+			corBackGround = '#28a745'
+			corDaFonte = '#fff'
+		}
+		if (creditoOuDebito === 'D'){
+			corBackGround = '#dc3545'
+			corDaFonte = '#fff'
+		}
+		return [corBackGround, corDaFonte]
+	}
+
 	render() {
 		const { tipo, esconderSalvar, categorias, situacoes } = this.props
 		const { nome, categoria_id, valor, situacao_id, dia, mes, ano, descricao, mostrarMensagemDeError,
-			categoriaValidade, valorValidade, situacaoValidade, diaValidade, mesValidade, anoValidade, } = this.state
+			categoriaValidade, valorValidade, situacaoValidade, diaValidade, mesValidade, anoValidade,
+			 corDoBackGroundDoValor, corDaFonteDoValor} = this.state
 
 		let arrayDias = []
 		for(let indiceDia = 1; indiceDia <= 31; indiceDia++){
@@ -82,7 +99,6 @@ class ElementoSalvar extends React.Component {
 
 		return (
 			<div>
-				<Alert>Cadastro</Alert>
 				<Form>
 					{
 						tipo === STRING_LANCAMENTOS &&
@@ -115,7 +131,7 @@ class ElementoSalvar extends React.Component {
 								<FormGroup>
 									<Label for="valor">* Valor:</Label>
 									<Input
-										style={{height: `5rem`, fontSize: `3rem`}}
+										style={{height: '5rem', fontSize: '3rem', backgroundColor: corDoBackGroundDoValor, color: corDaFonteDoValor}}
 										type="text"
 										name="valor"
 										id="valor"
@@ -239,11 +255,25 @@ class ElementoSalvar extends React.Component {
 							</FormGroup>
 					}
 					{
+						(tipo === STRING_CATEGORIAS) &&
+							<FormGroup>
+								<Label for="tipo">Tipo</Label>
+								<Input
+									type="select"
+									name="credito_debito"
+									id="credito_debito"
+								>
+									<option value='C'>Recebimentos</option>
+									<option value='D'>Desespesas</option>
+								</Input>
+							</FormGroup>
+					}
+					{
 						mostrarMensagemDeError &&
 						<Alert color='danger'>Preencha todos os dados com asteristicos</Alert>
 					}
-					<div style={{overflow: 'auto'}}>
-					<Button color='success' style={{float: 'right', marginLeft: 10}} onClick={() => {this.ajudadorDeSubmit()}} >Submit</Button>
+					<div style={{overflow: ' '}}>
+					<Button color='success' style={{float: 'right', marginLeft: 10}} onClick={() => {this.ajudadorDeSubmit()}} >Cadastrar</Button>
 				<Button style={{float: 'right', marginLeft: 10}} onClick={() => {esconderSalvar()}} >Voltar</Button>
 				</div>
 			</Form>
@@ -258,6 +288,21 @@ class ElementoSalvar extends React.Component {
 			const valorInteiro = getMoney(valor) + ''
 			const valorComZerosAEsquerda = valorInteiro.padStart(3, '0')
 			valor = formatReal(valorComZerosAEsquerda)
+		}
+		if(name === 'categoria_id'){
+			let novaCorDoBackGround = '#fff'
+			let novaCorDaFonte = '#000'
+			if(parseInt(valor) !== 0){
+				const {categorias} = this.props
+				const categoria = categorias.find(categoria => categoria.id === parseInt(valor))
+				const resultado = this.escolherCorDoBackGround(categoria.credito_debito)
+				novaCorDoBackGround = resultado[0]
+				novaCorDaFonte = resultado[1]
+			}
+			this.setState({
+				corDoBackGroundDoValor: novaCorDoBackGround,
+				corDaFonteDoValor: novaCorDaFonte
+			})
 		}
 		this.setState({[name]: valor})
 	}
