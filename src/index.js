@@ -6,6 +6,8 @@ import rootReducer from './reducers';
 import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import teal from '@material-ui/core/colors/teal';
 
 const logger = store => next => action => {
 	console.group(action.type);
@@ -16,9 +18,20 @@ const logger = store => next => action => {
 	return resultado;
 };
 
+const theme = createMuiTheme({
+  palette: {
+    primary: teal,
+    secondary: {
+      main: '#f44336',
+    },
+  },
+});
+
 const store = createStore(rootReducer, applyMiddleware(logger,thunk));
 ReactDOM.render(
 	<Provider store={store}>
-		<App />
+		<MuiThemeProvider theme={theme}>
+			<App />
+		</MuiThemeProvider>
 	</Provider>
 	, document.getElementById('root'));

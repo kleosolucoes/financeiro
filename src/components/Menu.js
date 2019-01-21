@@ -29,7 +29,10 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
-import AttachMoney from '@material-ui/icons/AttachMoney';
+import LocationCity from '@material-ui/icons/LocationCity';
+import LocalAtm from '@material-ui/icons/LocalAtm';
+import ViewHeadline from '@material-ui/icons/ViewHeadline';
+import teal from '@material-ui/core/colors/teal';
 
 const drawerWidth = 240;
 
@@ -38,7 +41,6 @@ const styles = theme => ({
     display: 'flex',
   },
   appBar: {
-		backgroundColor: 'black',
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -156,11 +158,11 @@ class PersistentDrawerLeft extends React.Component {
           <List>
             {['lancamentos', 'categorias', 'empresas', 'fornecedores'].map((tela, index) => (
               <ListItem button key={tela} onClick={() => {this.alterarTela(tela)} }>
-                <ListItemIcon>
-									{	tela === 'lancamentos' ? <AttachMoney /> : null	}
-									{ tela === 'categorias' ? <AttachMoney /> : null }
-									{ tela === 'empresas' ? <AttachMoney /> : null }
-									{ tela === 'fornecedores' ? <AttachMoney /> : null }
+                <ListItemIcon >
+									{	tela === 'lancamentos' ? <LocalAtm color='primary' /> : null	}
+									{ tela === 'categorias' ? <ViewHeadline color="primary" /> : null }
+									{ tela === 'empresas' ? <LocationCity color="primary" /> : null }
+									{ tela === 'fornecedores' ? <LocationCity color="primary" /> : null }
 								</ListItemIcon>
                 <ListItemText primary={capitalizeFirstLetter(tela)} />
               </ListItem>
