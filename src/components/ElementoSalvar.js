@@ -1,11 +1,8 @@
 import React from 'react'
 import { 
-	Button,
-	Form,
 	FormGroup,
 	Label,
 	Input,
-	Alert,
 } from 'reactstrap'
 import { 
 	STRING_LANCAMENTOS,
@@ -27,25 +24,41 @@ import {
 } from '../actions'
 import {connect} from 'react-redux'
 import { formatReal, getMoney } from '../helpers/funcoes'
+import { Formik } from 'formik'
+import * as Yup from 'yup'
+
+const InputKleo = (props) => {
+	console.log(props)
+	return (
+		<FormGroup>
+			<Label for={props.id}>{props.label}</Label>
+			<Input 
+				type={props.type} 
+				name={props.id}
+				id={props.id}
+				value={props.value}
+				onChange={props.handleChange}
+				onBlur={props.handleBlur}
+				invalid={props.errors && props.touched ? true : null}>
+				{
+					props.type === 'select' &&
+					<option value='0'>Selecione</option>
+				}
+				{
+					props.extra && 
+					props.extra.map(item => <option	key={item.id} value={item.id}>{item.nome}</option>)
+				}
+			</Input>
+			{props.errors && props.touched && <div className="label label-danger">{props.errors}</div>}
+		</FormGroup>
+	)
+}
+
 
 class ElementoSalvar extends React.Component {
 
 	state = {
 		nome: '',
-		categoria_id: 0,
-		valor: '0,00',
-		situacao_id: 0,
-		dia: new Date().getDate(),
-		mes: (new Date().getMonth() + 1),
-		ano: new Date().getFullYear(),
-		descricao: '',
-		mostrarMensagemDeError: false,
-		categoriaValidade: null,
-		valorValidade: null,
-		situacaoValidade: null, 
-		diaValidade: null,
-		mesValidade: null,
-		anoValidade: null,
 	}
 
 	componentDidMount(){
@@ -60,10 +73,58 @@ class ElementoSalvar extends React.Component {
 	}
 
 	render() {
-		const { tipo, esconderSalvar, categorias, situacoes } = this.props
-		const { nome, categoria_id, valor, situacao_id, dia, mes, ano, descricao, mostrarMensagemDeError,
-			categoriaValidade, valorValidade, situacaoValidade, diaValidade, mesValidade, anoValidade, } = this.state
+		return (
+			<div>
+				{this.formulario(this.formularioLancamento())}
+			</div>
+		)
+	}
 
+	formularioLancamento = () => {
+		return  {
+			valoresIniciais: this.valoresIniciaisLancamento(),	
+			ajudadorDeSubmit: (values) => this.ajudadorDeSubmitLancamento(values),
+			validacao: this.validacaoLancamento(),
+			renderizacao: (props) => this.renderizacaoLancamento(props),
+		}
+	}
+
+	valoresIniciaisLancamento = () => ({
+		categoria_id: 0,
+		valor: '0,00',
+		situacao_id: 0,
+		dia: new Date().getDate(),
+		mes: (new Date().getMonth() + 1),
+		ano: new Date().getFullYear(),
+		descricao: '',
+	})
+
+	ajudadorDeSubmitLancamento = (values) => {
+		console.log(values)
+	}
+
+	validacaoLancamento = () => 
+		Yup.object().shape({
+			categoria_id: Yup.number().moreThan(0, 'Selecione uma categoria'),
+			situacao_id: Yup.number().moreThan(0, 'Selecione se está pago'),
+			dia: Yup.number().moreThan(0, 'Selecione o dia'),
+			mes: Yup.number().moreThan(0, 'Selecione o mês'),
+			ano: Yup.number().moreThan(0, 'Selecione o ano'),
+		})
+
+	renderizacaoLancamento = (props) => {
+		const {
+			values,
+			touched,
+			errors,
+			dirty,
+			isSubmitting,
+			handleChange,
+			handleBlur,
+			handleSubmit,
+			handleReset,
+		} = props;
+		const { categorias, situacoes } = this.props
 		let arrayDias = []
 		for(let indiceDia = 1; indiceDia <= 31; indiceDia++){
 			arrayDias.push(<option key={indiceDia} value={indiceDia}>{indiceDia}</option>)
@@ -78,165 +139,175 @@ class ElementoSalvar extends React.Component {
 			arrayAnos.push(<option key={indiceAno} value={indiceAno}>{indiceAno}</option>)
 		}
 
+		const camposFormularioLancamento = [
+			{
+				id: 'categoria_id',
+				type: 'select',
+				value: 0,
+				extra: this.props.categorias,
+				label: 'Categoria',
+			}
+		]
+
 		return (
-			<div>
-				<Alert>Cadastro</Alert>
-				<Form>
+			<form onSubmit={handleSubmit}>
+				<div>
 					{
-						tipo === STRING_LANCAMENTOS &&
-							<div>
-								<FormGroup>
-									<Label for="categoria_id">* Categoria:</Label>
-									<Input 
-										type="select" 
-										name="categoria_id" 
-										id="categoria_id" 
-										value={categoria_id}
-										onChange={this.atualizarCampo}
-										invalid={categoriaValidade}
-									>
-										<option value='0'>Selecione</option>
-										{
-											categorias && 
-											categorias.map(
-												categoria => 
-												<option
-													key={categoria.id}
-													value={categoria.id}
-												>
-													{categoria.nome}
-												</option>
-											)
-										}
-									</Input>
-								</FormGroup>
-								<FormGroup>
-									<Label for="valor">* Valor:</Label>
-									<Input 
-										type="text" 
-										name="valor" 
-										id="valor" 
-										value={valor} 
-										bsSize='lg'
-										onChange={this.atualizarCampo}
-										invalid={valorValidade}
-									/>
-								</FormGroup>
-								<FormGroup>
-									<Label for="situacao_id">* Pago:</Label>
-									<Input 
-										type="select" 
-										name="situacao_id" 
-										id="situacao_id" 
-										value={situacao_id} 
-										onChange={this.atualizarCampo}
-										invalid={situacaoValidade}
-									>
-										<option value='0'>Selecione</option>
-										{
-											situacoes && 
-											situacoes.map(
-												situacao => 
-												<option
-													key={situacao.id}
-													value={situacao.id}
-												>
-													{situacao.nome}
-												</option>
-											)
-										}
-									</Input>
-								</FormGroup>
-								<Label for="data">Data do lançamento:</Label>
-								<FormGroup>
-									<Label for="dia">* Dia:</Label>
-									<Input 
-										type="select" 
-										name="dia" 
-										id="dia" 
-										value={dia} 
-										onChange={this.atualizarCampo}
-										invalid={diaValidade}
-									>
-										<option value='0'>Selecione</option>
-										{
-											arrayDias.map(dia => dia)
-										}
-									</Input>
-								</FormGroup>
-								<FormGroup>
-									<Label for="mes">* Mês:</Label>
-									<Input 
-										type="select" 
-										name="mes" 
-										id="mes" 
-										value={mes} 
-										onChange={this.atualizarCampo}
-										invalid={mesValidade}
-									>
-										<option value='0'>Selecione</option>
-										{
-											arrayMes.map(mes => mes)
-										}
-									</Input>
-								</FormGroup>
-								<FormGroup>
-									<Label for="ano">* Ano:</Label>
-									<Input 
-										type="select" 
-										name="ano" 
-										id="ano" 
-										value={ano} 
-										onChange={this.atualizarCampo}
-										invalid={anoValidade}
-									>
-										<option value='0'>Selecione</option>
-										{
-											arrayAnos.map(ano => ano)
-										}
-									</Input>
-								</FormGroup>
-								<FormGroup>
-									<Label for="descricao">Descrição</Label>
-									<Input 
-										type="textarea" 
-										name="descricao" 
-										id="descricao" 
-										value={descricao} 
-										onChange={this.atualizarCampo}
-									>
-									</Input>
-								</FormGroup>
-							</div>
+						camposFormularioLancamento.map(item => {
+							let errorsInput = errors[item.id]
+							return	<InputKleo key={item.id} {...item} handleChange={handleChange} handleBlur={handleBlur} errors={errorsInput} />
+						})
 					}
-					{
-						(tipo === STRING_CATEGORIAS 
-							|| tipo === STRING_EMPRESAS 
-							|| tipo === STRING_FORNECEDORES
-							|| tipo === STRING_CLIENTES
-							|| tipo === STRING_USUARIOS) && 
-							<FormGroup>
-								<Label for="nome">Nome</Label>
-								<Input 
-									type="text" 
-									name="nome" 
-									id="nome" 
-									placeholder="Nome Completo" 
-									value={nome}
-									onChange={this.atualizarCampo}
-								/>
-							</FormGroup>
+					<FormGroup>
+						<Label for="valor">* Valor:</Label>
+						<Input 
+							type="text" 
+							name="valor" 
+							id="valor" 
+							value={values.valor} 
+							onChange={handleChange}
+							onBlur={handleBlur}
+							invalid={errors.valor && touched.valor ? true : null}
+						/>
+						{errors.valor && touched.valor && <div className="label label-danger">{errors.valor}</div>}
+					</FormGroup>
+					<FormGroup>
+						<Label for="situacao_id">* Pago:</Label>
+						<Input 
+							type="select" 
+							name="situacao_id" 
+							id="situacao_id" 
+							value={values.situacao_id} 
+							onChange={handleChange}
+							onBlur={handleBlur}
+							invalid={errors.situacao_id && touched.situacao_id ? true : null}
+						>
+							<option value='0'>Selecione</option>
+							{
+								situacoes && 
+								situacoes.map(
+									situacao => 
+									<option
+										key={situacao.id}
+										value={situacao.id}
+									>
+										{situacao.nome}
+									</option>
+								)
+							}
+						</Input>
+					</FormGroup>
+					<Label for="data">Data do lançamento:</Label>
+					<FormGroup>
+						<Label for="dia">* Dia:</Label>
+						<Input 
+							type="select" 
+							name="dia" 
+							id="dia" 
+							value={values.dia} 
+							onChange={handleChange}
+							onBlur={handleBlur}
+							invalid={errors.dia && touched.dia ? true : null}
+						>
+							<option value='0'>Selecione</option>
+							{
+								arrayDias.map(dia => dia)
+							}
+						</Input>
+					</FormGroup>
+					<FormGroup>
+						<Label for="mes">* Mês:</Label>
+						<Input 
+							type="select" 
+							name="mes" 
+							id="mes" 
+							value={values.mes} 
+							onChange={handleChange}
+							onBlur={handleBlur}
+							invalid={errors.mes && touched.mes ? true : null}
+						>
+							<option value='0'>Selecione</option>
+							{
+								arrayMes.map(mes => mes)
+							}
+						</Input>
+					</FormGroup>
+					<FormGroup>
+						<Label for="ano">* Ano:</Label>
+						<Input 
+							type="select" 
+							name="ano" 
+							id="ano" 
+							value={values.ano} 
+							onChange={handleChange}
+							onBlur={handleBlur}
+							invalid={errors.ano && touched.ano ? true : null}
+						>
+							<option value='0'>Selecione</option>
+							{
+								arrayAnos.map(ano => ano)
+							}
+						</Input>
+					</FormGroup>
+					<FormGroup>
+						<Label for="descricao">Descrição</Label>
+						<Input 
+							type="textarea" 
+							name="descricao" 
+							id="descricao" 
+							value={values.descricao} 
+							onChange={handleChange}
+							onBlur={handleBlur}
+							invalid={errors.values && touched.values ? true : null}
+						>
+						</Input>
+					</FormGroup>
+				</div>
+
+				<label htmlFor="email" style={{ display: 'block' }}>
+					Email
+				</label>
+				<input
+					id="email"
+					placeholder="Enter your email"
+					type="text"
+					value={values.email}
+					onChange={handleChange}
+					onBlur={handleBlur}
+					className={
+						errors.email && touched.email ? 'text-input error' : 'text-input'
 					}
-					{
-						mostrarMensagemDeError && 
-						<Alert color='danger'>Preencha todos os dados com asteristicos</Alert>
-					}
-					<Button color='success' style={{float: 'right', marginLeft: 10}} onClick={() => {this.ajudadorDeSubmit()}} >Submit</Button>
-				<Button style={{float: 'right', marginLeft: 10}} onClick={() => {esconderSalvar()}} >Voltar</Button>
-			</Form>			
-		</div>
+				/>
+				{errors.email &&
+						touched.email && <div className="input-feedback">{errors.email}</div>}
+
+						<button
+							type="button"
+							className="outline"
+							onClick={handleReset}
+							disabled={!dirty || isSubmitting}
+						>
+							Reset
+						</button>
+						<button type="submit" disabled={isSubmitting}>
+							Submit
+						</button>
+					</form>
+		);
+	}
+
+	formulario({valoresIniciais, ajudadorDeSubmit, validacao, renderizacao }){
+		return (
+			<Formik
+				initialValues={valoresIniciais}
+				onSubmit={values => ajudadorDeSubmit(values)}
+				validationSchema={validacao}
+			>
+				{props => renderizacao(props)}
+			</Formik>			
 		)
 	}
+
 
 	atualizarCampo = (event) => {
 		let valor = event.target.value
