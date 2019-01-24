@@ -3,10 +3,8 @@ import {
 	Row,
 	Col,
 	Button,
-	Card,
-	CardTitle,
-	CardText,
 	Badge,
+	ListGroupItem,
 } from 'reactstrap'
 import {
 	salvarLancamento,
@@ -23,12 +21,14 @@ import {
 	STRING_CLIENTES,
 	STRING_USUARIOS,
 	STRING_PAGO,
+	STRING_NAO_PAGO,
 } from '../helpers/constantes'
 
 class ElementoListagem extends React.Component {
 
 	state = {
 		corDoBox: 'secondary',
+		corDaBadge: 'text-muted',
 		corDasLetras: 'text-muted',
 		elementoCreditoDebito: '',
 	}
@@ -39,10 +39,12 @@ class ElementoListagem extends React.Component {
 			if(situacao.id === STRING_PAGO && categoria.credito_debito === 'C'){
 				this.setState({corDoBox: 'success'})
 				this.setState({corDasLetras: 'text-success'})
+				this.setState({corDaBadge: 'text-success'})
 			}
 			if(situacao.id === STRING_PAGO && categoria.credito_debito === 'D'){
 				this.setState({corDoBox: 'danger'})
 				this.setState({corDasLetras: 'text-danger'})
+				this.setState({corDaBadge: 'text-success'})
 			}
 			if(categoria.credito_debito === 'C'){
 				this.setState({elementoCreditoDebito: 'Recebimentos'})
@@ -55,22 +57,45 @@ class ElementoListagem extends React.Component {
 
 	render() {
 		const {tipo, elemento, categoria, situacao, mostrarSalvar } = this.props
-		const {corDasLetras, corDoBox, elementoCreditoDebito} = this.state
+		const {corDasLetras, corDoBox, corDaBadge, elementoCreditoDebito} = this.state
 		return (
-			<div style={{marginBottom:15, marginTop:15}}>
+			<div style={{paddingBottom:10, paddingTop:10}}>
+				<ListGroupItem>
 				{
 					tipo === STRING_LANCAMENTOS &&
 						<div>
-							<Card body outline color={corDoBox}>
-								<CardTitle className={corDasLetras}>
-									{categoria.nome} -
+						<Row>
+							<Col>
+								<h3><Badge style={{width: '100%'}} color={corDoBox}>{elementoCreditoDebito}</Badge></h3>
+							</Col>
+						</Row>
+							<Row style={{textAlign: 'center'}} className={corDasLetras}>
+								<Col>
+									{categoria.nome}
+								</Col>
+								<Col>
 									R$ {elemento.valor}
-								</CardTitle>
-								<CardText className={corDasLetras}>
-									{elemento.data} - {elementoCreditoDebito}
-								</CardText>
-								<Badge color={corDoBox}>{situacao.nome}</Badge>
-							</Card>
+								</Col>
+							</Row>
+							<Row style={{textAlign: 'center'}} className={corDasLetras}>
+								<Col>
+									{elemento.data}
+								</Col>
+								<Col>
+									{
+										(situacao.id === STRING_NAO_PAGO) &&
+										<Button
+											color={corDoBox}
+											onClick={() => {mostrarSalvar(elemento)}}>
+											<strong>{situacao.nome}</strong>
+										</Button>
+									}
+									{
+										(situacao.id === STRING_PAGO) &&
+										<strong className={corDaBadge}>{situacao.nome}</strong>
+									}
+								</Col>
+							</Row>
 						</div>
 				}
 				{
@@ -106,6 +131,7 @@ class ElementoListagem extends React.Component {
 							</Col>
 						</Row>
 				}
+				</ListGroupItem>
 			</div>
 		)
 	}

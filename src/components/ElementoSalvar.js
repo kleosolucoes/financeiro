@@ -3,8 +3,13 @@ import {
 	FormGroup,
 	Label,
 	Input,
+	Button,
+	Form,
+	Alert,
+	Row,
+	Col,
 } from 'reactstrap'
-import { 
+import {
 	STRING_LANCAMENTOS,
 	STRING_CATEGORIAS,
 	STRING_EMPRESAS,
@@ -59,6 +64,8 @@ class ElementoSalvar extends React.Component {
 
 	state = {
 		nome: '',
+		corDoBackGroundDoValor: '#fff',
+		corDaFonteDoValor: '#000',
 	}
 
 	componentDidMount(){
@@ -70,6 +77,20 @@ class ElementoSalvar extends React.Component {
 			}
 			this.setState(objetoEstado)
 		}
+	}
+
+	 escolherCorDoBackGround = creditoOuDebito => {
+		let corBackGround = ''
+		let corDaFonte = ''
+		if (creditoOuDebito === 'C'){
+			corBackGround = '#28a745'
+			corDaFonte = '#fff'
+		}
+		if (creditoOuDebito === 'D'){
+			corBackGround = '#dc3545'
+			corDaFonte = '#fff'
+		}
+		return [corBackGround, corDaFonte]
 	}
 
 	render() {
@@ -88,7 +109,6 @@ class ElementoSalvar extends React.Component {
 			renderizacao: (props) => this.renderizacaoLancamento(props),
 		}
 	}
-
 	valoresIniciaisLancamento = () => ({
 		categoria_id: 0,
 		valor: '0,00',
@@ -134,7 +154,7 @@ class ElementoSalvar extends React.Component {
 			arrayMes.push(<option key={indiceMes} value={indiceMes}>{indiceMes}</option>)
 		}
 		let arrayAnos = []
-		const anoAtual = new Date().getFullYear() 
+		const anoAtual = new Date().getFullYear()
 		for(let indiceAno = 2019; indiceAno <= anoAtual; indiceAno++){
 			arrayAnos.push(<option key={indiceAno} value={indiceAno}>{indiceAno}</option>)
 		}
@@ -317,12 +337,27 @@ class ElementoSalvar extends React.Component {
 			const valorComZerosAEsquerda = valorInteiro.padStart(3, '0')
 			valor = formatReal(valorComZerosAEsquerda)
 		}
+		if(name === 'categoria_id'){
+			let novaCorDoBackGround = '#fff'
+			let novaCorDaFonte = '#000'
+			if(parseInt(valor) !== 0){
+				const {categorias} = this.props
+				const categoria = categorias.find(categoria => categoria.id === parseInt(valor))
+				const resultado = this.escolherCorDoBackGround(categoria.credito_debito)
+				novaCorDoBackGround = resultado[0]
+				novaCorDaFonte = resultado[1]
+			}
+			this.setState({
+				corDoBackGroundDoValor: novaCorDoBackGround,
+				corDaFonteDoValor: novaCorDaFonte
+			})
+		}
 		this.setState({[name]: valor})
 	}
 
 	ajudadorDeSubmit(){
-		const { 
-			tipo, 
+		const {
+			tipo,
 			esconderSalvar,
 			salvarLancamento,
 			salvarLancamentoSituacao,
@@ -425,7 +460,7 @@ class ElementoSalvar extends React.Component {
 
 			}
 
-			let funcaoSalvar = null 
+			let funcaoSalvar = null
 			if(tipo === STRING_CATEGORIAS){
 				funcaoSalvar = salvarCategoria
 			}
