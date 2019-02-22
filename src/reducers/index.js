@@ -44,52 +44,40 @@ const stateCategorias = [
 	},
 ]
 
-const stateEntidadesTipo = [
+const stateEmpresaTipo = [
 	{
 		id: 1,
-		nome: 'EMPRESA',
-		data_criacao: '2018-12-16',
-		data_inativacao: null,
-	},
-	{
-		id: 2,
-		nome: 'CLIENTE',
-		data_criacao: '2018-12-16',
-		data_inativacao: null,
-	},
-	{
-		id: 3,
-		nome: 'FORNECEDOR',
-		data_criacao: '2018-12-16',
+		nome: 'Igreja',
+		data_criacao: '2019-02-16',
 		data_inativacao: null,
 	},
 ]
 
-const stateEntidades = [
+const stateEmpresas = [
 	{
 		id: 1,
-		entidade_tipo_id: 1,
+		empresa_tipo_id: 1,
 		nome: 'Entidade 1',
 		data_criacao: '2018-12-16',
 		data_inativacao: null,
 	},
 	{
 		id: 2,
-		entidade_tipo_id: 2,
+		empresa_tipo_id: 1,
 		nome: 'Entidade 2',
 		data_criacao: '2018-12-16',
 		data_inativacao: null,
 	},
 	{
 		id: 3,
-		entidade_tipo_id: 3,
+		empresa_tipo_id: 1,
 		nome: 'Entidade 3',
 		data_criacao: '2018-12-16',
 		data_inativacao: null,
 	},
 	{
 		id: 4,
-		entidade_tipo_id: 3,
+		empresa_tipo_id: 1,
 		nome: 'Entidade 4',
 		data_criacao: '2018-12-16',
 		data_inativacao: null,
@@ -99,10 +87,59 @@ const stateEntidades = [
 const stateUsuarios = [
 	{
 		id: 1,
+		empresa_id: null,
+		usuario_tipo_id: 1,
 		email: 'falecomleonardopereira@gmail.com',
 		senha: '123',
 		nome: 'Leonardo Pereira Magalhães',
-		nivel: 1,
+		data_criacao: '2018-12-16',
+		data_inativacao: null,
+	},
+	{
+		id: 2,
+		empresa_id: 1,
+		usuario_tipo_id: 2,
+		email: 'falecomleonardopereira@gmail.com1',
+		senha: '123',
+		nome: 'Leonardo Pereira Magalhães',
+		data_criacao: '2018-12-16',
+		data_inativacao: null,
+	},
+]
+
+const stateUsuarioSituacao = [
+	{
+		id: 1,
+		usuario_id: 1,
+		situacao_id: 4,
+		data_criacao: '2018-12-16',
+		data_inativacao: null,
+	},
+	{
+		id: 2,
+		usuario_id: 2,
+		situacao_id: 4,
+		data_criacao: '2018-12-16',
+		data_inativacao: null,
+	}
+]
+
+const stateUsuarioTipo = [
+	{
+		id: 1,
+		nome: 'Aceitar',
+		data_criacao: '2018-12-16',
+		data_inativacao: null,
+	},
+	{
+		id: 2,
+		nome: 'Administrador',
+		data_criacao: '2018-12-16',
+		data_inativacao: null,
+	},
+	{
+		id: 3,
+		nome: 'Lançar Igreja',
 		data_criacao: '2018-12-16',
 		data_inativacao: null,
 	},
@@ -114,49 +151,54 @@ const stateLancamentos = [
 		data_criacao: '2018-12-16',
 		data: '22/11/2019',
 		valor: '15.000,00',
+		taxa: '0,00',
 		categoria_id: 1,
 		usuario_id: 1,
-		entidade_id: 1,
+		empresa_id: 1,
 		data_inativacao: null,
 	},
 	{
 		id: 2,
 		data_criacao: '2018-12-16',
-		data: '03/01/2019',
-		valor: '1.000,00',
+		data: '22/11/2019',
+		valor: '15.000,00',
+		taxa: '0,00',
 		categoria_id: 1,
 		usuario_id: 1,
-		entidade_id: 1,
+		empresa_id: 1,
 		data_inativacao: null,
 	},
 	{
 		id: 3,
 		data_criacao: '2018-12-16',
-		data: '01/10/2019',
-		valor: '500,00',
-		categoria_id: 2,
+		data: '22/11/2019',
+		valor: '15.000,00',
+		taxa: '0,00',
+		categoria_id: 1,
 		usuario_id: 1,
-		entidade_id: 2,
+		empresa_id: 1,
 		data_inativacao: null,
 	},
 	{
 		id: 4,
 		data_criacao: '2018-12-16',
-		data: '14/01/2019',
-		valor: '500,00',
-		categoria_id: 3,
+		data: '22/11/2019',
+		valor: '15.000,00',
+		taxa: '0,00',
+		categoria_id: 1,
 		usuario_id: 1,
-		entidade_id: 1,
+		empresa_id: 1,
 		data_inativacao: null,
 	},
 	{
 		id: 5,
 		data_criacao: '2018-12-16',
-		data: '09/01/2019',
-		valor: '400,00',
-		categoria_id: 4,
+		data: '22/11/2019',
+		valor: '15.000,00',
+		taxa: '0,00',
+		categoria_id: 1,
 		usuario_id: 1,
-		entidade_id: 4,
+		empresa_id: 1,
 		data_inativacao: null,
 	},
 ]
@@ -165,11 +207,33 @@ const stateSituacoes = [
 	{
 		id: 1,
 		nome: 'Pago',
+		data_criacao: '2018-12-16',
+		data_inativacao: null,
 	},
 	{
 		id: 2,
 		nome: 'Não Pago',
-	}
+		data_criacao: '2018-12-16',
+		data_inativacao: null,
+	},
+	{
+		id: 3,
+		nome: 'Recusado',
+		data_criacao: '2018-12-16',
+		data_inativacao: null,
+	},
+	{
+		id: 4,
+		nome: 'Ativo',
+		data_criacao: '2018-12-16',
+		data_inativacao: null,
+	},
+	{
+		id: 5,
+		nome: 'Inativo',
+		data_criacao: '2018-12-16',
+		data_inativacao: null,
+	},
 ]
 
 const stateLancamentoSituacao = [
@@ -177,47 +241,93 @@ const stateLancamentoSituacao = [
 		id: 1,
 		lancamento_id: 1,
 		situacao_id: 2,
+		usuario_id: 2,
 		data_criacao: '2018-12-16',
 		data_inativacao: null,
 	},
 	{
 		id: 2,
-		lancamento_id: 2,
+		lancamento_id: 1,
 		situacao_id: 1,
+		usuario_id: 2,
 		data_criacao: '2018-12-16',
 		data_inativacao: null,
 	},
 	{
 		id: 3,
-		lancamento_id: 3,
-		situacao_id: 2,
+		lancamento_id: 1,
+		situacao_id: 1,
+		usuario_id: 2,
 		data_criacao: '2018-12-16',
 		data_inativacao: null,
 	},
 	{
 		id: 4,
-		lancamento_id: 4,
-		situacao_id: 1,
+		lancamento_id: 1,
+		situacao_id: 3,
+		usuario_id: 2,
 		data_criacao: '2018-12-16',
 		data_inativacao: null,
 	},
 	{
 		id: 5,
+		lancamento_id: 2,
+		situacao_id: 1,
+		usuario_id: 2,
+		data_criacao: '2018-12-16',
+		data_inativacao: null,
+	},
+	{
+		id: 6,
+		lancamento_id: 3,
+		situacao_id: 2,
+		usuario_id: 2,
+		data_criacao: '2018-12-16',
+		data_inativacao: null,
+	},
+	{
+		id: 7,
+		lancamento_id: 4,
+		situacao_id: 1,
+		usuario_id: 2,
+		data_criacao: '2018-12-16',
+		data_inativacao: null,
+	},
+	{
+		id: 8,
 		lancamento_id: 5,
 		situacao_id: 1,
+		usuario_id: 2,
 		data_criacao: '2018-12-16',
 		data_inativacao: null,
 	},
 ]
 
-function entidadesTipo(state = stateEntidadesTipo, action){
+const stateContaFixa = [
+	{
+		id: 1,
+		empresa_id: 1,
+		categoria_id: 2,
+		data_criacao: '2018-12-16',
+		data_inativacao: null,
+	},
+	{
+		id: 2,
+		empresa_id: 1,
+		categoria_id: 2,
+		data_criacao: '2018-12-16',
+		data_inativacao: null,
+	},
+]
+
+function empresaTipo(state = stateEmpresaTipo, action){
 	switch(action.type){
 		default:
 			return state
 	}
 }
 
-function entidades(state = stateEntidades, action){
+function empresa(state = stateEmpresas, action){
 	switch(action.type){
 		case PEGAR_ENTIDADES:
 			return [...state, ...action.elementos]
@@ -336,12 +446,36 @@ function lancamentoSituacao(state = stateLancamentoSituacao, action){
 	}
 }
 
+function contaFixa(state = stateContaFixa, action){
+	switch(action.type){
+		default:
+			return state
+	}
+}
+
+function usuarioSituacao(state = stateUsuarioSituacao, action){
+	switch(action.type){
+		default:
+			return state
+	}
+}
+
+function usuarioTipo(state = stateUsuarioTipo, action){
+	switch(action.type){
+		default:
+			return state
+	}
+}
+
 export default combineReducers({
-	entidadesTipo,
-	entidades,
+	empresaTipo,
+	empresa,
 	categorias,
 	lancamentos,
 	usuarios,
 	situacoes,
 	lancamentoSituacao,
+	contaFixa,
+	usuarioTipo,
+	usuarioSituacao,
 })

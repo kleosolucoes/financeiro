@@ -1,6 +1,5 @@
 import React from 'react'
-import { capitalizeFirstLetter } from './helpers/funcoes'
-import Listagens from './components/Listagens'
+import { capitapzeFirstLetter } from './helpers/funcoes'
 import Menu from './components/Menu'
 import {FolhaDeEstilo} from './components/FolhaDeEstilo'
 import {
@@ -15,8 +14,7 @@ import {
 class App extends React.Component {
 
 	state = {
-		//tela: 'principal',
-		tela: 'lancamentos',
+		tela: null,
 	}
 
 	alterarTela = (tela) => this.setState({tela})
@@ -27,18 +25,16 @@ class App extends React.Component {
 			<Container style={FolhaDeEstilo.containerStyle}>
 				<Menu alterarTela={this.alterarTela} nomeDaTela={tela} />
 				<div>
-		      <Breadcrumb>
-		        <BreadcrumbItem active><h5>{capitalizeFirstLetter(tela)}</h5></BreadcrumbItem>
-		      </Breadcrumb>
+					<h1>Empresa Igreja</h1>
+					<p>Extrato</p>
+					<p>Lançamento varios</p>
+					<h1>Administrativo</h1>
+					<p>Extrato por categoria e total</p>
+					<p>Lançamento 1</p>
+					<p>Categoria</p>
+					<p>Empresa</p>
+					<p>usuarios</p>
 				</div>
-				{
-					tela === STRING_PRINCIPAL &&
-						<p>{tela}</p>
-				}
-				{
-					tela !== STRING_PRINCIPAL &&
-					<Listagens tipo={tela} />
-				}
 			</Container>
 		)
 	}
