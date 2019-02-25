@@ -47,6 +47,12 @@ const stateCategorias = [
 const stateEmpresaTipo = [
 	{
 		id: 1,
+		nome: 'Administracao',
+		data_criacao: '2019-02-16',
+		data_inativacao: null,
+	},
+	{
+		id: 2,
 		nome: 'Igreja',
 		data_criacao: '2019-02-16',
 		data_inativacao: null,
@@ -57,28 +63,28 @@ const stateEmpresas = [
 	{
 		id: 1,
 		empresa_tipo_id: 1,
-		nome: 'Entidade 1',
+		nome: 'Administração',
 		data_criacao: '2018-12-16',
 		data_inativacao: null,
 	},
 	{
 		id: 2,
-		empresa_tipo_id: 1,
-		nome: 'Entidade 2',
+		empresa_tipo_id: 2,
+		nome: 'Ceilandia',
 		data_criacao: '2018-12-16',
 		data_inativacao: null,
 	},
 	{
 		id: 3,
-		empresa_tipo_id: 1,
-		nome: 'Entidade 3',
+		empresa_tipo_id: 2,
+		nome: 'Sudoeste',
 		data_criacao: '2018-12-16',
 		data_inativacao: null,
 	},
 	{
 		id: 4,
-		empresa_tipo_id: 1,
-		nome: 'Entidade 4',
+		empresa_tipo_id: 2,
+		nome: 'Anirqueira',
 		data_criacao: '2018-12-16',
 		data_inativacao: null,
 	},
@@ -87,7 +93,7 @@ const stateEmpresas = [
 const stateUsuarios = [
 	{
 		id: 1,
-		empresa_id: null,
+		empresa_id: 1,
 		usuario_tipo_id: 1,
 		email: 'falecomleonardopereira@gmail.com',
 		senha: '123',
@@ -97,7 +103,7 @@ const stateUsuarios = [
 	},
 	{
 		id: 2,
-		empresa_id: 1,
+		empresa_id: 2,
 		usuario_tipo_id: 2,
 		email: 'falecomleonardopereira@gmail.com1',
 		senha: '123',
@@ -118,7 +124,7 @@ const stateUsuarioSituacao = [
 	{
 		id: 2,
 		usuario_id: 2,
-		situacao_id: 4,
+		situacao_id: 5,
 		data_criacao: '2018-12-16',
 		data_inativacao: null,
 	}
@@ -243,7 +249,7 @@ const stateLancamentoSituacao = [
 		situacao_id: 2,
 		usuario_id: 2,
 		data_criacao: '2018-12-16',
-		data_inativacao: null,
+		data_inativacao: '2019-02-25',
 	},
 	{
 		id: 2,
@@ -251,7 +257,7 @@ const stateLancamentoSituacao = [
 		situacao_id: 1,
 		usuario_id: 2,
 		data_criacao: '2018-12-16',
-		data_inativacao: null,
+		data_inativacao: '2019-02-25',
 	},
 	{
 		id: 3,
@@ -259,7 +265,7 @@ const stateLancamentoSituacao = [
 		situacao_id: 1,
 		usuario_id: 2,
 		data_criacao: '2018-12-16',
-		data_inativacao: null,
+		data_inativacao: '2019-02-25',
 	},
 	{
 		id: 4,
@@ -310,6 +316,8 @@ const stateContaFixa = [
 		categoria_id: 2,
 		data_criacao: '2018-12-16',
 		data_inativacao: null,
+		dia_gerar: 1,
+		dia_notificacao: 5,
 	},
 	{
 		id: 2,
@@ -317,6 +325,8 @@ const stateContaFixa = [
 		categoria_id: 2,
 		data_criacao: '2018-12-16',
 		data_inativacao: null,
+		dia_gerar: 1,
+		dia_notificacao: 7,
 	},
 ]
 
@@ -327,7 +337,7 @@ function empresaTipo(state = stateEmpresaTipo, action){
 	}
 }
 
-function empresa(state = stateEmpresas, action){
+function empresas(state = stateEmpresas, action){
 	switch(action.type){
 		case PEGAR_ENTIDADES:
 			return [...state, ...action.elementos]
@@ -469,7 +479,7 @@ function usuarioTipo(state = stateUsuarioTipo, action){
 
 export default combineReducers({
 	empresaTipo,
-	empresa,
+	empresas,
 	categorias,
 	lancamentos,
 	usuarios,
