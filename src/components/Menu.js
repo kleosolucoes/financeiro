@@ -147,17 +147,8 @@ class PersistentDrawerLeft extends React.Component {
 					</div>
 					<Divider />
 					<List>
-						{['principal', 'lancamentos', 'categorias', 'empresas', 'usuarios'].map((tela, index) => (
+						{['extratoAdministracao', 'lancamentos', 'categorias', 'empresas', 'usuarios'].map((tela, index) => (
 							<ListItem button key={tela} onClick={() => {this.alterarTela(tela)} }>
-								<ListItemIcon >
-									<div>
-										{ tela === 'principal' ? <LocalAtm color='primary' /> : null	}
-										{ tela === 'lancamentos' ? <LocalAtm color='primary' /> : null	}
-										{ tela === 'categorias' ? <ViewHeadline color="primary" /> : null }
-										{ tela === 'empresas' ? <LocationCity color="primary" /> : null }
-										{ tela === 'usuarios' ? <Group color="primary" /> : null }
-									</div>
-								</ListItemIcon>
 								<ListItemText primary={capitalizeFirstLetter(tela)} />
 							</ListItem>
 						))}
