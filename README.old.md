@@ -1,2 +1,0 @@
-# financeiro
-Financeiro Bispo Ricardo

@@ -6,9 +6,9 @@ import rootReducer from './reducers';
 import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import * as serviceWorker from './serviceWorker';
 import {MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import teal from '@material-ui/core/colors/teal';
+import * as serviceWorker from './serviceWorker';
 
 const logger = store => next => action => {
 	console.group(action.type);

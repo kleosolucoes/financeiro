@@ -2,6 +2,7 @@ import React from 'react'
 import Menu from './components/Menu'
 import Lancamentos from './components/Lancamentos'
 import Empresas from './components/Empresas'
+import ExtratoAdministracao from './components/ExtratoAdministracao'
 import { FolhaDeEstilo } from './components/FolhaDeEstilo'
 import {
 	Container,
@@ -13,7 +14,7 @@ import { connect } from 'react-redux'
 class App extends React.Component {
 
 	state = {
-		tela: 'empresas',
+		tela: 'extratoAdministracao',
 	}
 
 	alterarTela = (tela) => {
@@ -35,8 +36,8 @@ class App extends React.Component {
 							<h2>Lançamento varios</h2>
 					}
 					{
-						tela === 'extratoAdministrativo' &&
-							<h2>Extrato por categoria e total</h2>
+						tela === 'extratoAdministracao' &&
+							<ExtratoAdministracao /> 
 					}
 					{
 						tela === 'lancarUm' &&
