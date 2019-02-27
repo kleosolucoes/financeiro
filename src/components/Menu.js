@@ -16,12 +16,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import Group from '@material-ui/icons/Group';
-import LocationCity from '@material-ui/icons/LocationCity';
-import LocalAtm from '@material-ui/icons/LocalAtm';
-import ViewHeadline from '@material-ui/icons/ViewHeadline';
 
 const drawerWidth = 240;
 

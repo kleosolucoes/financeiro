@@ -7,17 +7,45 @@ import { connect } from 'react-redux'
 
 class ExtratoAdministracao extends React.Component {
 
+	state = {
+		api: null,
+	}
+
+	componentDidMount(){
+		console.log('componentDidMount')
+		fetch('https://circuitodavisaonovo.com.br/api')
+			.then(resposta => resposta.json())
+			.then(json => this.setState({api: json}))
+			.catch(error => console.log('error: ', error))
+	}
+
 	render() {
 		const { 
 			saldo,
 			naoRecebido,
 			listaDeNaoRecebidoPorCategorias,
 			categorias,
-			lancamentos,
 		} = this.props
-		console.log(this.props)
 		return (
 			<div>
+				<div style={{backgroundColor: 'red', padding: 10}}>
+					<Row>
+						<Col>
+							Api
+						</Col>
+						<Col>
+							{
+								this.state.api &&
+									<p>{this.state.api.data}</p>
+							}
+							{
+								!this.state.api &&
+									'carregando api'
+							}
+						</Col>
+					</Row>
+				</div>	
+
 				<div style={{backgroundColor: 'lightblue', padding: 10}}>
 					<Row>
 						<Col>
@@ -44,22 +72,22 @@ class ExtratoAdministracao extends React.Component {
 							Nao Recebidos
 						</Col>
 					</Row>
-				{
-					categorias &&
-						categorias.map(categoria => {
-							return (
-								<Row>
-									<Col>
-										{categoria.nome}	
-									</Col>
-									<Col>
-										{listaDeNaoRecebidoPorCategorias[categoria.id]}
-									</Col>
-								</Row>
-							)
-						})
-				}
-			</div>	
+					{
+						categorias &&
+							categorias.map(categoria => {
+								return (
+									<Row key={categoria.id}>
+										<Col>
+											{categoria.nome}	
+										</Col>
+										<Col>
+											{listaDeNaoRecebidoPorCategorias[categoria.id]}
+										</Col>
+									</Row>
+								)
+							})
+					}
+				</div>	
 			</div>
 		)
 	}
@@ -71,7 +99,7 @@ const mapStateToProps = state => {
 	let naoRecebido = 0
 	let listaDeNaoRecebidoPorCategorias = []
 	state.categorias.map(categoria => listaDeNaoRecebidoPorCategorias[categoria.id] = 0)
-	state.lancamentos.map(lancamento => {
+	state.lancamentos.forEach(lancamento => {
 		const lancamentoSituacaoAtiva = state.lancamentoSituacao
 			.find(lancamentoSituacao => 
 				lancamento.id === lancamentoSituacao.lancamento_id 
