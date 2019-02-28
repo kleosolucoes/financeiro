@@ -142,7 +142,7 @@ class PersistentDrawerLeft extends React.Component {
 					</div>
 					<Divider />
 					<List>
-						{['extratoAdministracao', 'lancamentos', 'categorias', 'empresas', 'usuarios'].map((tela, index) => (
+						{['extratoEmpresa', 'lancarVarios', 'extratoAdministracao', 'lancarUm', 'lancamentos', 'categorias', 'empresas', 'usuarios'].map((tela, index) => (
 							<ListItem button key={tela} onClick={() => {this.alterarTela(tela)} }>
 								<ListItemText primary={capitalizeFirstLetter(tela)} />
 							</ListItem>

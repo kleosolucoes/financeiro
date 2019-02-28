@@ -45,7 +45,6 @@ class ExtratoAdministracao extends React.Component {
 						</Col>
 					</Row>
 				</div>	
-
 				<div style={{backgroundColor: 'lightblue', padding: 10}}>
 					<Row>
 						<Col>
@@ -91,7 +90,6 @@ class ExtratoAdministracao extends React.Component {
 			</div>
 		)
 	}
-
 }
 
 const mapStateToProps = state => {

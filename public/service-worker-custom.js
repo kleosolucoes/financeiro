@@ -1,7 +1,6 @@
 console.log('Custom service worker')
 
-const nomeDoCachePrincipal = 'financeiro-v2'
-
+const nomeDoCachePrincipal = 'financeiro-v3'
 self.addEventListener('install', event => {
 	console.log('Install')
 	event.waitUntil(
@@ -9,9 +8,10 @@ self.addEventListener('install', event => {
 		.then(cache => {
 			return cache.addAll([
 				'/',
-				'static/js/bundle.js',
-				'static/js/0.chunk.js',
-				'static/js/main.chunk.js',
+				//'static/js/bundle.js',
+				//'static/js/main.chunk.js',
+				//'static/js/0.chunk.js',
+				//'static/js/1.chunk.js',
 				'manifest.json',
 				'favicon.ico',
 				'service-worker-custom.js',
