@@ -8,10 +8,10 @@ self.addEventListener('install', event => {
 		.then(cache => {
 			return cache.addAll([
 				'/',
-				//'static/js/bundle.js',
-				//'static/js/main.chunk.js',
-				//'static/js/0.chunk.js',
-				//'static/js/1.chunk.js',
+				'static/js/bundle.js',
+				'static/js/main.chunk.js',
+				'static/js/0.chunk.js',
+				'static/js/1.chunk.js',
 				'manifest.json',
 				'favicon.ico',
 				'service-worker-custom.js',
