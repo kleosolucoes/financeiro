@@ -28,7 +28,7 @@ const theme = createMuiTheme({
   },
 });
 
-const store = createStore(rootReducer, applyMiddleware(logger,thunk));
+const store = createStore(rootReducer, applyMiddleware(logger, thunk));
 
 ReactDOM.render(
 	<Provider store={store}>

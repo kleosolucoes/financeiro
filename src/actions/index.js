@@ -2,7 +2,7 @@ export const PEGAR_SITUACOES = 'PEGAR_SITUACOES'
 
 export const PEGAR_LANCAMENTOS = 'PEGAR_LANCAMENTOS'
 export const SALVAR_LANCAMENTO = 'SALVAR_LANCAMENTO'
-export const PEGAR_LANCAMENTO_SITUACOES = 'PEGAR_LANCAMENTO_SITUACAO'
+export const PEGAR_LANCAMENTO_SITUACAO = 'PEGAR_LANCAMENTO_SITUACAO'
 export const SALVAR_LANCAMENTO_SITUACAO = 'SALVAR_LANCAMENTO_SITUACAO'
 
 export const PEGAR_USUARIOS = 'PEGAR_USUARIOS'
@@ -80,9 +80,9 @@ export function salvarUsuario(elemento, novo = false){
 	}
 }
 
-export function pegarLancamentoSituacoes(elementos){ 
+export function pegarLancamentoSituacao(elementos){ 
 	return {
-		type: PEGAR_LANCAMENTO_SITUACOES,
+		type: PEGAR_LANCAMENTO_SITUACAO,
 		elementos,
 	}
 }
@@ -98,13 +98,6 @@ export function salvarLancamentoSituacao(elemento, novo = false){
 export function pegarSituacoes(elementos){ 
 	return {
 		type: PEGAR_SITUACOES,
-		elementos,
-	}
-}
-
-export function pegarEmpresaTipo(elementos){ 
-	return {
-		type: PEGAR_EMPRESA_TIPO,
 		elementos,
 	}
 }

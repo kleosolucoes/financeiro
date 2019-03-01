@@ -3,7 +3,7 @@ import {
 	PEGAR_SITUACOES, 
 	PEGAR_LANCAMENTOS, 
 	SALVAR_LANCAMENTO,
-	PEGAR_LANCAMENTO_SITUACOES,
+	PEGAR_LANCAMENTO_SITUACAO,
 	SALVAR_LANCAMENTO_SITUACAO,
 	PEGAR_USUARIOS,
 	SALVAR_USUARIO,
@@ -23,79 +23,77 @@ const stateCategorias = [
 	{
 		id: 1,
 		nome: 'Dízimo Dinheiro',
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: null,
 		credito_debito: 'C',
 	},
 	{
 		id: 2,
 		nome: 'Dízimo Débito',
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: null,
 		credito_debito: 'C',
 	},
 	{
 		id: 3,
 		nome: 'Dízimo Crédito',
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: null,
 		credito_debito: 'C',
 	},
 	{
 		id: 4,
 		nome: 'Dízimo Moeda',
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: null,
 		credito_debito: 'C',
 	},
-
 	{
 		id: 5,
 		nome: 'Oferta Dinheiro',
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: null,
 		credito_debito: 'C',
 	},
-
 	{
 		id: 6,
 		nome: 'Oferta Débito',
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: null,
 		credito_debito: 'C',
 	},
 	{
 		id: 7,
 		nome: 'Oferta Crédito',
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: null,
 		credito_debito: 'C',
 	},
 	{
 		id: 8,
 		nome: 'Oferta Moeda',
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: null,
 		credito_debito: 'C',
 	},
 	{
 		id: 9,
 		nome: 'Aluguel',
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: null,
 		credito_debito: 'D',
 	},
 	{
 		id: 10,
 		nome: 'Conta de Água',
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: null,
 		credito_debito: 'D',
 	},
 	{
 		id: 11,
 		nome: 'Conta de Luz',
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: null,
 		credito_debito: 'D',
 	},
@@ -105,13 +103,13 @@ const stateEmpresaTipo = [
 	{
 		id: 1,
 		nome: 'Administracao',
-		data_criacao: '2019-02-16',
+		data_criacao: '16/02/2019',
 		data_inativacao: null,
 	},
 	{
 		id: 2,
 		nome: 'Igreja',
-		data_criacao: '2019-02-16',
+		data_criacao: '16/02/2019',
 		data_inativacao: null,
 	},
 ]
@@ -121,28 +119,28 @@ const stateEmpresas = [
 		id: 1,
 		empresa_tipo_id: 1,
 		nome: 'Administração',
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: null,
 	},
 	{
 		id: 2,
 		empresa_tipo_id: 2,
 		nome: 'Ceilandia',
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: null,
 	},
 	{
 		id: 3,
 		empresa_tipo_id: 2,
 		nome: 'Sudoeste',
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: null,
 	},
 	{
 		id: 4,
 		empresa_tipo_id: 2,
 		nome: 'Anirqueira',
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: null,
 	},
 ]
@@ -155,7 +153,7 @@ const stateUsuarios = [
 		email: 'falecomleonardopereira@gmail.com',
 		senha: '123',
 		nome: 'Leonardo Pereira Magalhães',
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: null,
 	},
 	{
@@ -165,7 +163,7 @@ const stateUsuarios = [
 		email: 'ivan@gmail.com',
 		senha: '123',
 		nome: 'Ivan Tavares',
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: null,
 	},
 ]
@@ -175,14 +173,14 @@ const stateUsuarioSituacao = [
 		id: 1,
 		usuario_id: 1,
 		situacao_id: 4,
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: null,
 	},
 	{
 		id: 2,
 		usuario_id: 2,
 		situacao_id: 5,
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: null,
 	}
 ]
@@ -191,19 +189,19 @@ const stateUsuarioTipo = [
 	{
 		id: 1,
 		nome: 'Aceitar',
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: null,
 	},
 	{
 		id: 2,
 		nome: 'Administrador',
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: null,
 	},
 	{
 		id: 3,
 		nome: 'Lançar Igreja',
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: null,
 	},
 ]
@@ -211,7 +209,7 @@ const stateUsuarioTipo = [
 const stateLancamentos = [
 	{
 		id: 1,
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data: '22/11/2019',
 		valor: '100.00',
 		taxa: '0.00',
@@ -219,10 +217,11 @@ const stateLancamentos = [
 		usuario_id: 1,
 		empresa_id: 1,
 		data_inativacao: null,
+		descricao: '',
 	},
 	{
 		id: 2,
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data: '22/11/2019',
 		valor: '100.00',
 		taxa: '0.00',
@@ -230,10 +229,11 @@ const stateLancamentos = [
 		usuario_id: 1,
 		empresa_id: 1,
 		data_inativacao: null,
+		descricao: '',
 	},
 	{
 		id: 3,
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data: '22/11/2019',
 		valor: '100.00',
 		taxa: '0.00',
@@ -241,10 +241,11 @@ const stateLancamentos = [
 		usuario_id: 1,
 		empresa_id: 1,
 		data_inativacao: null,
+		descricao: '',
 	},
 	{
 		id: 4,
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data: '22/11/2019',
 		valor: '100.00',
 		taxa: '0.00',
@@ -252,10 +253,11 @@ const stateLancamentos = [
 		usuario_id: 2,
 		empresa_id: 1,
 		data_inativacao: null,
+		descricao: '',
 	},
 	{
 		id: 5,
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data: '22/11/2019',
 		valor: '100.00',
 		taxa: '0.00',
@@ -263,6 +265,7 @@ const stateLancamentos = [
 		usuario_id: 2,
 		empresa_id: 1,
 		data_inativacao: null,
+		descricao: '',
 	},
 ]
 
@@ -270,31 +273,31 @@ const stateSituacoes = [
 	{
 		id: 1,
 		nome: 'Recebido',
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: null,
 	},
 	{
 		id: 2,
 		nome: 'Não Recebido',
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: null,
 	},
 	{
 		id: 3,
 		nome: 'Recusado',
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: null,
 	},
 	{
 		id: 4,
 		nome: 'Ativo',
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: null,
 	},
 	{
 		id: 5,
 		nome: 'Inativo',
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: null,
 	},
 ]
@@ -305,7 +308,7 @@ const stateLancamentoSituacao = [
 		lancamento_id: 1,
 		situacao_id: 2,
 		usuario_id: 2,
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: '2019-02-25',
 	},
 	{
@@ -313,7 +316,7 @@ const stateLancamentoSituacao = [
 		lancamento_id: 1,
 		situacao_id: 1,
 		usuario_id: 2,
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: '2019-02-25',
 	},
 	{
@@ -321,7 +324,7 @@ const stateLancamentoSituacao = [
 		lancamento_id: 1,
 		situacao_id: 1,
 		usuario_id: 2,
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: '2019-02-25',
 	},
 	{
@@ -329,7 +332,7 @@ const stateLancamentoSituacao = [
 		lancamento_id: 1,
 		situacao_id: 3,
 		usuario_id: 2,
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: null,
 	},
 	{
@@ -337,7 +340,7 @@ const stateLancamentoSituacao = [
 		lancamento_id: 2,
 		situacao_id: 1,
 		usuario_id: 2,
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: null,
 	},
 	{
@@ -345,7 +348,7 @@ const stateLancamentoSituacao = [
 		lancamento_id: 3,
 		situacao_id: 2,
 		usuario_id: 2,
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: null,
 	},
 	{
@@ -353,7 +356,7 @@ const stateLancamentoSituacao = [
 		lancamento_id: 4,
 		situacao_id: 1,
 		usuario_id: 2,
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: null,
 	},
 	{
@@ -361,7 +364,7 @@ const stateLancamentoSituacao = [
 		lancamento_id: 5,
 		situacao_id: 1,
 		usuario_id: 2,
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: null,
 	},
 ]
@@ -371,7 +374,7 @@ const stateContaFixa = [
 		id: 1,
 		empresa_id: 1,
 		categoria_id: 2,
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: null,
 		dia_gerar: 1,
 		dia_notificacao: 5,
@@ -380,7 +383,7 @@ const stateContaFixa = [
 		id: 2,
 		empresa_id: 1,
 		categoria_id: 2,
-		data_criacao: '2018-12-16',
+		data_criacao: '16/12/2018',
 		data_inativacao: null,
 		dia_gerar: 1,
 		dia_notificacao: 7,
@@ -516,21 +519,12 @@ function usuarios(state = stateUsuarios, action){
 	}
 }
 
-function situacoes(state = stateSituacoes, action){
+function usuarioSituacao(state = stateUsuarioSituacao, action){
 	switch(action.type){
-		case PEGAR_SITUACOES:
+		case PEGAR_USUARIO_SITUACAO:
 			return [...state, ...action.elementos]
-		default:
-			return state
-	}
-}
-
-function lancamentoSituacao(state = stateLancamentoSituacao, action){
-	switch(action.type){
-		case PEGAR_LANCAMENTO_SITUACOES:
-			return [...state, ...action.elementos]
-		case SALVAR_LANCAMENTO_SITUACAO:
-			if(action.novo === true){
+		case SALVAR_USUARIO_SITUACAO:
+			if(action.novo){
 				return [...state, action.elemento]
 			}else{
 				const estadoAtualizado = state.map(elemento => {
@@ -547,8 +541,33 @@ function lancamentoSituacao(state = stateLancamentoSituacao, action){
 	}
 }
 
-function usuarioSituacao(state = stateUsuarioSituacao, action){
+
+function situacoes(state = stateSituacoes, action){
 	switch(action.type){
+		case PEGAR_SITUACOES:
+			return [...state, ...action.elementos]
+		default:
+			return state
+	}
+}
+
+function lancamentoSituacao(state = stateLancamentoSituacao, action){
+	switch(action.type){
+		case PEGAR_LANCAMENTO_SITUACAO:
+			return [...state, ...action.elementos]
+		case SALVAR_LANCAMENTO_SITUACAO:
+			if(action.novo === true){
+				return [...state, action.elemento]
+			}else{
+				const estadoAtualizado = state.map(elemento => {
+					if(elemento.id === action.elemento.id){
+						return action.elemento
+					}else{
+						return elemento
+					}
+				})
+				return [...estadoAtualizado]
+			}
 		default:
 			return state
 	}

@@ -33,7 +33,6 @@ import { Formik } from 'formik'
 import * as Yup from 'yup'
 
 const InputKleo = (props) => {
-	console.log(props)
 	return (
 		<FormGroup>
 			<Label for={props.id}>{props.label}</Label>

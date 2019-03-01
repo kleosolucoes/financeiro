@@ -44,7 +44,7 @@ class App extends React.Component {
 					}
 					{
 						tela === 'lancarUm' &&
-							<LancarUm />
+							<LancarUm alterarTela={this.alterarTela} />
 					}
 					{
 						tela === 'lancamentos' && 

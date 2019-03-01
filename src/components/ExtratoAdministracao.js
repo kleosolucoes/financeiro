@@ -9,14 +9,12 @@ class ExtratoAdministracao extends React.Component {
 
 	state = {
 		api: null,
+		lancamentos: null,
+		categorias: null,
 	}
 
 	componentDidMount(){
 		console.log('componentDidMount')
-		fetch('https://circuitodavisaonovo.com.br/api')
-			.then(resposta => resposta.json())
-			.then(json => this.setState({api: json}))
-			.catch(error => console.log('error: ', error))
 	}
 
 	render() {
