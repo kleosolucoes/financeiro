@@ -1,16 +1,22 @@
 import { combineReducers } from 'redux'
 import {
-	PEGAR_LANCAMENTOS,
+	PEGAR_SITUACOES, 
+	PEGAR_LANCAMENTOS, 
 	SALVAR_LANCAMENTO,
-	PEGAR_CATEGORIAS,
-	SALVAR_CATEGORIA,
-	PEGAR_ENTIDADES,
-	SALVAR_ENTIDADE,
-	PEGAR_USUARIOS,
-	SALVAR_USUARIO,
-	PEGAR_SITUACOES,
 	PEGAR_LANCAMENTO_SITUACOES,
 	SALVAR_LANCAMENTO_SITUACAO,
+	PEGAR_USUARIOS,
+	SALVAR_USUARIO,
+	PEGAR_USUARIO_SITUACAO,
+	SALVAR_USUARIO_SITUACAO,
+	PEGAR_USUARIO_TIPO,
+	PEGAR_CATEGORIAS,
+	SALVAR_CATEGORIA,
+	PEGAR_EMPRESAS,
+	SALVAR_EMPRESA,
+	PEGAR_EMPRESA_TIPO,
+	PEGAR_CONTA_FIXA,
+	SALVAR_CONTA_FIXA,
 } from '../actions'
 
 const stateCategorias = [
@@ -383,6 +389,8 @@ const stateContaFixa = [
 
 function empresaTipo(state = stateEmpresaTipo, action){
 	switch(action.type){
+		case PEGAR_EMPRESA_TIPO:
+			return [...state, ...action.elementos]
 		default:
 			return state
 	}
@@ -390,9 +398,9 @@ function empresaTipo(state = stateEmpresaTipo, action){
 
 function empresas(state = stateEmpresas, action){
 	switch(action.type){
-		case PEGAR_ENTIDADES:
+		case PEGAR_EMPRESAS:
 			return [...state, ...action.elementos]
-		case SALVAR_ENTIDADE:
+		case SALVAR_EMPRESA:
 			if(action.novo){
 				return [...state, action.elemento]
 			}else{
@@ -409,6 +417,29 @@ function empresas(state = stateEmpresas, action){
 			return state
 	}
 }
+
+function contaFixa(state = stateContaFixa, action){
+	switch(action.type){
+		case PEGAR_CONTA_FIXA:
+			return [...state, ...action.elementos]
+		case SALVAR_CONTA_FIXA:
+			if(action.novo){
+				return [...state, action.elemento]
+			}else{
+				const estadoAtualizado = state.map(elemento => {
+					if(elemento.id === action.elemento.id){
+						return action.elemento
+					}else{
+						return elemento
+					}
+				})
+				return [...estadoAtualizado]
+			}
+		default:
+			return state
+	}
+}
+
 
 function categorias(state = stateCategorias, action){
 	switch(action.type){
@@ -449,6 +480,15 @@ function lancamentos(state = stateLancamentos, action){
 				})
 				return [...estadoAtualizado]
 			}
+		default:
+			return state
+	}
+}
+
+function usuarioTipo(state = stateUsuarioTipo, action){
+	switch(action.type){
+		case PEGAR_USUARIO_TIPO:
+			return [...state, ...action.elementos]
 		default:
 			return state
 	}
@@ -507,21 +547,7 @@ function lancamentoSituacao(state = stateLancamentoSituacao, action){
 	}
 }
 
-function contaFixa(state = stateContaFixa, action){
-	switch(action.type){
-		default:
-			return state
-	}
-}
-
 function usuarioSituacao(state = stateUsuarioSituacao, action){
-	switch(action.type){
-		default:
-			return state
-	}
-}
-
-function usuarioTipo(state = stateUsuarioTipo, action){
 	switch(action.type){
 		default:
 			return state
