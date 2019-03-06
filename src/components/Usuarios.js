@@ -4,116 +4,73 @@ import {
 	Col,
 } from 'reactstrap'
 import { connect } from 'react-redux'
+import Usuario from './Usuario'
+import UsuarioSalvar from './UsuarioSalvar'
 
 class Usuarios extends React.Component {
 
+	state = {
+		mostrarSalvarUsuario: false,
+	}
+
+	alternarMostrarSalvarUsuario = () => this.setState({mostrarSalvarUsuario: !this.state.mostrarSalvarUsuario})
+
 	render() {
 		const { 
-			empresas, 
-			situacoes, 
 			usuarios,
-			usuarioSituacao,
-			usuarioTipo,
 		} = this.props
 		return (
-			<div>
+			<div style={{padding:10, backgroundColor: 'lightCyan', marginTop: 10}}>
+				<p>Usuarios</p>
 				{
-					usuarios.map(usuario => {
-						return (
-							<div key={usuario.id} style={{padding:10, backgroundColor: 'lightCyan', marginTop: 10}}>
+					this.state.mostrarSalvarUsuario &&
+						<UsuarioSalvar
+							alternarMostrarSalvarUsuario={this.alternarMostrarSalvarUsuario}
+							empresa_id={this.props.empresa_id}
+						/>
+				}
+				{
+					!this.state.mostrarSalvarUsuario &&
+						<div>
+							<div style={{padding: 10, backgroundColor: 'lightblue'}}>
 								<Row>
 									<Col>
-										Id
-									</Col>
-									<Col>
-										{usuario.id.toString().padStart(8,0)}
-									</Col>
-								</Row>
-								<Row>
-									<Col>
-										Data
-									</Col>
-									<Col>
-										{usuario.data_criacao}
-									</Col>
-								</Row>
-								<Row>
-									<Col>
-										Nome
-									</Col>
-									<Col>
-										{usuario.nome}
-									</Col>
-								</Row>
-								<Row>
-									<Col>
-										Empresa
-									</Col>
-									<Col>
-										{
-											empresas
-												.find(empresa => usuario.empresa_id === empresa.id)
-												.nome
-										}
-									</Col>
-								</Row>
-								<Row>
-									<Col>
-										Tipo
-									</Col>
-									<Col>
-										{
-											usuarioTipo
-												.find(usuarioTipo => usuario.usuario_tipo_id === usuarioTipo.id)
-												.nome
-										}
-									</Col>
-								</Row>
-								<Row>
-									<Col>
-										Situacao
-									</Col>
-									<Col>
-										{
-											situacoes
-												.find(situacao => 
-													usuarioSituacao
-														.find(usuarioSituacao => usuario.id === usuarioSituacao.id && usuarioSituacao.data_inativacao === null)
-														.situacao_id === situacao.id
-												).nome
-										}
-									</Col>
-								</Row>
-								<Row style={{padding: 5}}>
-									<Col>
-										<button type='button' style={{width: '100%'}} >Inativar/Ativar</button> 
+										<button 
+											type='button' 
+											style={{width: '100%'}}
+											onClick={this.alternarMostrarSalvarUsuario}
+										>
+											Adicionar Usuario
+										</button>
 									</Col>
 								</Row>
 							</div>
-						)
-					})
+
+							{
+								usuarios.length > 0 &&
+									usuarios
+									.map(usuario => {
+										return (
+											<Usuario
+												key={usuario.id}
+												usuario_id={usuario.id}
+											/>
+										)
+									})
+							}
+						</div>
 				}
 			</div>
-
 		)
 	}
-
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, { empresa_id }) => {
+	const usuarios = state.usuarios
+		.filter(usuario => usuario.empresa_id === empresa_id && usuario.data_inativacao === null)
 	return {
-		empresas: state.empresas,
-		situacoes: state.situacoes,
-		usuarios: state.usuarios,
-		usuarioSituacao: state.usuarioSituacao,
-		usuarioTipo: state.usuarioTipo,
+		usuarios,
 	}
 }
 
-function mapDispatchToProps(dispatch){
-	return {
-
-	}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Usuarios)
+export default connect(mapStateToProps, null)(Usuarios)

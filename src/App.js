@@ -3,7 +3,6 @@ import Menu from './components/Menu'
 import Lancamentos from './components/Lancamentos'
 import Empresas from './components/Empresas'
 import ExtratoAdministracao from './components/ExtratoAdministracao'
-import Usuarios from './components/Usuarios'
 import Categorias from './components/Categorias'
 import ExtratoEmpresa from './components/ExtratoEmpresa'
 import LancarVarios from './components/LancarVarios'
@@ -17,7 +16,7 @@ import { connect } from 'react-redux'
 class App extends React.Component {
 
 	state = {
-		tela: 'lancarUm',
+		tela: 'empresas',
 	}
 
 	alterarTela = (tela) => {
@@ -36,7 +35,8 @@ class App extends React.Component {
 					}
 					{
 						tela === 'lancarVarios' &&
-							<LancarVarios />
+							<LancarVarios
+								alterarTela={this.alterarTela} />
 					}
 					{
 						tela === 'extratoAdministracao' &&
@@ -44,7 +44,8 @@ class App extends React.Component {
 					}
 					{
 						tela === 'lancarUm' &&
-							<LancarUm alterarTela={this.alterarTela} />
+							<LancarUm 
+								alterarTela={this.alterarTela} />
 					}
 					{
 						tela === 'lancamentos' && 
@@ -57,10 +58,6 @@ class App extends React.Component {
 					{
 						tela === 'empresas' &&
 							<Empresas />
-					}
-					{
-						tela === 'usuarios' &&
-							<Usuarios />
 					}
 				</div>
 			</Container>

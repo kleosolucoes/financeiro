@@ -85,16 +85,18 @@ class LancarUm extends React.Component {
 				mostrarMensagemDeErro: false,
 				camposComErro: [],
 			})
-	
+
 			const novoRegistro = true
-			let dataAtual = new Date()
-			let dia = dataAtual.getDate() + ''
-			let mes = dataAtual.getMonth()+1 + ''
-			dia = dia.padStart(2, '0')
-			mes = mes.padStart(2, '0')
+			const dataAtual = new Date()
+			const diaParaDataDeCriacao = dataAtual.getDate().toString().padStart(2, '0')
+			let mesParaDataDeCriacao = dataAtual.getMonth()+1
+			mesParaDataDeCriacao = mesParaDataDeCriacao.toString().padStart(2, '0')
+			const anoParaDataDeCriacao = dataAtual.getFullYear()
+			const dataDeCriacao = diaParaDataDeCriacao + '/' + mesParaDataDeCriacao + '/' + anoParaDataDeCriacao
+
 			const elemento = {
 				id: Date.now(),
-				data_criacao: dia + '/' + mes + '/' + dataAtual.getFullYear(),
+				data_criacao: dataDeCriacao,
 				data_inativacao: null,
 			}
 
@@ -102,17 +104,15 @@ class LancarUm extends React.Component {
 			elemento.valor = valor
 			elemento.taxa = taxa
 			elemento.descricao = descricao
-			let diaData = dia + ''
-			diaData = diaData.padStart(2, '0')
-			let mesData = mes + ''
-			mesData = mesData.padStart(2, '0')
+			const diaData = dia.toString().padStart(2, '0')
+			const mesData = mes.toString().padStart(2, '0')
 			elemento.data = diaData + '/' + mesData + '/' + ano
 			elemento.usuario_id = 1
 			elemento.empresa_id = 1
 
 			const elementoAssociativo = {
 				id: Date.now(),
-				data_criacao: dia + '/' + mes + '/' + dataAtual.getFullYear(),
+				data_criacao: dataDeCriacao,
 				data_inativacao: null,
 				situacao_id: 2, 
 				lancamento_id: elemento.id,

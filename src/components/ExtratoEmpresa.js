@@ -88,6 +88,14 @@ class ExtratoEmpresa extends React.Component {
 										</Row>
 										<Row>
 											<Col>
+												Descrição
+											</Col>
+											<Col>
+												{lancamento.descricao}
+											</Col>
+										</Row>
+										<Row>
+											<Col>
 												Categoria
 											</Col>
 											<Col>

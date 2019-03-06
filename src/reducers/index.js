@@ -173,6 +173,7 @@ const stateUsuarioSituacao = [
 		id: 1,
 		usuario_id: 1,
 		situacao_id: 4,
+		quem_id: 1,
 		data_criacao: '16/12/2018',
 		data_inativacao: null,
 	},
@@ -180,6 +181,7 @@ const stateUsuarioSituacao = [
 		id: 2,
 		usuario_id: 2,
 		situacao_id: 5,
+		quem_id: 1,
 		data_criacao: '16/12/2018',
 		data_inativacao: null,
 	}
@@ -188,19 +190,19 @@ const stateUsuarioSituacao = [
 const stateUsuarioTipo = [
 	{
 		id: 1,
-		nome: 'Aceitar',
-		data_criacao: '16/12/2018',
-		data_inativacao: null,
-	},
-	{
-		id: 2,
 		nome: 'Administrador',
 		data_criacao: '16/12/2018',
 		data_inativacao: null,
 	},
 	{
+		id: 2,
+		nome: 'Aceitar Lançamento',
+		data_criacao: '16/12/2018',
+		data_inativacao: null,
+	},
+	{
 		id: 3,
-		nome: 'Lançar Igreja',
+		nome: 'Lançar Culto da Igreja',
 		data_criacao: '16/12/2018',
 		data_inativacao: null,
 	},
