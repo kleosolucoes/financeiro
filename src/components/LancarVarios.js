@@ -8,7 +8,7 @@ import {
 	Alert
 } from 'reactstrap'
 import { connect } from 'react-redux'
-import { formatReal, getMoney } from '../helpers/funcoes'
+import { formatReal, getMoney, pegarDataEHoraAtual } from '../helpers/funcoes'
 import { salvarLancamento, salvarLancamentoSituacao } from '../actions'
 
 class LancarVarios extends React.Component {
@@ -25,6 +25,10 @@ class LancarVarios extends React.Component {
 		ofertaDebito: '0.00',
 		ofertaCredito: '0.00',
 		ofertaMoeda: '0.00',
+		ofertaEspecialDinheiro: '0.00',
+		ofertaEspecialDebito: '0.00',
+		ofertaEspecialCredito: '0.00',
+		ofertaEspecialMoeda: '0.00',
 		mostrarMensagemDeErro: false,
 		camposComErro: [],
 	}
@@ -48,6 +52,10 @@ class LancarVarios extends React.Component {
 			ofertaDebito,
 			ofertaCredito,
 			ofertaMoeda,
+			ofertaEspecialDinheiro,
+			ofertaEspecialDebito,
+			ofertaEspecialCredito,
+			ofertaEspecialMoeda,
 			dia,
 			mes,
 			ano,
@@ -82,71 +90,74 @@ class LancarVarios extends React.Component {
 				camposComErro: [],
 			})
 
-			for(let indiceDeValores = 1; indiceDeValores <= 8; indiceDeValores++){
+			for(let indiceDeValores = 1; indiceDeValores <= 12; indiceDeValores++){
 				const novoRegistro = true
-				const dataAtual = new Date()
-				const diaParaDataDeCriacao = dataAtual.getDate().toString().padStart(2, '0')
-				let mesParaDataDeCriacao = dataAtual.getMonth()+1
-				mesParaDataDeCriacao = mesParaDataDeCriacao.toString().padStart(2, '0')
-				const anoParaDataDeCriacao = dataAtual.getFullYear()
-				const dataDeCriacao = diaParaDataDeCriacao + '/' + mesParaDataDeCriacao + '/' + anoParaDataDeCriacao
 				const elemento = {
 					id: Date.now(),
-					data_criacao: dataDeCriacao,
+					data_criacao: pegarDataEHoraAtual()[0],
+					hora_criacao: pegarDataEHoraAtual()[1],
 					data_inativacao: null,
+					hora_inativacao: null,
 				}
 				switch(indiceDeValores){
 					case 1: 
-						elemento.categoria_id = 1
 						elemento.valor = dizimoDinheiro
 						break;
 					case 2: 
-						elemento.categoria_id = 2
 						elemento.valor = dizimoDebito
 						break;
 					case 3: 
-						elemento.categoria_id = 3
 						elemento.valor = dizimoCredito
 						break;
 					case 4: 
-						elemento.categoria_id = 4
 						elemento.valor = dizimoMoeda
 						break;
 					case 5: 
-						elemento.categoria_id = 5
 						elemento.valor = ofertaDinheiro
 						break;
 					case 6: 
-						elemento.categoria_id = 6
 						elemento.valor = ofertaDebito
 						break;
 					case 7: 
-						elemento.categoria_id = 7
 						elemento.valor = ofertaCredito
 						break;
 					case 8: 
-						elemento.categoria_id = 8
 						elemento.valor = ofertaMoeda
+						break;
+					case 9: 
+						elemento.valor = ofertaEspecialDinheiro
+						break;
+					case 10: 
+						elemento.valor = ofertaEspecialDebito
+						break;
+					case 11: 
+						elemento.valor = ofertaEspecialCredito
+						break;
+					case 12: 
+						elemento.valor = ofertaEspecialMoeda
 						break;
 					default:
 						break;
 				}
+				elemento.categoria_id = indiceDeValores
 				if(elemento.valor !== '0.00'){
 					elemento.taxa = '0.00'
 					elemento.descricao = ''
 					let diaData = dia.toString().padStart(2, '0')
 					let mesData = mes.toString().padStart(2, '0')
 					elemento.data = diaData + '/' + mesData + '/' + ano
-					elemento.usuario_id = 1
-					elemento.empresa_id = 1
+					elemento.usuario_id = this.props.usuario_id
+					elemento.empresa_id = this.props.empresa_id
 
 					const elementoAssociativo = {
 						id: Date.now(),
-						data_criacao: dataDeCriacao,
+						data_criacao: pegarDataEHoraAtual()[0],
+						hora_criacao: pegarDataEHoraAtual()[1],
 						data_inativacao: null,
-						situacao_id: 2, 
+						hora_inativacao: null,
+						situacao_id: 2, // nao recebido TODO
 						lancamento_id: elemento.id,
-						usuario_id: 1,
+						usuario_id: this.props.usuario_id, 
 					}
 
 					this.props.salvarLancamento(elemento, novoRegistro)
@@ -352,6 +363,65 @@ class LancarVarios extends React.Component {
 						</Col>
 					</Row>
 				</div>
+				<div style={{padding: 10, backgroundColor: 'lightblue'}}>
+					<Row>
+						<Col>
+							Oferta Especial
+						</Col>
+					</Row>
+					<Row>
+						<Col>
+							Dinheiro
+						</Col>
+						<Col>
+							<input
+								type='number'
+								name='ofertaEspecialDinheiro'
+								value={this.state.ofertaEspecialDinheiro}
+								onChange={this.ajudadorDeCampo}
+							/>
+						</Col>
+					</Row>
+					<Row>
+						<Col>
+							Cartão Débito
+						</Col>
+						<Col>
+							<input
+								type='number'
+								name='ofertaEspecialDebito'
+								value={this.state.ofertaEspecialDebito}
+								onChange={this.ajudadorDeCampo}
+							/>
+						</Col>
+					</Row>
+					<Row>
+						<Col>
+							Cartão Crédito
+						</Col>
+						<Col>
+							<input
+								type='number'
+								name='ofertaEspecialCredito'
+								value={this.state.ofertaEspecialCredito}
+								onChange={this.ajudadorDeCampo}
+							/>
+						</Col>
+					</Row>
+					<Row>
+						<Col>
+							Moeda
+						</Col>
+						<Col>
+							<input
+								type='number'
+								name='ofertaEspecialMoeda'
+								value={this.state.ofertaEspecialMoeda}
+								onChange={this.ajudadorDeCampo}
+							/>
+						</Col>
+					</Row>
+				</div>
 				{
 					mostrarMensagemDeErro &&
 						<div style={{padding: 10}}>
@@ -377,6 +447,15 @@ class LancarVarios extends React.Component {
 	}
 }
 
+function mapStateToProps(state){
+	const empresa_id = state.usuarios.find(usuario => usuario.id === state.usuarioLogado.usuario_id).empresa_id
+	const usuario_id = state.usuarioLogado.usuario_id
+	return {
+		usuario_id,
+		empresa_id,
+	}
+}
+
 function mapDispatchToProps(dispatch){
 	return {
 		salvarLancamento: (elemento, novo) => dispatch(salvarLancamento(elemento, novo)),
@@ -384,4 +463,4 @@ function mapDispatchToProps(dispatch){
 	}
 }
 
-export default connect(null, mapDispatchToProps)(LancarVarios)
+export default connect(mapStateToProps, mapDispatchToProps)(LancarVarios)

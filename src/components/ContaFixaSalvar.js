@@ -9,6 +9,7 @@ import {
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import { salvarContaFixa } from '../actions'
+import { pegarDataEHoraAtual } from '../helpers/funcoes'
 
 class ContaFixaSalvar extends React.Component {
 
@@ -64,22 +65,18 @@ class ContaFixaSalvar extends React.Component {
 			})
 
 			const novoRegistro = true
-			const dataAtual = new Date()
-			const diaParaDataDeCriacao = dataAtual.getDate().toString().padStart(2, '0')
-			let mesParaDataDeCriacao = dataAtual.getMonth()+1
-			mesParaDataDeCriacao = mesParaDataDeCriacao.toString().padStart(2, '0')
-			const anoParaDataDeCriacao = dataAtual.getFullYear()
-			const dataDeCriacao = diaParaDataDeCriacao + '/' + mesParaDataDeCriacao + '/' + anoParaDataDeCriacao
-
 			const elemento = {
 				id: Date.now(),
-				data_criacao: dataDeCriacao,
+				data_criacao: pegarDataEHoraAtual()[0],
+				hora_criacao: pegarDataEHoraAtual()[1],
 				data_inativacao: null,
+				hora_inativacao: null,
 			}
 			elemento.empresa_id = parseInt(this.props.empresa_id)
 			elemento.categoria_id = parseInt(categoria_id)
 			elemento.dia_gerar = parseInt(dia_gerar)
 			elemento.dia_notificacao = parseInt(dia_notificacao)
+			elemento.usuario_id = this.props.usuario_id
 			this.props.salvarContaFixa(elemento, novoRegistro)
 			this.props.alternarMostrarSalvarContaFixa()
 		}
@@ -204,6 +201,7 @@ class ContaFixaSalvar extends React.Component {
 function mapStateToProps(state){
 	return {
 		categorias: state.categorias,
+		usuario_id: state.usuarioLogado.usuario_id,
 	}
 }
 

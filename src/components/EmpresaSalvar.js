@@ -9,6 +9,7 @@ import {
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import { salvarEmpresa } from '../actions'
+import { pegarDataEHoraAtual } from '../helpers/funcoes'
 
 class EmpresaSalvar extends React.Component {
 
@@ -57,20 +58,16 @@ class EmpresaSalvar extends React.Component {
 			})
 
 			const novoRegistro = true
-			const dataAtual = new Date()
-			const diaParaDataDeCriacao = dataAtual.getDate().toString().padStart(2, '0')
-			let mesParaDataDeCriacao = dataAtual.getMonth()+1
-			mesParaDataDeCriacao = mesParaDataDeCriacao.toString().padStart(2, '0')
-			const anoParaDataDeCriacao = dataAtual.getFullYear()
-			const dataDeCriacao = diaParaDataDeCriacao + '/' + mesParaDataDeCriacao + '/' + anoParaDataDeCriacao
-
 			const elemento = {
 				id: Date.now(),
-				data_criacao: dataDeCriacao,
+				data_criacao: pegarDataEHoraAtual()[0],
+				hora_criacao: pegarDataEHoraAtual()[1],
 				data_inativacao: null,
+				hora_inativacao: null,
 			}
 			elemento.nome = nome.toUpperCase()
 			elemento.empresa_tipo_id = parseInt(empresa_tipo_id)
+			elemento.usuario_id = this.props.usuario_id
 
 			this.props.salvarEmpresa(elemento, novoRegistro)
 			this.props.alternarMostrarSalvarEmpresa()
@@ -167,6 +164,7 @@ class EmpresaSalvar extends React.Component {
 
 function mapStateToProps(state){
 	return {
+		usuario_id: state.usuarioLogado.usuario_id,
 		empresaTipo: state.empresaTipo,
 	}
 }

@@ -4,32 +4,37 @@ import {
 	Col,
 } from 'reactstrap'
 import { connect } from 'react-redux'
-import { salvarUsuarioSituacao } from '../actions'
+import { salvarUsuario, salvarUsuarioSituacao } from '../actions'
+import { pegarDataEHoraAtual } from '../helpers/funcoes'
 
 class Usuario extends React.Component {
 
 	removerUsuario = () => {
-		let usuarioSituacao = this.props.usuarioSituacao
+		let { 
+			usuario,
+			usuarioSituacao,
+			usuarioLogado,
+		} = this.props
 
-		const dataAtual = new Date()
-		const diaParaDataDeCriacao = dataAtual.getDate().toString().padStart(2, '0')
-		let mesParaDataDeCriacao = dataAtual.getMonth()+1
-		mesParaDataDeCriacao = mesParaDataDeCriacao.toString().padStart(2, '0')
-		const anoParaDataDeCriacao = dataAtual.getFullYear()
-		const dataDeCriacao = diaParaDataDeCriacao + '/' + mesParaDataDeCriacao + '/' + anoParaDataDeCriacao
+		usuario.data_inativacao = pegarDataEHoraAtual()[0]
+		usuario.hora_inativacao = pegarDataEHoraAtual()[1]
+		this.props.salvarUsuario(usuario)
 
-		usuarioSituacao.data_inativacao = dataDeCriacao
+		usuarioSituacao.data_inativacao = pegarDataEHoraAtual()[0]
+		usuarioSituacao.hora_inativacao = pegarDataEHoraAtual()[1]
 		this.props.salvarUsuarioSituacao(usuarioSituacao)
 
 		const novoRegistro = true
 		const elemento = {
 			id: Date.now(),
-			data_criacao: dataDeCriacao,
+			data_criacao: pegarDataEHoraAtual()[0],
+			hora_criacao: pegarDataEHoraAtual()[1],
 			data_inativacao: null,
+			hora_inativacao: null,
 		}
 		elemento.situacao_id = 5 // inativo TODO
-		elemento.usuario_id = usuarioSituacao.usuario_id
-		elemento.quem_id = 1 // usuario logado TODO
+		elemento.usuario_id = usuario.id
+		elemento.quem_id = usuarioLogado.usuario_id
 		this.props.salvarUsuarioSituacao(elemento, novoRegistro)
 	}
 
@@ -115,12 +120,14 @@ const mapStateToProps = (state, {usuario_id}) => {
 		usuarioTipo,
 		usuarioSituacao,
 		situacao,
+		usuarioLogado: state.usuarioLogado,
 	}
 }
 
 function mapDispatchToProps(dispatch){
 	return {
-		salvarUsuarioSituacao: (elemento, novo) => dispatch(salvarUsuarioSituacao(elemento, novo)),
+		salvarUsuario: (elemento) => dispatch(salvarUsuario(elemento)),
+		salvarUsuarioSituacao: (elemento) => dispatch(salvarUsuarioSituacao(elemento)),
 	}
 }
 

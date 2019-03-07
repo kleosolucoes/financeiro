@@ -9,7 +9,9 @@ import {
 
 class Empresas extends React.Component {
 
-	state = { mostrarSalvarEmpresa: false, }
+	state = { 
+		mostrarSalvarEmpresa: false,
+	}
 
 	alternarMostrarSalvarEmpresa = () => this.setState({mostrarSalvarEmpresa:
 		!this.state.mostrarSalvarEmpresa})
@@ -55,10 +57,8 @@ class Empresas extends React.Component {
 						</div>
 				}
 			</div>
-
 		)
 	}
-
 }
 
 const mapStateToProps = state => {

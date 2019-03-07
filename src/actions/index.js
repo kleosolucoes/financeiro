@@ -20,6 +20,9 @@ export const PEGAR_EMPRESA_TIPO = 'PEGAR_EMPRESA_TIPO'
 export const PEGAR_CONTA_FIXA = 'PEGAR_CONTA_FIXA'
 export const SALVAR_CONTA_FIXA = 'SALVAR_CONTA_FIXA'
 
+export const PEGAR_USUARIO_LOGADO = 'PEGAR_USUARIO_LOGADO'
+export const SALVAR_USUARIO_LOGADO = 'SALVAR_USUARIO_LOGADO'
+
 export function pegarLancamentos(elementos){ 
 	return {
 		type: PEGAR_LANCAMENTOS,
@@ -136,5 +139,18 @@ export function salvarUsuarioSituacao(elemento, novo = false){
 		type: SALVAR_USUARIO_SITUACAO,
 		elemento,
 		novo,
+	}
+}
+
+export function pegarUsuarioLogado(){
+	return {
+		type: PEGAR_USUARIO_LOGADO,
+	}
+}
+
+export function salvarUsuarioLogado(elemento){
+	return {
+		type: SALVAR_USUARIO_LOGADO,
+		elemento,
 	}
 }

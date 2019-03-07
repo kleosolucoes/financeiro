@@ -10,6 +10,7 @@ import {
 import { connect } from 'react-redux'
 import { salvarUsuario, salvarUsuarioSituacao, } from '../actions'
 import md5 from 'md5'
+import { pegarDataEHoraAtual } from '../helpers/funcoes'
 
 class UsuarioSalvar extends React.Component {
 
@@ -76,17 +77,12 @@ class UsuarioSalvar extends React.Component {
 			})
 
 			const novoRegistro = true
-			const dataAtual = new Date()
-			const diaParaDataDeCriacao = dataAtual.getDate().toString().padStart(2, '0')
-			let mesParaDataDeCriacao = dataAtual.getMonth()+1
-			mesParaDataDeCriacao = mesParaDataDeCriacao.toString().padStart(2, '0')
-			const anoParaDataDeCriacao = dataAtual.getFullYear()
-			const dataDeCriacao = diaParaDataDeCriacao + '/' + mesParaDataDeCriacao + '/' + anoParaDataDeCriacao
-
 			const elemento = {
 				id: Date.now(),
-				data_criacao: dataDeCriacao,
+				data_criacao: pegarDataEHoraAtual()[0],
+				hora_criacao: pegarDataEHoraAtual()[1],
 				data_inativacao: null,
+				hora_inativacao: null,
 			}
 			elemento.empresa_id = parseInt(this.props.empresa_id)
 			elemento.usuario_tipo_id = parseInt(usuario_tipo_id)
@@ -96,8 +92,10 @@ class UsuarioSalvar extends React.Component {
 
 			const elementoAssociativo = {
 				id: Date.now(),
-				data_criacao: dataDeCriacao,
+				data_criacao: pegarDataEHoraAtual()[0],
+				hora_criacao: pegarDataEHoraAtual()[1],
 				data_inativacao: null,
+				hora_inativacao: null,
 				situacao_id: 4,  // ativo TODO
 				usuario_id: elemento.id,
 			}
@@ -243,13 +241,15 @@ class UsuarioSalvar extends React.Component {
 			</div>
 		)
 	}
-
 }
 
 function mapStateToProps(state){
+	const usuarioLogado = state.usuarioLogado
+	const usuario = state.usuarios.find(usuario => usuario.id === usuarioLogado.usuario_id)
 	return {
 		usuarioTipo: state.usuarioTipo,
 		usuarios: state.usuarios,
+		empresa_id: usuario.empresa_id,
 	}
 }
 

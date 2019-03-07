@@ -8,7 +8,7 @@ import {
 	Input,
 } from 'reactstrap'
 import { connect } from 'react-redux'
-import { formatReal, getMoney } from '../helpers/funcoes'
+import { formatReal, getMoney, pegarDataEHoraAtual } from '../helpers/funcoes'
 import { salvarLancamento, salvarLancamentoSituacao } from '../actions'
 
 class LancarUm extends React.Component {
@@ -19,6 +19,7 @@ class LancarUm extends React.Component {
 		ano: new Date().getFullYear(),
 		descricao: '',
 		categoria_id: 0,
+		empresa_id: 0,
 		valor: '0.00',
 		taxa: '0.00',
 		mostrarMensagemDeErro: false,
@@ -40,6 +41,7 @@ class LancarUm extends React.Component {
 	ajudadorDeSubmissao = () => {
 		const {
 			categoria_id,
+			empresa_id,
 			valor,
 			taxa,
 			dia,
@@ -57,6 +59,10 @@ class LancarUm extends React.Component {
 		if(parseInt(categoria_id) === 0){
 			mostrarMensagemDeErro = true
 			camposComErro.push('categoria_id')
+		}
+		if(parseInt(empresa_id) === 0){
+			mostrarMensagemDeErro = true
+			camposComErro.push('empresa_id')
 		}
 		if(valor === '0.00'){
 			mostrarMensagemDeErro = true
@@ -87,17 +93,12 @@ class LancarUm extends React.Component {
 			})
 
 			const novoRegistro = true
-			const dataAtual = new Date()
-			const diaParaDataDeCriacao = dataAtual.getDate().toString().padStart(2, '0')
-			let mesParaDataDeCriacao = dataAtual.getMonth()+1
-			mesParaDataDeCriacao = mesParaDataDeCriacao.toString().padStart(2, '0')
-			const anoParaDataDeCriacao = dataAtual.getFullYear()
-			const dataDeCriacao = diaParaDataDeCriacao + '/' + mesParaDataDeCriacao + '/' + anoParaDataDeCriacao
-
 			const elemento = {
 				id: Date.now(),
-				data_criacao: dataDeCriacao,
+				data_criacao: pegarDataEHoraAtual()[0],
+				hora_criacao: pegarDataEHoraAtual()[1],
 				data_inativacao: null,
+				hora_inativacao: null,
 			}
 
 			elemento.categoria_id = parseInt(categoria_id)
@@ -107,16 +108,18 @@ class LancarUm extends React.Component {
 			const diaData = dia.toString().padStart(2, '0')
 			const mesData = mes.toString().padStart(2, '0')
 			elemento.data = diaData + '/' + mesData + '/' + ano
-			elemento.usuario_id = 1
-			elemento.empresa_id = 1
+			elemento.usuario_id = this.props.usuario_id
+			elemento.empresa_id = parseInt(empresa_id)
 
 			const elementoAssociativo = {
 				id: Date.now(),
-				data_criacao: dataDeCriacao,
+				data_criacao: pegarDataEHoraAtual()[0],
+				hora_criacao: pegarDataEHoraAtual()[1],
 				data_inativacao: null,
-				situacao_id: 2, 
+				hora_inativacao: null,
+				situacao_id: 2,  // TODO nao recebido
 				lancamento_id: elemento.id,
-				usuario_id: 1,
+				usuario_id: this.props.usuario_id,
 			}
 
 			this.props.salvarLancamento(elemento, novoRegistro)
@@ -128,6 +131,7 @@ class LancarUm extends React.Component {
 	render() {
 		const {
 			categorias,
+			empresas,
 		} = this.props
 		const {
 			mostrarMensagemDeErro,
@@ -139,6 +143,7 @@ class LancarUm extends React.Component {
 			valor,
 			taxa,
 			categoria_id,
+			empresa_id,
 		} = this.state
 
 		let arrayDias = []
@@ -157,6 +162,33 @@ class LancarUm extends React.Component {
 
 		return (
 			<div style={{padding: 10, backgroundColor: 'lightcyan'}}>
+				<FormGroup>
+					<Label for="empresa_id">Empresa</Label>
+					<Input 
+						type="select" 
+						name="empresa_id" 
+						id="empresa_id" 
+						value={empresa_id} 
+						onChange={this.ajudadorDeCampo}
+						invalid={camposComErro.includes('empresa_id') ? true : null}
+					>
+						<option value='0'>Selecione</option>
+						{
+							empresas &&
+								empresas.map(empresa => {
+									return (
+										<option 
+											key={empresa.id}
+											value={empresa.id}
+										>
+											{empresa.nome}
+										</option>
+									)
+								})
+						}
+					</Input>
+					{camposComErro.includes('empresa_id') && <Alert color='danger'>Selecione a Empresa</Alert>}
+				</FormGroup>
 				<FormGroup>
 					<Label for="categoria_id">Categoria</Label>
 					<Input 
@@ -301,6 +333,8 @@ class LancarUm extends React.Component {
 const mapStateToProps = state => {
 	return {
 		categorias: state.categorias,
+		empresas: state.empresas,
+		usuario_id: state.usuarioLogado.usuario_id,
 	}
 }
 

@@ -5,20 +5,16 @@ import {
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import { salvarContaFixa } from '../actions'
+import { pegarDataEHoraAtual } from '../helpers/funcoes'
 
 class ContaFixa extends React.Component {
 
 	removerContaFixa = () => {
 		let contaFixa = this.props.contaFixa
 
-		const dataAtual = new Date()
-		const diaParaDataDeCriacao = dataAtual.getDate().toString().padStart(2, '0')
-		let mesParaDataDeCriacao = dataAtual.getMonth()+1
-		mesParaDataDeCriacao = mesParaDataDeCriacao.toString().padStart(2, '0')
-		const anoParaDataDeCriacao = dataAtual.getFullYear()
-		const dataDeCriacao = diaParaDataDeCriacao + '/' + mesParaDataDeCriacao + '/' + anoParaDataDeCriacao
-
-		contaFixa.data_inativacao = dataDeCriacao
+		contaFixa.data_inativacao = pegarDataEHoraAtual()[0]
+		contaFixa.hora_inativacao = pegarDataEHoraAtual()[1]
+		contaFixa.quem_inativou_id = this.props.usuario_id
 		this.props.salvarContaFixa(contaFixa)
 	}
 
@@ -102,6 +98,7 @@ const mapStateToProps = (state, {contaFixa_id}) => {
 	return {
 		contaFixa,
 		categoria,
+		usuario_id: state.usuarioLogado.usuario_id,
 	}
 }
 

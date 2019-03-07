@@ -9,6 +9,7 @@ import {
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import { salvarCategoria } from '../actions'
+import { pegarDataEHoraAtual } from '../helpers/funcoes'
 
 class CategoriaSalvar extends React.Component {
 
@@ -58,17 +59,12 @@ class CategoriaSalvar extends React.Component {
 			})
 
 			const novoRegistro = true
-			const dataAtual = new Date()
-			const diaParaDataDeCriacao = dataAtual.getDate().toString().padStart(2, '0')
-			let mesParaDataDeCriacao = dataAtual.getMonth()+1
-			mesParaDataDeCriacao = mesParaDataDeCriacao.toString().padStart(2, '0')
-			const anoParaDataDeCriacao = dataAtual.getFullYear()
-			const dataDeCriacao = diaParaDataDeCriacao + '/' + mesParaDataDeCriacao + '/' + anoParaDataDeCriacao
-
 			const elemento = {
 				id: Date.now(),
-				data_criacao: dataDeCriacao,
+				data_criacao: pegarDataEHoraAtual()[0],
+				hora_criacao: pegarDataEHoraAtual()[1],
 				data_inativacao: null,
+				hora_inativacao: null,
 			}
 			elemento.credito_debito = credito_debito
 			elemento.nome = nome

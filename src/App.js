@@ -7,6 +7,7 @@ import Categorias from './components/Categorias'
 import ExtratoEmpresa from './components/ExtratoEmpresa'
 import LancarVarios from './components/LancarVarios'
 import LancarUm from './components/LancarUm'
+import Usuarios from './components/Usuarios'
 import { FolhaDeEstilo } from './components/FolhaDeEstilo'
 import {
 	Container,
@@ -25,6 +26,7 @@ class App extends React.Component {
 
 	render() {
 		const { tela } = this.state
+		const { empresa_id } = this.props
 		return (
 			<Container style={FolhaDeEstilo.containerStyle}>
 				<Menu alterarTela={this.alterarTela} nomeDaTela={tela} />
@@ -36,7 +38,14 @@ class App extends React.Component {
 					{
 						tela === 'lancarVarios' &&
 							<LancarVarios
-								alterarTela={this.alterarTela} />
+								alterarTela={this.alterarTela}
+							/>
+					}
+					{
+						tela === 'usuarios' &&
+							<Usuarios 
+								empresa_id={empresa_id}
+							/>
 					}
 					{
 						tela === 'extratoAdministracao' &&
@@ -44,8 +53,9 @@ class App extends React.Component {
 					}
 					{
 						tela === 'lancarUm' &&
-							<LancarUm 
-								alterarTela={this.alterarTela} />
+							<LancarUm
+								alterarTela={this.alterarTela}
+							/>
 					}
 					{
 						tela === 'lancamentos' && 
@@ -66,7 +76,11 @@ class App extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-	return state
+	const usuarioLogado = state.usuarioLogado
+	const usuario = state.usuarios.find(usuario => usuario.id === usuarioLogado.usuario_id)
+	return {
+		empresa_id: usuario.empresa_id,
+	}
 }
 
 export default connect(mapStateToProps, null)(App)

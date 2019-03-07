@@ -8,7 +8,7 @@ import {
 	FormGroup,
 } from 'reactstrap'
 import { connect } from 'react-redux'
-import { formatReal, getMoney } from '../helpers/funcoes'
+import { formatReal, getMoney, pegarDataEHoraAtual } from '../helpers/funcoes'
 import { salvarLancamento, salvarLancamentoSituacao } from '../actions'
 
 class Lancamento extends React.Component {
@@ -74,28 +74,24 @@ class Lancamento extends React.Component {
 
 			lancamento.valor = valor
 			lancamento.taxa = taxa
+			this.props.salvarLancamento(lancamento)
 
-			const dataAtual = new Date()
-			const diaParaDataDeCriacao = dataAtual.getDate().toString().padStart(2, '0')
-			let mesParaDataDeCriacao = dataAtual.getMonth()+1
-			mesParaDataDeCriacao = mesParaDataDeCriacao.toString().padStart(2, '0')
-			const anoParaDataDeCriacao = dataAtual.getFullYear()
-			const dataDeCriacao = diaParaDataDeCriacao + '/' + mesParaDataDeCriacao + '/' + anoParaDataDeCriacao
-
-			lancamentoSituacao.data_inativacao = dataDeCriacao
+			lancamentoSituacao.data_inativacao = pegarDataEHoraAtual()[0]
+			lancamentoSituacao.hora_inativacao = pegarDataEHoraAtual()[1]
+			this.props.salvarLancamentoSituacao(lancamentoSituacao)
 
 			const novoRegistro = true
 			const elementoAssociativo = {
 				id: Date.now(),
-				data_criacao: dataDeCriacao,
+				data_criacao: pegarDataEHoraAtual()[0],
+				hora_criacao: pegarDataEHoraAtual()[1],
 				data_inativacao: null,
+				hora_inativacao: null,
 				situacao_id: parseInt(situacao_id),
 				lancamento_id: lancamento.id,
-				usuario_id: 1,
+				usuario_id: this.props.usuario_id,
 			}
 
-			this.props.salvarLancamento(lancamento)
-			this.props.salvarLancamentoSituacao(lancamentoSituacao)
 			this.props.salvarLancamentoSituacao(elementoAssociativo, novoRegistro)
 		}
 	}
@@ -104,6 +100,7 @@ class Lancamento extends React.Component {
 		const { 
 			lancamento, 
 			lancamentoSituacao,
+			usuarioSituacao,
 			situacao, 
 			categoria,
 			usuario,
@@ -282,7 +279,7 @@ class Lancamento extends React.Component {
 								Quem
 							</Col>
 							<Col>
-								{usuario.nome.split(' ')[0]}
+								{usuarioSituacao.nome.split(' ')[0]}
 							</Col>
 						</Row>
 					</div>
@@ -297,6 +294,8 @@ const mapStateToProps = (state, {lancamento_id}) => {
 		.find(lancamento => lancamento.id === lancamento_id)
 	const lancamentoSituacao = state.lancamentoSituacao
 		.find(lancamentoSituacao => lancamentoSituacao.lancamento_id === lancamento.id && lancamentoSituacao.data_inativacao === null)
+	const usuarioSituacao = state.usuarios
+		.find(usuario => usuario.id === lancamentoSituacao.usuario_id)
 	const situacao = state.situacoes
 		.find(situacao => situacao.id === lancamentoSituacao.situacao_id)
 	const usuario = state.usuarios
@@ -305,15 +304,17 @@ const mapStateToProps = (state, {lancamento_id}) => {
 		.find(empresa => empresa.id === lancamento.empresa_id)
 	const categoria = state.categorias
 		.find(categoria => categoria.id === lancamento.categoria_id)
-
+	const usuario_id = state.usuarioLogado.usuario_id
 	return {
 		lancamento,
 		lancamentoSituacao,
+		usuarioSituacao,
 		situacao,
 		categoria,
 		usuario,
 		empresa,
 		situacoes: state.situacoes,
+		usuario_id,
 	}
 }
 
