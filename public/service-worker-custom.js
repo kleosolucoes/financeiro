@@ -1,6 +1,6 @@
 console.log('Custom service worker')
 
-const nomeDoCachePrincipal = 'financeiro-v002'
+const nomeDoCachePrincipal = 'financeiro-v003'
 self.addEventListener('install', event => {
 	console.log('Install')
 	event.waitUntil(
