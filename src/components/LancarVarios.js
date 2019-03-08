@@ -36,10 +36,15 @@ class LancarVarios extends React.Component {
 	ajudadorDeCampo = event => {
 		let valor = event.target.value
 		const name = event.target.name
+
+		const valorLimpo = getMoney(valor)
 		if(name !== 'dia' && name !== 'mes' && name !== 'ano'){
-			valor = formatReal(getMoney(valor).toString().padStart(3, '0'))
+			valor = formatReal(valorLimpo.toString().padStart(3, '0'))
 		}
-		this.setState({[name]: valor})
+
+		this.setState({
+			[name]: valor,
+		})
 	}
 
 	ajudadorDeSubmissao = () => {
@@ -166,13 +171,25 @@ class LancarVarios extends React.Component {
 					this.props.salvarLancamentoSituacao(elementoAssociativo, novoRegistro)
 				}
 			}
-			alert('Lancamento(s) Salvo(s)!')
+			alert('Lancamento(s) Salvo(s) com sucesso!')
 			this.props.alterarTela('extratoEmpresa')
 		}
 	}
 
 	render() {
 		const {
+			dizimoDinheiro,
+			dizimoDebito,
+			dizimoCredito,
+			dizimoMoeda,
+			ofertaDinheiro,
+			ofertaDebito,
+			ofertaCredito,
+			ofertaMoeda,
+			ofertaEspecialDinheiro,
+			ofertaEspecialDebito,
+			ofertaEspecialCredito,
+			ofertaEspecialMoeda,
 			dia,
 			mes,
 			ano,
@@ -193,6 +210,24 @@ class LancarVarios extends React.Component {
 			arrayAnos.push(<option key={indiceAno} value={indiceAno}>{indiceAno}</option>)
 		}
 
+
+		const total = formatReal( 
+			(getMoney(dizimoDinheiro) +
+				getMoney(dizimoDebito) +
+				getMoney(dizimoCredito) +
+				getMoney(dizimoMoeda) +
+				getMoney(ofertaDinheiro) +
+				getMoney(ofertaDebito) +
+				getMoney(ofertaCredito) +
+				getMoney(ofertaMoeda) +
+				getMoney(ofertaEspecialDinheiro) +
+				getMoney(ofertaEspecialDebito) +
+				getMoney(ofertaEspecialCredito) +
+				getMoney(ofertaEspecialMoeda))
+			.toString()
+			.padStart(3, '0')
+		)
+	
 		return (
 			<div>
 				<Label for="data">Data do lançamento:</Label>
@@ -262,7 +297,7 @@ class LancarVarios extends React.Component {
 							<input
 								type='number'
 								name='dizimoDinheiro'
-								value={this.state.dizimoDinheiro}
+								value={dizimoDinheiro}
 								onChange={this.ajudadorDeCampo}
 							/>
 						</Col>
@@ -275,7 +310,7 @@ class LancarVarios extends React.Component {
 							<input
 								type='number'
 								name='dizimoDebito'
-								value={this.state.dizimoDebito}
+								value={dizimoDebito}
 								onChange={this.ajudadorDeCampo}
 							/>
 						</Col>
@@ -288,7 +323,7 @@ class LancarVarios extends React.Component {
 							<input
 								type='number'
 								name='dizimoCredito'
-								value={this.state.dizimoCredito}
+								value={dizimoCredito}
 								onChange={this.ajudadorDeCampo}
 							/>
 						</Col>
@@ -301,11 +336,12 @@ class LancarVarios extends React.Component {
 							<input
 								type='number'
 								name='dizimoMoeda'
-								value={this.state.dizimoMoeda}
+								value={dizimoMoeda}
 								onChange={this.ajudadorDeCampo}
 							/>
 						</Col>
 					</Row>
+
 				</div>
 				<div style={{padding: 10, backgroundColor: 'lightblue'}}>
 					<Row>
@@ -321,7 +357,7 @@ class LancarVarios extends React.Component {
 							<input
 								type='number'
 								name='ofertaDinheiro'
-								value={this.state.ofertaDinheiro}
+								value={ofertaDinheiro}
 								onChange={this.ajudadorDeCampo}
 							/>
 						</Col>
@@ -334,7 +370,7 @@ class LancarVarios extends React.Component {
 							<input
 								type='number'
 								name='ofertaDebito'
-								value={this.state.ofertaDebito}
+								value={ofertaDebito}
 								onChange={this.ajudadorDeCampo}
 							/>
 						</Col>
@@ -347,7 +383,7 @@ class LancarVarios extends React.Component {
 							<input
 								type='number'
 								name='ofertaCredito'
-								value={this.state.ofertaCredito}
+								value={ofertaCredito}
 								onChange={this.ajudadorDeCampo}
 							/>
 						</Col>
@@ -360,7 +396,7 @@ class LancarVarios extends React.Component {
 							<input
 								type='number'
 								name='ofertaMoeda'
-								value={this.state.ofertaMoeda}
+								value={ofertaMoeda}
 								onChange={this.ajudadorDeCampo}
 							/>
 						</Col>
@@ -380,7 +416,7 @@ class LancarVarios extends React.Component {
 							<input
 								type='number'
 								name='ofertaEspecialDinheiro'
-								value={this.state.ofertaEspecialDinheiro}
+								value={ofertaEspecialDinheiro}
 								onChange={this.ajudadorDeCampo}
 							/>
 						</Col>
@@ -393,7 +429,7 @@ class LancarVarios extends React.Component {
 							<input
 								type='number'
 								name='ofertaEspecialDebito'
-								value={this.state.ofertaEspecialDebito}
+								value={ofertaEspecialDebito}
 								onChange={this.ajudadorDeCampo}
 							/>
 						</Col>
@@ -406,7 +442,7 @@ class LancarVarios extends React.Component {
 							<input
 								type='number'
 								name='ofertaEspecialCredito'
-								value={this.state.ofertaEspecialCredito}
+								value={ofertaEspecialCredito}
 								onChange={this.ajudadorDeCampo}
 							/>
 						</Col>
@@ -419,7 +455,7 @@ class LancarVarios extends React.Component {
 							<input
 								type='number'
 								name='ofertaEspecialMoeda'
-								value={this.state.ofertaEspecialMoeda}
+								value={ofertaEspecialMoeda}
 								onChange={this.ajudadorDeCampo}
 							/>
 						</Col>
@@ -434,6 +470,15 @@ class LancarVarios extends React.Component {
 						</div>
 				}
 				<div style={{padding: 10, backgroundColor: 'lightcyan'}}>
+					<Row style={{color:'white', backgroundColor:'black'}}>
+						<Col>
+							Total
+						</Col>
+						<Col>
+							{total}
+						</Col>
+					</Row>
+	
 					<Row>
 						<Col>
 							<button 
