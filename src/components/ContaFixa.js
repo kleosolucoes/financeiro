@@ -6,6 +6,7 @@ import {
 import { connect } from 'react-redux'
 import { salvarContaFixa } from '../actions'
 import { pegarDataEHoraAtual } from '../helpers/funcoes'
+import { STRING_DEBITO, STRING_CREDITO, } from '../helpers/constantes'
 
 class ContaFixa extends React.Component {
 
@@ -72,7 +73,7 @@ class ContaFixa extends React.Component {
 						Credito/Debito
 					</Col>
 					<Col>
-						{categoria.credito_debito === 'C' ? 'Credito' : 'Debito'}
+						{categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO}
 					</Col>
 				</Row>
 				<Row style={{padding: 5}}>

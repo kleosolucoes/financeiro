@@ -147,6 +147,9 @@ class PersistentDrawerLeft extends React.Component {
 								<ListItemText primary={capitalizeFirstLetter(tela)} />
 							</ListItem>
 						))}
+						<ListItem button onClick={() => {this.props.sair()} }>
+							<ListItemText primary={'Sair'} />
+						</ListItem>
 					</List>
 				</Drawer>
 			</div>

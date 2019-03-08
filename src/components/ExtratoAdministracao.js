@@ -4,6 +4,7 @@ import {
 	Col,
 } from 'reactstrap'
 import { connect } from 'react-redux'
+import { SITUACAO_RECEBIDO, SITUACAO_NAO_RECEBIDO } from '../helpers/constantes'
 
 class ExtratoAdministracao extends React.Component {
 
@@ -11,10 +12,6 @@ class ExtratoAdministracao extends React.Component {
 		api: null,
 		lancamentos: null,
 		categorias: null,
-	}
-
-	componentDidMount(){
-		console.log('componentDidMount')
 	}
 
 	render() {
@@ -107,14 +104,14 @@ const mapStateToProps = state => {
 			.find(categoria => lancamento.categoria_id === categoria.id)
 
 		const valorFormatado = parseFloat(lancamento.valor)
-		if(situacaoAtiva.id === 1){
+		if(situacaoAtiva.id === SITUACAO_RECEBIDO){
 			if(categoriaAtiva.credito_debito === 'C'){
 				saldo += valorFormatado
 			}else{
 				saldo -= valorFormatado
 			}
 		}
-		if(situacaoAtiva.id === 2){
+		if(situacaoAtiva.id === SITUACAO_NAO_RECEBIDO){
 			naoRecebido += valorFormatado
 			listaDeNaoRecebidoPorCategorias[categoriaAtiva.id] += valorFormatado
 		}

@@ -6,6 +6,7 @@ import {
 	FormGroup,
 	Input,
 } from 'reactstrap'
+import { EMPRESA_ADMINISTRACAO_ID } from '../helpers/constantes'
 
 
 class Lancamentos extends React.Component {
@@ -71,8 +72,7 @@ class Lancamentos extends React.Component {
 					</Input>
 				</FormGroup>
 				{
-					empresa_usuario_logado_id === 1 && 
-
+					empresa_usuario_logado_id === EMPRESA_ADMINISTRACAO_ID && 
 						<FormGroup>
 							<Label for="empresa_id">Empresa</Label>
 							<Input 
@@ -120,7 +120,7 @@ const mapStateToProps = (state, { empresa_id })  => {
 
 	let lancamentos = state.lancamentos
 	/* Tela de extrato da empresa */
-	if(usuarioLogado.empresa_id !== 1){ // TODO empresa administracao
+	if(usuarioLogado.empresa_id !== EMPRESA_ADMINISTRACAO_ID){
 		lancamentos = state.lancamentos.filter(lancamento => lancamento.empresa_id === usuarioLogado.empresa_id)
 	}
 	return {

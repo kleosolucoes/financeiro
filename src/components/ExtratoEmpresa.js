@@ -5,6 +5,7 @@ import {
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import Lancamentos from './Lancamentos'
+import { SITUACAO_RECEBIDO, SITUACAO_NAO_RECEBIDO } from '../helpers/constantes'
 
 class ExtratoEmpresa extends React.Component {
 
@@ -72,14 +73,14 @@ const mapStateToProps = state => {
 			.find(categoria => lancamento.categoria_id === categoria.id)
 
 		const valorFormatado = parseFloat(lancamento.valor)
-		if(situacaoAtiva.id === 1){
+		if(situacaoAtiva.id === SITUACAO_RECEBIDO){
 			if(categoriaAtiva.credito_debito === 'C'){
 				saldo += valorFormatado
 			}else{
 				saldo -= valorFormatado
 			}
 		}
-		if(situacaoAtiva.id === 2){ // TODO
+		if(situacaoAtiva.id === SITUACAO_NAO_RECEBIDO){
 			naoRecebido += valorFormatado
 		}
 	})
@@ -90,10 +91,4 @@ const mapStateToProps = state => {
 	}
 }
 
-function mapDispatchToProps(dispatch){
-	return {
-
-	}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ExtratoEmpresa)
+export default connect(mapStateToProps, null)(ExtratoEmpresa)

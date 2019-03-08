@@ -1,14 +1,13 @@
-export const STRING_PRINCIPAL = 'principal'
-export const STRING_LANCAMENTOS = 'lancamentos'
-export const STRING_CATEGORIAS = 'categorias'
-export const STRING_EMPRESAS = 'empresas'
-export const STRING_FORNECEDORES = 'fornecedores'
-export const STRING_CLIENTES = 'clientes'
-export const STRING_USUARIOS = 'usuarios'
+/* Situações */
+export const SITUACAO_RECEBIDO = 1;
+export const SITUACAO_NAO_RECEBIDO = 2;
+export const SITUACAO_RECUSADO = 3;
+export const SITUACAO_ATIVO = 4;
+export const SITUACAO_INATIVO = 5;
 
-export const ENTIDADE_TIPO_EMPRESA = 1
-export const ENTIDADE_TIPO_FORNECEDOR = 2
-export const ENTIDADE_TIPO_CLIENTE = 3
+export const EMPRESA_ADMINISTRACAO_ID = 1;
+export const USUARIO_TIPO_ADMINISTRACAO = 1
+export const USUARIO_TIPO_ACEITAR_LANCAMENTO = 2
 
-export const STRING_PAGO = 1;
-export const STRING_NAO_PAGO = 2;
+export const STRING_CREDITO = 'Crédito'
+export const STRING_DEBITO = 'Débito'

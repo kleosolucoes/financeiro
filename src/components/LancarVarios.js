@@ -10,6 +10,7 @@ import {
 import { connect } from 'react-redux'
 import { formatReal, getMoney, pegarDataEHoraAtual } from '../helpers/funcoes'
 import { salvarLancamento, salvarLancamentoSituacao } from '../actions'
+import { SITUACAO_NAO_RECEBIDO } from '../helpers/constantes'
 
 class LancarVarios extends React.Component {
 
@@ -161,7 +162,7 @@ class LancarVarios extends React.Component {
 						hora_criacao: pegarDataEHoraAtual()[1],
 						data_inativacao: null,
 						hora_inativacao: null,
-						situacao_id: 2, // nao recebido TODO
+						situacao_id: SITUACAO_NAO_RECEBIDO,
 						lancamento_id: elemento.id,
 						usuario_id: this.props.usuario_id, 
 					}

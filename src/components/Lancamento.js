@@ -10,6 +10,11 @@ import {
 import { connect } from 'react-redux'
 import { formatReal, getMoney, pegarDataEHoraAtual } from '../helpers/funcoes'
 import { salvarLancamento, salvarLancamentoSituacao } from '../actions'
+import { 
+	EMPRESA_ADMINISTRACAO_ID,
+	STRING_DEBITO,
+	STRING_CREDITO
+} from '../helpers/constantes'
 
 class Lancamento extends React.Component {
 	state = {
@@ -142,7 +147,7 @@ class Lancamento extends React.Component {
 					</Col>
 				</Row>
 				{
-					empresa_usuario_logado_id === 1 && // cado empresa administracao pode alterar
+					empresa_usuario_logado_id === EMPRESA_ADMINISTRACAO_ID && 
 					<div>
 						<Row>
 							<FormGroup>
@@ -226,7 +231,7 @@ class Lancamento extends React.Component {
 					</div>
 				}
 				{
-					empresa_usuario_logado_id !== 1 &&
+					empresa_usuario_logado_id !== EMPRESA_ADMINISTRACAO_ID &&
 						<div>
 							<Row>
 								<Col>
@@ -259,7 +264,7 @@ class Lancamento extends React.Component {
 						Tipo	
 					</Col>
 					<Col>
-						{categoria.credito_debito === 'C' ? 'Credito' : 'Debito'}
+						{categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO}
 					</Col>
 				</Row>
 

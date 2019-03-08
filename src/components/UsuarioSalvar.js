@@ -11,6 +11,11 @@ import { connect } from 'react-redux'
 import { salvarUsuario, salvarUsuarioSituacao, } from '../actions'
 import md5 from 'md5'
 import { pegarDataEHoraAtual } from '../helpers/funcoes'
+import { 
+	EMPRESA_ADMINISTRACAO_ID,
+	USUARIO_TIPO_ADMINISTRACAO,
+	USUARIO_TIPO_ACEITAR_LANCAMENTO,
+} from '../helpers/constantes'
 
 class UsuarioSalvar extends React.Component {
 
@@ -138,13 +143,13 @@ class UsuarioSalvar extends React.Component {
 							usuarioTipo &&
 								usuarioTipo.map(usuarioTipo => {
 									let mostrar = false
-									if(this.props.empresa_id === 1
-										&& (usuarioTipo.id === 1 || usuarioTipo.id === 2)){
+									if(this.props.empresa_id === EMPRESA_ADMINISTRACAO_ID
+										&& (usuarioTipo.id === USUARIO_TIPO_ADMINISTRACAO || usuarioTipo.id === USUARIO_TIPO_ACEITAR_LANCAMENTO)){
 										mostrar = true
 									}
-									if(this.props.empresa_id !== 1 
-										&& usuarioTipo.id !== 1 
-										&& usuarioTipo.id !== 2){
+									if(this.props.empresa_id !== EMPRESA_ADMINISTRACAO_ID
+										&& usuarioTipo.id !== USUARIO_TIPO_ADMINISTRACAO
+										&& usuarioTipo.id !== USUARIO_TIPO_ACEITAR_LANCAMENTO){
 										mostrar = true
 									}
 									if(mostrar){

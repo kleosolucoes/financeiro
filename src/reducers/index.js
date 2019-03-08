@@ -227,7 +227,7 @@ const stateUsuarios = [
 		empresa_id: 1,
 		usuario_tipo_id: 1,
 		email: 'falecomleonardopereira@gmail.com',
-		senha: '123',
+		senha: '202cb962ac59075b964b07152d234b70',
 		nome: 'Jaspio Pereira Magalhães',
 		data_criacao: '16/12/2018',
 		hora_criacao: '00:00:01',
@@ -239,7 +239,7 @@ const stateUsuarios = [
 		empresa_id: 2,
 		usuario_tipo_id: 2,
 		email: 'ivan@gmail.com',
-		senha: '123',
+		senha: '202cb962ac59075b964b07152d234b70',
 		nome: 'Ivan Tavares',
 		data_criacao: '16/12/2018',
 		hora_criacao: '00:00:01',
@@ -553,8 +553,7 @@ const stateContaFixa = [
 ]
 
 const stateUsuarioLogado = {
-	usuario_id: 1,
-	//usuario_id: null,
+	usuario_id: null,
 }
 
 function empresaTipo(state = stateEmpresaTipo, action){
@@ -743,9 +742,9 @@ function lancamentoSituacao(state = stateLancamentoSituacao, action){
 function usuarioLogado(state = stateUsuarioLogado, action){
 	switch(action.type){
 		case PEGAR_USUARIO_LOGADO:
-			return [...state]
+			return {...state}
 		case SALVAR_USUARIO_LOGADO:
-			return [...state, action.elemento]
+			return {...state, ...action.elemento}
 		default:
 			return state
 	}

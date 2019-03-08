@@ -8,29 +8,48 @@ import ExtratoEmpresa from './components/ExtratoEmpresa'
 import LancarVarios from './components/LancarVarios'
 import LancarUm from './components/LancarUm'
 import Usuarios from './components/Usuarios'
-import { FolhaDeEstilo } from './components/FolhaDeEstilo'
+import Login from './components/Login'
 import {
 	Container,
 } from 'reactstrap'
 import { connect } from 'react-redux'
+import { salvarUsuarioLogado, } from './actions'
 
 class App extends React.Component {
 
 	state = {
-		tela: 'extratoEmpresa',
+		tela: 'login',
 	}
 
 	alterarTela = (tela) => {
 		this.setState({tela})
 	}
 
+	sair = () => {
+		this.props.salvarUsuarioLogado({usuario_id: null})
+		this.alterarTela('login')
+	}
+
 	render() {
 		const { tela } = this.state
 		const { empresa_id } = this.props
 		return (
-			<Container style={FolhaDeEstilo.containerStyle}>
-				<Menu alterarTela={this.alterarTela} nomeDaTela={tela} />
+			<Container>
+				{
+					empresa_id &&
+						<Menu 
+							alterarTela={this.alterarTela} 
+							nomeDaTela={tela} 
+							sair={this.sair}
+						/>
+				}
 				<div>
+					{
+						tela === 'login' &&
+							<Login
+								alterarTela={this.alterarTela}
+							/>
+					}
 					{
 						tela === 'extratoEmpresa' &&
 							<ExtratoEmpresa />
@@ -76,11 +95,21 @@ class App extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-	const usuarioLogado = state.usuarioLogado
-	const usuario = state.usuarios.find(usuario => usuario.id === usuarioLogado.usuario_id)
+	let empresa_id = null
+	if(state.usuarioLogado.usuario_id){
+		const usuarioLogado = state.usuarioLogado
+		const usuario = state.usuarios.find(usuario => usuario.id === usuarioLogado.usuario_id)
+		empresa_id = usuario.empresa_id
+	}
 	return {
-		empresa_id: usuario.empresa_id,
+		empresa_id,
 	}
 }
 
-export default connect(mapStateToProps, null)(App)
+function mapDispatchToProps(dispatch){
+	return {
+		salvarUsuarioLogado: (elemento) => dispatch(salvarUsuarioLogado(elemento)),
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)

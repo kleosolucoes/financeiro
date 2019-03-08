@@ -6,6 +6,7 @@ import {
 import { connect } from 'react-redux'
 import { salvarCategoria } from '../actions'
 import CategoriaSalvar from './CategoriaSalvar'
+import { STRING_DEBITO, STRING_CREDITO, } from '../helpers/constantes'
 
 class Categorias extends React.Component {
 
@@ -76,10 +77,10 @@ class Categorias extends React.Component {
 											</Row>
 											<Row>
 												<Col>
-													Credito/Debito
+													Crédito/Débito
 												</Col>
 												<Col>
-													{categoria.credito_debito === 'C' ? 'Credito' : 'Debito'}
+													{categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO}
 												</Col>
 											</Row>
 										</div>
