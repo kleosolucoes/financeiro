@@ -79,6 +79,7 @@ class ContaFixaSalvar extends React.Component {
 			elemento.usuario_id = this.props.usuario_id
 			this.props.salvarContaFixa(elemento, novoRegistro)
 			this.props.alternarMostrarSalvarContaFixa()
+			alert('Conta Fixa Salva com sucesso!')
 		}
 	}
 

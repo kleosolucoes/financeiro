@@ -125,6 +125,7 @@ class LancarUm extends React.Component {
 			this.props.salvarLancamento(elemento, novoRegistro)
 			this.props.salvarLancamentoSituacao(elementoAssociativo, novoRegistro)
 			this.props.alterarTela('extratoAdministracao')
+			alert('Lançamento Salvo com sucesso!')
 		}
 	}
 

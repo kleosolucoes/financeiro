@@ -369,6 +369,21 @@ const stateLancamentos = [
 		data_inativacao: null,
 		descricao: '',
 	},
+	{
+		id: 6,
+		data_criacao: '16/12/2018',
+		data: '22/11/2019',
+		valor: '100.00',
+		taxa: '0.00',
+		categoria_id: 11,
+		usuario_id: 2,
+		empresa_id: 2,
+		hora_criacao: '00:00:01',
+		hora_inativacao: null,
+		data_inativacao: null,
+		descricao: '',
+	},
+
 ]
 
 const stateSituacoes = [
@@ -495,6 +510,17 @@ const stateLancamentoSituacao = [
 		hora_inativacao: null,
 		data_inativacao: null,
 	},
+	{
+		id: 9,
+		lancamento_id: 6,
+		situacao_id: 1,
+		usuario_id: 2,
+		data_criacao: '16/12/2018',
+		hora_criacao: '00:00:01',
+		hora_inativacao: null,
+		data_inativacao: null,
+	},
+
 ]
 
 const stateContaFixa = [

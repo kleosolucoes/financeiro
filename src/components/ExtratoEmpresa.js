@@ -4,6 +4,7 @@ import {
 	Col,
 } from 'reactstrap'
 import { connect } from 'react-redux'
+import Lancamentos from './Lancamentos'
 
 class ExtratoEmpresa extends React.Component {
 
@@ -15,11 +16,6 @@ class ExtratoEmpresa extends React.Component {
 		const { 
 			saldo,
 			naoRecebido,
-			lancamentos,
-			lancamentoSituacao,
-			categorias,
-			situacoes,
-			usuarios,
 		} = this.props
 		return (
 			<div>
@@ -49,125 +45,7 @@ class ExtratoEmpresa extends React.Component {
 							Lancamentos
 						</Col>
 					</Row>
-					{
-						lancamentos &&
-							lancamentos.map(lancamento => {
-								return (
-									<div key={lancamento.id} style={{padding:10, backgroundColor: 'lightCyan', marginTop: 10}}>
-										<Row>
-											<Col>
-												Id
-											</Col>
-											<Col>
-												{lancamento.id.toString().padStart(8,0)}
-											</Col>
-										</Row>
-										<Row>
-											<Col>
-												Data
-											</Col>
-											<Col>
-												{lancamento.data}
-											</Col>
-										</Row>
-										<Row>
-											<Col>
-												Valor
-											</Col>
-											<Col>
-												{lancamento.valor}
-											</Col>
-										</Row>
-										<Row>
-											<Col>
-												Taxa
-											</Col>
-											<Col>
-												{lancamento.taxa}
-											</Col>
-										</Row>
-										<Row>
-											<Col>
-												Descrição
-											</Col>
-											<Col>
-												{lancamento.descricao}
-											</Col>
-										</Row>
-										<Row>
-											<Col>
-												Categoria
-											</Col>
-											<Col>
-												{
-													categorias
-														.find(categoria => lancamento.categoria_id === categoria.id)
-														.nome
-												}
-											</Col>
-										</Row>
-										<Row>
-											<Col>
-												Tipo	
-											</Col>
-											<Col>
-												{
-													categorias
-														.find(categoria => lancamento.categoria_id === categoria.id)
-														.credito_debito === 'C' ? 'Credito' : 'Debito'
-												}
-											</Col>
-										</Row>
-										<Row>
-											<Col>
-												Quem
-											</Col>
-											<Col>
-												{
-													usuarios
-														.find(usuario => lancamento.usuario_id === usuario.id)
-														.nome
-														.split(' ')[0]
-												}
-											</Col>
-										</Row>
-										<div style={{padding: 5, backgroundColor: 'lightblue'}}>
-											<p>Situação Atual</p>
-											{
-												lancamentoSituacao
-													.filter(lancamentoSituacao => lancamento.id === lancamentoSituacao.lancamento_id && lancamentoSituacao.data_inativacao === null)
-													.map(lancamentoSituacao => {
-														return (
-															<div key={lancamentoSituacao.id} style={{padding: 5, marginTop: 5, backgroundColor: 'lightgreen'}}>
-																<Row>
-																	<Col>
-																		Data
-																	</Col>
-																	<Col>
-																		{lancamentoSituacao.data_criacao}
-																	</Col>
-																</Row>
-																<Row>
-																	<Col>
-																		Situação
-																	</Col>
-																	<Col>
-																		{
-																			situacoes
-																				.find(situacao => lancamentoSituacao.situacao_id === situacao.id)
-																				.nome
-																		}
-																	</Col>
-																</Row>
-															</div>
-														)
-													})
-											}
-										</div>
-									</div>
-								)
-							})
-					}
+					<Lancamentos />
 				</div>	
 			</div>
 		)
@@ -177,7 +55,10 @@ class ExtratoEmpresa extends React.Component {
 const mapStateToProps = state => {
 	let saldo = 0
 	let naoRecebido = 0
-	const lancamentosFiltrados = state.lancamentos.filter(lancamento => lancamento.empresa_id === 1)
+	const usuarioLogado = state.usuarios
+		.find(usuario => usuario.id === state.usuarioLogado.usuario_id)
+
+	const lancamentosFiltrados = state.lancamentos.filter(lancamento => lancamento.empresa_id === usuarioLogado.empresa_id)
 
 	lancamentosFiltrados.forEach(lancamento => {
 		const lancamentoSituacaoAtiva = state.lancamentoSituacao
@@ -198,20 +79,14 @@ const mapStateToProps = state => {
 				saldo -= valorFormatado
 			}
 		}
-		if(situacaoAtiva.id === 2){
+		if(situacaoAtiva.id === 2){ // TODO
 			naoRecebido += valorFormatado
 		}
 	})
 
-
 	return {
 		saldo,
 		naoRecebido,
-		lancamentos: lancamentosFiltrados,
-		lancamentoSituacao: state.lancamentoSituacao,
-		categorias: state.categorias,
-		situacoes: state.situacoes,
-		usuarios: state.usuarios,
 	}
 }
 

@@ -103,6 +103,7 @@ class UsuarioSalvar extends React.Component {
 			this.props.salvarUsuario(elemento, novoRegistro)
 			this.props.salvarUsuarioSituacao(elementoAssociativo, novoRegistro)
 			this.props.alternarMostrarSalvarUsuario()
+			alert('Usuário Salvo com sucesso!')
 		}
 	}
 

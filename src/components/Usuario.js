@@ -10,32 +10,35 @@ import { pegarDataEHoraAtual } from '../helpers/funcoes'
 class Usuario extends React.Component {
 
 	removerUsuario = () => {
-		let { 
-			usuario,
-			usuarioSituacao,
-			usuarioLogado,
-		} = this.props
+		if(window.confirm('Realmente deseja remover esse usuário?')){
+			let { 
+				usuario,
+				usuarioSituacao,
+				usuarioLogado,
+			} = this.props
 
-		usuario.data_inativacao = pegarDataEHoraAtual()[0]
-		usuario.hora_inativacao = pegarDataEHoraAtual()[1]
-		this.props.salvarUsuario(usuario)
+			usuario.data_inativacao = pegarDataEHoraAtual()[0]
+			usuario.hora_inativacao = pegarDataEHoraAtual()[1]
+			this.props.salvarUsuario(usuario)
 
-		usuarioSituacao.data_inativacao = pegarDataEHoraAtual()[0]
-		usuarioSituacao.hora_inativacao = pegarDataEHoraAtual()[1]
-		this.props.salvarUsuarioSituacao(usuarioSituacao)
+			usuarioSituacao.data_inativacao = pegarDataEHoraAtual()[0]
+			usuarioSituacao.hora_inativacao = pegarDataEHoraAtual()[1]
+			this.props.salvarUsuarioSituacao(usuarioSituacao)
 
-		const novoRegistro = true
-		const elemento = {
-			id: Date.now(),
-			data_criacao: pegarDataEHoraAtual()[0],
-			hora_criacao: pegarDataEHoraAtual()[1],
-			data_inativacao: null,
-			hora_inativacao: null,
+			const novoRegistro = true
+			const elemento = {
+				id: Date.now(),
+				data_criacao: pegarDataEHoraAtual()[0],
+				hora_criacao: pegarDataEHoraAtual()[1],
+				data_inativacao: null,
+				hora_inativacao: null,
+			}
+			elemento.situacao_id = 5 // inativo TODO
+			elemento.usuario_id = usuario.id
+			elemento.quem_id = usuarioLogado.usuario_id
+			this.props.salvarUsuarioSituacao(elemento, novoRegistro)
+			alert('Usuário Removido com sucesso!')
 		}
-		elemento.situacao_id = 5 // inativo TODO
-		elemento.usuario_id = usuario.id
-		elemento.quem_id = usuarioLogado.usuario_id
-		this.props.salvarUsuarioSituacao(elemento, novoRegistro)
 	}
 
 	render() {

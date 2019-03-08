@@ -10,12 +10,14 @@ import { pegarDataEHoraAtual } from '../helpers/funcoes'
 class ContaFixa extends React.Component {
 
 	removerContaFixa = () => {
-		let contaFixa = this.props.contaFixa
-
-		contaFixa.data_inativacao = pegarDataEHoraAtual()[0]
-		contaFixa.hora_inativacao = pegarDataEHoraAtual()[1]
-		contaFixa.quem_inativou_id = this.props.usuario_id
-		this.props.salvarContaFixa(contaFixa)
+		if(window.confirm('Realmente deseja remover essa conta fixa?')){
+			let contaFixa = this.props.contaFixa
+			contaFixa.data_inativacao = pegarDataEHoraAtual()[0]
+			contaFixa.hora_inativacao = pegarDataEHoraAtual()[1]
+			contaFixa.quem_inativou_id = this.props.usuario_id
+			this.props.salvarContaFixa(contaFixa)
+			alert('Conta Fixa Removida com Sucesso!')
+		}
 	}
 
 	render() {

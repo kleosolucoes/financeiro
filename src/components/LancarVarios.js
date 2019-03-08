@@ -99,6 +99,7 @@ class LancarVarios extends React.Component {
 					data_inativacao: null,
 					hora_inativacao: null,
 				}
+				elemento.id += indiceDeValores
 				switch(indiceDeValores){
 					case 1: 
 						elemento.valor = dizimoDinheiro
@@ -159,12 +160,14 @@ class LancarVarios extends React.Component {
 						lancamento_id: elemento.id,
 						usuario_id: this.props.usuario_id, 
 					}
+					elementoAssociativo.id += indiceDeValores
 
 					this.props.salvarLancamento(elemento, novoRegistro)
 					this.props.salvarLancamentoSituacao(elementoAssociativo, novoRegistro)
 				}
 			}
-			this.props.alterarTela('extratoAdministracao')
+			alert('Lancamento(s) Salvo(s)!')
+			this.props.alterarTela('extratoEmpresa')
 		}
 	}
 

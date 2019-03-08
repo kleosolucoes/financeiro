@@ -70,6 +70,7 @@ class CategoriaSalvar extends React.Component {
 			elemento.nome = nome
 			this.props.salvarCategoria(elemento, novoRegistro)
 			this.props.alternarMostrarAdicionar()
+			alert('Categoria Salva com sucesso!')
 		}
 	}
 

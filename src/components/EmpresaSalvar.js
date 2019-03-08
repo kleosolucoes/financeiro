@@ -71,6 +71,7 @@ class EmpresaSalvar extends React.Component {
 
 			this.props.salvarEmpresa(elemento, novoRegistro)
 			this.props.alternarMostrarSalvarEmpresa()
+			alert('Empresa Salva com sucesso!')
 		}
 	}
 

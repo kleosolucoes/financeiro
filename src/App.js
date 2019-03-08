@@ -17,7 +17,7 @@ import { connect } from 'react-redux'
 class App extends React.Component {
 
 	state = {
-		tela: 'empresas',
+		tela: 'extratoEmpresa',
 	}
 
 	alterarTela = (tela) => {

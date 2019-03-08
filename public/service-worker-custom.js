@@ -1,6 +1,6 @@
 console.log('Custom service worker')
 
-const nomeDoCachePrincipal = 'financeiro-v004'
+const nomeDoCachePrincipal = 'financeiro-v005'
 self.addEventListener('install', event => {
 	console.log('Install')
 	event.waitUntil(
@@ -18,7 +18,9 @@ self.addEventListener('install', event => {
 				'https://circuitodavisaonovo.com.br/api',
 			])
 		})
-		.catch(error => console.log(error))
+		.catch(error => console.log(error)),
+		console.log('skipWaiting'),
+		self.skipWaiting()
 	)
 })
 
