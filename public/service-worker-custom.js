@@ -1,6 +1,6 @@
 console.log('Custom service worker')
 
-const nomeDoCachePrincipal = 'financeiro-v007'
+const nomeDoCachePrincipal = 'financeiro-v008'
 self.addEventListener('install', event => {
 	console.log('Install')
 	event.waitUntil(
@@ -29,6 +29,7 @@ self.addEventListener('activate', event => {
 	event.waitUntil(
 		caches.keys()
 		.then(nomeTodasCaches => {
+			console.log('removendo outros caches')
 			return Promise.all(
 				nomeTodasCaches
 				.filter(nomeDocache => nomeDocache.startsWith('financeiro-') && nomeDocache != nomeDoCachePrincipal)
