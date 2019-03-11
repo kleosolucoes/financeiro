@@ -1,0 +1,26 @@
+.card-saldo {
+  align-items: center;
+  text-align: center;
+  height: 90px;
+  justify-content: center;
+  background: transparent !important;
+  border: none !important;
+}
+.container-menu-empresa {
+  margin-top: 30px;
+}
+.card-menu {
+  align-items: center;
+  text-align: center;
+  height: 90px;
+  justify-content: space-around;
+  background: #f9f7f7 !important;
+  color: #2f8c7c !important;
+  border: none !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,.12);
+  cursor: pointer;
+}
+.container-menu-administracao {
+    margin-top: 30px;
+  }
+
