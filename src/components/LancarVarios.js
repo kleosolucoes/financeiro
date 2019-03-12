@@ -5,7 +5,8 @@ import {
 	Label,
 	FormGroup,
 	Input,
-	Alert
+	Alert,
+	Button
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import { formatReal, getMoney, pegarDataEHoraAtual } from '../helpers/funcoes'
@@ -228,11 +229,40 @@ class LancarVarios extends React.Component {
 			.toString()
 			.padStart(3, '0')
 		)
+		const totalDizimo = formatReal(
+			(
+				getMoney(dizimoCredito) +
+				getMoney(dizimoDebito) +
+				getMoney(dizimoDinheiro) +
+				getMoney(dizimoMoeda)
+			).toString()
+			.padStart(3, '0')
+		)
+		const totalOferta = formatReal(
+			(
+				getMoney(ofertaCredito) +
+				getMoney(ofertaDebito) +
+				getMoney(ofertaDinheiro) +
+				getMoney(ofertaMoeda)
+			).toString()
+			.padStart(3, '0')
+		)
+		const totalOfertaEspecial = formatReal(
+			(
+				getMoney(ofertaEspecialCredito) +
+				getMoney(ofertaEspecialDebito) +
+				getMoney(ofertaEspecialDinheiro) +
+				getMoney(ofertaEspecialMoeda)
+			).toString()
+			.padStart(3, '0')
+		)
 	
 		return (
-			<div>
-				<Label for="data">Data do lançamento:</Label>
-				<FormGroup>
+			<div style={{marginTop: 80}}>
+				<Label style={{fontWeight: 400}} for="data">DATA DE LANÇAMENTO</Label>
+				<Row>
+					<Col> 
+					<FormGroup>
 					<Label for="dia">* Dia:</Label>
 					<Input 
 						type="select" 
@@ -248,7 +278,10 @@ class LancarVarios extends React.Component {
 						}
 					</Input>
 					{camposComErro.includes('dia') && <Alert color='danger'>Selecione o Dia</Alert>}
-				</FormGroup>
+					</FormGroup>
+				</Col>
+				
+				<Col>
 				<FormGroup>
 					<Label for="mes">* Mês:</Label>
 					<Input 
@@ -266,6 +299,9 @@ class LancarVarios extends React.Component {
 					</Input>
 					{camposComErro.includes('mes') && <Alert color='danger'>Selecione o Mês</Alert>}
 				</FormGroup>
+				</Col>
+
+				<Col>
 				<FormGroup>
 					<Label for="ano">* Ano:</Label>
 					<Input 
@@ -283,19 +319,21 @@ class LancarVarios extends React.Component {
 					</Input>
 					{camposComErro.includes('ano') && <Alert color='danger'>Selecione o Ano</Alert>}
 				</FormGroup>
+				</Col>
+				</Row>
 
-				<div style={{padding: 10, backgroundColor: 'lightcyan'}}>
-					<Row>
-						<Col>
-							Dizimo
-						</Col>
+				<div className="container-item">
+					<div style={{padding:10}}>
+
+					<Row style={{justifyContent: 'center', paddingBottom: 10, paddingTop: 5}}>
+							<h6><b>Dizimo</b></h6>
 					</Row>
 					<Row>
 						<Col>
 							Dinheiro
 						</Col>
 						<Col>
-							<input
+							<Input
 								type='number'
 								name='dizimoDinheiro'
 								value={dizimoDinheiro}
@@ -308,7 +346,7 @@ class LancarVarios extends React.Component {
 							Cartão Débito
 						</Col>
 						<Col>
-							<input
+							<Input
 								type='number'
 								name='dizimoDebito'
 								value={dizimoDebito}
@@ -317,11 +355,9 @@ class LancarVarios extends React.Component {
 						</Col>
 					</Row>
 					<Row>
+						<Col> Cartão Crédito </Col>
 						<Col>
-							Cartão Crédito
-						</Col>
-						<Col>
-							<input
+							<Input
 								type='number'
 								name='dizimoCredito'
 								value={dizimoCredito}
@@ -330,11 +366,9 @@ class LancarVarios extends React.Component {
 						</Col>
 					</Row>
 					<Row>
+						<Col> Moeda </Col>
 						<Col>
-							Moeda
-						</Col>
-						<Col>
-							<input
+							<Input
 								type='number'
 								name='dizimoMoeda'
 								value={dizimoMoeda}
@@ -342,20 +376,26 @@ class LancarVarios extends React.Component {
 							/>
 						</Col>
 					</Row>
+					</div>
+
+					<div className="total-categoria-lancado">
+					<Row>
+						<Col style={{paddingRight: 0, paddingLeft: 0}}> <b>TOTAL DIZIMO</b> </Col>
+						<Col> <b>{totalDizimo}</b> </Col>
+					</Row>
+					</div>
 
 				</div>
-				<div style={{padding: 10, backgroundColor: 'lightblue'}}>
-					<Row>
-						<Col>
-							Oferta
-						</Col>
+
+				<div className="container-item-meio">
+				<div style={{padding:10}}>
+					<Row style={{justifyContent: 'center', paddingBottom: 10, paddingTop: 5}}>
+						<h6><b>Oferta</b></h6>
 					</Row>
 					<Row>
+						<Col> Dinheiro </Col>
 						<Col>
-							Dinheiro
-						</Col>
-						<Col>
-							<input
+							<Input
 								type='number'
 								name='ofertaDinheiro'
 								value={ofertaDinheiro}
@@ -364,11 +404,9 @@ class LancarVarios extends React.Component {
 						</Col>
 					</Row>
 					<Row>
+						<Col> Cartão Débito </Col>
 						<Col>
-							Cartão Débito
-						</Col>
-						<Col>
-							<input
+							<Input
 								type='number'
 								name='ofertaDebito'
 								value={ofertaDebito}
@@ -377,11 +415,9 @@ class LancarVarios extends React.Component {
 						</Col>
 					</Row>
 					<Row>
+						<Col> Cartão Crédito </Col>
 						<Col>
-							Cartão Crédito
-						</Col>
-						<Col>
-							<input
+							<Input
 								type='number'
 								name='ofertaCredito'
 								value={ofertaCredito}
@@ -390,11 +426,9 @@ class LancarVarios extends React.Component {
 						</Col>
 					</Row>
 					<Row>
+						<Col> Moeda </Col>
 						<Col>
-							Moeda
-						</Col>
-						<Col>
-							<input
+							<Input
 								type='number'
 								name='ofertaMoeda'
 								value={ofertaMoeda}
@@ -403,18 +437,25 @@ class LancarVarios extends React.Component {
 						</Col>
 					</Row>
 				</div>
-				<div style={{padding: 10, backgroundColor: 'lightblue'}}>
+					<div className="total-categoria-lancado-meio">
 					<Row>
-						<Col>
-							Oferta Especial
-						</Col>
+						<Col style={{paddingRight: 0, paddingLeft: 0}}> <b>TOTAL OFERTA</b> </Col>
+						<Col> <b>{totalOferta}</b> </Col>
+					</Row>
+					</div>
+				</div>
+
+				{/* <div style={{padding: 10, backgroundColor: 'lightcyan', borderRadius: 4}}> */}
+				<div className="container-item">
+				<div style={{padding: 10}}>
+
+					<Row style={{justifyContent: 'center', paddingBottom: 10, paddingTop: 5}}>
+						<h6><b>Oferta Especial</b></h6>
 					</Row>
 					<Row>
+						<Col> Dinheiro </Col>
 						<Col>
-							Dinheiro
-						</Col>
-						<Col>
-							<input
+							<Input
 								type='number'
 								name='ofertaEspecialDinheiro'
 								value={ofertaEspecialDinheiro}
@@ -423,11 +464,9 @@ class LancarVarios extends React.Component {
 						</Col>
 					</Row>
 					<Row>
+						<Col> Cartão Débito </Col>
 						<Col>
-							Cartão Débito
-						</Col>
-						<Col>
-							<input
+							<Input
 								type='number'
 								name='ofertaEspecialDebito'
 								value={ofertaEspecialDebito}
@@ -436,11 +475,9 @@ class LancarVarios extends React.Component {
 						</Col>
 					</Row>
 					<Row>
+						<Col> Cartão Crédito </Col>
 						<Col>
-							Cartão Crédito
-						</Col>
-						<Col>
-							<input
+							<Input
 								type='number'
 								name='ofertaEspecialCredito'
 								value={ofertaEspecialCredito}
@@ -449,11 +486,9 @@ class LancarVarios extends React.Component {
 						</Col>
 					</Row>
 					<Row>
+						<Col> Moeda </Col>
 						<Col>
-							Moeda
-						</Col>
-						<Col>
-							<input
+							<Input
 								type='number'
 								name='ofertaEspecialMoeda'
 								value={ofertaEspecialMoeda}
@@ -461,6 +496,13 @@ class LancarVarios extends React.Component {
 							/>
 						</Col>
 					</Row>
+				</div>
+					<div className="total-categoria-lancado">
+					<Row style={{alignItems: 'center'}}>
+						<Col style={{paddingRight: 0, paddingLeft: 0}}> <b>TOTAL OFERTA ESPECIAL</b> </Col>
+						<Col> <b>{totalOfertaEspecial}</b> </Col>
+					</Row>
+					</div>
 				</div>
 				{
 					mostrarMensagemDeErro &&
@@ -470,24 +512,17 @@ class LancarVarios extends React.Component {
 							</Alert>
 						</div>
 				}
-				<div style={{padding: 10, backgroundColor: 'lightcyan'}}>
-					<Row style={{color:'white', backgroundColor:'black'}}>
+				<div style={{padding: 10, marginTop: 5, marginBottom: 5}}>
+					<Row className="total-lancado">
+						<Col> <b>TOTAL</b> </Col>
+						<Col> <b>{total}</b> </Col>
 						<Col>
-							Total
-						</Col>
-						<Col>
-							{total}
-						</Col>
-					</Row>
-	
-					<Row>
-						<Col>
-							<button 
+							<Button 
 								type='button' 
-								style={{width: '100%'}}
+								className="botao-lancar"
 								onClick={this.ajudadorDeSubmissao}>
-								Salvar
-							</button>
+								<b>Salvar</b>
+							</Button>
 						</Col>
 					</Row>
 				</div>
