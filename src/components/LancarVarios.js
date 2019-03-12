@@ -387,7 +387,7 @@ class LancarVarios extends React.Component {
 
 				</div>
 
-				<div className="container-item-meio">
+				<div className="container-item" style={{margin: '15px 0px'}}>
 				<div style={{padding:10}}>
 					<Row style={{justifyContent: 'center', paddingBottom: 10, paddingTop: 5}}>
 						<h6><b>Oferta</b></h6>
@@ -437,7 +437,7 @@ class LancarVarios extends React.Component {
 						</Col>
 					</Row>
 				</div>
-					<div className="total-categoria-lancado-meio">
+					<div className="total-categoria-lancado">
 					<Row>
 						<Col style={{paddingRight: 0, paddingLeft: 0}}> <b>TOTAL OFERTA</b> </Col>
 						<Col> <b>{totalOferta}</b> </Col>
