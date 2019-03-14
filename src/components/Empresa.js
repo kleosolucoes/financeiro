@@ -27,7 +27,7 @@ class Empresa extends React.Component {
 						Id
 					</Col>
 					<Col>
-						{empresa.id.toString().padStart(8,0)}
+						{empresa._id.toString().padStart(8,0)}
 					</Col>
 				</Row>
 				<Row>
@@ -72,10 +72,10 @@ class Empresa extends React.Component {
 					this.state.mostrarTodosOsDados &&
 						<div>
 							<Usuarios
-								empresa_id={empresa.id}
+								empresa_id={empresa._id}
 							/>
 							<ContasFixas
-								empresa_id={empresa.id}
+								empresa_id={empresa._id}
 							/>
 						</div>
 				}
@@ -86,9 +86,9 @@ class Empresa extends React.Component {
 
 const mapStateToProps = (state, { empresa_id }) => {
 	const empresa = state.empresas
-		.find(empresa => empresa.id === empresa_id)
+		.find(empresa => empresa._id === empresa_id)
 	const empresaTipo = state.empresaTipo
-		.find(empresaTipo => empresaTipo.id === empresa.empresa_tipo_id)
+		.find(empresaTipo => empresaTipo._id === empresa.empresa_tipo_id)
 	return {
 		empresa,
 		empresaTipo,

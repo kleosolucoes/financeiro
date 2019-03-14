@@ -50,13 +50,13 @@ class Categorias extends React.Component {
 							{
 								categorias.map(categoria => {
 									return (
-										<div key={categoria.id} style={{padding:10, backgroundColor: 'lightCyan', marginTop: 10}}>
+										<div key={categoria._id} style={{padding:10, backgroundColor: 'lightCyan', marginTop: 10}}>
 											<Row>
 												<Col>
 													Id
 												</Col>
 												<Col>
-													{categoria.id.toString().padStart(8,0)}
+													{categoria._id.toString().padStart(8,0)}
 												</Col>
 											</Row>
 											<Row>

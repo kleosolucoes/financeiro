@@ -37,11 +37,11 @@ class Lancamentos extends React.Component {
 		let lancamentosFiltrados = lancamentos
 		if(categoria_id && parseInt(categoria_id) !== 0){
 			lancamentosFiltrados = lancamentosFiltrados
-				.filter(lancamento => lancamento.categoria_id === parseInt(categoria_id))
+				.filter(lancamento => lancamento.categoria_id === categoria_id)
 		}
 		if(empresa_id && parseInt(empresa_id) !== 0){
 			lancamentosFiltrados = lancamentosFiltrados
-				.filter(lancamento => lancamento.empresa_id === parseInt(empresa_id))
+				.filter(lancamento => lancamento.empresa_id === empresa_id)
 		}
 		return (
 			<div>
@@ -61,8 +61,8 @@ class Lancamentos extends React.Component {
 								categorias.map(categoria => {
 									return (
 										<option 
-											key={categoria.id}
-											value={categoria.id}
+											key={categoria._id}
+											value={categoria._id}
 										>
 											{categoria.nome}
 										</option>
@@ -88,8 +88,8 @@ class Lancamentos extends React.Component {
 										empresas.map(empresa => {
 											return (
 												<option 
-													key={empresa.id}
-													value={empresa.id}
+													key={empresa._id}
+													value={empresa._id}
 												>
 													{empresa.nome}
 												</option>
@@ -103,8 +103,8 @@ class Lancamentos extends React.Component {
 					lancamentosFiltrados &&
 						lancamentosFiltrados.map(lancamento => 
 							<Lancamento 
-								key={lancamento.id}
-								lancamento_id={lancamento.id} 
+								key={lancamento._id}
+								lancamento_id={lancamento._id} 
 							/>
 						)
 				}
@@ -116,7 +116,7 @@ class Lancamentos extends React.Component {
 
 const mapStateToProps = (state, { empresa_id })  => {
 	const usuarioLogado = state.usuarios
-		.find(usuario => usuario.id === state.usuarioLogado.usuario_id)
+		.find(usuario => usuario._id === state.usuarioLogado.usuario_id)
 
 	let lancamentos = state.lancamentos
 	/* Tela de extrato da empresa */

@@ -33,7 +33,7 @@ class ContaFixa extends React.Component {
 						Id
 					</Col>
 					<Col>
-						{contaFixa.id.toString().padStart(8,0)}
+						{contaFixa._id.toString().padStart(8,0)}
 					</Col>
 				</Row>
 				<Row>
@@ -95,9 +95,9 @@ class ContaFixa extends React.Component {
 
 const mapStateToProps = (state, {contaFixa_id}) => {
 	const contaFixa = state.contaFixa
-		.find(contaFixa => contaFixa.id === contaFixa_id)
+		.find(contaFixa => contaFixa._id === contaFixa_id)
 	const categoria = state.categorias
-		.find(categoria => categoria.id === contaFixa.categoria_id)
+		.find(categoria => categoria._id === contaFixa.categoria_id)
 	return {
 		contaFixa,
 		categoria,

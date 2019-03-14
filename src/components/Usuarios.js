@@ -52,8 +52,8 @@ class Usuarios extends React.Component {
 									.map(usuario => {
 										return (
 											<Usuario
-												key={usuario.id}
-												usuario_id={usuario.id}
+												key={usuario._id}
+												usuario_id={usuario._id}
 											/>
 										)
 									})
@@ -67,7 +67,7 @@ class Usuarios extends React.Component {
 
 const mapStateToProps = (state, { empresa_id }) => {
 	const usuarios = state.usuarios
-		.filter(usuario => usuario.empresa_id === empresa_id && usuario.data_inativacao === null)
+		.filter(usuario => usuario.empresa_id === empresa_id && usuario.data_inativacao === 'null')
 	return {
 		usuarios,
 	}

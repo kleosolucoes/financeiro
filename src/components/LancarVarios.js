@@ -497,8 +497,8 @@ class LancarVarios extends React.Component {
 }
 
 function mapStateToProps(state){
-	const empresa_id = state.usuarios.find(usuario => usuario.id === state.usuarioLogado.usuario_id).empresa_id
 	const usuario_id = state.usuarioLogado.usuario_id
+	const empresa_id = state.usuarioLogado.empresa_id
 	return {
 		usuario_id,
 		empresa_id,

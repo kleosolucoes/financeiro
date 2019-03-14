@@ -13,7 +13,10 @@ import { salvarLancamento, salvarLancamentoSituacao } from '../actions'
 import { 
 	EMPRESA_ADMINISTRACAO_ID,
 	STRING_DEBITO,
-	STRING_CREDITO
+	STRING_CREDITO,
+	SITUACAO_RECEBIDO,
+	SITUACAO_NAO_RECEBIDO,
+	SITUACAO_RECUSADO,
 } from '../helpers/constantes'
 
 class Lancamento extends React.Component {
@@ -135,7 +138,7 @@ class Lancamento extends React.Component {
 						Id
 					</Col>
 					<Col>
-						{lancamento.id.toString().padStart(8,0)}
+						{lancamento._id.toString().padStart(8,0)}
 					</Col>
 				</Row>
 				<Row>
@@ -193,14 +196,14 @@ class Lancamento extends React.Component {
 										situacoes &&
 											situacoes
 											.filter(situacao => 
-												situacao.id === 1 
-												|| situacao.id === 2
-												|| situacao.id === 3)
+												situacao._id === SITUACAO_RECEBIDO
+												|| situacao._id === SITUACAO_NAO_RECEBIDO
+												|| situacao._id === SITUACAO_RECUSADO)
 												.map(situacao => {
 													return (
 														<option 
-															key={situacao.id}
-															value={situacao.id}
+															key={situacao._id}
+															value={situacao._id}
 														>
 															{situacao.nome}
 														</option>
@@ -292,94 +295,98 @@ class Lancamento extends React.Component {
 						{lancamento.descricao}
 					</Col>
 				</Row>
-
-				<div style={{padding: 5, backgroundColor: 'lightblue'}}>
-					<p>Situação Atual</p>
-					<div key={lancamentoSituacaoAtiva.id} style={{padding: 5, marginTop: 5, backgroundColor: 'lightgreen'}}>
-						<Row>
-							<Col>
-								Data
-							</Col>
-							<Col>
-								{lancamentoSituacaoAtiva.data_criacao}
-							</Col>
-						</Row>
-						<Row>
-							<Col>
-								Situação
-							</Col>
-							<Col>
-								{situacao.nome}
-							</Col>
-						</Row>
-						<Row>
-							<Col>
-								Quem Mudou a Situação
-							</Col>
-							<Col>
-								{usuarioSituacao.nome.split(' ')[0]}
-							</Col>
-						</Row>
-						<Row style={{padding: 5}}>
-							<Col>
-								<button 
-									type='button' 
-									style={{width: '100%'}}
-									onClick={this.alterarMostrarTodosLancamentoSituacao}
-								>
-									Mostrar Todas situacoes
-								</button> 
-							</Col>
-						</Row>
-					</div>
-				</div>
 				{
-					lancamentoSituacao && 
-						mostrarTodosLancamentoSituacao && 
+					lancamentoSituacaoAtiva &&
+						<div>
 							<div style={{padding: 5, backgroundColor: 'lightblue'}}>
-								{
-									lancamentoSituacao.map(lancamentoSituacao => (
-										<div key={lancamentoSituacao.id} style={{padding: 5, marginTop: 5, backgroundColor: 'green'}}>
-											<Row>
-												<Col>
-													Data
-												</Col>
-												<Col>
-													{lancamentoSituacao.data_criacao}
-												</Col>
-											</Row>
-											<Row>
-												<Col>
-													Situação
-												</Col>
-												<Col>
-													{
-														situacoes &&
-															situacoes
-															.find(situacao => situacao.id === lancamentoSituacao.situacao_id)
-															.nome
-													}
-												</Col>
-											</Row>
-											<Row>
-												<Col>
-													Quem Mudou a Situação
-												</Col>
-												<Col>
-													{
-														usuarios &&
-															usuarios
-															.find(usuario => usuario.id === lancamentoSituacao.usuario_id)
-															.nome
-															.split(' ')[0]
-													}
-												</Col>
-											</Row>
-
-										</div>
-									))
-								}
+								<p>Situação Atual</p>
+								<div key={lancamentoSituacaoAtiva._id} style={{padding: 5, marginTop: 5, backgroundColor: 'lightgreen'}}>
+									<Row>
+										<Col>
+											Data
+										</Col>
+										<Col>
+											{lancamentoSituacaoAtiva.data_criacao}
+										</Col>
+									</Row>
+									<Row>
+										<Col>
+											Situação
+										</Col>
+										<Col>
+											{situacao.nome}
+										</Col>
+									</Row>
+									<Row>
+										<Col>
+											Quem Mudou a Situação
+										</Col>
+										<Col>
+											{usuarioSituacao.nome.split(' ')[0]}
+										</Col>
+									</Row>
+									<Row style={{padding: 5}}>
+										<Col>
+											<button 
+												type='button' 
+												style={{width: '100%'}}
+												onClick={this.alterarMostrarTodosLancamentoSituacao}
+											>
+												Mostrar Todas situacoes
+											</button> 
+										</Col>
+									</Row>
+								</div>
 							</div>
+							{
+								lancamentoSituacao && 
+									mostrarTodosLancamentoSituacao && 
+										<div style={{padding: 5, backgroundColor: 'lightblue'}}>
+											{
+												lancamentoSituacao.map(lancamentoSituacao => (
+													<div key={lancamentoSituacao._id} style={{padding: 5, marginTop: 5, backgroundColor: 'green'}}>
+														<Row>
+															<Col>
+																Data
+															</Col>
+															<Col>
+																{lancamentoSituacao.data_criacao}
+															</Col>
+														</Row>
+														<Row>
+															<Col>
+																Situação
+															</Col>
+															<Col>
+																{
+																	situacoes &&
+																		situacoes
+																		.find(situacao => situacao._id === lancamentoSituacao.situacao_id)
+																		.nome
+																}
+															</Col>
+														</Row>
+														<Row>
+															<Col>
+																Quem Mudou a Situação
+															</Col>
+															<Col>
+																{
+																	usuarios &&
+																		usuarios
+																		.find(usuario => usuario._id === lancamentoSituacao.usuario_id)
+																		.nome
+																		.split(' ')[0]
+																}
+															</Col>
+														</Row>
+
+													</div>
+												))
+											}
+										</div>
+							}
+						</div>
 				}
 			</div>
 		)
@@ -388,33 +395,35 @@ class Lancamento extends React.Component {
 
 const mapStateToProps = (state, {lancamento_id}) => {
 	const lancamento = state.lancamentos
-		.find(lancamento => lancamento.id === lancamento_id)
+		.find(lancamento => lancamento._id === lancamento_id)
 
 	const lancamentoSituacao = state.lancamentoSituacao
-		.filter(lancamentoSituacao => lancamentoSituacao.lancamento_id === lancamento.id)
+		.filter(lancamentoSituacao => lancamentoSituacao.lancamento_id === lancamento._id)
 
 	const lancamentoSituacaoAtiva = lancamentoSituacao
-		.find(lancamentoSituacao => lancamentoSituacao.data_inativacao === null)
+		.find(lancamentoSituacao => lancamentoSituacao.data_inativacao === 'null')
 
-	const usuarioSituacao = state.usuarios
-		.find(usuario => usuario.id === lancamentoSituacaoAtiva.usuario_id)
+	let usuarioSituacao = null
+	let situacao = null
+	if(lancamentoSituacaoAtiva){
+		usuarioSituacao = state.usuarios
+			.find(usuario => usuario._id === lancamentoSituacaoAtiva.usuario_id)
 
-	const situacao = state.situacoes
-		.find(situacao => situacao.id === lancamentoSituacaoAtiva.situacao_id)
+		situacao = state.situacoes
+			.find(situacao => situacao._id === lancamentoSituacaoAtiva.situacao_id)
+	}
 
 	const usuario = state.usuarios
-		.find(usuario => usuario.id === lancamento.usuario_id)
+		.find(usuario => usuario._id === lancamento.usuario_id)
 
 	const empresa = state.empresas
-		.find(empresa => empresa.id === lancamento.empresa_id)
+		.find(empresa => empresa._id === lancamento.empresa_id)
 
 	const categoria = state.categorias
-		.find(categoria => categoria.id === lancamento.categoria_id)
+		.find(categoria => categoria._id === lancamento.categoria_id)
 
 	const usuario_id = state.usuarioLogado.usuario_id
-	const empresa_usuario_logado_id = state.usuarios
-		.find(usuario => usuario.id === usuario_id)
-		.empresa_id
+	const empresa_usuario_logado_id = state.usuarioLogado.empresa_id
 	return {
 		lancamento,
 		lancamentoSituacao,

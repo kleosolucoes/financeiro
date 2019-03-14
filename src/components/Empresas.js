@@ -46,10 +46,10 @@ class Empresas extends React.Component {
 							</div>
 							{
 								empresas.map(empresa => (
-									<div key={empresa.id} style={{padding:10, backgroundColor: 'lightCyan', marginTop: 10}}>
+									<div key={empresa._id} style={{padding:10, backgroundColor: 'lightCyan', marginTop: 10}}>
 										<Empresa 
-											key={empresa.id}
-											empresa_id={empresa.id}
+											key={empresa._id}
+											empresa_id={empresa._id}
 										/>
 									</div>
 								))

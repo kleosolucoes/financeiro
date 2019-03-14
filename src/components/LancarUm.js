@@ -95,14 +95,14 @@ class LancarUm extends React.Component {
 
 			const novoRegistro = true
 			const elemento = {
-				id: Date.now(),
+				_id: Date.now(),
 				data_criacao: pegarDataEHoraAtual()[0],
 				hora_criacao: pegarDataEHoraAtual()[1],
 				data_inativacao: null,
 				hora_inativacao: null,
 			}
 
-			elemento.categoria_id = parseInt(categoria_id)
+			elemento.categoria_id = categoria_id
 			elemento.valor = valor
 			elemento.taxa = taxa
 			elemento.descricao = descricao
@@ -110,16 +110,16 @@ class LancarUm extends React.Component {
 			const mesData = mes.toString().padStart(2, '0')
 			elemento.data = diaData + '/' + mesData + '/' + ano
 			elemento.usuario_id = this.props.usuario_id
-			elemento.empresa_id = parseInt(empresa_id)
+			elemento.empresa_id = empresa_id
 
 			const elementoAssociativo = {
-				id: Date.now(),
+				_id: Date.now(),
 				data_criacao: pegarDataEHoraAtual()[0],
 				hora_criacao: pegarDataEHoraAtual()[1],
 				data_inativacao: null,
 				hora_inativacao: null,
 				situacao_id: SITUACAO_NAO_RECEBIDO,
-				lancamento_id: elemento.id,
+				lancamento_id: elemento._id,
 				usuario_id: this.props.usuario_id,
 			}
 
@@ -180,8 +180,8 @@ class LancarUm extends React.Component {
 								empresas.map(empresa => {
 									return (
 										<option 
-											key={empresa.id}
-											value={empresa.id}
+											key={empresa._id}
+											value={empresa._id}
 										>
 											{empresa.nome}
 										</option>
@@ -207,8 +207,8 @@ class LancarUm extends React.Component {
 								categorias.map(categoria => {
 									return (
 										<option 
-											key={categoria.id}
-											value={categoria.id}
+											key={categoria._id}
+											value={categoria._id}
 										>
 											{categoria.nome}
 										</option>

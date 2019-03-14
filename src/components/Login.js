@@ -8,9 +8,15 @@ import {
 	Alert,
 } from 'reactstrap'
 import { connect } from 'react-redux'
-import { salvarUsuarioLogado, } from '../actions'
-import md5 from 'md5'
-import { EMPRESA_ADMINISTRACAO_ID } from '../helpers/constantes'
+import { 
+	salvarUsuarioLogado, 
+} from '../actions'
+import {
+	TELA_EXTRATO_ADMINISTRACAO,
+	TELA_EXTRATO_EMPRESA,
+	EMPRESA_ADMINISTRACAO_ID,
+} from '../helpers/constantes'
+import * as api from '../helpers/api'
 
 class Login extends React.Component {
 
@@ -59,24 +65,26 @@ class Login extends React.Component {
 				camposComErro: [],
 			})
 
-			const usuario = this.props.usuarios
-				.find(usuario => usuario.email === email
-					&& usuario.senha === md5(senha))
-			if(usuario){
-				let tela = 'extratoEmpresa'
-				if(usuario.empresa_id === EMPRESA_ADMINISTRACAO_ID){
-					tela = 'extratoAdministracao'
-				}
-				this.props.salvarUsuarioLogado({usuario_id: usuario.id})
-				this.props.alterarTela(tela)
-			}else{
-				mostrarMensagemDeErro = true
-				camposComErro.push('naoRegistrado')
-				this.setState({
-					mostrarMensagemDeErro,
-					camposComErro,
+			api.login({email, senha})
+				.then(dados => {
+					if(!dados.ok){
+						mostrarMensagemDeErro = true
+						camposComErro.push('naoRegistrado')
+
+						this.setState({
+							mostrarMensagemDeErro,
+							camposComErro,
+						})
+					}
+					if(dados.ok){
+						let tela = TELA_EXTRATO_EMPRESA
+						if(dados.resultado.empresa_id === EMPRESA_ADMINISTRACAO_ID){
+							tela = TELA_EXTRATO_ADMINISTRACAO
+						}
+						this.props.salvarUsuarioLogado(dados.resultado)
+						this.props.alterarTela(tela)
+					}
 				})
-			}
 		}
 	}
 
@@ -91,7 +99,6 @@ class Login extends React.Component {
 		return (
 			<div>
 				<h1>Login</h1>
-				<p>usuario: falecomleonardopereira@gmail.com - senha: 123</p>
 				<FormGroup>
 					<Label for="email">Email</Label>
 					<Input 
@@ -150,16 +157,10 @@ class Login extends React.Component {
 	}
 }
 
-function mapStateToProps(state){
-	return {
-		usuarios: state.usuarios,
-	}
-}
-
 function mapDispatchToProps(dispatch){
 	return {
 		salvarUsuarioLogado: (elemento) => dispatch(salvarUsuarioLogado(elemento)),
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login)
+export default connect(null, mapDispatchToProps)(Login)

@@ -54,7 +54,7 @@ class Usuario extends React.Component {
 						Id
 					</Col>
 					<Col>
-						{usuario.id.toString().padStart(8,0)}
+						{usuario._id.toString().padStart(8,0)}
 					</Col>
 				</Row>
 				<Row>
@@ -110,13 +110,17 @@ class Usuario extends React.Component {
 
 const mapStateToProps = (state, {usuario_id}) => {
 	const usuario = state.usuarios
-		.find(usuario => usuario.id === usuario_id)
+		.find(usuario => usuario._id === usuario_id)
 	const usuarioTipo = state.usuarioTipo
-		.find(usuarioTipo => usuarioTipo.id === usuario.usuario_tipo_id)
+		.find(usuarioTipo => usuarioTipo._id === usuario.usuario_tipo_id)
 	const usuarioSituacao = state.usuarioSituacao
-		.find(usuarioSituacao => usuarioSituacao.usuario_id === usuario.id && usuarioSituacao.data_inativacao === null)
-	const situacao = state.situacoes
-		.find(situacao => situacao.id === usuarioSituacao.situacao_id)
+		.find(usuarioSituacao => usuarioSituacao.usuario_id === usuario._id && usuarioSituacao.data_inativacao === 'null')
+
+	let situacao = null
+	if(usuarioSituacao){
+		situacao = state.situacoes
+			.find(situacao => situacao._id === usuarioSituacao.situacao_id)
+	}
 
 	return {
 		usuario,

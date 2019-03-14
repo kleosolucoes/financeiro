@@ -8,6 +8,20 @@ import {
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import { SITUACAO_RECEBIDO, SITUACAO_NAO_RECEBIDO } from '../helpers/constantes'
+import { 
+	pegarUsuarioDaApi,
+	pegarUsuarioTipoDaApi,
+	pegarUsuarioSituacaoDaApi,
+	pegarSituacaoDaApi,
+	pegarCategoriaDaApi,
+	pegarEmpresaDaApi,
+	pegarEmpresaTipoDaApi,
+	pegarContaFixaDaApi,
+	pegarLancamentoDaApi,
+	pegarLancamentoSituacaoDaApi,
+	salvarUsuarioLogado, 
+} from '../actions'
+
 import './aux.css';
 
 // ICONS
@@ -24,10 +38,24 @@ library.add(faList)
 
 class ExtratoAdministracao extends React.Component {
 
-	state = {
-		api: null,
-		lancamentos: null,
-		categorias: null,
+	puxarTodosDados(){
+		if(this.props.token && this.props.puxeiUmaVez){
+			this.props.pegarUsuarioDaApi(this.props.token)			
+			this.props.pegarUsuarioTipoDaApi(this.props.token)
+			this.props.pegarUsuarioSituacaoDaApi(this.props.token)
+			this.props.pegarSituacaoDaApi(this.props.token)
+			this.props.pegarCategoriaDaApi(this.props.token)
+			this.props.pegarEmpresaDaApi(this.props.token)
+			this.props.pegarEmpresaTipoDaApi(this.props.token)
+			this.props.pegarContaFixaDaApi(this.props.token)
+			this.props.pegarLancamentoDaApi(this.props.token)
+			this.props.pegarLancamentoSituacaoDaApi(this.props.token)
+			this.props.salvarUsuarioLogado({puxeiUmaVez: false})
+		}
+	}
+
+	componentDidMount(){
+		this.puxarTodosDados()
 	}
 
 	render() {
@@ -41,7 +69,7 @@ class ExtratoAdministracao extends React.Component {
 			<div style={{marginTop: 80}}>
 				<div style={{background: '#f9f7f7'}}>
 					<h5 style={{padding: 10, fontWeight: '300', color: '#2f8c7c'}}>Olá, Diego Kort!</h5>
-				
+
 					<Row style={{justifyContent: 'center'}}>
 						<Col> 
 							<Card className="card-saldo">
@@ -66,13 +94,13 @@ class ExtratoAdministracao extends React.Component {
 						<Row>
 							<Col xs="6" style={{paddingTop: 10}}>
 								<Card className="card-menu">
-								<FontAwesomeIcon icon="briefcase" size="lg" />
+									<FontAwesomeIcon icon="briefcase" size="lg" />
 									<h6>Empresas</h6>
 								</Card>
 							</Col>
 							<Col xs="6" style={{paddingTop: 10}}>
 								<Card className="card-menu">
-								<FontAwesomeIcon icon="user" size="lg" />
+									<FontAwesomeIcon icon="user" size="lg" />
 									<h6>Usuário</h6>
 								</Card>
 							</Col>
@@ -82,14 +110,14 @@ class ExtratoAdministracao extends React.Component {
 
 							<Col xs="6" style={{paddingTop: 10}}>
 								<Card className="card-menu">
-								<FontAwesomeIcon icon="file-alt" size="lg" />
+									<FontAwesomeIcon icon="file-alt" size="lg" />
 									<h6>Saldo e Extratos</h6>
 								</Card>
 							</Col>
 
 							<Col xs="6" style={{paddingTop: 10 }}>
 								<Card className="card-menu">
-								<FontAwesomeIcon icon="list" size="lg" />
+									<FontAwesomeIcon icon="list" size="lg" />
 									<h6>Categorias</h6>
 								</Card>
 							</Col>
@@ -97,19 +125,19 @@ class ExtratoAdministracao extends React.Component {
 						<Row>
 							<Col xs="6" sm="4" style={{paddingTop: 10 }}>
 								<Card className="card-menu">
-								<FontAwesomeIcon icon="file-invoice-dollar" size="lg" />
+									<FontAwesomeIcon icon="file-invoice-dollar" size="lg" />
 									<h6>Lançar</h6>
 								</Card>
 							</Col>
 							<Col xs="6" sm="4" style={{paddingTop: 10 }}>
 								<Card className="card-menu">
-								<FontAwesomeIcon icon="power-off" size="lg" />
+									<FontAwesomeIcon icon="power-off" size="lg" />
 									<h6>Sair</h6>
 								</Card>
 							</Col>
 							<Col sm="4" style={{ paddingTop: 10 }}>
 								<Card className="card-menu">
-								<FontAwesomeIcon icon="question-circle" size="lg" />
+									<FontAwesomeIcon icon="question-circle" size="lg" />
 									<h6>Suporte</h6>
 								</Card>
 							</Col>
@@ -167,34 +195,49 @@ class ExtratoAdministracao extends React.Component {
 }
 
 const mapStateToProps = state => {
+	let token = null
+	let puxeiUmaVez = null
+	if(state.usuarioLogado){
+		token = state.usuarioLogado.token
+		puxeiUmaVez = state.usuarioLogado.puxeiUmaVez
+	}
 	let saldo = 0
 	let naoRecebido = 0
 	let listaDeNaoRecebidoPorCategorias = []
-	state.categorias.map(categoria => listaDeNaoRecebidoPorCategorias[categoria.id] = 0)
-	state.lancamentos.forEach(lancamento => {
-		const lancamentoSituacaoAtiva = state.lancamentoSituacao
-			.find(lancamentoSituacao => 
-				lancamento.id === lancamentoSituacao.lancamento_id 
-				&& lancamentoSituacao.data_inativacao === null)
-		const situacaoAtiva = state.situacoes
-			.find(situacao => lancamentoSituacaoAtiva.situacao_id === situacao.id)
+	if(
+		state.categorias 
+		&& state.lancamentoSituacao
+		&& state.lancamentos
+		&& state.situacoes
+	){
+		state.categorias.forEach(categoria => listaDeNaoRecebidoPorCategorias[categoria._id.toString()] = 0)
+		state.lancamentos.forEach(lancamento => {
+			const lancamentoSituacaoAtiva = state.lancamentoSituacao
+				.find(lancamentoSituacao => lancamento._id.toString() === lancamentoSituacao.lancamento_id 
+					&& lancamentoSituacao.data_inativacao === 'null')
 
-		const categoriaAtiva = state.categorias
-			.find(categoria => lancamento.categoria_id === categoria.id)
+			if(lancamentoSituacaoAtiva){
+				const situacaoAtiva = state.situacoes
+					.find(situacao => lancamentoSituacaoAtiva.situacao_id === situacao._id.toString())
 
-		const valorFormatado = parseFloat(lancamento.valor)
-		if(situacaoAtiva.id === SITUACAO_RECEBIDO){
-			if(categoriaAtiva.credito_debito === 'C'){
-				saldo += valorFormatado
-			}else{
-				saldo -= valorFormatado
+				const categoriaAtiva = state.categorias
+					.find(categoria => lancamento.categoria_id === categoria._id.toString())
+
+				const valorFormatado = parseFloat(lancamento.valor)
+				if(situacaoAtiva._id.toString() === SITUACAO_RECEBIDO){
+					if(categoriaAtiva.credito_debito === 'C'){
+						saldo += valorFormatado
+					}else{
+						saldo -= valorFormatado
+					}
+				}
+				if(situacaoAtiva._id.toString() === SITUACAO_NAO_RECEBIDO){
+					naoRecebido += valorFormatado
+					listaDeNaoRecebidoPorCategorias[categoriaAtiva._id.toString()] += valorFormatado
+				}
 			}
-		}
-		if(situacaoAtiva.id === SITUACAO_NAO_RECEBIDO){
-			naoRecebido += valorFormatado
-			listaDeNaoRecebidoPorCategorias[categoriaAtiva.id] += valorFormatado
-		}
-	})
+		})
+	}
 
 	return {
 		saldo,
@@ -202,12 +245,24 @@ const mapStateToProps = state => {
 		listaDeNaoRecebidoPorCategorias,
 		categorias: state.categorias,
 		lancamentos: state.lancamentos,
+		token,
+		puxeiUmaVez,
 	}
 }
 
 function mapDispatchToProps(dispatch){
 	return {
-
+		pegarUsuarioDaApi: (elemento) => dispatch(pegarUsuarioDaApi(elemento)),
+		pegarUsuarioSituacaoDaApi: (elemento) => dispatch(pegarUsuarioSituacaoDaApi(elemento)),
+		pegarUsuarioTipoDaApi: (elemento) => dispatch(pegarUsuarioTipoDaApi(elemento)),
+		pegarSituacaoDaApi: (elemento) => dispatch(pegarSituacaoDaApi(elemento)),
+		pegarCategoriaDaApi: (elemento) => dispatch(pegarCategoriaDaApi(elemento)),
+		pegarEmpresaDaApi: (elemento) => dispatch(pegarEmpresaDaApi(elemento)),
+		pegarEmpresaTipoDaApi: (elemento) => dispatch(pegarEmpresaTipoDaApi(elemento)),
+		pegarContaFixaDaApi: (elemento) => dispatch(pegarContaFixaDaApi(elemento)),
+		pegarLancamentoDaApi: (elemento) => dispatch(pegarLancamentoDaApi(elemento)),
+		pegarLancamentoSituacaoDaApi: (elemento) => dispatch(pegarLancamentoSituacaoDaApi(elemento)),
+		salvarUsuarioLogado: (elemento) => dispatch(salvarUsuarioLogado(elemento)),
 	}
 }
 

@@ -51,8 +51,8 @@ class ContasFixas extends React.Component {
 									.map(contaFixa => {
 										return (
 											<ContaFixa
-												key={contaFixa.id}
-												contaFixa_id={contaFixa.id}
+												key={contaFixa._id}
+												contaFixa_id={contaFixa._id}
 											/>
 										)
 									})
@@ -66,7 +66,7 @@ class ContasFixas extends React.Component {
 
 const mapStateToProps = (state, { empresa_id }) => {
 	const contaFixa = state.contaFixa
-		.filter(contaFixa => contaFixa.empresa_id === empresa_id && contaFixa.data_inativacao === null)
+		.filter(contaFixa => contaFixa.empresa_id === empresa_id && contaFixa.data_inativacao === 'null')
 	return {
 		contaFixa,
 	}

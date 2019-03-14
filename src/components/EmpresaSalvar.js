@@ -105,8 +105,8 @@ class EmpresaSalvar extends React.Component {
 								empresaTipo.map(empresaTipo => {
 									return (
 										<option 
-											key={empresaTipo.id}
-											value={empresaTipo.id}
+											key={empresaTipo._id}
+											value={empresaTipo._id}
 										>
 											{empresaTipo.nome}
 										</option>

@@ -15,6 +15,7 @@ import {
 	EMPRESA_ADMINISTRACAO_ID,
 	USUARIO_TIPO_ADMINISTRACAO,
 	USUARIO_TIPO_ACEITAR_LANCAMENTO,
+	SITUACAO_INATIVO,
 } from '../helpers/constantes'
 
 class UsuarioSalvar extends React.Component {
@@ -101,7 +102,7 @@ class UsuarioSalvar extends React.Component {
 				hora_criacao: pegarDataEHoraAtual()[1],
 				data_inativacao: null,
 				hora_inativacao: null,
-				situacao_id: 4,  // ativo TODO
+				situacao_id: SITUACAO_INATIVO,
 				usuario_id: elemento.id,
 			}
 
@@ -144,19 +145,19 @@ class UsuarioSalvar extends React.Component {
 								usuarioTipo.map(usuarioTipo => {
 									let mostrar = false
 									if(this.props.empresa_id === EMPRESA_ADMINISTRACAO_ID
-										&& (usuarioTipo.id === USUARIO_TIPO_ADMINISTRACAO || usuarioTipo.id === USUARIO_TIPO_ACEITAR_LANCAMENTO)){
+										&& (usuarioTipo._id === USUARIO_TIPO_ADMINISTRACAO || usuarioTipo._id === USUARIO_TIPO_ACEITAR_LANCAMENTO)){
 										mostrar = true
 									}
 									if(this.props.empresa_id !== EMPRESA_ADMINISTRACAO_ID
-										&& usuarioTipo.id !== USUARIO_TIPO_ADMINISTRACAO
-										&& usuarioTipo.id !== USUARIO_TIPO_ACEITAR_LANCAMENTO){
+										&& usuarioTipo._id !== USUARIO_TIPO_ADMINISTRACAO
+										&& usuarioTipo._id !== USUARIO_TIPO_ACEITAR_LANCAMENTO){
 										mostrar = true
 									}
 									if(mostrar){
 										return (
 											<option 
-												key={usuarioTipo.id}
-												value={usuarioTipo.id}
+												key={usuarioTipo._id}
+												value={usuarioTipo._id}
 											>
 												{usuarioTipo.nome}
 											</option>
@@ -216,7 +217,6 @@ class UsuarioSalvar extends React.Component {
 								</Alert>
 							</div>
 					}
-	
 					{
 						mostrarMensagemDeErro &&
 							<div style={{padding: 10}}>
@@ -251,7 +251,7 @@ class UsuarioSalvar extends React.Component {
 
 function mapStateToProps(state){
 	const usuarioLogado = state.usuarioLogado
-	const usuario = state.usuarios.find(usuario => usuario.id === usuarioLogado.usuario_id)
+	const usuario = state.usuarios.find(usuario => usuario._id === usuarioLogado.usuario_id)
 	return {
 		usuarioTipo: state.usuarioTipo,
 		usuarios: state.usuarios,
