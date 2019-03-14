@@ -119,12 +119,45 @@
   padding: 10px;
 }
 .botao-lancar {
+  /* width: 100%; */
+  background: transparent !important;
+  border: 1px solid #2f8c7c!important;
+  color: #2f8c7c !important;
+}
+.botao-remover {
   width: 100%;
   background: transparent !important;
-  border: 1px solid #2f8c7c;
+  border: none!important;
+  /* border-radius: 4px!important; */
   color: #2f8c7c !important;
 }
 .botao-lancar:hover {
   background: #2f8c7c !important;
   color: white !important;
+}
+
+/* USUARIO */
+.container-usuario{
+  margin-top: 15px;
+  border-radius: 4px;
+  background: #f9f7f7 !important;
+  color: #2f8c7c !important;
+  border: 1px solid #ddd!important;
+  /* box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12); */
+}
+
+/* CATEGORIAS */
+.container-categoria{
+  margin-top: 10px;
+  padding: 5px;
+  border-radius: 4px;
+  background: #f9f7f7 !important;
+  color: #2f8c7c !important;
+  border: 1px solid #ddd!important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+.col-style{
+  padding: 0px 5px!important;
+  display: flex;
+  align-items: center;
 }

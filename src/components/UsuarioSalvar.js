@@ -6,6 +6,7 @@ import {
 	Label,
 	Input,
 	Alert,
+	Button
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import { salvarUsuario, salvarUsuarioSituacao, } from '../actions'
@@ -226,22 +227,22 @@ class UsuarioSalvar extends React.Component {
 							</div>
 					}
 					<Col>
-						<button 
+						<Button 
 							type='button' 
 							style={{width: '100%'}} 
 							onClick={this.props.alternarMostrarSalvarUsuario}
 						>
 							Voltar
-						</button> 
+						</Button> 
 					</Col>
 					<Col>
-						<button 
+						<Button 
 							type='button' 
 							style={{width: '100%'}} 
 							onClick={this.ajudadorDeSubmissao}
 						>
 							Adicionar
-						</button> 
+						</Button> 
 					</Col>
 				</Row>
 			</div>

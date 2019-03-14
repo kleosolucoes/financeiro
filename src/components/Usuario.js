@@ -2,10 +2,18 @@ import React from 'react'
 import {
 	Row,
 	Col,
+	Button
 } from 'reactstrap'
 import { connect } from 'react-redux'
+import Responsive from 'react-responsive';
 import { salvarUsuario, salvarUsuarioSituacao } from '../actions'
 import { pegarDataEHoraAtual } from '../helpers/funcoes'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faUserMinus, faTrash } from '@fortawesome/free-solid-svg-icons'
+library.add(faUserMinus)
+library.add(faTrash)
+
 
 class Usuario extends React.Component {
 
@@ -42,68 +50,38 @@ class Usuario extends React.Component {
 	}
 
 	render() {
+		const Desktop = props => <Responsive {...props} minWidth={992} />;
 		const { 
 			usuario, 
 			usuarioTipo,
 			situacao,
 		} = this.props
 		return (
-			<div style={{padding:10, backgroundColor: 'lightCyan', marginTop: 10}}>
-				<Row>
-					<Col>
-						Id
-					</Col>
-					<Col>
-						{usuario.id.toString().padStart(8,0)}
-					</Col>
-				</Row>
-				<Row>
-					<Col>
-						Data
-					</Col>
-					<Col>
-						{usuario.data_criacao}
-					</Col>
-				</Row>
-				<Row>
-					<Col>
-						Email
-					</Col>
-					<Col>
-						{usuario.email}
-					</Col>
-				</Row>
-				<Row>
-					<Col>
-						Tipo
-					</Col>
-					<Col>
-						{usuarioTipo.nome}
-					</Col>
-				</Row>
-				<Row>
-					<Col>
-						Situação
-					</Col>
-					<Col>
-						{situacao.nome}
-					</Col>
-				</Row>
+				<tbody>
+					<tr>
+						<td>{usuario.nome}</td>
+						<Desktop><td>{usuario.data_criacao}</td></Desktop>
+						<td>{usuarioTipo.nome}</td>
+						<Desktop><td>{situacao.nome}</td></Desktop>
+						<Desktop><td>{usuario.email}</td></Desktop>
+				
 				{
 					situacao.id !== 5 &&
-						<Row>
+						<Row style={{justifyContent: 'center', marginTop: 8}}>
 							<Col>
-								<button 
+								<Button 
 									type='button' 
-									style={{width: '100%'}}
+									className="botao-remover"
+									style={{width: '100%', borderRadius: 0}}
 									onClick={this.removerUsuario}
 								>
-									Remover Usuario
-								</button>
+									<FontAwesomeIcon icon="trash" size="sm" style={{marginRight: 5}} />
+								</Button>
 							</Col>
 						</Row>
 				}
-			</div>
+					</tr>
+				</tbody>
 		)
 	}
 }
