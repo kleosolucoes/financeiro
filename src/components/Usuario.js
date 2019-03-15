@@ -4,39 +4,23 @@ import {
 	Col,
 } from 'reactstrap'
 import { connect } from 'react-redux'
-import { salvarUsuario, salvarUsuarioSituacao } from '../actions'
-import { pegarDataEHoraAtual } from '../helpers/funcoes'
+import { removerUsuarioNaApi, } from '../actions'
+import { USUARIO_TIPO_ADMINISTRACAO, } from '../helpers/constantes'
 
 class Usuario extends React.Component {
 
 	removerUsuario = () => {
 		if(window.confirm('Realmente deseja remover esse usuário?')){
-			let { 
+			const { 
 				usuario,
-				usuarioSituacao,
 				usuarioLogado,
+				removerUsuarioNaApi,
 			} = this.props
 
-			usuario.data_inativacao = pegarDataEHoraAtual()[0]
-			usuario.hora_inativacao = pegarDataEHoraAtual()[1]
-			this.props.salvarUsuario(usuario)
-
-			usuarioSituacao.data_inativacao = pegarDataEHoraAtual()[0]
-			usuarioSituacao.hora_inativacao = pegarDataEHoraAtual()[1]
-			this.props.salvarUsuarioSituacao(usuarioSituacao)
-
-			const novoRegistro = true
-			const elemento = {
-				id: Date.now(),
-				data_criacao: pegarDataEHoraAtual()[0],
-				hora_criacao: pegarDataEHoraAtual()[1],
-				data_inativacao: null,
-				hora_inativacao: null,
-			}
-			elemento.situacao_id = 5 // inativo TODO
-			elemento.usuario_id = usuario.id
+			const elemento = {}
+			elemento.usuario_id = usuario._id
 			elemento.quem_id = usuarioLogado.usuario_id
-			this.props.salvarUsuarioSituacao(elemento, novoRegistro)
+			removerUsuarioNaApi(elemento, usuarioLogado.token)
 			alert('Usuário Removido com sucesso!')
 		}
 	}
@@ -45,7 +29,7 @@ class Usuario extends React.Component {
 		const { 
 			usuario, 
 			usuarioTipo,
-			situacao,
+			idTipoUsuarioLogado,
 		} = this.props
 		return (
 			<div style={{padding:10, backgroundColor: 'lightCyan', marginTop: 10}}>
@@ -54,7 +38,7 @@ class Usuario extends React.Component {
 						Id
 					</Col>
 					<Col>
-						{usuario._id.toString().padStart(8,0)}
+						{usuario._id}
 					</Col>
 				</Row>
 				<Row>
@@ -78,63 +62,48 @@ class Usuario extends React.Component {
 						Tipo
 					</Col>
 					<Col>
-						{usuarioTipo.nome}
-					</Col>
-				</Row>
-				<Row>
-					<Col>
-						Situação
-					</Col>
-					<Col>
-						{situacao.nome}
+						{usuarioTipo && usuarioTipo.nome}
 					</Col>
 				</Row>
 				{
-					situacao.id !== 5 &&
-						<Row>
-							<Col>
-								<button 
-									type='button' 
-									style={{width: '100%'}}
-									onClick={this.removerUsuario}
-								>
-									Remover Usuario
-								</button>
-							</Col>
-						</Row>
+					idTipoUsuarioLogado && 
+						idTipoUsuarioLogado === USUARIO_TIPO_ADMINISTRACAO &&
+							<Row>
+								<Col>
+									<button 
+										type='button' 
+										style={{width: '100%'}}
+										onClick={this.removerUsuario}
+									>
+										Remover Usuario
+									</button>
+								</Col>
+							</Row>
 				}
 			</div>
 		)
 	}
 }
 
-const mapStateToProps = (state, {usuario_id}) => {
-	const usuario = state.usuarios
-		.find(usuario => usuario._id === usuario_id)
-	const usuarioTipo = state.usuarioTipo
-		.find(usuarioTipo => usuarioTipo._id === usuario.usuario_tipo_id)
-	const usuarioSituacao = state.usuarioSituacao
-		.find(usuarioSituacao => usuarioSituacao.usuario_id === usuario._id && usuarioSituacao.data_inativacao === 'null')
+const mapStateToProps = ({usuarios, usuarioTipo, usuarioLogado}, {usuario_id}) => {
+	const usuarioSelecionado = usuarios && usuarios.find(usuario => usuario._id === usuario_id)
+	const usuarioTipoSelecionado = usuarioTipo && usuarioTipo.find(usuarioTipo => usuarioTipo._id === usuarioSelecionado.usuario_tipo_id)
 
-	let situacao = null
-	if(usuarioSituacao){
-		situacao = state.situacoes
-			.find(situacao => situacao._id === usuarioSituacao.situacao_id)
-	}
+	const idTipoUsuarioLogado = usuarioLogado && usuarios &&
+		usuarios.find(usuario => usuario._id === usuarioLogado.usuario_id)
+		.usuario_tipo_id
 
 	return {
-		usuario,
-		usuarioTipo,
-		usuarioSituacao,
-		situacao,
-		usuarioLogado: state.usuarioLogado,
+		usuario: usuarioSelecionado,
+		usuarioTipo: usuarioTipoSelecionado,
+		usuarioLogado,
+		idTipoUsuarioLogado,
 	}
 }
 
 function mapDispatchToProps(dispatch){
 	return {
-		salvarUsuario: (elemento) => dispatch(salvarUsuario(elemento)),
-		salvarUsuarioSituacao: (elemento) => dispatch(salvarUsuarioSituacao(elemento)),
+		removerUsuarioNaApi: (elemento, token) => dispatch(removerUsuarioNaApi(elemento, token)),
 	}
 }
 

@@ -7,8 +7,6 @@ import {
 	SALVAR_LANCAMENTO_SITUACAO,
 	PEGAR_USUARIOS,
 	SALVAR_USUARIO,
-	PEGAR_USUARIO_SITUACAO,
-	SALVAR_USUARIO_SITUACAO,
 	PEGAR_USUARIO_TIPO,
 	PEGAR_CATEGORIAS,
 	SALVAR_CATEGORIA,
@@ -25,7 +23,6 @@ const stateUsuarioLogado = {
 	usuario_id: null,
 	empresa_id: null,
 	token: null,
-	puxeiUmaVez: true,
 }
 
 function empresaTipo(state = [], action){
@@ -46,7 +43,7 @@ function empresas(state = [], action){
 				return [...state, action.elemento]
 			}else{
 				const estadoAtualizado = state.map(elemento => {
-					if(elemento.id === action.elemento.id){
+					if(elemento._id === action.elemento._id){
 						return action.elemento
 					}else{
 						return elemento
@@ -68,7 +65,7 @@ function contaFixa(state = [], action){
 				return [...state, action.elemento]
 			}else{
 				const estadoAtualizado = state.map(elemento => {
-					if(elemento.id === action.elemento.id){
+					if(elemento._id === action.elemento._id){
 						return action.elemento
 					}else{
 						return elemento
@@ -90,7 +87,7 @@ function categorias(state = [], action){
 				return [...state, action.elemento]
 			}else{
 				const estadoAtualizado = state.map(elemento => {
-					if(elemento.id === action.elemento.id){
+					if(elemento._id === action.elemento._id){
 						return action.elemento
 					}else{
 						return elemento
@@ -112,7 +109,7 @@ function lancamentos(state = [], action){
 				return [...state, action.elemento]
 			}else{
 				const estadoAtualizado = state.map(elemento => {
-					if(elemento.id === action.elemento.id){
+					if(elemento._id === action.elemento._id){
 						return action.elemento
 					}else{
 						return elemento
@@ -143,29 +140,7 @@ function usuarios(state = [], action){
 				return [...state, action.elemento]
 			}else{
 				const estadoAtualizado = state.map(elemento => {
-					if(elemento.id === action.elemento.id){
-						return action.elemento
-					}else{
-						return elemento
-					}
-				})
-				return [...estadoAtualizado]
-			}
-		default:
-			return state
-	}
-}
-
-function usuarioSituacao(state = [], action){
-	switch(action.type){
-		case PEGAR_USUARIO_SITUACAO:
-			return [...action.elementos]
-		case SALVAR_USUARIO_SITUACAO:
-			if(action.novo){
-				return [...state, action.elemento]
-			}else{
-				const estadoAtualizado = state.map(elemento => {
-					if(elemento.id === action.elemento.id){
+					if(elemento._id === action.elemento._id){
 						return action.elemento
 					}else{
 						return elemento
@@ -196,7 +171,7 @@ function lancamentoSituacao(state = [], action){
 				return [...state, action.elemento]
 			}else{
 				const estadoAtualizado = state.map(elemento => {
-					if(elemento.id === action.elemento.id){
+					if(elemento._id === action.elemento._id){
 						return action.elemento
 					}else{
 						return elemento
@@ -230,6 +205,5 @@ export default combineReducers({
 	lancamentoSituacao,
 	contaFixa,
 	usuarioTipo,
-	usuarioSituacao,
 	usuarioLogado
 })

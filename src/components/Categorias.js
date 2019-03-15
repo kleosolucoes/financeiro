@@ -38,6 +38,11 @@ class Categorias extends React.Component {
 						<div>
 							<Row style={{padding: 5}}>
 								<Col>
+									<h1>asdasd</h1>
+								</Col>
+							</Row>
+							<Row style={{padding: 5}}>
+								<Col>
 									<button 
 										type='button' 
 										style={{width: '100%'}} 

@@ -8,8 +8,7 @@ import {
 	Alert,
 } from 'reactstrap'
 import { connect } from 'react-redux'
-import { salvarContaFixa } from '../actions'
-import { pegarDataEHoraAtual } from '../helpers/funcoes'
+import { salvarContaFixaNaApi } from '../actions'
 
 class ContaFixaSalvar extends React.Component {
 
@@ -37,6 +36,10 @@ class ContaFixaSalvar extends React.Component {
 			mostrarMensagemDeErro,
 			camposComErro,
 		} = this.state
+		const {
+			usuarioLogado,
+			salvarContaFixaNaApi,
+		} = this.props
 		camposComErro = []
 
 		mostrarMensagemDeErro = false
@@ -64,20 +67,13 @@ class ContaFixaSalvar extends React.Component {
 				camposComErro: [],
 			})
 
-			const novoRegistro = true
-			const elemento = {
-				id: Date.now(),
-				data_criacao: pegarDataEHoraAtual()[0],
-				hora_criacao: pegarDataEHoraAtual()[1],
-				data_inativacao: null,
-				hora_inativacao: null,
-			}
-			elemento.empresa_id = parseInt(this.props.empresa_id)
-			elemento.categoria_id = parseInt(categoria_id)
+			const elemento = {}
+			elemento.empresa_id = this.props.empresa_id
+			elemento.categoria_id = categoria_id
 			elemento.dia_gerar = parseInt(dia_gerar)
 			elemento.dia_notificacao = parseInt(dia_notificacao)
-			elemento.usuario_id = this.props.usuario_id
-			this.props.salvarContaFixa(elemento, novoRegistro)
+			elemento.usuario_id = usuarioLogado.usuario_id
+			salvarContaFixaNaApi(elemento, usuarioLogado.token)
 			this.props.alternarMostrarSalvarContaFixa()
 			alert('Conta Fixa Salva com sucesso!')
 		}
@@ -119,8 +115,8 @@ class ContaFixaSalvar extends React.Component {
 								categorias.map(categoria => {
 									return (
 										<option 
-											key={categoria.id}
-											value={categoria.id}
+											key={categoria._id}
+											value={categoria._id}
 										>
 											{categoria.nome}
 										</option>
@@ -199,16 +195,16 @@ class ContaFixaSalvar extends React.Component {
 
 }
 
-function mapStateToProps(state){
+function mapStateToProps({categorias, usuarioLogado}){
 	return {
-		categorias: state.categorias,
-		usuario_id: state.usuarioLogado.usuario_id,
+		categorias,
+		usuarioLogado,
 	}
 }
 
 function mapDispatchToProps(dispatch){
 	return {
-		salvarContaFixa: (elemento, novo) => dispatch(salvarContaFixa(elemento, novo)),
+		salvarContaFixaNaApi: (elemento, token) => dispatch(salvarContaFixaNaApi(elemento, token)),
 	}
 }
 

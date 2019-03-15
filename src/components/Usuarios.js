@@ -47,7 +47,7 @@ class Usuarios extends React.Component {
 							</div>
 
 							{
-								usuarios.length > 0 &&
+								usuarios &&
 									usuarios
 									.map(usuario => {
 										return (
@@ -65,11 +65,9 @@ class Usuarios extends React.Component {
 	}
 }
 
-const mapStateToProps = (state, { empresa_id }) => {
-	const usuarios = state.usuarios
-		.filter(usuario => usuario.empresa_id === empresa_id && usuario.data_inativacao === 'null')
+const mapStateToProps = ({usuarios}, { empresa_id }) => {
 	return {
-		usuarios,
+		usuarios: usuarios && usuarios.filter(usuario => usuario.empresa_id === empresa_id && usuario.data_inativacao === null)
 	}
 }
 

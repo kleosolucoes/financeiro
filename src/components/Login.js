@@ -17,6 +17,18 @@ import {
 	EMPRESA_ADMINISTRACAO_ID,
 } from '../helpers/constantes'
 import * as api from '../helpers/api'
+import { 
+	pegarUsuarioDaApi,
+	pegarUsuarioTipoDaApi,
+	pegarSituacaoDaApi,
+	pegarCategoriaDaApi,
+	pegarEmpresaDaApi,
+	pegarEmpresaTipoDaApi,
+	pegarContaFixaDaApi,
+	pegarLancamentoDaApi,
+	pegarLancamentoSituacaoDaApi,
+} from '../actions'
+
 
 class Login extends React.Component {
 
@@ -25,6 +37,20 @@ class Login extends React.Component {
 		senha: '',
 		mostrarMensagemDeErro: false,
 		camposComErro: [],
+	}
+
+	puxarTodosDados(){
+		if(this.props.token){
+			this.props.pegarUsuarioDaApi(this.props.token)			
+			this.props.pegarUsuarioTipoDaApi(this.props.token)
+			this.props.pegarSituacaoDaApi(this.props.token)
+			this.props.pegarCategoriaDaApi(this.props.token)
+			this.props.pegarEmpresaDaApi(this.props.token)
+			this.props.pegarEmpresaTipoDaApi(this.props.token)
+			this.props.pegarContaFixaDaApi(this.props.token)
+			this.props.pegarLancamentoDaApi(this.props.token)
+			this.props.pegarLancamentoSituacaoDaApi(this.props.token)
+		}
 	}
 
 	ajudadorDeCampo = event => {
@@ -82,6 +108,7 @@ class Login extends React.Component {
 							tela = TELA_EXTRATO_ADMINISTRACAO
 						}
 						this.props.salvarUsuarioLogado(dados.resultado)
+						this.puxarTodosDados()
 						this.props.alterarTela(tela)
 					}
 				})
@@ -157,10 +184,25 @@ class Login extends React.Component {
 	}
 }
 
-function mapDispatchToProps(dispatch){
-	return {
-		salvarUsuarioLogado: (elemento) => dispatch(salvarUsuarioLogado(elemento)),
+function mapStateToProps({usuarioLogado}){
+	return{
+		token: usuarioLogado && usuarioLogado.token,
 	}
 }
 
-export default connect(null, mapDispatchToProps)(Login)
+function mapDispatchToProps(dispatch){
+	return {
+		salvarUsuarioLogado: (elemento) => dispatch(salvarUsuarioLogado(elemento)),
+		pegarUsuarioDaApi: (elemento) => dispatch(pegarUsuarioDaApi(elemento)),
+		pegarUsuarioTipoDaApi: (elemento) => dispatch(pegarUsuarioTipoDaApi(elemento)),
+		pegarSituacaoDaApi: (elemento) => dispatch(pegarSituacaoDaApi(elemento)),
+		pegarCategoriaDaApi: (elemento) => dispatch(pegarCategoriaDaApi(elemento)),
+		pegarEmpresaDaApi: (elemento) => dispatch(pegarEmpresaDaApi(elemento)),
+		pegarEmpresaTipoDaApi: (elemento) => dispatch(pegarEmpresaTipoDaApi(elemento)),
+		pegarContaFixaDaApi: (elemento) => dispatch(pegarContaFixaDaApi(elemento)),
+		pegarLancamentoDaApi: (elemento) => dispatch(pegarLancamentoDaApi(elemento)),
+		pegarLancamentoSituacaoDaApi: (elemento) => dispatch(pegarLancamentoSituacaoDaApi(elemento)),
+		}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

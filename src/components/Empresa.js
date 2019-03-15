@@ -27,7 +27,7 @@ class Empresa extends React.Component {
 						Id
 					</Col>
 					<Col>
-						{empresa._id.toString().padStart(8,0)}
+						{empresa._id}
 					</Col>
 				</Row>
 				<Row>
@@ -51,7 +51,7 @@ class Empresa extends React.Component {
 						Tipo
 					</Col>
 					<Col>
-						{empresaTipo.nome}
+						{empresaTipo && empresaTipo.nome}
 					</Col>
 				</Row>
 				<div style={{padding: 10, backgroundColor: 'lightblue'}}>
@@ -67,7 +67,6 @@ class Empresa extends React.Component {
 						</Col>
 					</Row>
 				</div>
-
 				{
 					this.state.mostrarTodosOsDados &&
 						<div>

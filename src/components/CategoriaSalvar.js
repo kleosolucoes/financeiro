@@ -8,8 +8,7 @@ import {
 	Alert,
 } from 'reactstrap'
 import { connect } from 'react-redux'
-import { salvarCategoria } from '../actions'
-import { pegarDataEHoraAtual } from '../helpers/funcoes'
+import { salvarCategoriaNaApi } from '../actions'
 
 class CategoriaSalvar extends React.Component {
 
@@ -35,6 +34,9 @@ class CategoriaSalvar extends React.Component {
 			mostrarMensagemDeErro,
 			camposComErro,
 		} = this.state
+		const {
+			usuarioLogado,
+		} = this.props
 		camposComErro = []
 
 		mostrarMensagemDeErro = false
@@ -58,17 +60,10 @@ class CategoriaSalvar extends React.Component {
 				camposComErro: [],
 			})
 
-			const novoRegistro = true
-			const elemento = {
-				id: Date.now(),
-				data_criacao: pegarDataEHoraAtual()[0],
-				hora_criacao: pegarDataEHoraAtual()[1],
-				data_inativacao: null,
-				hora_inativacao: null,
-			}
+			const elemento = {}
 			elemento.credito_debito = credito_debito
 			elemento.nome = nome
-			this.props.salvarCategoria(elemento, novoRegistro)
+			this.props.salvarCategoriaNaApi(elemento, usuarioLogado.token)
 			this.props.alternarMostrarAdicionar()
 			alert('Categoria Salva com sucesso!')
 		}
@@ -144,13 +139,18 @@ class CategoriaSalvar extends React.Component {
 			</div>
 		)
 	}
+}
 
+function mapStateToProps({usuarioLogado}){
+	return {
+		usuarioLogado,
+	}
 }
 
 function mapDispatchToProps(dispatch){
 	return {
-		salvarCategoria: (elemento, novo) => dispatch(salvarCategoria(elemento, novo)),
+		salvarCategoriaNaApi: (elemento, token) => dispatch(salvarCategoriaNaApi(elemento, token)),
 	}
 }
 
-export default connect(null, mapDispatchToProps)(CategoriaSalvar)
+export default connect(mapStateToProps, mapDispatchToProps)(CategoriaSalvar)

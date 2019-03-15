@@ -32,6 +32,11 @@ class Empresas extends React.Component {
 					!this.state.mostrarSalvarEmpresa && 
 						<div> 
 							<div style={{padding: 10, backgroundColor: 'lightblue'}}>
+								<Row style={{padding: 5}}>
+									<Col>
+										<h1>asdasd</h1>
+									</Col>
+								</Row>
 								<Row> 
 									<Col>
 										<button 
@@ -61,9 +66,9 @@ class Empresas extends React.Component {
 	}
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = ({empresas}) => {
 	return {
-		empresas: state.empresas,
+		empresas, 
 	}
 }
 

@@ -8,20 +8,6 @@ import {
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import { SITUACAO_RECEBIDO, SITUACAO_NAO_RECEBIDO } from '../helpers/constantes'
-import { 
-	pegarUsuarioDaApi,
-	pegarUsuarioTipoDaApi,
-	pegarUsuarioSituacaoDaApi,
-	pegarSituacaoDaApi,
-	pegarCategoriaDaApi,
-	pegarEmpresaDaApi,
-	pegarEmpresaTipoDaApi,
-	pegarContaFixaDaApi,
-	pegarLancamentoDaApi,
-	pegarLancamentoSituacaoDaApi,
-	salvarUsuarioLogado, 
-} from '../actions'
-
 import './aux.css';
 
 // ICONS
@@ -37,26 +23,6 @@ library.add(faQuestionCircle)
 library.add(faList)
 
 class ExtratoAdministracao extends React.Component {
-
-	puxarTodosDados(){
-		if(this.props.token && this.props.puxeiUmaVez){
-			this.props.pegarUsuarioDaApi(this.props.token)			
-			this.props.pegarUsuarioTipoDaApi(this.props.token)
-			this.props.pegarUsuarioSituacaoDaApi(this.props.token)
-			this.props.pegarSituacaoDaApi(this.props.token)
-			this.props.pegarCategoriaDaApi(this.props.token)
-			this.props.pegarEmpresaDaApi(this.props.token)
-			this.props.pegarEmpresaTipoDaApi(this.props.token)
-			this.props.pegarContaFixaDaApi(this.props.token)
-			this.props.pegarLancamentoDaApi(this.props.token)
-			this.props.pegarLancamentoSituacaoDaApi(this.props.token)
-			this.props.salvarUsuarioLogado({puxeiUmaVez: false})
-		}
-	}
-
-	componentDidMount(){
-		this.puxarTodosDados()
-	}
 
 	render() {
 		const { 
@@ -196,10 +162,8 @@ class ExtratoAdministracao extends React.Component {
 
 const mapStateToProps = state => {
 	let token = null
-	let puxeiUmaVez = null
 	if(state.usuarioLogado){
 		token = state.usuarioLogado.token
-		puxeiUmaVez = state.usuarioLogado.puxeiUmaVez
 	}
 	let saldo = 0
 	let naoRecebido = 0
@@ -214,7 +178,7 @@ const mapStateToProps = state => {
 		state.lancamentos.forEach(lancamento => {
 			const lancamentoSituacaoAtiva = state.lancamentoSituacao
 				.find(lancamentoSituacao => lancamento._id.toString() === lancamentoSituacao.lancamento_id 
-					&& lancamentoSituacao.data_inativacao === 'null')
+					&& lancamentoSituacao.data_inativacao === null)
 
 			if(lancamentoSituacaoAtiva){
 				const situacaoAtiva = state.situacoes
@@ -233,7 +197,7 @@ const mapStateToProps = state => {
 				}
 				if(situacaoAtiva._id.toString() === SITUACAO_NAO_RECEBIDO){
 					naoRecebido += valorFormatado
-					listaDeNaoRecebidoPorCategorias[categoriaAtiva._id.toString()] += valorFormatado
+					listaDeNaoRecebidoPorCategorias[categoriaAtiva._id] += valorFormatado
 				}
 			}
 		})
@@ -246,24 +210,7 @@ const mapStateToProps = state => {
 		categorias: state.categorias,
 		lancamentos: state.lancamentos,
 		token,
-		puxeiUmaVez,
 	}
 }
 
-function mapDispatchToProps(dispatch){
-	return {
-		pegarUsuarioDaApi: (elemento) => dispatch(pegarUsuarioDaApi(elemento)),
-		pegarUsuarioSituacaoDaApi: (elemento) => dispatch(pegarUsuarioSituacaoDaApi(elemento)),
-		pegarUsuarioTipoDaApi: (elemento) => dispatch(pegarUsuarioTipoDaApi(elemento)),
-		pegarSituacaoDaApi: (elemento) => dispatch(pegarSituacaoDaApi(elemento)),
-		pegarCategoriaDaApi: (elemento) => dispatch(pegarCategoriaDaApi(elemento)),
-		pegarEmpresaDaApi: (elemento) => dispatch(pegarEmpresaDaApi(elemento)),
-		pegarEmpresaTipoDaApi: (elemento) => dispatch(pegarEmpresaTipoDaApi(elemento)),
-		pegarContaFixaDaApi: (elemento) => dispatch(pegarContaFixaDaApi(elemento)),
-		pegarLancamentoDaApi: (elemento) => dispatch(pegarLancamentoDaApi(elemento)),
-		pegarLancamentoSituacaoDaApi: (elemento) => dispatch(pegarLancamentoSituacaoDaApi(elemento)),
-		salvarUsuarioLogado: (elemento) => dispatch(salvarUsuarioLogado(elemento)),
-	}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ExtratoAdministracao)
+export default connect(mapStateToProps, null)(ExtratoAdministracao)

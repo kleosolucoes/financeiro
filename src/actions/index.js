@@ -9,8 +9,6 @@ export const SALVAR_LANCAMENTO_SITUACAO = 'SALVAR_LANCAMENTO_SITUACAO'
 
 export const PEGAR_USUARIOS = 'PEGAR_USUARIOS'
 export const SALVAR_USUARIO = 'SALVAR_USUARIO'
-export const PEGAR_USUARIO_SITUACAO = 'PEGAR_USUARIO_SITUACAO'
-export const SALVAR_USUARIO_SITUACAO = 'SALVAR_USUARIO_SITUACAO'
 export const PEGAR_USUARIO_TIPO = 'PEGAR_USUARIO_TIPO'
 
 export const PEGAR_CATEGORIAS = 'PEGAR_CATEGORIAS'
@@ -136,21 +134,6 @@ export function salvarContaFixa(elemento, novo = false){
 	}
 }
 
-export function pegarUsuarioSituacao(elementos){ 
-	return {
-		type: PEGAR_USUARIO_SITUACAO,
-		elementos,
-	}
-}
-
-export function salvarUsuarioSituacao(elemento, novo = false){ 
-	return {
-		type: SALVAR_USUARIO_SITUACAO,
-		elemento,
-		novo,
-	}
-}
-
 export function pegarUsuarioLogado(){
 	return {
 		type: PEGAR_USUARIO_LOGADO,
@@ -175,13 +158,6 @@ export const pegarUsuarioTipoDaApi = (token) => dispatch => {
 	api.usuarioTipo(token)
 		.then(dados => {
 			return dispatch(pegarUsuarioTipo(dados.resultado.elementos))
-		})
-}
-
-export const pegarUsuarioSituacaoDaApi = (token) => dispatch => {
-	api.usuarioSituacao(token)
-		.then(dados => {
-			return dispatch(pegarUsuarioSituacao(dados.resultado.elementos))
 		})
 }
 
@@ -233,3 +209,82 @@ export const pegarLancamentoSituacaoDaApi = (token) => dispatch => {
 			return dispatch(pegarLancamentoSituacao(dados.resultado.elementos))
 		})
 }
+
+export const lancarUmNaApi = (dados, token) => dispatch => {
+	api.lancarUm(dados, token)
+		.then(dados => {
+			const novoRegistro = true
+			dispatch(salvarLancamento(dados.resultado.lancamento, novoRegistro))
+			dispatch(salvarLancamentoSituacao(dados.resultado.lancamentoSituacao, novoRegistro))
+		})
+}
+
+export const alterarLancamentoNaApi = (dados, token) => dispatch => {
+	return	api.alterarLancamento(dados, token)
+		.then(dados => {
+			dispatch(salvarLancamento(dados.resultado.lancamento))
+			dispatch(salvarLancamento(dados.resultado.lancamentoSituacao))
+			const novoRegistro = true
+			dispatch(salvarLancamentoSituacao(dados.resultado.lancamentoSituacaoNovo, novoRegistro))
+
+			return dados.resultado.lancamentoSituacaoNovo._id
+		})
+}
+
+export const salvarCategoriaNaApi = (dados, token) => dispatch => {
+	api.salvarCategoria(dados, token)
+		.then(dados => {
+			const novoRegistro = true
+			dispatch(salvarCategoria(dados.resultado.categoria, novoRegistro))
+		})
+}
+
+export const salvarEmpresaNaApi = (dados, token) => dispatch => {
+	api.salvarEmpresa(dados, token)
+		.then(dados => {
+			const novoRegistro = true
+			dispatch(salvarEmpresa(dados.resultado.empresa, novoRegistro))
+		})
+}
+
+export const salvarUsuarioNaApi = (dados, token) => dispatch => {
+	api.salvarUsuario(dados, token)
+		.then(dados => {
+			const novoRegistro = true
+			dispatch(salvarUsuario(dados.resultado.usuario, novoRegistro))
+		})
+}
+
+export const removerUsuarioNaApi = (dados, token) => dispatch => {
+	api.removerUsuario(dados, token)
+		.then(dados => {
+			dispatch(salvarUsuario(dados.resultado.usuario))
+		})
+}
+
+export const salvarContaFixaNaApi = (dados, token) => dispatch => {
+	api.salvarContaFixa(dados, token)
+		.then(dados => {
+			const novoRegistro = true
+			dispatch(salvarContaFixa(dados.resultado.contaFixa, novoRegistro))
+		})
+}
+
+export const removerContaFixaNaApi = (dados, token) => dispatch => {
+	api.removerContaFixa(dados, token)
+		.then(dados => {
+			dispatch(salvarContaFixa(dados.resultado.contaFixa))
+		})
+}
+
+export const lancarVariosNaApi = (dados, token) => dispatch => {
+	const novoRegistro = true
+	api.lancarVarios(dados, token)
+		.then(dados => {
+			dados.resultado.elementos.forEach(elemento => {
+				dispatch(salvarLancamento(elemento.lancamento, novoRegistro))
+				dispatch(salvarLancamentoSituacao(elemento.lancamentoSituacao, novoRegistro))
+			})
+		})
+}
+

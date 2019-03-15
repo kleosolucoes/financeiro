@@ -1,4 +1,5 @@
-const api = 'https://glacial-harbor-83832.herokuapp.com'
+let api = 'https://glacial-harbor-83832.herokuapp.com'
+//api = 'http://localhost:8080'
 
 const headers = {
 	'Content-Type': 'application/json'
@@ -160,3 +161,139 @@ export const lancamentoSituacao = (token) =>
 	)
 		.then(resultado => resultado.json())
 		.then(json => json)
+
+export const lancarUm = (dados, token) =>
+	fetch(
+		`${api}/empresa/lancarUm`,
+		{
+			headers: {
+				...headers, 
+				'x-access-token': token,
+			},
+			method: "POST",
+			body: JSON.stringify(dados),
+		}
+	)
+		.then(resultado => resultado.json())
+		.then(json => json)
+
+export const alterarLancamento = (dados, token) =>
+	fetch(
+		`${api}/empresa/alterarLancamento`,
+		{
+			headers: {
+				...headers, 
+				'x-access-token': token,
+			},
+			method: "POST",
+			body: JSON.stringify(dados),
+		}
+	)
+		.then(resultado => resultado.json())
+		.then(json => json)
+
+export const salvarCategoria = (dados, token) =>
+	fetch(
+		`${api}/categoria/salvar`,
+		{
+			headers: {
+				...headers, 
+				'x-access-token': token,
+			},
+			method: "POST",
+			body: JSON.stringify(dados),
+		}
+	)
+		.then(resultado => resultado.json())
+		.then(json => json)
+
+export const salvarEmpresa = (dados, token) =>
+	fetch(
+		`${api}/empresa/salvar`,
+		{
+			headers: {
+				...headers, 
+				'x-access-token': token,
+			},
+			method: "POST",
+			body: JSON.stringify(dados),
+		}
+	)
+		.then(resultado => resultado.json())
+		.then(json => json)
+
+export const salvarUsuario = (dados, token) =>
+	fetch(
+		`${api}/usuario/salvar`,
+		{
+			headers: {
+				...headers, 
+				'x-access-token': token,
+			},
+			method: "POST",
+			body: JSON.stringify(dados),
+		}
+	)
+		.then(resultado => resultado.json())
+		.then(json => json)
+
+export const removerUsuario = (dados, token) =>
+	fetch(
+		`${api}/usuario/remover`,
+		{
+			headers: {
+				...headers, 
+				'x-access-token': token,
+			},
+			method: "POST",
+			body: JSON.stringify(dados),
+		}
+	)
+		.then(resultado => resultado.json())
+		.then(json => json)
+
+export const salvarContaFixa = (dados, token) =>
+	fetch(
+		`${api}/empresa/salvarContaFixa`,
+		{
+			headers: {
+				...headers, 
+				'x-access-token': token,
+			},
+			method: "POST",
+			body: JSON.stringify(dados),
+		}
+	)
+		.then(resultado => resultado.json())
+		.then(json => json)
+
+export const removerContaFixa = (dados, token) =>
+	fetch(
+		`${api}/empresa/removerContaFixa`,
+		{
+			headers: {
+				...headers, 
+				'x-access-token': token,
+			},
+			method: "POST",
+			body: JSON.stringify(dados),
+		}
+	)
+		.then(resultado => resultado.json())
+		.then(json => json)
+
+export const lancarVarios = (dados, token) =>
+	fetch(
+		`${api}/empresa/lancarVarios`,
+		{
+			headers: {
+				...headers, 
+				'x-access-token': token,
+			},
+			method: "POST",
+			body: JSON.stringify(dados),
+		}
+	)
+		.then(resultado => resultado.json())
+		.then(json => json)
+

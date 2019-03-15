@@ -8,9 +8,23 @@ import {
 	Alert
 } from 'reactstrap'
 import { connect } from 'react-redux'
-import { formatReal, getMoney, pegarDataEHoraAtual } from '../helpers/funcoes'
-import { salvarLancamento, salvarLancamentoSituacao } from '../actions'
-import { SITUACAO_NAO_RECEBIDO } from '../helpers/constantes'
+import { formatReal, getMoney, } from '../helpers/funcoes'
+import { lancarVariosNaApi } from '../actions'
+import {
+	CATEGORIA_DIZIMO_DINHEIRO,
+	CATEGORIA_DIZIMO_DEBITO,
+	CATEGORIA_DIZIMO_CREDITO,
+	CATEGORIA_DIZIMO_MOEDA,
+	CATEGORIA_OFERTA_DINHEIRO,
+	CATEGORIA_OFERTA_DEBITO,
+	CATEGORIA_OFERTA_CREDITO,
+	CATEGORIA_OFERTA_MOEDA,
+	CATEGORIA_OFERTA_ESPECIAL_DINHEIRO,
+	CATEGORIA_OFERTA_ESPECIAL_DEBITO,
+	CATEGORIA_OFERTA_ESPECIAL_CREDITO,
+	CATEGORIA_OFERTA_ESPECIAL_MOEDA,
+	CATEGORIA_OFERTA_INSTITUTO_DE_VENCEDORES,
+} from '../helpers/constantes'
 
 class LancarVarios extends React.Component {
 
@@ -30,6 +44,7 @@ class LancarVarios extends React.Component {
 		ofertaEspecialDebito: '0.00',
 		ofertaEspecialCredito: '0.00',
 		ofertaEspecialMoeda: '0.00',
+		ofertaInstitutoDeVencedores: '0.00',
 		mostrarMensagemDeErro: false,
 		camposComErro: [],
 	}
@@ -62,6 +77,7 @@ class LancarVarios extends React.Component {
 			ofertaEspecialDebito,
 			ofertaEspecialCredito,
 			ofertaEspecialMoeda,
+			ofertaInstitutoDeVencedores,
 			dia,
 			mes,
 			ano,
@@ -70,6 +86,10 @@ class LancarVarios extends React.Component {
 			mostrarMensagemDeErro,
 			camposComErro,
 		} = this.state
+		const {
+			usuarioLogado,
+			lancarVariosNaApi,
+		} = this.props
 		camposComErro = []
 
 		mostrarMensagemDeErro = false
@@ -96,82 +116,77 @@ class LancarVarios extends React.Component {
 				camposComErro: [],
 			})
 
-			for(let indiceDeValores = 1; indiceDeValores <= 12; indiceDeValores++){
-				const novoRegistro = true
-				const elemento = {
-					id: Date.now(),
-					data_criacao: pegarDataEHoraAtual()[0],
-					hora_criacao: pegarDataEHoraAtual()[1],
-					data_inativacao: null,
-					hora_inativacao: null,
-				}
-				elemento.id += indiceDeValores
+			let elementos = []
+			for(let indiceDeValores = 1; indiceDeValores <= 13; indiceDeValores++){
+				const elemento = {}
 				switch(indiceDeValores){
 					case 1: 
 						elemento.valor = dizimoDinheiro
+						elemento.categoria_id = CATEGORIA_DIZIMO_DINHEIRO
 						break;
 					case 2: 
 						elemento.valor = dizimoDebito
+						elemento.categoria_id = CATEGORIA_DIZIMO_DEBITO
 						break;
 					case 3: 
 						elemento.valor = dizimoCredito
+						elemento.categoria_id = CATEGORIA_DIZIMO_CREDITO
 						break;
 					case 4: 
 						elemento.valor = dizimoMoeda
+						elemento.categoria_id = CATEGORIA_DIZIMO_MOEDA
 						break;
 					case 5: 
 						elemento.valor = ofertaDinheiro
+						elemento.categoria_id = CATEGORIA_OFERTA_DINHEIRO
 						break;
 					case 6: 
 						elemento.valor = ofertaDebito
+						elemento.categoria_id = CATEGORIA_OFERTA_DEBITO
 						break;
 					case 7: 
 						elemento.valor = ofertaCredito
+						elemento.categoria_id = CATEGORIA_OFERTA_CREDITO
 						break;
 					case 8: 
 						elemento.valor = ofertaMoeda
+						elemento.categoria_id = CATEGORIA_OFERTA_MOEDA
 						break;
 					case 9: 
 						elemento.valor = ofertaEspecialDinheiro
+						elemento.categoria_id = CATEGORIA_OFERTA_ESPECIAL_DINHEIRO
 						break;
 					case 10: 
 						elemento.valor = ofertaEspecialDebito
+						elemento.categoria_id = CATEGORIA_OFERTA_ESPECIAL_DEBITO
 						break;
 					case 11: 
 						elemento.valor = ofertaEspecialCredito
+						elemento.categoria_id = CATEGORIA_OFERTA_ESPECIAL_CREDITO
 						break;
 					case 12: 
 						elemento.valor = ofertaEspecialMoeda
+						elemento.categoria_id = CATEGORIA_OFERTA_ESPECIAL_MOEDA
+						break;
+					case 13: 
+						elemento.valor = ofertaInstitutoDeVencedores
+						elemento.categoria_id = CATEGORIA_OFERTA_INSTITUTO_DE_VENCEDORES
 						break;
 					default:
 						break;
 				}
-				elemento.categoria_id = indiceDeValores
 				if(elemento.valor !== '0.00'){
 					elemento.taxa = '0.00'
 					elemento.descricao = ''
-					let diaData = dia.toString().padStart(2, '0')
-					let mesData = mes.toString().padStart(2, '0')
-					elemento.data = diaData + '/' + mesData + '/' + ano
-					elemento.usuario_id = this.props.usuario_id
-					elemento.empresa_id = this.props.empresa_id
-
-					const elementoAssociativo = {
-						id: Date.now(),
-						data_criacao: pegarDataEHoraAtual()[0],
-						hora_criacao: pegarDataEHoraAtual()[1],
-						data_inativacao: null,
-						hora_inativacao: null,
-						situacao_id: SITUACAO_NAO_RECEBIDO,
-						lancamento_id: elemento.id,
-						usuario_id: this.props.usuario_id, 
-					}
-					elementoAssociativo.id += indiceDeValores
-
-					this.props.salvarLancamento(elemento, novoRegistro)
-					this.props.salvarLancamentoSituacao(elementoAssociativo, novoRegistro)
+					elemento.dia = dia
+					elemento.mes = mes
+					elemento.ano = ano
+					elemento.usuario_id = usuarioLogado.usuario_id
+					elemento.empresa_id = usuarioLogado.empresa_id
+					elementos.push(elemento)
 				}
 			}
+			lancarVariosNaApi(elementos, usuarioLogado.token)
 			alert('Lancamento(s) Salvo(s) com sucesso!')
 			this.props.alterarTela('extratoEmpresa')
 		}
@@ -191,6 +206,7 @@ class LancarVarios extends React.Component {
 			ofertaEspecialDebito,
 			ofertaEspecialCredito,
 			ofertaEspecialMoeda,
+			ofertaInstitutoDeVencedores,
 			dia,
 			mes,
 			ano,
@@ -211,7 +227,6 @@ class LancarVarios extends React.Component {
 			arrayAnos.push(<option key={indiceAno} value={indiceAno}>{indiceAno}</option>)
 		}
 
-
 		const total = formatReal( 
 			(getMoney(dizimoDinheiro) +
 				getMoney(dizimoDebito) +
@@ -224,6 +239,7 @@ class LancarVarios extends React.Component {
 				getMoney(ofertaEspecialDinheiro) +
 				getMoney(ofertaEspecialDebito) +
 				getMoney(ofertaEspecialCredito) +
+				getMoney(ofertaInstitutoDeVencedores) +
 				getMoney(ofertaEspecialMoeda))
 			.toString()
 			.padStart(3, '0')
@@ -462,6 +478,21 @@ class LancarVarios extends React.Component {
 						</Col>
 					</Row>
 				</div>
+				<div>
+					<Row>
+						<Col>
+							Oferta Instituto de Vencedores
+						</Col>
+						<Col>
+							<input
+								type='number'
+								name='ofertaInstitutoDeVencedores'
+								value={ofertaInstitutoDeVencedores}
+								onChange={this.ajudadorDeCampo}
+							/>
+						</Col>
+					</Row>
+				</div>
 				{
 					mostrarMensagemDeErro &&
 						<div style={{padding: 10}}>
@@ -496,19 +527,16 @@ class LancarVarios extends React.Component {
 	}
 }
 
-function mapStateToProps(state){
-	const usuario_id = state.usuarioLogado.usuario_id
-	const empresa_id = state.usuarioLogado.empresa_id
+function mapStateToProps({usuarioLogado, categorias}){
 	return {
-		usuario_id,
-		empresa_id,
+		usuarioLogado,
+		categorias,
 	}
 }
 
 function mapDispatchToProps(dispatch){
 	return {
-		salvarLancamento: (elemento, novo) => dispatch(salvarLancamento(elemento, novo)),
-		salvarLancamentoSituacao: (elemento, novo) => dispatch(salvarLancamentoSituacao(elemento, novo)),
+		lancarVariosNaApi: (elementos, token) => dispatch(lancarVariosNaApi(elementos, token)),
 	}
 }
 

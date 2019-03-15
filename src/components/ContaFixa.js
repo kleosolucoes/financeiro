@@ -4,19 +4,22 @@ import {
 	Col,
 } from 'reactstrap'
 import { connect } from 'react-redux'
-import { salvarContaFixa } from '../actions'
-import { pegarDataEHoraAtual } from '../helpers/funcoes'
+import { removerContaFixaNaApi } from '../actions'
 import { STRING_DEBITO, STRING_CREDITO, } from '../helpers/constantes'
 
 class ContaFixa extends React.Component {
 
 	removerContaFixa = () => {
 		if(window.confirm('Realmente deseja remover essa conta fixa?')){
-			let contaFixa = this.props.contaFixa
-			contaFixa.data_inativacao = pegarDataEHoraAtual()[0]
-			contaFixa.hora_inativacao = pegarDataEHoraAtual()[1]
-			contaFixa.quem_inativou_id = this.props.usuario_id
-			this.props.salvarContaFixa(contaFixa)
+			const {
+				contaFixa,
+				usuarioLogado,
+				removerContaFixaNaApi,
+			} = this.props
+			let elemento = {}
+			elemento.quem_inativou_id = usuarioLogado.usuario_id
+			elemento.conta_fixa_id = contaFixa._id 
+			removerContaFixaNaApi(elemento, usuarioLogado.token)
 			alert('Conta Fixa Removida com Sucesso!')
 		}
 	}
@@ -33,7 +36,7 @@ class ContaFixa extends React.Component {
 						Id
 					</Col>
 					<Col>
-						{contaFixa._id.toString().padStart(8,0)}
+						{contaFixa._id}
 					</Col>
 				</Row>
 				<Row>
@@ -65,7 +68,7 @@ class ContaFixa extends React.Component {
 						Categoria
 					</Col>
 					<Col>
-						{categoria.nome}
+						{categoria && categoria.nome}
 					</Col>
 				</Row>
 				<Row>
@@ -73,7 +76,7 @@ class ContaFixa extends React.Component {
 						Credito/Debito
 					</Col>
 					<Col>
-						{categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO}
+						{categoria && categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO}
 					</Col>
 				</Row>
 				<Row style={{padding: 5}}>
@@ -93,21 +96,19 @@ class ContaFixa extends React.Component {
 	}
 }
 
-const mapStateToProps = (state, {contaFixa_id}) => {
-	const contaFixa = state.contaFixa
-		.find(contaFixa => contaFixa._id === contaFixa_id)
-	const categoria = state.categorias
-		.find(categoria => categoria._id === contaFixa.categoria_id)
+const mapStateToProps = ({usuarioLogado, contaFixa, categorias}, {contaFixa_id}) => {
+	const contaFixaSelecionada = contaFixa && contaFixa.find(contaFixa => contaFixa._id === contaFixa_id)
+	const categoria = categorias && categorias.find(categoria => categoria._id === contaFixaSelecionada.categoria_id)
 	return {
-		contaFixa,
+		contaFixa: contaFixaSelecionada,
 		categoria,
-		usuario_id: state.usuarioLogado.usuario_id,
+		usuarioLogado,
 	}
 }
 
 function mapDispatchToProps(dispatch){
 	return {
-		salvarContaFixa: (elemento, novo) => dispatch(salvarContaFixa(elemento, novo)),
+		removerContaFixaNaApi: (elemento, token) => dispatch(removerContaFixaNaApi(elemento, token)),
 	}
 }
 

@@ -7,21 +7,7 @@ import {
 	CardText,
 } from 'reactstrap'
 import { connect } from 'react-redux'
-// import Lancamentos from './Lancamentos'
 import { SITUACAO_RECEBIDO, SITUACAO_NAO_RECEBIDO } from '../helpers/constantes'
-import { 
-	pegarUsuarioDaApi,
-	pegarUsuarioTipoDaApi,
-	pegarUsuarioSituacaoDaApi,
-	pegarSituacaoDaApi,
-	pegarCategoriaDaApi,
-	pegarEmpresaDaApi,
-	pegarEmpresaTipoDaApi,
-	pegarContaFixaDaApi,
-	pegarLancamentoDaApi,
-	pegarLancamentoSituacaoDaApi,
-	salvarUsuarioLogado, 
-} from '../actions'
 import './aux.css';
 
 // ICONS
@@ -35,26 +21,6 @@ library.add(faPowerOff)
 library.add(faQuestionCircle)
 
 class ExtratoEmpresa extends React.Component {
-
-	puxarTodosDados(){
-		if(this.props.token && this.props.puxeiUmaVez){
-			this.props.pegarUsuarioDaApi(this.props.token)			
-			this.props.pegarUsuarioTipoDaApi(this.props.token)
-			this.props.pegarUsuarioSituacaoDaApi(this.props.token)
-			this.props.pegarSituacaoDaApi(this.props.token)
-			this.props.pegarCategoriaDaApi(this.props.token)
-			this.props.pegarEmpresaDaApi(this.props.token)
-			this.props.pegarEmpresaTipoDaApi(this.props.token)
-			this.props.pegarContaFixaDaApi(this.props.token)
-			this.props.pegarLancamentoDaApi(this.props.token)
-			this.props.pegarLancamentoSituacaoDaApi(this.props.token)
-			this.props.salvarUsuarioLogado({puxeiUmaVez: false})
-		}
-	}
-
-	componentDidMount(){
-		this.puxarTodosDados()
-	}
 
 	render() {
 		const { 
@@ -137,72 +103,39 @@ class ExtratoEmpresa extends React.Component {
 	}
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = ({situacoes, usuarioLogado, lancamentos, lancamentoSituacao, categorias}) => {
 	let saldo = 0
 	let naoRecebido = 0
-	const empresa_id = state.usuarioLogado.empresa_id
-	if(
-		state.categorias 
-		&& state.lancamentoSituacao
-		&& state.lancamentos
-		&& state.situacoes
-	){
-		const lancamentosFiltrados = state.lancamentos.filter(lancamento => lancamento.empresa_id === empresa_id)
-		lancamentosFiltrados.forEach(lancamento => {
-			const lancamentoSituacaoAtiva = state.lancamentoSituacao
-				.find(lancamentoSituacao => 
-					lancamento._id === lancamentoSituacao.lancamento_id 
-					&& lancamentoSituacao.data_inativacao === 'null')
-			if(lancamentoSituacaoAtiva){
-				const situacaoAtiva = state.situacoes
-					.find(situacao => lancamentoSituacaoAtiva.situacao_id === situacao._id)
+	const lancamentosFiltrados = lancamentos && usuarioLogado && 
+		lancamentos.filter(lancamento => lancamento.empresa_id === usuarioLogado.empresa_id)
 
-				const categoriaAtiva = state.categorias
-					.find(categoria => lancamento.categoria_id === categoria._id)
+	lancamentosFiltrados.forEach(lancamento => {
+		const lancamentoSituacaoAtiva = lancamentoSituacao && 
+			lancamentoSituacao.find(lancamentoSituacao => lancamento._id === lancamentoSituacao.lancamento_id && lancamentoSituacao.data_inativacao === null)
 
-				const valorFormatado = parseFloat(lancamento.valor)
-				if(situacaoAtiva._id === SITUACAO_RECEBIDO){
-					if(categoriaAtiva.credito_debito === 'C'){
-						saldo += valorFormatado
-					}else{
-						saldo -= valorFormatado
-					}
-				}
-				if(situacaoAtiva._id === SITUACAO_NAO_RECEBIDO){
-					naoRecebido += valorFormatado
+		if(lancamentoSituacaoAtiva){	
+			const situacaoAtiva = situacoes && 
+				situacoes.find(situacao => lancamentoSituacaoAtiva.situacao_id === situacao._id)
+			const categoriaAtiva = categorias && categorias.find(categoria => lancamento.categoria_id === categoria._id)
+			const valorFormatado = parseFloat(lancamento.valor)
+			if(situacaoAtiva._id === SITUACAO_RECEBIDO){
+				if(categoriaAtiva.credito_debito === 'C'){
+					saldo += valorFormatado
+				}else{
+					saldo -= valorFormatado
 				}
 			}
-		})
-	}
-	let token = null
-	let puxeiUmaVez = null
-	if(state.usuarioLogado){
-		token = state.usuarioLogado.token
-		puxeiUmaVez = state.usuarioLogado.puxeiUmaVez
-	}
+			if(situacaoAtiva._id === SITUACAO_NAO_RECEBIDO){
+				naoRecebido += valorFormatado
+			}
+		}
+	})
 
 	return {
 		saldo,
 		naoRecebido,
-		token,
-		puxeiUmaVez,
+		usuarioLogado,
 	}
 }
 
-function mapDispatchToProps(dispatch){
-	return {
-		pegarUsuarioDaApi: (elemento) => dispatch(pegarUsuarioDaApi(elemento)),
-		pegarUsuarioSituacaoDaApi: (elemento) => dispatch(pegarUsuarioSituacaoDaApi(elemento)),
-		pegarUsuarioTipoDaApi: (elemento) => dispatch(pegarUsuarioTipoDaApi(elemento)),
-		pegarSituacaoDaApi: (elemento) => dispatch(pegarSituacaoDaApi(elemento)),
-		pegarCategoriaDaApi: (elemento) => dispatch(pegarCategoriaDaApi(elemento)),
-		pegarEmpresaDaApi: (elemento) => dispatch(pegarEmpresaDaApi(elemento)),
-		pegarEmpresaTipoDaApi: (elemento) => dispatch(pegarEmpresaTipoDaApi(elemento)),
-		pegarContaFixaDaApi: (elemento) => dispatch(pegarContaFixaDaApi(elemento)),
-		pegarLancamentoDaApi: (elemento) => dispatch(pegarLancamentoDaApi(elemento)),
-		pegarLancamentoSituacaoDaApi: (elemento) => dispatch(pegarLancamentoSituacaoDaApi(elemento)),
-		salvarUsuarioLogado: (elemento) => dispatch(salvarUsuarioLogado(elemento)),
-	}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ExtratoEmpresa)
+export default connect(mapStateToProps, null)(ExtratoEmpresa)
