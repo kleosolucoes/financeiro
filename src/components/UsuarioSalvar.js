@@ -19,11 +19,18 @@ class UsuarioSalvar extends React.Component {
 
 	state = {
 		usuario_tipo_id: 0,
+		empresa_id: 0,
 		nome: '',
 		email: '',
 		senha: '',
 		mostrarMensagemDeErro: false,
 		camposComErro: [],
+	}
+
+	componentDidMount(){
+		if(this.props.empresa_id !== EMPRESA_ADMINISTRACAO_ID){
+			this.setState({empresa_id: this.props.empresa_id})
+		}
 	}
 
 	ajudadorDeCampo = event => {
@@ -35,6 +42,7 @@ class UsuarioSalvar extends React.Component {
 	ajudadorDeSubmissao = () => {
 		const {
 			usuario_tipo_id,
+			empresa_id,
 			nome,
 			email,
 			senha,
@@ -52,6 +60,10 @@ class UsuarioSalvar extends React.Component {
 		if(parseInt(usuario_tipo_id) === 0){
 			mostrarMensagemDeErro = true
 			camposComErro.push('usuario_tipo_id')
+		}
+		if(parseInt(empresa_id) === 0){
+			mostrarMensagemDeErro = true
+			camposComErro.push('empresa_id')
 		}
 		if(nome === ''){
 			mostrarMensagemDeErro = true
@@ -83,7 +95,7 @@ class UsuarioSalvar extends React.Component {
 			})
 
 			const elemento = {}
-			elemento.empresa_id = this.props.empresa_id
+			elemento.empresa_id = empresa_id
 			elemento.usuario_tipo_id = usuario_tipo_id
 			elemento.nome = nome.toUpperCase()
 			elemento.email = email.toLowerCase()
@@ -98,6 +110,7 @@ class UsuarioSalvar extends React.Component {
 	render() {
 		const {
 			usuario_tipo_id,
+			empresa_id,
 			nome,
 			email,
 			senha,
@@ -106,11 +119,43 @@ class UsuarioSalvar extends React.Component {
 		} = this.state
 		const {
 			usuarioTipo,
+			empresas,
+			usuarioLogado,
 		} = this.props
 
 		return (
 			<div>
 				<h1>Adicionar Usuário</h1>
+				{
+					usuarioLogado.empresa_id === EMPRESA_ADMINISTRACAO_ID &&
+						<FormGroup>
+							<Label for="empresa_id">Empresa</Label>
+							<Input 
+								type="select" 
+								name="empresa_id" 
+								id="empresa_id" 
+								value={empresa_id} 
+								onChange={this.ajudadorDeCampo}
+								invalid={camposComErro.includes('empresa_id') ? true : null}
+							>
+								<option value='0'>Selecione</option>
+								{
+									empresas &&
+										empresas.map(empresa => {
+											return (
+												<option 
+													key={empresa._id}
+													value={empresa._id}
+												>
+													{empresa.nome}
+												</option>
+											)
+										})
+								}
+							</Input>
+							{camposComErro.includes('empresa_id') && <Alert color='danger'>Selecione a Empresa</Alert>}
+						</FormGroup>
+				}
 				<FormGroup>
 					<Label for="usuario_tipo_id">Tipo</Label>
 					<Input 
@@ -230,11 +275,12 @@ class UsuarioSalvar extends React.Component {
 	}
 }
 
-function mapStateToProps({usuarios, usuarioTipo, usuarioLogado}){
+function mapStateToProps({empresas, usuarios, usuarioTipo, usuarioLogado}){
 	return {
 		usuarioTipo,
 		usuarios,
 		usuarioLogado,
+		empresas,
 	}
 }
 

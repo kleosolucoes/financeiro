@@ -24,7 +24,10 @@ import {
 	CATEGORIA_OFERTA_ESPECIAL_DEBITO,
 	CATEGORIA_OFERTA_ESPECIAL_CREDITO,
 	CATEGORIA_OFERTA_ESPECIAL_MOEDA,
-	CATEGORIA_OFERTA_INSTITUTO_DE_VENCEDORES,
+	CATEGORIA_OFERTA_DINHEIRO_INSTITUTO_DE_VENCEDORES,
+	CATEGORIA_OFERTA_DEBITO_INSTITUTO_DE_VENCEDORES,
+	CATEGORIA_OFERTA_CREDITO_INSTITUTO_DE_VENCEDORES,
+	CATEGORIA_OFERTA_MOEDA_INSTITUTO_DE_VENCEDORES,
 } from '../helpers/constantes'
 
 class LancarVarios extends React.Component {
@@ -45,7 +48,10 @@ class LancarVarios extends React.Component {
 		ofertaEspecialDebito: '0.00',
 		ofertaEspecialCredito: '0.00',
 		ofertaEspecialMoeda: '0.00',
-		ofertaInstitutoDeVencedores: '0.00',
+		ofertaDinheiroInstitutoDeVencedores: '0.00',
+		ofertaDebitoInstitutoDeVencedores: '0.00',
+		ofertaCreditoInstitutoDeVencedores: '0.00',
+		ofertaMoedaInstitutoDeVencedores: '0.00',
 		mostrarMensagemDeErro: false,
 		camposComErro: [],
 	}
@@ -78,7 +84,10 @@ class LancarVarios extends React.Component {
 			ofertaEspecialDebito,
 			ofertaEspecialCredito,
 			ofertaEspecialMoeda,
-			ofertaInstitutoDeVencedores,
+			ofertaDinheiroInstitutoDeVencedores,
+			ofertaDebitoInstitutoDeVencedores,
+			ofertaCreditoInstitutoDeVencedores,
+			ofertaMoedaInstitutoDeVencedores,
 			dia,
 			mes,
 			ano,
@@ -118,7 +127,7 @@ class LancarVarios extends React.Component {
 			})
 
 			let elementos = []
-			for(let indiceDeValores = 1; indiceDeValores <= 13; indiceDeValores++){
+			for(let indiceDeValores = 1; indiceDeValores <= 16; indiceDeValores++){
 				const elemento = {}
 				switch(indiceDeValores){
 					case 1: 
@@ -170,13 +179,25 @@ class LancarVarios extends React.Component {
 						elemento.categoria_id = CATEGORIA_OFERTA_ESPECIAL_MOEDA
 						break;
 					case 13: 
-						elemento.valor = ofertaInstitutoDeVencedores
-						elemento.categoria_id = CATEGORIA_OFERTA_INSTITUTO_DE_VENCEDORES
+						elemento.valor = ofertaDinheiroInstitutoDeVencedores
+						elemento.categoria_id = CATEGORIA_OFERTA_DINHEIRO_INSTITUTO_DE_VENCEDORES
+						break;
+					case 14: 
+						elemento.valor = ofertaDebitoInstitutoDeVencedores
+						elemento.categoria_id = CATEGORIA_OFERTA_DEBITO_INSTITUTO_DE_VENCEDORES
+						break;
+					case 15: 
+						elemento.valor = ofertaCreditoInstitutoDeVencedores
+						elemento.categoria_id = CATEGORIA_OFERTA_CREDITO_INSTITUTO_DE_VENCEDORES
+						break;
+					case 16: 
+						elemento.valor = ofertaMoedaInstitutoDeVencedores
+						elemento.categoria_id = CATEGORIA_OFERTA_MOEDA_INSTITUTO_DE_VENCEDORES
 						break;
 					default:
 						break;
 				}
-				if(elemento.valor !== '0.00'){
+				if(!isNaN(elemento.valor) && elemento.valor !== '0.00'){
 					elemento.taxa = '0.00'
 					elemento.descricao = ''
 					elemento.dia = dia
@@ -207,7 +228,10 @@ class LancarVarios extends React.Component {
 			ofertaEspecialDebito,
 			ofertaEspecialCredito,
 			ofertaEspecialMoeda,
-			ofertaInstitutoDeVencedores,
+			ofertaDinheiroInstitutoDeVencedores,
+			ofertaDebitoInstitutoDeVencedores,
+			ofertaCreditoInstitutoDeVencedores,
+			ofertaMoedaInstitutoDeVencedores,
 			dia,
 			mes,
 			ano,
@@ -228,7 +252,7 @@ class LancarVarios extends React.Component {
 			arrayAnos.push(<option key={indiceAno} value={indiceAno}>{indiceAno}</option>)
 		}
 
-		const total = formatReal( 
+		let total = formatReal( 
 			(getMoney(dizimoDinheiro) +
 				getMoney(dizimoDebito) +
 				getMoney(dizimoCredito) +
@@ -240,12 +264,15 @@ class LancarVarios extends React.Component {
 				getMoney(ofertaEspecialDinheiro) +
 				getMoney(ofertaEspecialDebito) +
 				getMoney(ofertaEspecialCredito) +
-				getMoney(ofertaInstitutoDeVencedores) +
+				getMoney(ofertaDinheiroInstitutoDeVencedores) +
+				getMoney(ofertaDebito) +
+				getMoney(ofertaCreditoInstitutoDeVencedores) +
+				getMoney(ofertaMoedaInstitutoDeVencedores) +
 				getMoney(ofertaEspecialMoeda))
 			.toString()
 			.padStart(3, '0')
 		)
-		const totalDizimo = formatReal(
+		let totalDizimo = formatReal(
 			(
 				getMoney(dizimoCredito) +
 				getMoney(dizimoDebito) +
@@ -254,7 +281,7 @@ class LancarVarios extends React.Component {
 			).toString()
 			.padStart(3, '0')
 		)
-		const totalOferta = formatReal(
+		let totalOferta = formatReal(
 			(
 				getMoney(ofertaCredito) +
 				getMoney(ofertaDebito) +
@@ -263,7 +290,7 @@ class LancarVarios extends React.Component {
 			).toString()
 			.padStart(3, '0')
 		)
-		const totalOfertaEspecial = formatReal(
+		let totalOfertaEspecial = formatReal(
 			(
 				getMoney(ofertaEspecialCredito) +
 				getMoney(ofertaEspecialDebito) +
@@ -272,11 +299,147 @@ class LancarVarios extends React.Component {
 			).toString()
 			.padStart(3, '0')
 		)
+		let totalOfertaInstitutoDeVencedores = formatReal(
+			(
+				getMoney(ofertaDinheiroInstitutoDeVencedores) +
+				getMoney(ofertaDebitoInstitutoDeVencedores) +
+				getMoney(ofertaCreditoInstitutoDeVencedores) +
+				getMoney(ofertaMoedaInstitutoDeVencedores)
+			).toString()
+			.padStart(3, '0')
+		)
+
+		if(isNaN(total)){
+			total = 'Valore(s) Inválido(s)'
+		}
+		if(isNaN(totalDizimo)){
+			totalDizimo = 'Valore(s) Inválido(s)'
+		}
+		if(isNaN(totalOferta)){
+			totalOferta = 'Valore(s) Inválido(s)'
+		}
+		if(isNaN(totalOfertaEspecial)){
+			totalOfertaEspecial = 'Valore(s) Inválido(s)'
+		}
+		if(isNaN(totalOfertaInstitutoDeVencedores)){
+			totalOfertaInstitutoDeVencedores = 'Valore(s) Inválido(s)'
+		}
+
+		const tiposDeLancamentos = [
+			{
+				label: 'Dízimo',				
+				campos: [
+					{
+						label: 'Dinheiro',
+						name: 'dizimoDinheiro',
+						valor: dizimoDinheiro,
+					},
+					{
+						label: 'Débito',
+						name: 'dizimoDebito',
+						valor: dizimoDebito,
+					},
+					{
+						label: 'Crédito',
+						name: 'dizimoCredito',
+						valor: dizimoCredito,
+					},
+					{
+						label: 'Moeda',
+						name: 'dizimoMoeda',
+						valor: dizimoMoeda,
+					},
+				],
+				total: totalDizimo,
+				labelTotal: 'DÍZIMO',
+			},
+			{
+				label: 'Oferta',				
+				campos: [
+					{
+						label: 'Dinheiro',
+						name: 'ofertaDinheiro',
+						valor: ofertaDinheiro,
+					},
+					{
+						label: 'Débito',
+						name: 'ofertaDebito',
+						valor: ofertaDebito,
+					},
+					{
+						label: 'Crédito',
+						name: 'ofertaCredito',
+						valor: ofertaCredito,
+					},
+					{
+						label: 'Moeda',
+						name: 'ofertaMoeda',
+						valor: ofertaMoeda,
+					},
+				],
+				total: totalOferta,
+				labelTotal: 'OFERTA',
+			},
+			{
+				label: 'Oferta Especial',				
+				campos: [
+					{
+						label: 'Dinheiro',
+						name: 'ofertaEspecialDinheiro',
+						valor: ofertaEspecialDinheiro,
+					},
+					{
+						label: 'Débito',
+						name: 'ofertaEspecialDebito',
+						valor: ofertaEspecialDebito,
+					},
+					{
+						label: 'Crédito',
+						name: 'ofertaEspecialCredito',
+						valor: ofertaEspecialCredito,
+					},
+					{
+						label: 'Moeda',
+						name: 'ofertaEspecialMoeda',
+						valor: ofertaEspecialMoeda,
+					},
+				],
+				total: totalOfertaEspecial,
+				labelTotal: 'OFERTA ESPECIAL',
+			},
+			{
+				label: 'Oferta Instituto de Vencedores',				
+				campos: [
+					{
+						label: 'Dinheiro',
+						name: 'ofertaDinheiroInstitutoDeVencedores',
+						valor: ofertaDinheiroInstitutoDeVencedores,
+					},
+					{
+						label: 'Débito',
+						name: 'ofertaDebitoInstitutoDeVencedores',
+						valor: ofertaDebitoInstitutoDeVencedores,
+					},
+					{
+						label: 'Crédito',
+						name: 'ofertaCreditoInstitutoDeVencedores',
+						valor: ofertaCreditoInstitutoDeVencedores,
+					},
+					{
+						label: 'Moeda',
+						name: 'ofertaMoedaInstitutoDeVencedores',
+						valor: ofertaMoedaInstitutoDeVencedores,
+					},
+				],
+				total: totalOfertaInstitutoDeVencedores,
+				labelTotal: 'OFERTA INSTITUTO DE VENCEDORES',
+			},
+		]
 	
 		return (
 			<div style={{marginTop: 80}}>
 				<Label style={{fontWeight: 400}} for="data">DATA DE LANÇAMENTO</Label>
-				{/* <Row>
+				<Row>
 					<Col> 
 					<FormGroup>
 					<Label for="dia">* Dia:</Label>
@@ -337,203 +500,40 @@ class LancarVarios extends React.Component {
 				</FormGroup>
 				</Col>
 				</Row>
-
-				<div className="container-item">
-					<div style={{padding:10}}>
-
-					<Row style={{justifyContent: 'center', paddingBottom: 10, paddingTop: 5}}>
-							<h6><b>Dizimo</b></h6>
-					</Row>
-					<Row>
-						<Col>
-							Dinheiro
-						</Col>
-						<Col>
-							<Input
-								type='number'
-								name='dizimoDinheiro'
-								value={dizimoDinheiro}
-								onChange={this.ajudadorDeCampo}
-							/>
-						</Col>
-					</Row>
-					<Row>
-						<Col>
-							Cartão Débito
-						</Col>
-						<Col>
-							<Input
-								type='number'
-								name='dizimoDebito'
-								value={dizimoDebito}
-								onChange={this.ajudadorDeCampo}
-							/>
-						</Col>
-					</Row>
-					<Row>
-						<Col> Cartão Crédito </Col>
-						<Col>
-							<Input
-								type='number'
-								name='dizimoCredito'
-								value={dizimoCredito}
-								onChange={this.ajudadorDeCampo}
-							/>
-						</Col>
-					</Row>
-					<Row>
-						<Col> Moeda </Col>
-						<Col>
-							<Input
-								type='number'
-								name='dizimoMoeda'
-								value={dizimoMoeda}
-								onChange={this.ajudadorDeCampo}
-							/>
-						</Col>
-					</Row>
-					</div>
-
-					<div className="total-categoria-lancado">
-					<Row>
-						<Col style={{paddingRight: 0, paddingLeft: 0}}> <b>TOTAL DIZIMO</b> </Col>
-						<Col> <b>{totalDizimo}</b> </Col>
-					</Row>
-					</div>
-
-				</div>
-
-				<div className="container-item" style={{margin: '15px 0px'}}>
-				<div style={{padding:10}}>
-					<Row style={{justifyContent: 'center', paddingBottom: 10, paddingTop: 5}}>
-						<h6><b>Oferta</b></h6>
-					</Row>
-					<Row>
-						<Col> Dinheiro </Col>
-						<Col>
-							<Input
-								type='number'
-								name='ofertaDinheiro'
-								value={ofertaDinheiro}
-								onChange={this.ajudadorDeCampo}
-							/>
-						</Col>
-					</Row>
-					<Row>
-						<Col> Cartão Débito </Col>
-						<Col>
-							<Input
-								type='number'
-								name='ofertaDebito'
-								value={ofertaDebito}
-								onChange={this.ajudadorDeCampo}
-							/>
-						</Col>
-					</Row>
-					<Row>
-						<Col> Cartão Crédito </Col>
-						<Col>
-							<Input
-								type='number'
-								name='ofertaCredito'
-								value={ofertaCredito}
-								onChange={this.ajudadorDeCampo}
-							/>
-						</Col>
-					</Row>
-					<Row>
-						<Col> Moeda </Col>
-						<Col>
-							<Input
-								type='number'
-								name='ofertaMoeda'
-								value={ofertaMoeda}
-								onChange={this.ajudadorDeCampo}
-							/>
-						</Col>
-					</Row>
-				</div>
-					<div className="total-categoria-lancado">
-					<Row>
-						<Col style={{paddingRight: 0, paddingLeft: 0}}> <b>TOTAL OFERTA</b> </Col>
-						<Col> <b>{totalOferta}</b> </Col>
-					</Row>
-					</div>
-				</div>
-
-				{/* <div style={{padding: 10, backgroundColor: 'lightcyan', borderRadius: 4}}> 
-				<div className="container-item">
-				<div style={{padding: 10}}>
-
-					<Row style={{justifyContent: 'center', paddingBottom: 10, paddingTop: 5}}>
-						<h6><b>Oferta Especial</b></h6>
-					</Row>
-					<Row>
-						<Col> Dinheiro </Col>
-						<Col>
-							<Input
-								type='number'
-								name='ofertaEspecialDinheiro'
-								value={ofertaEspecialDinheiro}
-								onChange={this.ajudadorDeCampo}
-							/>
-						</Col>
-					</Row>
-					<Row>
-						<Col> Cartão Débito </Col>
-						<Col>
-							<Input
-								type='number'
-								name='ofertaEspecialDebito'
-								value={ofertaEspecialDebito}
-								onChange={this.ajudadorDeCampo}
-							/>
-						</Col>
-					</Row>
-					<Row>
-						<Col> Cartão Crédito </Col>
-						<Col>
-							<Input
-								type='number'
-								name='ofertaEspecialCredito'
-								value={ofertaEspecialCredito}
-								onChange={this.ajudadorDeCampo}
-							/>
-						</Col>
-					</Row>
-					<Row>
-						<Col> Moeda </Col>
-						<Col>
-							<Input
-								type='number'
-								name='ofertaEspecialMoeda'
-								value={ofertaEspecialMoeda}
-								onChange={this.ajudadorDeCampo}
-							/>
-						</Col>
-					</Row>
-				</div>
-					<div className="total-categoria-lancado">
-					<Row style={{alignItems: 'center'}}>
-						<Col style={{paddingRight: 0, paddingLeft: 0}}> <b>TOTAL OFERTA ESPECIAL</b> </Col>
-						<Col> <b>{totalOfertaEspecial}</b> </Col>
-					</Row>
-					</div>
-				<div>
-					<Row>
-						<Col>
-							Oferta Instituto de Vencedores
-						</Col>
-						<Col>
-							<input
-								type='number'
-								name='ofertaInstitutoDeVencedores'
-								value={ofertaInstitutoDeVencedores}
-								onChange={this.ajudadorDeCampo}
-							/>
-						</Col>
-					</Row>
-				</div>
+				{
+					tiposDeLancamentos.map(tipoDeLancamento => (
+						<div className="container-item">
+							<div style={{padding:10}}>
+								<Row style={{justifyContent: 'center', paddingBottom: 10, paddingTop: 5}}>
+									<h6><b>{tipoDeLancamento.label}</b></h6>
+								</Row>
+									{
+										tipoDeLancamento.campos.map(campo => (
+											<Row>
+												<Col>
+													{campo.label}
+												</Col>
+												<Col>
+													<Input
+														type='number'
+														name={campo.name}
+														value={campo.valor}
+														onChange={this.ajudadorDeCampo}
+													/>
+												</Col>
+											</Row>
+										))
+									}
+							</div>
+							<div className="total-categoria-lancado">
+								<Row>
+									<Col style={{paddingRight: 0, paddingLeft: 0}}> <b>TOTAL {tipoDeLancamento.labelTotal}</b> </Col>
+									<Col> <b>{tipoDeLancamento.total}</b> </Col>
+								</Row>
+							</div>
+						</div>
+					))
+				}
 				{
 					mostrarMensagemDeErro &&
 						<div style={{padding: 10}}>
@@ -555,7 +555,7 @@ class LancarVarios extends React.Component {
 							</Button>
 						</Col>
 					</Row>
-				</div> */}
+				</div>
 			</div>
 		)
 	}

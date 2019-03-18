@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faUserMinus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { removerUsuarioNaApi, } from '../actions'
-import { USUARIO_TIPO_ADMINISTRACAO, } from '../helpers/constantes'
+import { EMPRESA_ADMINISTRACAO_ID } from  '../helpers/constantes'
 library.add(faUserMinus)
 library.add(faTrash)
 
@@ -38,20 +38,23 @@ class Usuario extends React.Component {
 		const { 
 			usuario, 
 			usuarioTipo,
-			idTipoUsuarioLogado,
+			usuarioLogado,
+			empresa,
 		} = this.props
 		return (
-				<tbody>
-					<tr>
-						<td>{usuario.nome}</td>
-						<Desktop><td>{usuario.data_criacao}</td></Desktop>
-						<td>{usuarioTipo.nome}</td>
-						<Desktop><td>{usuario.email}</td></Desktop>
-				
-				{
-					idTipoUsuarioLogado === USUARIO_TIPO_ADMINISTRACAO &&
-						<Row style={{justifyContent: 'center', marginTop: 8}}>
-							<Col>
+			<tbody>
+				<tr>
+					<td>{usuario.nome}</td>
+					<Desktop><td>{usuario.data_criacao}</td></Desktop>
+					<td>{usuarioTipo.nome}</td>
+					{
+						usuarioLogado.empresa_id === EMPRESA_ADMINISTRACAO_ID &&
+							<td>{empresa && empresa.nome}</td>
+						}
+					<Desktop><td>{usuario.email}</td></Desktop>
+					{
+						usuario._id !== usuarioLogado.usuario_id &&
+							<td>
 								<Button 
 									type='button' 
 									className="botao-remover"
@@ -60,28 +63,23 @@ class Usuario extends React.Component {
 								>
 									<FontAwesomeIcon icon="trash" size="sm" style={{marginRight: 5}} />
 								</Button>
-							</Col>
-						</Row>
-				}
-					</tr>
-				</tbody>
+							</td>
+					}
+				</tr>
+			</tbody>
 		)
 	}
 }
 
-const mapStateToProps = ({usuarios, usuarioTipo, usuarioLogado}, {usuario_id}) => {
+const mapStateToProps = ({usuarios, usuarioTipo, usuarioLogado, empresas}, {usuario_id}) => {
 	const usuarioSelecionado = usuarios && usuarios.find(usuario => usuario._id === usuario_id)
 	const usuarioTipoSelecionado = usuarioTipo && usuarioTipo.find(usuarioTipo => usuarioTipo._id === usuarioSelecionado.usuario_tipo_id)
-
-	const idTipoUsuarioLogado = usuarioLogado && usuarios &&
-		usuarios.find(usuario => usuario._id === usuarioLogado.usuario_id)
-		.usuario_tipo_id
-
+	const empresa = empresas && empresas.find(empresa => empresa._id === usuarioSelecionado.empresa_id)
 	return {
 		usuario: usuarioSelecionado,
 		usuarioTipo: usuarioTipoSelecionado,
 		usuarioLogado,
-		idTipoUsuarioLogado,
+		empresa,
 	}
 }
 

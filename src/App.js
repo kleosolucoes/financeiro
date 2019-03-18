@@ -9,6 +9,7 @@ import LancarVarios from './components/LancarVarios'
 import LancarUm from './components/LancarUm'
 import Usuarios from './components/Usuarios'
 import Login from './components/Login'
+import ContasFixas from './components/ContasFixas'
 import {
 	Container,
 } from 'reactstrap'
@@ -25,10 +26,14 @@ class App extends React.Component {
 
 	state = {
 		tela: 'login',
+		categoria_id: 0,
 	}
 
-	alterarTela = (tela) => {
-		this.setState({tela})
+	alterarTela = (tela, categoria_id = 0) => {
+		this.setState({
+			tela,
+			categoria_id,
+		})
 	}
 
 	sair = () => {
@@ -41,7 +46,7 @@ class App extends React.Component {
 	}
 
 	render() {
-		const { tela } = this.state
+		const { tela, categoria_id } = this.state
 		const { empresa_id } = this.props
 		return (
 			<Container>
@@ -78,7 +83,9 @@ class App extends React.Component {
 					}
 					{
 						tela === TELA_EXTRATO_ADMINISTRACAO &&
-							<ExtratoAdministracao /> 
+							<ExtratoAdministracao 
+								alterarTela={this.alterarTela}
+							/> 
 					}
 					{
 						tela === 'lancarUm' &&
@@ -88,7 +95,9 @@ class App extends React.Component {
 					}
 					{
 						tela === 'lancamentos' && 
-							<Lancamentos />
+							<Lancamentos 
+								categoria_id={categoria_id}
+							/>
 					}
 					{
 						tela === 'categorias' &&
@@ -97,6 +106,10 @@ class App extends React.Component {
 					{
 						tela === 'empresas' &&
 							<Empresas />
+					}
+					{
+						tela === 'contasFixas' &&
+							<ContasFixas />
 					}
 				</div>
 			</Container>

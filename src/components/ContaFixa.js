@@ -37,16 +37,18 @@ class ContaFixa extends React.Component {
 		const { 
 			contaFixa, 
 			categoria,
+			empresa,
 		} = this.props
 		const Desktop = props => <Responsive {...props} minWidth={992} />;
 		return (
 			<tbody>
 					<tr>
-						<Desktop><td> {contaFixa.data_criacao} </td></Desktop>
-						<td> {contaFixa.dia_gerar} </td>
-						<Desktop><td> {contaFixa.dia_notificacao} </td></Desktop>
-						<td> {categoria.nome}  </td>
-						<Desktop><td> {categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO} </td></Desktop>
+						<Desktop><td> {contaFixa && contaFixa.data_criacao} </td></Desktop>
+						<td> {contaFixa && contaFixa.dia_gerar} </td>
+						<Desktop><td> {contaFixa && contaFixa.dia_notificacao} </td></Desktop>
+						<td> {categoria && categoria.nome}  </td>
+						<td> {empresa && empresa.nome}  </td>
+						<Desktop><td> {categoria && categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO} </td></Desktop>
 						
 				<Row style={{padding: 5}}>
 					<Col>
@@ -67,13 +69,15 @@ class ContaFixa extends React.Component {
 	}
 }
 
-const mapStateToProps = ({usuarioLogado, contaFixa, categorias}, {contaFixa_id}) => {
+const mapStateToProps = ({empresas, usuarioLogado, contaFixa, categorias}, {contaFixa_id}) => {
 	const contaFixaSelecionada = contaFixa && contaFixa.find(contaFixa => contaFixa._id === contaFixa_id)
 	const categoria = categorias && categorias.find(categoria => categoria._id === contaFixaSelecionada.categoria_id)
+	const empresa = empresas && empresas.find(empresa => empresa._id === contaFixaSelecionada.empresa_id)
 	return {
 		contaFixa: contaFixaSelecionada,
 		categoria,
 		usuarioLogado,
+		empresa,
 	}
 }
 

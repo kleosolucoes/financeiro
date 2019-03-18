@@ -34,10 +34,10 @@ class Menu extends React.Component {
 		const { menuAberto } = this.state;
 
 		return (
-			<Navbar color="red" light expand="md">
+			<Navbar fixed="true" color="success" light expand="lg">
 				<NavbarBrand href="#">Financeiro</NavbarBrand>
-				<NavbarToggler onClick={this.toggle} />
-				<Collapse isOpen={this.state.isOpen} navbar>
+				<NavbarToggler onClick={this.toggleMenu} />
+				<Collapse isOpen={menuAberto} navbar>
 					<Nav className="ml-auto" navbar>
 						{
 							listaDoMenu &&
@@ -75,6 +75,8 @@ function mapStateToProps({usuarioLogado}){
 			listaDoMenu.push('lancamentos')
 			listaDoMenu.push('categorias')
 			listaDoMenu.push('empresas')
+			listaDoMenu.push('usuarios')
+			listaDoMenu.push('contasFixas')
 		}else{
 			listaDoMenu.push('extratoEmpresa')
 			listaDoMenu.push('lancarVarios')
