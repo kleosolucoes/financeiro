@@ -6,6 +6,7 @@ import {
 	Label,
 	FormGroup,
 	Input,
+	Button
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import { formatReal, getMoney, pegarDataEHoraAtual } from '../helpers/funcoes'
@@ -148,17 +149,21 @@ class LancarUm extends React.Component {
 		}
 
 		return (
-			<div style={{padding: 10, backgroundColor: 'lightcyan'}}>
-				<FormGroup>
-					<Label for="empresa_id">Empresa</Label>
-					<Input 
-						type="select" 
-						name="empresa_id" 
-						id="empresa_id" 
-						value={empresa_id} 
-						onChange={this.ajudadorDeCampo}
-						invalid={camposComErro.includes('empresa_id') ? true : null}
-					>
+			<div style={{marginTop: 80}}>
+			<div className="container-lancar-um">
+
+				<Row>
+					<Col>
+						<FormGroup>
+						<Label for="empresa_id">Empresa</Label>
+						<Input 
+							type="select" 
+							name="empresa_id" 
+							id="empresa_id" 
+							value={empresa_id} 
+							onChange={this.ajudadorDeCampo}
+							invalid={camposComErro.includes('empresa_id') ? true : null}
+						>
 						<option value='0'>Selecione</option>
 						{
 							empresas &&
@@ -173,21 +178,23 @@ class LancarUm extends React.Component {
 									)
 								})
 						}
-					</Input>
-					{camposComErro.includes('empresa_id') && <Alert color='danger'>Selecione a Empresa</Alert>}
-				</FormGroup>
-				<FormGroup>
-					<Label for="categoria_id">Categoria</Label>
-					<Input 
-						type="select" 
-						name="categoria_id" 
-						id="categoria_id" 
-						value={categoria_id} 
-						onChange={this.ajudadorDeCampo}
-						invalid={camposComErro.includes('categoria_id') ? true : null}
-					>
-						<option value='0'>Selecione</option>
-						{
+						</Input>
+						{camposComErro.includes('empresa_id') && <Alert color='danger'>Selecione a Empresa</Alert>}
+						</FormGroup>
+					</Col>
+					<Col>
+						<FormGroup>
+							<Label for="categoria_id">Categoria</Label>
+							<Input 
+								type="select" 
+								name="categoria_id" 
+								id="categoria_id" 
+								value={categoria_id} 
+								onChange={this.ajudadorDeCampo}
+								invalid={camposComErro.includes('categoria_id') ? true : null}
+							>
+							<option value='0'>Selecione</option>
+							{
 							categorias &&
 								categorias.map(categoria => {
 									return (
@@ -199,87 +206,109 @@ class LancarUm extends React.Component {
 										</option>
 									)
 								})
-						}
-					</Input>
-					{camposComErro.includes('categoria_id') && <Alert color='danger'>Selecione a Categoria</Alert>}
-				</FormGroup>
+							}
+							</Input>
+							{camposComErro.includes('categoria_id') && <Alert color='danger'>Selecione a Categoria</Alert>}
+						</FormGroup>
+					</Col>
+				</Row>
 
-				<FormGroup>
-					<Label for="valor">Valor</Label>
-					<Input 
-						type="number" 
-						name="valor" 
-						id="valor" 
-						value={valor} 
-						onChange={this.ajudadorDeCampo}
-						invalid={camposComErro.includes('valor') ? true : null}
-					>
-					</Input>
-					{camposComErro.includes('valor') && <Alert color='danger'>Preencha o Valor</Alert>}
-				</FormGroup>
-				<FormGroup>
-					<Label for="taxa">Taxa</Label>
-					<Input 
-						type="number" 
-						name="taxa" 
-						id="taxa" 
-						value={taxa} 
-						onChange={this.ajudadorDeCampo}
-					>
-					</Input>
-				</FormGroup>
-				<Label for="data">Data do lançamento:</Label>
-				<FormGroup>
-					<Label for="dia">* Dia:</Label>
-					<Input 
-						type="select" 
-						name="dia" 
-						id="dia" 
-						value={dia} 
-						onChange={this.ajudadorDeCampo}
-						invalid={camposComErro.includes('dia') ? true : null}
-					>
-						<option value='0'>Selecione</option>
-						{
-							arrayDias.map(dia => dia)
-						}
-					</Input>
-					{camposComErro.includes('dia') && <Alert color='danger'>Selecione o Dia</Alert>}
-				</FormGroup>
-				<FormGroup>
-					<Label for="mes">* Mês:</Label>
-					<Input 
-						type="select" 
-						name="mes" 
-						id="mes" 
-						value={mes} 
-						onChange={this.ajudadorDeCampo}
-						invalid={camposComErro.includes('mes') ? true : null}
-					>
-						<option value='0'>Selecione</option>
-						{
-							arrayMes.map(mes => mes)
-						}
-					</Input>
-					{camposComErro.includes('mes') && <Alert color='danger'>Selecione o Mês</Alert>}
-				</FormGroup>
-				<FormGroup>
-					<Label for="ano">* Ano:</Label>
-					<Input 
-						type="select" 
-						name="ano" 
-						id="ano" 
-						value={ano} 
-						onChange={this.ajudadorDeCampo}
-						invalid={camposComErro.includes('ano') ? true : null}
-					>
-						<option value='0'>Selecione</option>
-						{
-							arrayAnos.map(ano => ano)
-						}
-					</Input>
-					{camposComErro.includes('ano') && <Alert color='danger'>Selecione o Ano</Alert>}
-				</FormGroup>
+				<Row>
+					<Col>
+						<FormGroup>
+							<Label for="valor">Valor</Label>
+							<Input 
+								type="number" 
+								name="valor" 
+								id="valor" 
+								value={valor} 
+								onChange={this.ajudadorDeCampo}
+								invalid={camposComErro.includes('valor') ? true : null}
+							>
+							</Input>
+								{camposComErro.includes('valor') && <Alert color='danger'>Preencha o Valor</Alert>}
+						</FormGroup>
+					</Col>
+					<Col>
+						<FormGroup>
+							<Label for="taxa">Taxa</Label>
+							<Input 
+								type="number" 
+								name="taxa" 
+								id="taxa" 
+								value={taxa} 
+								onChange={this.ajudadorDeCampo}
+							>
+							</Input>
+						</FormGroup>
+					</Col>
+				</Row>
+				</div>
+
+				<div className="container-lancar-um" style={{marginTop: 10}}>
+
+				<Label for="data">DATA DE LANÇAMENTO</Label>
+				<Row>
+					<Col style={{paddingRight: 5}}>
+						<FormGroup>
+							<Label for="dia">* Dia:</Label>
+							<Input 
+								type="select" 
+								name="dia" 
+								id="dia" 
+								value={dia} 
+								onChange={this.ajudadorDeCampo}
+								invalid={camposComErro.includes('dia') ? true : null}
+							>
+								<option value='0'>Selecione</option>
+								{
+									arrayDias.map(dia => dia)
+								}
+							</Input>
+							{camposComErro.includes('dia') && <Alert color='danger'>Selecione o Dia</Alert>}
+						</FormGroup>
+					</Col>
+					<Col style={{padding: 0}}>
+						<FormGroup>
+							<Label for="mes">* Mês:</Label>
+							<Input 
+								type="select" 
+								name="mes" 
+								id="mes" 
+								value={mes} 
+								onChange={this.ajudadorDeCampo}
+								invalid={camposComErro.includes('mes') ? true : null}
+							>
+								<option value='0'>Selecione</option>
+								{
+									arrayMes.map(mes => mes)
+								}
+							</Input>
+							{camposComErro.includes('mes') && <Alert color='danger'>Selecione o Mês</Alert>}
+						</FormGroup>
+					</Col>
+					<Col style={{paddingLeft: 5}}>
+						<FormGroup>
+							<Label for="ano">* Ano:</Label>
+							<Input 
+								type="select" 
+								name="ano" 
+								id="ano" 
+								value={ano} 
+								onChange={this.ajudadorDeCampo}
+								invalid={camposComErro.includes('ano') ? true : null}
+							>
+								<option value='0'>Selecione</option>
+								{
+									arrayAnos.map(ano => ano)
+								}
+							</Input>
+							{camposComErro.includes('ano') && <Alert color='danger'>Selecione o Ano</Alert>}
+						</FormGroup>
+					</Col>
+
+				</Row>
+
 				<FormGroup>
 					<Label for="descricao">Descrição</Label>
 					<Input 
@@ -299,19 +328,22 @@ class LancarUm extends React.Component {
 							</Alert>
 						</div>
 				}
-				<div style={{padding: 10, backgroundColor: 'lightblue'}}>
+				</div>
+
+				<div style={{padding: 10,}}>
 					<Row>
 						<Col>
-							<button 
+							<Button
 								type='button' 
-								style={{width: '100%'}}
+								className="botao-lancar"
 								onClick={this.ajudadorDeSubmissao}
 							>
-								Salvar
-							</button>
+								<b>Salvar</b>
+							</Button>
 						</Col>
 					</Row>
 				</div>
+
 			</div>
 		)
 	}

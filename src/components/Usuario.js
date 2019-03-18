@@ -2,10 +2,18 @@ import React from 'react'
 import {
 	Row,
 	Col,
+	Button
 } from 'reactstrap'
 import { connect } from 'react-redux'
+import Responsive from 'react-responsive';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faUserMinus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { removerUsuarioNaApi, } from '../actions'
 import { USUARIO_TIPO_ADMINISTRACAO, } from '../helpers/constantes'
+library.add(faUserMinus)
+library.add(faTrash)
+
 
 class Usuario extends React.Component {
 
@@ -26,61 +34,37 @@ class Usuario extends React.Component {
 	}
 
 	render() {
+		const Desktop = props => <Responsive {...props} minWidth={992} />;
 		const { 
 			usuario, 
 			usuarioTipo,
 			idTipoUsuarioLogado,
 		} = this.props
 		return (
-			<div style={{padding:10, backgroundColor: 'lightCyan', marginTop: 10}}>
-				<Row>
-					<Col>
-						Id
-					</Col>
-					<Col>
-						{usuario._id}
-					</Col>
-				</Row>
-				<Row>
-					<Col>
-						Data
-					</Col>
-					<Col>
-						{usuario.data_criacao}
-					</Col>
-				</Row>
-				<Row>
-					<Col>
-						Email
-					</Col>
-					<Col>
-						{usuario.email}
-					</Col>
-				</Row>
-				<Row>
-					<Col>
-						Tipo
-					</Col>
-					<Col>
-						{usuarioTipo && usuarioTipo.nome}
-					</Col>
-				</Row>
+				<tbody>
+					<tr>
+						<td>{usuario.nome}</td>
+						<Desktop><td>{usuario.data_criacao}</td></Desktop>
+						<td>{usuarioTipo.nome}</td>
+						<Desktop><td>{usuario.email}</td></Desktop>
+				
 				{
-					idTipoUsuarioLogado && 
-						idTipoUsuarioLogado === USUARIO_TIPO_ADMINISTRACAO &&
-							<Row>
-								<Col>
-									<button 
-										type='button' 
-										style={{width: '100%'}}
-										onClick={this.removerUsuario}
-									>
-										Remover Usuario
-									</button>
-								</Col>
-							</Row>
+					idTipoUsuarioLogado === USUARIO_TIPO_ADMINISTRACAO &&
+						<Row style={{justifyContent: 'center', marginTop: 8}}>
+							<Col>
+								<Button 
+									type='button' 
+									className="botao-remover"
+									style={{width: '100%', borderRadius: 0}}
+									onClick={this.removerUsuario}
+								>
+									<FontAwesomeIcon icon="trash" size="sm" style={{marginRight: 5}} />
+								</Button>
+							</Col>
+						</Row>
 				}
-			</div>
+					</tr>
+				</tbody>
 		)
 	}
 }

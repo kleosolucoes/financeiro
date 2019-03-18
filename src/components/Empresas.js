@@ -4,8 +4,13 @@ import Empresa from './Empresa'
 import EmpresaSalvar from './EmpresaSalvar'
 import {
 	Row,
-	Col,
+	Button,
+	Table
 } from 'reactstrap'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUserPlus } from '@fortawesome/free-solid-svg-icons'
+library.add(faUserPlus)
 
 class Empresas extends React.Component {
 
@@ -22,7 +27,7 @@ class Empresas extends React.Component {
 		} = this.props
 
 		return ( 
-			<div> 
+			<div style={{marginTop: 80}}> 
 				{
 					this.state.mostrarSalvarEmpresa && 
 						<EmpresaSalvar
@@ -31,27 +36,25 @@ class Empresas extends React.Component {
 				{
 					!this.state.mostrarSalvarEmpresa && 
 						<div> 
-							<div style={{padding: 10, backgroundColor: 'lightblue'}}>
-								<Row style={{padding: 5}}>
-									<Col>
-										<h1>asdasd</h1>
-									</Col>
-								</Row>
-								<Row> 
-									<Col>
-										<button 
+							<Row style={{justifyContent: 'space-between', alignItems: 'center', padding: 10}}>
+								<h5 style={{margin: 0}}>Empresas</h5>
+								<div>
+									<Row style={{justifyContent: 'flex-end', padding: 10}}>
+										<Button 
 											type='button' 
-											style={{width: '100%'}}
+											className="botao-lancar"
 											onClick={this.alternarMostrarSalvarEmpresa}
 										>
-											Adicionar Empresa
-										</button>
-									</Col>
-								</Row>
-							</div>
+											<FontAwesomeIcon icon="user-plus" size="sm" style={{marginRight: 5}} />
+											Adicionar
+										</Button>
+									</Row>
+								</div>
+							</Row>
+							
 							{
 								empresas.map(empresa => (
-									<div key={empresa._id} style={{padding:10, backgroundColor: 'lightCyan', marginTop: 10}}>
+									<div key={empresa.id} style={{backgroundColor: '#f9f7f7', marginTop: 10}}>
 										<Empresa 
 											key={empresa._id}
 											empresa_id={empresa._id}
