@@ -5,9 +5,7 @@ import {
 	Button
 } from 'reactstrap'
 import { connect } from 'react-redux'
-import { salvarContaFixa } from '../actions'
 import Responsive from 'react-responsive';
-import { pegarDataEHoraAtual } from '../helpers/funcoes'
 import { removerContaFixaNaApi } from '../actions'
 import { STRING_DEBITO, STRING_CREDITO, } from '../helpers/constantes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

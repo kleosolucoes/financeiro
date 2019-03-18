@@ -9,6 +9,11 @@ import {
 	Button
 } from 'reactstrap'
 import { connect } from 'react-redux'
+import { OrderBy } from "react-lodash"
+import { 
+	STRING_DEBITO,
+	STRING_CREDITO
+} from '../helpers/constantes'
 import { formatReal, getMoney, pegarDataEHoraAtual } from '../helpers/funcoes'
 import { 
 	lancarUmNaApi,
@@ -149,9 +154,11 @@ class LancarUm extends React.Component {
 		}
 
 		return (
-			<div style={{marginTop: 80}}>
+			<div style={{marginTop: 70}}>
+				<Row style={{justifyContent: 'space-between', alignItems: 'center', padding: 10, marginBottom: 5}}>
+					<h5 style={{margin: 0}}>Lançamento Unitário</h5>
+				</Row>
 			<div className="container-lancar-um">
-
 				<Row>
 					<Col>
 						<FormGroup>
@@ -196,13 +203,14 @@ class LancarUm extends React.Component {
 							<option value='0'>Selecione</option>
 							{
 							categorias &&
-								categorias.map(categoria => {
+								categorias.map((categoria) => {
 									return (
 										<option 
 											key={categoria._id}
 											value={categoria._id}
 										>
-											{categoria.nome}
+										{/* <OrderBy collection={categoria} iteratees={categoria.nome} orders={'age'} /> */}
+											{categoria.nome} - {categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO}
 										</option>
 									)
 								})
@@ -331,8 +339,7 @@ class LancarUm extends React.Component {
 				</div>
 
 				<div style={{padding: 10,}}>
-					<Row>
-						<Col>
+					<Row style={{justifyContent: 'flex-end'}}>
 							<Button
 								type='button' 
 								className="botao-lancar"
@@ -340,7 +347,6 @@ class LancarUm extends React.Component {
 							>
 								<b>Salvar</b>
 							</Button>
-						</Col>
 					</Row>
 				</div>
 

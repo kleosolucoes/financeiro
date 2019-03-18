@@ -5,7 +5,6 @@ import EmpresaSalvar from './EmpresaSalvar'
 import {
 	Row,
 	Button,
-	Table
 } from 'reactstrap'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

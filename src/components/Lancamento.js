@@ -142,7 +142,7 @@ class Lancamento extends React.Component {
 			situacao = situacoes.find((situacao) => (
 				situacao._id === lancamentoSituacaoAtual.situacao_id
 			)) 
-			}
+		}
 		return (
 			<tbody style={{ backgroundColor: 'lightCyan', marginTop: 10}}>
 				{/* <Row>

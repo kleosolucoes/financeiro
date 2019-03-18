@@ -17,28 +17,29 @@
   align-items: stretch;
 }
 .style-input {
-  background: #fff;
-  border: 1px solid #ddd;
+  background: #fff!important;
+  border: 1px solid #ddd!important;
   border-radius: 5px;
   height: 44px;
   padding: 0 15px;
   font-size: 14px;
 }
 .style-button-login {
-  margin: 10px 0 0;
-  background: #2f8c7c;
-  border-radius: 5px;
-  height: 44px;
-  border: 0;
-  color: #fff;
-  font-weight: bold;
-  cursor: pointer;
-  font-size: 16px;
-  max-width: 280px;
-  width: 100%;
+  margin: 10px 0 0!important;
+  background: transparent!important;
+  border-radius: 5px!important;
+  height: 44px!important;
+  border: 1px solid #2f8c7c!important;
+  color: #2f8c7c!important;
+  font-weight: bold!important;
+  cursor: pointer!important;
+  font-size: 16px!important;
+  max-width: 280px!important;
+  width: 100%!important;
 }
 .style-button-login:hover {
-  background: #42a1db;
+  color: #fff!important;
+  background: #2f8c7c!important;
 }
 
 /* EXTRATO */
