@@ -72,9 +72,13 @@ class LancarUm extends React.Component {
 			mostrarMensagemDeErro = true
 			camposComErro.push('empresa_id')
 		}
-		if(valor === '0.00'){
+		if(isNaN(valor) || valor === '' || valor === '0.00'){
 			mostrarMensagemDeErro = true
 			camposComErro.push('valor')
+		}
+		if(isNaN(taxa) || taxa === ''){
+			mostrarMensagemDeErro = true
+			camposComErro.push('taxa')
 		}
 		if(parseInt(dia) === 0){
 			mostrarMensagemDeErro = true
@@ -246,8 +250,10 @@ class LancarUm extends React.Component {
 								id="taxa" 
 								value={taxa} 
 								onChange={this.ajudadorDeCampo}
+								invalid={camposComErro.includes('taxa') ? true : null}
 							>
 							</Input>
+								{camposComErro.includes('taxa') && <Alert color='danger'>Preencha a Taxa</Alert>}
 						</FormGroup>
 					</Col>
 				</Row>

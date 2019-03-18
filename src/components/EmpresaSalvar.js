@@ -9,6 +9,7 @@ import {
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import { salvarEmpresaNaApi } from '../actions'
+import { EMPRESA_TIPO_ADMINISTRACAO_ID } from '../helpers/constantes'
 
 class EmpresaSalvar extends React.Component {
 
@@ -158,10 +159,10 @@ class EmpresaSalvar extends React.Component {
 	}
 }
 
-function mapStateToProps(state){
+function mapStateToProps({usuarioLogado, empresaTipo}){
 	return {
-		usuarioLogado: state.usuarioLogado,
-		empresaTipo: state.empresaTipo,
+		usuarioLogado: usuarioLogado,
+		empresaTipo: empresaTipo && empresaTipo.filter(empresaTipo => empresaTipo._id !== EMPRESA_TIPO_ADMINISTRACAO_ID),
 	}
 }
 

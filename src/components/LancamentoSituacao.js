@@ -1,8 +1,4 @@
 import React from 'react'
-import {
-	Row,
-	Col,
-} from 'reactstrap'
 import { connect } from 'react-redux'
 
 class LancamentoSituacao extends React.Component {

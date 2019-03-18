@@ -8,11 +8,11 @@ import {
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import { SITUACAO_RECEBIDO, SITUACAO_NAO_RECEBIDO } from '../helpers/constantes'
+import { STRING_DEBITO, STRING_CREDITO, } from '../helpers/constantes'
 import './aux.css';
 
 // ICONS
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faFileAlt, faPowerOff, faQuestionCircle, faBriefcase, faList, faFileInvoiceDollar } from '@fortawesome/free-solid-svg-icons'
 library.add(faUser)
 library.add(faBriefcase)
@@ -27,7 +27,8 @@ class ExtratoAdministracao extends React.Component {
 	render() {
 		const { 
 			saldo,
-			naoRecebido,
+			naoRecebidoCredito,
+			naoRecebidoDebito,
 			listaDeNaoRecebidoPorCategorias,
 			categorias,
 		} = this.props
@@ -52,116 +53,43 @@ class ExtratoAdministracao extends React.Component {
 						</Col>
 						<Col>
 							<Card className="card-saldo">
-								<CardTitle style={{color: 'gray'}}>R$ {naoRecebido}</CardTitle>
-								<CardText style={{fontSize: 12}}>Não Recebido</CardText>
+								<CardTitle style={{color: 'gray'}}>R$ {naoRecebidoCredito}</CardTitle>
+								<CardText style={{fontSize: 12}}>Não Aceitos - Creditos</CardText>
+							</Card>
+						</Col>
+						<Col>
+							<Card className="card-saldo">
+								<CardTitle style={{color: 'brown'}}>R$ {naoRecebidoDebito}</CardTitle>
+								<CardText style={{fontSize: 12}}>Não Aceitos - Debitos</CardText>
 							</Card>
 						</Col>
 					</Row>
 				</div>	
 
-				<div className="container-menu-administracao">
-					<div style={{borderTop: '1px solid #2f8c7c', paddingTop: 5, paddingBottom: 5}}>
-						<p style={{paddingTop: 18, fontSize: 12, marginBottom: 0, color: '#b1b1b1'}}><u>ACESSO RÁPIDO</u></p>
-					</div>
-					<div>
-						<Row>
-							<Col xs="6" style={{paddingTop: 10}}>
-								<Card className="card-menu">
-									<FontAwesomeIcon icon="briefcase" size="lg" />
-									<h6>Empresas</h6>
-								</Card>
-							</Col>
-							<Col xs="6" style={{paddingTop: 10}}>
-								<Card className="card-menu">
-									<FontAwesomeIcon icon="user" size="lg" />
-									<h6>Usuário</h6>
-								</Card>
-							</Col>
-						</Row>
-
-						<Row>
-
-							<Col xs="6" style={{paddingTop: 10}}>
-								<Card className="card-menu">
-									<FontAwesomeIcon icon="file-alt" size="lg" />
-									<h6>Saldo e Extratos</h6>
-								</Card>
-							</Col>
-
-							<Col xs="6" style={{paddingTop: 10 }}>
-								<Card className="card-menu">
-									<FontAwesomeIcon icon="list" size="lg" />
-									<h6>Categorias</h6>
-								</Card>
-							</Col>
-						</Row>
-						<Row>
-							<Col xs="6" sm="4" style={{paddingTop: 10 }}>
-								<Card className="card-menu">
-									<FontAwesomeIcon icon="file-invoice-dollar" size="lg" />
-									<h6>Lançar</h6>
-								</Card>
-							</Col>
-							<Col xs="6" sm="4" style={{paddingTop: 10 }}>
-								<Card className="card-menu">
-									<FontAwesomeIcon icon="power-off" size="lg" />
-									<h6>Sair</h6>
-								</Card>
-							</Col>
-							<Col sm="4" style={{ paddingTop: 10 }}>
-								<Card className="card-menu">
-									<FontAwesomeIcon icon="question-circle" size="lg" />
-									<h6>Suporte</h6>
-								</Card>
-							</Col>
-						</Row>
-					</div>
-				</div>
-				{/* <div style={{backgroundColor: 'red', padding: 10}}>
-					<Row>
-						<Col> Api </Col>
-						<Col>
-							{
-								this.state.api &&
-									<p>{this.state.api.data}</p>
-							}
-							{
-								!this.state.api &&
-									'carregando api'
-							}
-						</Col>
-					</Row>
-				</div>	
-				<div style={{backgroundColor: 'lightblue', padding: 10}}>
-					<Row> 
-						<Col> Saldo </Col>
-						<Col> {saldo} </Col>
-					</Row>
-				</div>	
-				<div style={{backgroundColor: 'lightgreen', padding: 10}}>
-					<Row>
-						<Col> Nao Recebido </Col>
-						<Col> {naoRecebido} </Col>
-					</Row>
-				</div>	
 				<div style={{backgroundColor: 'lightcyan', padding: 20}}>
 					<Row>
 						<Col style={{textAlign: 'center', backgroundColor: '#AAA'}}>
-							Nao Recebidos
+							Não Aceitos
 						</Col>
 					</Row>
 					{
 						categorias &&
 							categorias.map(categoria => {
 								return (
-									<Row key={categoria.id}>
-										<Col> {categoria.nome} </Col>
-										<Col> {listaDeNaoRecebidoPorCategorias[categoria.id]} </Col>
+									<Row key={categoria._id}>
+										<Col>
+											<a href='#' onClick={() => this.props.alterarTela('lancamentos', categoria._id)}>
+												{categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO } - {categoria.nome}
+											</a>
+										</Col>
+										<Col> 
+											{listaDeNaoRecebidoPorCategorias[categoria._id]}
+										</Col>
 									</Row>
 								)
 							})
 					}
-				</div>	 */}
+				</div>
 			</div>
 		)
 	}
@@ -173,7 +101,8 @@ const mapStateToProps = state => {
 		token = state.usuarioLogado.token
 	}
 	let saldo = 0
-	let naoRecebido = 0
+	let naoRecebidoCredito = 0
+	let naoRecebidoDebito = 0
 	let listaDeNaoRecebidoPorCategorias = []
 	if(
 		state.categorias 
@@ -203,7 +132,11 @@ const mapStateToProps = state => {
 					}
 				}
 				if(situacaoAtiva._id.toString() === SITUACAO_NAO_RECEBIDO){
-					naoRecebido += valorFormatado
+					if(categoriaAtiva.credito_debito === 'C'){
+						naoRecebidoCredito += valorFormatado
+					}else{
+						naoRecebidoDebito += valorFormatado
+					}
 					listaDeNaoRecebidoPorCategorias[categoriaAtiva._id] += valorFormatado
 				}
 			}
@@ -212,7 +145,8 @@ const mapStateToProps = state => {
 
 	return {
 		saldo,
-		naoRecebido,
+		naoRecebidoCredito,
+		naoRecebidoDebito,
 		listaDeNaoRecebidoPorCategorias,
 		categorias: state.categorias,
 		lancamentos: state.lancamentos,

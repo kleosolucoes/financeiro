@@ -14,6 +14,7 @@ class ContaFixaSalvar extends React.Component {
 
 	state = {
 		categoria_id: 0,
+		empresa_id: 0,
 		dia_gerar: 0,
 		dia_notificacao: 0,
 		mostrarMensagemDeErro: false,
@@ -29,6 +30,7 @@ class ContaFixaSalvar extends React.Component {
 	ajudadorDeSubmissao = () => {
 		const {
 			categoria_id,
+			empresa_id,
 			dia_gerar,
 			dia_notificacao,
 		} = this.state
@@ -46,6 +48,10 @@ class ContaFixaSalvar extends React.Component {
 		if(parseInt(categoria_id) === 0){
 			mostrarMensagemDeErro = true
 			camposComErro.push('categoria_id')
+		}
+		if(parseInt(empresa_id) === 0){
+			mostrarMensagemDeErro = true
+			camposComErro.push('empresa_id')
 		}
 		if(parseInt(dia_gerar) === 0){
 			mostrarMensagemDeErro = true
@@ -68,7 +74,7 @@ class ContaFixaSalvar extends React.Component {
 			})
 
 			const elemento = {}
-			elemento.empresa_id = this.props.empresa_id
+			elemento.empresa_id = empresa_id
 			elemento.categoria_id = categoria_id
 			elemento.dia_gerar = parseInt(dia_gerar)
 			elemento.dia_notificacao = parseInt(dia_notificacao)
@@ -82,6 +88,7 @@ class ContaFixaSalvar extends React.Component {
 	render() {
 		const {
 			categoria_id,
+			empresa_id,
 			dia_gerar,
 			dia_notificacao,
 			mostrarMensagemDeErro,
@@ -89,6 +96,7 @@ class ContaFixaSalvar extends React.Component {
 		} = this.state
 		const {
 			categorias,
+			empresas,
 		} = this.props
 
 		let arrayDias = []
@@ -99,6 +107,33 @@ class ContaFixaSalvar extends React.Component {
 		return (
 			<div>
 				<h1>Adicionar Conta Fixa</h1>
+				<FormGroup>
+					<Label for="empresa_id">Empresa</Label>
+					<Input 
+						type="select" 
+						name="empresa_id" 
+						id="empresa_id" 
+						value={empresa_id} 
+						onChange={this.ajudadorDeCampo}
+						invalid={camposComErro.includes('empresa_id') ? true : null}
+					>
+						<option value='0'>Selecione</option>
+						{
+							empresas &&
+								empresas.map(empresa => {
+									return (
+										<option 
+											key={empresa._id}
+											value={empresa._id}
+										>
+											{empresa.nome}
+										</option>
+									)
+								})
+						}
+					</Input>
+					{camposComErro.includes('empresa_id') && <Alert color='danger'>Selecione a Empresa</Alert>}
+				</FormGroup>
 				<FormGroup>
 					<Label for="categoria_id">Categoria</Label>
 					<Input 
@@ -195,10 +230,11 @@ class ContaFixaSalvar extends React.Component {
 
 }
 
-function mapStateToProps({categorias, usuarioLogado}){
+function mapStateToProps({empresas, categorias, usuarioLogado}){
 	return {
 		categorias,
 		usuarioLogado,
+		empresas,
 	}
 }
 

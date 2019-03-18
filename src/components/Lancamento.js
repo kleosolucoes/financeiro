@@ -307,7 +307,7 @@ class Lancamento extends React.Component {
 
 const mapStateToProps = ({lancamentos, lancamentoSituacao, empresas, categorias, situacoes, usuarioLogado, usuarios}, {lancamento_id}) => {
 	const lancamentoSelecionado = lancamentos && lancamentos.find(lancamento => lancamento._id === lancamento_id)
-	const todosLancamentoSituacao =  lancamentoSituacao && lancamentoSituacao.filter(lancamentoSituacao => lancamentoSituacao.lancamento_id)
+	const todosLancamentoSituacao =  lancamentoSituacao && lancamentoSituacao.filter(lancamentoSituacao => lancamentoSituacao.lancamento_id === lancamentoSelecionado._id)
 	const empresa = empresas && empresas.find(empresa => empresa._id === lancamentoSelecionado.empresa_id)
 	const categoria = categorias && categorias.find(categoria => categoria._id === lancamentoSelecionado.categoria_id)
 	const usuario = usuarios && usuarios.find(usuario => usuario._id === lancamentoSelecionado.usuario_id)
