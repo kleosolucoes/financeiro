@@ -1,11 +1,17 @@
 import React from 'react'
 import {
 	Row,
-	Col,
+	Table,
+	Button
 } from 'reactstrap'
 import { connect } from 'react-redux'
+import Responsive from 'react-responsive';
 import ContaFixa from './ContaFixa'
 import ContaFixaSalvar from './ContaFixaSalvar'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUserPlus } from '@fortawesome/free-solid-svg-icons'
+library.add(faUserPlus)
 
 class ContasFixas extends React.Component {
 
@@ -19,9 +25,10 @@ class ContasFixas extends React.Component {
 		const { 
 			contaFixa,
 		} = this.props
+		const Desktop = props => <Responsive {...props} minWidth={992} />;
+
 		return (
-			<div style={{padding: 5, backgroundColor: 'lightgreen'}}>
-				<p>Contas Fixas</p>
+			<div style={{padding: 5}}>
 				{
 					this.state.mostrarSalvarContaFixa &&
 						<ContaFixaSalvar
@@ -32,19 +39,32 @@ class ContasFixas extends React.Component {
 				{
 					!this.state.mostrarSalvarContaFixa &&
 						<div>
-							<div style={{padding: 10, backgroundColor: 'lightblue'}}>
-								<Row>
-									<Col>
-										<button 
+							<Row style={{justifyContent: 'space-between', alignItems: 'center', padding: 10}}>
+								<h5 style={{margin: 0}}>Contas Fixas</h5>
+								<div>
+									<Row style={{justifyContent: 'flex-end', padding: 10}}>
+										<Button 
 											type='button' 
-											style={{width: '100%'}}
+											className="botao-lancar"
 											onClick={this.alternarMostrarSalvarContaFixa}
 										>
-											Adicionar Conta Fixa
-										</button>
-									</Col>
-								</Row>
-							</div>
+											<FontAwesomeIcon icon="user-plus" size="sm" style={{marginRight: 5}} />
+											Adicionar
+										</Button>
+									</Row>
+								</div>
+							</Row>
+							<Table style={{textAlign: 'center'}}>
+								<thead style={{background: '#7CC9BC', color: '#fff'}}>
+									<tr>
+										<Desktop><th>Data</th></Desktop>
+										<th>Gerar dia</th>
+										<Desktop><th>Notificar dia</th></Desktop>
+										<th>Categoria</th>
+										<Desktop><th>Credito/Debito</th></Desktop>
+										<th></th>
+									</tr>
+								</thead>
 							{
 								contaFixa &&
 									contaFixa
@@ -57,6 +77,7 @@ class ContasFixas extends React.Component {
 										)
 									})
 							}
+							</Table>
 						</div>
 				}
 			</div>

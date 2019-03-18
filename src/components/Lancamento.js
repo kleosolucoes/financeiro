@@ -6,8 +6,11 @@ import {
 	Alert,
 	Label,
 	FormGroup,
+	Table,
+	Button
 } from 'reactstrap'
 import { connect } from 'react-redux'
+import Responsive from 'react-responsive';
 import { formatReal, getMoney, } from '../helpers/funcoes'
 import { 
 	alterarLancamentoNaApi, 
@@ -15,12 +18,14 @@ import {
 import { 
 	EMPRESA_ADMINISTRACAO_ID,
 	STRING_DEBITO,
-	STRING_CREDITO,
-	SITUACAO_RECEBIDO,
-	SITUACAO_NAO_RECEBIDO,
-	SITUACAO_RECUSADO,
+	STRING_CREDITO
 } from '../helpers/constantes'
 import LancamentoSituacao from './LancamentoSituacao'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faExpandArrowsAlt, faEdit } from '@fortawesome/free-solid-svg-icons'
+library.add(faExpandArrowsAlt)
+library.add(faEdit)
 
 class Lancamento extends React.Component {
 	state = {
@@ -30,7 +35,7 @@ class Lancamento extends React.Component {
 		mostrarMensagemDeErro: false,
 		camposComErro: [],
 		mostrarTodosLancamentoSituacao: false,
-		lancamento_situacao_atual_id: null,
+		lancamentoSituacaoAtual: null,
 	}
 
 	alterarMostrarTodosLancamentoSituacao = () => this.setState({mostrarTodosLancamentoSituacao: !this.state.mostrarTodosLancamentoSituacao})
@@ -43,7 +48,7 @@ class Lancamento extends React.Component {
 		this.setState({
 			valor: this.props.lancamento.valor,
 			taxa: this.props.lancamento.taxa,
-			lancamento_situacao_atual_id: lancamentoSituacaoAtual._id,
+			lancamentoSituacaoAtual: lancamentoSituacaoAtual,
 		})
 	}
 
@@ -60,7 +65,7 @@ class Lancamento extends React.Component {
 			valor,
 			taxa,
 			situacao_id,
-			lancamento_situacao_atual_id,
+			lancamentoSituacaoAtual,
 		} = this.state
 		let {
 			mostrarMensagemDeErro,
@@ -98,7 +103,7 @@ class Lancamento extends React.Component {
 				valor,
 				taxa,
 				situacao_id,
-				lancamento_situacao_id: lancamento_situacao_atual_id,
+				lancamento_situacao_id: lancamentoSituacaoAtual._id,
 				usuario_id: usuarioLogado.usuario_id,
 			}
 
@@ -114,11 +119,11 @@ class Lancamento extends React.Component {
 	}
 
 	render() {
+		const Desktop = props => <Responsive {...props} minWidth={992} />;
 		const { 
 			lancamento, 
 			lancamentoSituacao,
 			categoria,
-			usuario,
 			empresa,
 			situacoes,
 			usuarioLogado,
@@ -130,31 +135,26 @@ class Lancamento extends React.Component {
 			camposComErro,
 			situacao_id,
 			mostrarTodosLancamentoSituacao,
-			lancamento_situacao_atual_id,
+			lancamentoSituacaoAtual,
 		} = this.state
-
+		let situacao = null
+		if(lancamentoSituacaoAtual){
+			situacao = situacoes.find((situacao) => (
+				situacao._id === lancamentoSituacaoAtual.situacao_id
+			)) 
+			}
 		return (
-			<div style={{padding:10, backgroundColor: 'lightCyan', marginTop: 10}}>
-				<Row>
-					<Col>
-						Id
-					</Col>
-					<Col>
-						{lancamento._id.toString().padStart(8,0)}
-					</Col>
-				</Row>
-				<Row>
-					<Col>
-						Data
-					</Col>
-					<Col>
-						{lancamento.data}
-					</Col>
-				</Row>
-				{
+			<tbody style={{ backgroundColor: 'lightCyan', marginTop: 10}}>
+				{/* <Row>
+					<Col> Id </Col>
+					<Col> {lancamento.id.toString().padStart(8,0)} </Col>
+				</Row> */}
+				
+				{/* {
 					usuarioLogado.empresa_id === EMPRESA_ADMINISTRACAO_ID && 
 					<div>
 						<Row>
+							<Col>
 							<FormGroup>
 								<Label for="valor">Valor</Label>
 								<Input 
@@ -168,8 +168,8 @@ class Lancamento extends React.Component {
 								</Input>
 								{camposComErro.includes('valor') && <Alert color='danger'>Preencha o Valor</Alert>}
 							</FormGroup>
-						</Row>
-						<Row>
+						</Col>
+						<Col>
 							<FormGroup>
 								<Label for="taxa">Taxa</Label>
 								<Input 
@@ -181,8 +181,8 @@ class Lancamento extends React.Component {
 								>
 								</Input>
 							</FormGroup>
-						</Row>
-						<Row>
+						</Col>
+						<Col>
 							<FormGroup>
 								<Label for="situacao_id">Situação</Label>
 								<Input 
@@ -215,6 +215,7 @@ class Lancamento extends React.Component {
 								</Input>
 								{camposComErro.includes('situacao_id') && <Alert color='danger'>Selecione a Situação</Alert>}
 							</FormGroup>
+						</Col>
 						</Row>
 						{
 							mostrarMensagemDeErro &&
@@ -226,115 +227,80 @@ class Lancamento extends React.Component {
 						}
 						<Row style={{padding: 5}}>
 							<Col>
-								<button 
+								<Button 
 									type='button' 
 									style={{width: '100%'}}
 									onClick={this.ajudadorDeSubmissao}
-								>Alterar</button> 
+								>
+								Alterar
+								</Button> 
 							</Col>
 						</Row>
 					</div>
-				}
-				{
-					usuarioLogado.empresa_id !== EMPRESA_ADMINISTRACAO_ID &&
-						<div>
-							<Row>
-								<Col>
-									Valor
+				} */}
+				
+						{/* <tr> */}
+							<Desktop><td> {lancamento.data} </td></Desktop>
+							<td>{lancamento.valor}</td>
+							<Desktop><td>{lancamento.taxa}</td></Desktop>
+							<td>{categoria.nome}</td>
+							<td>{categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO}</td>
+							<td>{situacao && situacao.nome}</td>
+							<Desktop><td>{empresa.nome}</td></Desktop>
+							{/* <Desktop><td>{lancamento.descricao}</td></Desktop> */}
+							<Row style={{justifyContent: 'center', marginTop: 8, flexDirection: 'column'}}>
+								<Col style={{paddingLeft: 0, paddingRight: 0, flexGrow: 0}}>
+									<Button 
+										type='button' 
+										className="botao-acao"
+										onClick={this.alterarMostrarTodosLancamentoSituacao}
+									>
+										<FontAwesomeIcon icon="expand-arrows-alt" size="sm"  />
+									</Button>
 								</Col>
-								<Col>
-									{lancamento.valor}
-								</Col>
+								{ usuarioLogado.empresa_id === EMPRESA_ADMINISTRACAO_ID && 
+									<Col style={{paddingLeft: 0, paddingRight: 0, flexGrow: 0}}>
+										<Button 
+											type='button' 
+											className="botao-acao"
+											// onClick={}
+										>
+											<FontAwesomeIcon icon="edit" size="sm"  />
+										</Button>
+									</Col>
+								}
 							</Row>
-							<Row>
-								<Col>
-									Taxa
-								</Col>
-								<Col>
-									{lancamento.taxa}
-								</Col>
-							</Row>
-						</div>
-				}
-				<Row>
-					<Col>
-						Categoria
-					</Col>
-					<Col>
-						{categoria && categoria.nome}
-					</Col>
-				</Row>
-				<Row>
-					<Col>
-						Tipo	
-					</Col>
-					<Col>
-						{categoria && categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO}
-					</Col>
-				</Row>
 
-				<Row>
-					<Col>
-						Quem Lançou
-					</Col>
-					<Col>
-						{usuario && usuario.nome.split(' ')[0]}
-					</Col>
-				</Row>
-				<Row>
-					<Col>
-						Empresa
-					</Col>
-					<Col>
-						{empresa && empresa.nome}
-					</Col>
-				</Row>
-				<Row>
-					<Col>
-						Descrição
-					</Col>
-					<Col>
-						{lancamento.descricao}
-					</Col>
-				</Row>
-				{
-					lancamento_situacao_atual_id &&
-						<div>
-							<div style={{padding: 5, backgroundColor: 'lightblue'}}>
-								<p>Situação Atual</p>
-								<LancamentoSituacao 
-									lancamento_situacao_id={lancamento_situacao_atual_id} />
+					{ lancamentoSituacao && 
+						mostrarTodosLancamentoSituacao && 
+						<tr> 
+							<td>
+							<Table> 
+								<thead>
 
-								<div style={{padding: 5, marginTop: 5, backgroundColor: 'lightgreen'}}>
-									<Row style={{padding: 5}}>
-										<Col>
-											<button 
-												type='button' 
-												style={{width: '100%'}}
-												onClick={this.alterarMostrarTodosLancamentoSituacao}
-											>
-												Mostrar Todas situacoes
-											</button> 
-										</Col>
-									</Row>
-								</div>
-							</div>
-							{
-								lancamentoSituacao && 
-									mostrarTodosLancamentoSituacao && 
-										<div style={{padding: 5, backgroundColor: 'lightblue'}}>
-											{
-												lancamentoSituacao.map(lancamentoSituacao => (
-													<LancamentoSituacao 
-														key={lancamentoSituacao._id}
-														lancamento_situacao_id={lancamentoSituacao._id} />
-												))
-											}
-										</div>
-							}
-						</div>
-				}
-			</div>
+								<tr> 
+									<td>Data</td>
+									<td>Nome</td>
+									<td>Usuario</td>
+								</tr>
+								</thead> 
+								<tbody>
+								{
+									lancamentoSituacao.map(lancamentoSituacao => (
+										<LancamentoSituacao 
+											key={lancamentoSituacao._id}
+											lancamento_situacao_id={lancamentoSituacao._id} />
+									))
+								}
+								</tbody>
+							</Table>
+							</td> 
+						</tr>
+					}
+
+				
+			</tbody>
+
 		)
 	}
 }

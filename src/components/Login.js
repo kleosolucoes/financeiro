@@ -124,11 +124,15 @@ class Login extends React.Component {
 		} = this.state
 
 		return (
-			<div>
-				<h1>Login</h1>
-				<FormGroup>
+
+			<div className="login-wrapper">
+			{/* <h1>Login</h1>
+			<p>usuario: falecomleonardopereira@gmail.com - senha: 123</p> */}
+			{/* <img src={logo} alt="Financeiro" height="100px" /> */}
+				<FormGroup className="style-form">
 					<Label for="email">Email</Label>
 					<Input 
+						className="style-input"
 						type="email" 
 						name="email" 
 						id="email" 
@@ -139,9 +143,10 @@ class Login extends React.Component {
 					</Input>
 					{camposComErro.includes('email') && <Alert color='danger'>Preencha o Email</Alert>}
 				</FormGroup>
-				<FormGroup>
+				<FormGroup className="style-form">
 					<Label for="senha">Senha</Label>
 					<Input 
+						className="style-input"
 						type="password" 
 						name="senha" 
 						id="senha" 
@@ -172,7 +177,8 @@ class Login extends React.Component {
 				<Col>
 						<button 
 							type='button' 
-							style={{width: '100%'}} 
+							// style={{width: '100%'}} 
+							className="style-button-login"
 							onClick={this.ajudadorDeSubmissao}
 						>
 							Entrar

@@ -14,32 +14,17 @@ class LancamentoSituacao extends React.Component {
 			usuario,
 		} = this.props
 		return (
-			<div style={{padding: 5, marginTop: 5, backgroundColor: 'lightgreen'}}>
-				<Row>
-					<Col>
-						Data
-					</Col>
-					<Col>
-						{lancamentoSituacao.data_criacao}
-					</Col>
-				</Row>
-				<Row>
-					<Col>
-						Situação
-					</Col>
-					<Col>
-						{situacao.nome}
-					</Col>
-				</Row>
-				<Row>
-					<Col>
-						Quem Mudou a Situação
-					</Col>
-					<Col>
-						{usuario.nome.split(' ')[0]}
-					</Col>
-				</Row>
-			</div>
+			<tr>
+				<td>
+					{lancamentoSituacao.data_criacao}
+				</td>
+				<td>
+					{situacao.nome}
+				</td>
+				<td>
+					{usuario.nome.split(' ')[0]}
+				</td>
+			</tr>
 		)
 	}
 }

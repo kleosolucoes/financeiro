@@ -1,10 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Lancamento from './Lancamento'
+import Responsive from 'react-responsive';
 import {
 	Label,
 	FormGroup,
 	Input,
+	Row,
+	Col,
+	Table
 } from 'reactstrap'
 import { EMPRESA_ADMINISTRACAO_ID } from '../helpers/constantes'
 
@@ -23,6 +27,7 @@ class Lancamentos extends React.Component {
 	}
 
 	render() {
+		const Desktop = props => <Responsive {...props} minWidth={992} />;
 		const { 
 			lancamentos, 
 			categorias,
@@ -44,8 +49,10 @@ class Lancamentos extends React.Component {
 				.filter(lancamento => lancamento.empresa_id === empresa_id)
 		}
 		return (
-			<div>
-				<p>Filtro</p>
+			<div style={{marginTop: 65}}>
+				<h5>Filtro</h5>
+				<Row>
+				<Col>
 				<FormGroup>
 					<Label for="categoria_id">Categoria</Label>
 					<Input 
@@ -71,6 +78,8 @@ class Lancamentos extends React.Component {
 						}
 					</Input>
 				</FormGroup>
+				</Col>
+				<Col>
 				{
 					empresa_usuario_logado_id === EMPRESA_ADMINISTRACAO_ID && 
 						<FormGroup>
@@ -99,6 +108,25 @@ class Lancamentos extends React.Component {
 							</Input>
 						</FormGroup>
 				}
+				</Col>
+
+				</Row>
+				<Table style={{textAlign: 'center'}}>
+					<thead style={{background: '#7CC9BC', color: '#fff'}}>
+						<tr>
+							<Desktop><td>Data</td></Desktop>
+							<td>Valor</td>
+							<Desktop><td>Taxa</td></Desktop>
+							<td>Categoria</td>
+							<td>Tipo</td>
+							{/* <Desktop><td>Quem Lançou</td></Desktop> */}
+							<Desktop><td>Situação</td></Desktop>
+							<Desktop><td>Empresa</td></Desktop>
+							{/* <Desktop><td>Descrição</td></Desktop> */}
+							<td>#</td>
+						</tr>
+					</thead>
+
 				{
 					lancamentosFiltrados &&
 						lancamentosFiltrados.map(lancamento => 
@@ -107,7 +135,8 @@ class Lancamentos extends React.Component {
 								lancamento_id={lancamento._id} 
 							/>
 						)
-				}
+					}
+				</Table>
 			</div>
 
 		)

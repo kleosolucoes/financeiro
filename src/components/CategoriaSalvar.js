@@ -6,6 +6,7 @@ import {
 	Label,
 	Input,
 	Alert,
+	Button
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import { salvarCategoriaNaApi } from '../actions'
@@ -118,22 +119,22 @@ class CategoriaSalvar extends React.Component {
 							</div>
 					}
 					<Col>
-						<button 
+						<Button 
 							type='button' 
 							style={{width: '100%'}} 
 							onClick={this.props.alternarMostrarAdicionar}
 						>
 							Voltar
-						</button> 
+						</Button> 
 					</Col>
 					<Col>
-						<button 
+						<Button 
 							type='button' 
 							style={{width: '100%'}} 
 							onClick={this.ajudadorDeSubmissao}
 						>
 							Adicionar
-						</button> 
+						</Button> 
 					</Col>
 				</Row>
 			</div>

@@ -2,10 +2,19 @@ import React from 'react'
 import {
 	Row,
 	Col,
+	Button
 } from 'reactstrap'
 import { connect } from 'react-redux'
+import { salvarContaFixa } from '../actions'
+import Responsive from 'react-responsive';
+import { pegarDataEHoraAtual } from '../helpers/funcoes'
 import { removerContaFixaNaApi } from '../actions'
 import { STRING_DEBITO, STRING_CREDITO, } from '../helpers/constantes'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faUserMinus, faTrash } from '@fortawesome/free-solid-svg-icons'
+library.add(faUserMinus)
+library.add(faTrash)
 
 class ContaFixa extends React.Component {
 
@@ -29,69 +38,31 @@ class ContaFixa extends React.Component {
 			contaFixa, 
 			categoria,
 		} = this.props
+		const Desktop = props => <Responsive {...props} minWidth={992} />;
 		return (
-			<div style={{padding:10, backgroundColor: 'lightCyan', marginTop: 10}}>
-				<Row>
-					<Col>
-						Id
-					</Col>
-					<Col>
-						{contaFixa._id}
-					</Col>
-				</Row>
-				<Row>
-					<Col>
-						Data
-					</Col>
-					<Col>
-						{contaFixa.data_criacao}
-					</Col>
-				</Row>
-				<Row>
-					<Col>
-						Gerar dia
-					</Col>
-					<Col>
-						{contaFixa.dia_gerar}
-					</Col>
-				</Row>
-				<Row>
-					<Col>
-						Notificar dia
-					</Col>
-					<Col>
-						{contaFixa.dia_notificacao}
-					</Col>
-				</Row>
-				<Row>
-					<Col>
-						Categoria
-					</Col>
-					<Col>
-						{categoria && categoria.nome}
-					</Col>
-				</Row>
-				<Row>
-					<Col>
-						Credito/Debito
-					</Col>
-					<Col>
-						{categoria && categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO}
-					</Col>
-				</Row>
+			<tbody>
+					<tr>
+						<Desktop><td> {contaFixa.data_criacao} </td></Desktop>
+						<td> {contaFixa.dia_gerar} </td>
+						<Desktop><td> {contaFixa.dia_notificacao} </td></Desktop>
+						<td> {categoria.nome}  </td>
+						<Desktop><td> {categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO} </td></Desktop>
+						
 				<Row style={{padding: 5}}>
 					<Col>
-						<button 
+						<Button 
 							type='button' 
-							style={{width: '100%'}} 
+							className="botao-remover"
+							style={{width: '100%', borderRadius: 0}}
 							onClick={this.removerContaFixa}
-						>
-							Remover
-						</button> 
+			 			>
+			 				<FontAwesomeIcon icon="trash" size="sm" style={{marginRight: 5}} />
+						</Button> 
 					</Col>
-				</Row>
+			 	</Row>
 
-			</div>
+			</tr>
+			</tbody>
 		)
 	}
 }

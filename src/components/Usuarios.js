@@ -1,27 +1,36 @@
 import React from 'react'
 import {
 	Row,
-	Col,
+	Button,
+	Table
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import Usuario from './Usuario'
 import UsuarioSalvar from './UsuarioSalvar'
+import Responsive from 'react-responsive';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUserPlus } from '@fortawesome/free-solid-svg-icons'
+library.add(faUserPlus)
+
 
 class Usuarios extends React.Component {
 
 	state = {
 		mostrarSalvarUsuario: false,
 	}
+	
 
 	alternarMostrarSalvarUsuario = () => this.setState({mostrarSalvarUsuario: !this.state.mostrarSalvarUsuario})
 
 	render() {
+		const Desktop = props => <Responsive {...props} minWidth={992} />;
 		const { 
 			usuarios,
 		} = this.props
 		return (
-			<div style={{padding:10, backgroundColor: 'lightCyan', marginTop: 10}}>
-				<p>Usuarios</p>
+			
+			<div style={{ marginTop: 60}}>
 				{
 					this.state.mostrarSalvarUsuario &&
 						<UsuarioSalvar
@@ -32,20 +41,31 @@ class Usuarios extends React.Component {
 				{
 					!this.state.mostrarSalvarUsuario &&
 						<div>
-							<div style={{padding: 10, backgroundColor: 'lightblue'}}>
-								<Row>
-									<Col>
-										<button 
+							<Row style={{justifyContent: 'space-between', alignItems: 'center', padding: 10}}>
+								<h5 style={{margin: 0}}>Usuários</h5>
+								<div>
+									<Row style={{justifyContent: 'flex-end', padding: 10}}>
+										<Button 
 											type='button' 
-											style={{width: '100%'}}
+											className="botao-lancar"
 											onClick={this.alternarMostrarSalvarUsuario}
 										>
-											Adicionar Usuario
-										</button>
-									</Col>
-								</Row>
-							</div>
-
+											<FontAwesomeIcon icon="user-plus" size="sm" style={{marginRight: 5}} />
+											Adicionar
+										</Button>
+									</Row>
+								</div>
+							</Row>
+							<Table style={{textAlign: 'center'}}>
+								<thead style={{background: '#7CC9BC', color: '#fff'}}>
+									<tr>
+										<th>Nome</th>
+										<Desktop><th>Data</th></Desktop>
+										<th>Tipo</th>
+										<Desktop><th>Email</th></Desktop>
+										<th></th>
+									</tr>
+								</thead>
 							{
 								usuarios &&
 									usuarios
@@ -58,6 +78,7 @@ class Usuarios extends React.Component {
 										)
 									})
 							}
+							</Table>
 						</div>
 				}
 			</div>

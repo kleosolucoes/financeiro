@@ -2,11 +2,21 @@ import React from 'react'
 import {
 	Row,
 	Col,
+	Container,
+	Button,
+	Table
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import { salvarCategoria } from '../actions'
 import CategoriaSalvar from './CategoriaSalvar'
 import { STRING_DEBITO, STRING_CREDITO, } from '../helpers/constantes'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCalendarDay, faCreditCard, faListUl } from '@fortawesome/free-solid-svg-icons';
+import Responsive from 'react-responsive';
+library.add(faCalendarDay)
+library.add(faCreditCard)
+library.add(faListUl)
 
 class Categorias extends React.Component {
 
@@ -25,8 +35,10 @@ class Categorias extends React.Component {
 		const {
 			mostrarAdicionar,
 		} = this.state
+		const Desktop = props => <Responsive {...props} minWidth={992} />;
 		return (
-			<div>
+			<div style={{marginTop: 80}}>
+			
 				{
 					mostrarAdicionar &&
 						<CategoriaSalvar
@@ -35,67 +47,49 @@ class Categorias extends React.Component {
 				}
 				{
 					!mostrarAdicionar && 
-						<div>
-							<Row style={{padding: 5}}>
-								<Col>
-									<h1>asdasd</h1>
-								</Col>
-							</Row>
-							<Row style={{padding: 5}}>
-								<Col>
-									<button 
+					<div>
+						<Row style={{justifyContent: 'space-between', alignItems: 'center', padding: 10}}>
+							<h5 style={{margin: 0}}>Categorias</h5>
+							<div>
+								<Row style={{justifyContent: 'flex-end', padding: 10}}>
+									<Button 
 										type='button' 
-										style={{width: '100%'}} 
+										className="botao-lancar"
 										onClick={this.alternarMostrarAdicionar}
 									>
+										<FontAwesomeIcon icon="user-plus" size="sm" style={{marginRight: 5}} />
 										Adicionar
-									</button> 
-								</Col>
-							</Row>
-							{
-								categorias.map(categoria => {
-									return (
-										<div key={categoria._id} style={{padding:10, backgroundColor: 'lightCyan', marginTop: 10}}>
-											<Row>
-												<Col>
-													Id
-												</Col>
-												<Col>
-													{categoria._id.toString().padStart(8,0)}
-												</Col>
-											</Row>
-											<Row>
-												<Col>
-													Data
-												</Col>
-												<Col>
-													{categoria.data_criacao}
-												</Col>
-											</Row>
-											<Row>
-												<Col>
-													Nome
-												</Col>
-												<Col>
-													{categoria.nome}
-												</Col>
-											</Row>
-											<Row>
-												<Col>
-													Crédito/Débito
-												</Col>
-												<Col>
-													{categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO}
-												</Col>
-											</Row>
-										</div>
-									)
-								})
-							}
-						</div>
+									</Button>
+								</Row>
+							</div>
+						</Row>
+						<Table style={{textAlign: 'center'}}>
+							<thead style={{background: '#7CC9BC', color: '#fff'}}>
+								<tr>
+									<Desktop><th>Data Criação</th></Desktop>
+									<th>Nome</th>
+									<th>Crédito/Débito</th>
+								</tr>
+							</thead>
+						{
+							categorias.map(categoria => {
+								
+								return (
+									<tbody>
+										<tr>
+											<Desktop><th>{categoria.data_criacao}</th></Desktop>
+											<td>{categoria.nome}</td>
+											<td>{categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO}</td>
+										</tr>
+									</tbody>
+								)
+							})
+						}
+						</Table>
+
+					</div>
 				}
 			</div>
-
 		)
 	}
 
