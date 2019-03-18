@@ -56,8 +56,8 @@ class Empresas extends React.Component {
 								empresas.map(empresa => (
 									<div key={empresa.id} style={{backgroundColor: '#f9f7f7', marginTop: 10}}>
 										<Empresa 
-											key={empresa.id}
-											empresa_id={empresa.id}
+											key={empresa._id}
+											empresa_id={empresa._id}
 										/>
 									</div>
 								))
@@ -69,9 +69,9 @@ class Empresas extends React.Component {
 	}
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = ({empresas}) => {
 	return {
-		empresas: state.empresas,
+		empresas, 
 	}
 }
 

@@ -17,6 +17,8 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import { connect } from 'react-redux'
+import { EMPRESA_ADMINISTRACAO_ID } from '../helpers/constantes'
 
 const drawerWidth = 240;
 
@@ -99,7 +101,7 @@ class PersistentDrawerLeft extends React.Component {
 	}
 
 	render() {
-		const { classes, theme } = this.props;
+		const { classes, theme, listaDoMenu } = this.props;
 		const { open } = this.state;
 
 		return (
@@ -142,7 +144,7 @@ class PersistentDrawerLeft extends React.Component {
 					</div>
 					<Divider />
 					<List>
-						{['extratoEmpresa', 'lancarVarios', 'usuarios', 'extratoAdministracao', 'lancarUm', 'lancamentos', 'categorias', 'empresas',].map((tela, index) => (
+						{listaDoMenu.map((tela, index) => (
 							<ListItem button key={tela} onClick={() => {this.alterarTela(tela)} }>
 								<ListItemText primary={capitalizeFirstLetter(tela)} />
 							</ListItem>
@@ -162,4 +164,25 @@ PersistentDrawerLeft.propTypes = {
 	theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(PersistentDrawerLeft)
+function mapStateToProps(state){
+	let listaDoMenu = []
+	if(state.usuarioLogado){
+		const empresa_id = state.usuarioLogado.empresa_id
+		if(empresa_id === EMPRESA_ADMINISTRACAO_ID){
+			listaDoMenu.push('extratoAdministracao')
+			listaDoMenu.push('lancarUm')
+			listaDoMenu.push('lancamentos')
+			listaDoMenu.push('categorias')
+			listaDoMenu.push('empresas')
+		}else{
+			listaDoMenu.push('extratoEmpresa')
+			listaDoMenu.push('lancarVarios')
+			listaDoMenu.push('usuarios')
+		}
+	}
+	return{
+		listaDoMenu,
+	}
+}
+
+export default connect(mapStateToProps, null)(withStyles(styles, { withTheme: true })(PersistentDrawerLeft))

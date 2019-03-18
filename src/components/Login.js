@@ -8,10 +8,27 @@ import {
 	Alert,
 } from 'reactstrap'
 import { connect } from 'react-redux'
-import { salvarUsuarioLogado, } from '../actions'
-import md5 from 'md5'
-import { EMPRESA_ADMINISTRACAO_ID } from '../helpers/constantes'
-import logo from '../logo.svg'
+import { 
+	salvarUsuarioLogado, 
+} from '../actions'
+import {
+	TELA_EXTRATO_ADMINISTRACAO,
+	TELA_EXTRATO_EMPRESA,
+	EMPRESA_ADMINISTRACAO_ID,
+} from '../helpers/constantes'
+import * as api from '../helpers/api'
+import { 
+	pegarUsuarioDaApi,
+	pegarUsuarioTipoDaApi,
+	pegarSituacaoDaApi,
+	pegarCategoriaDaApi,
+	pegarEmpresaDaApi,
+	pegarEmpresaTipoDaApi,
+	pegarContaFixaDaApi,
+	pegarLancamentoDaApi,
+	pegarLancamentoSituacaoDaApi,
+} from '../actions'
+
 
 class Login extends React.Component {
 
@@ -20,6 +37,20 @@ class Login extends React.Component {
 		senha: '',
 		mostrarMensagemDeErro: false,
 		camposComErro: [],
+	}
+
+	puxarTodosDados(){
+		if(this.props.token){
+			this.props.pegarUsuarioDaApi(this.props.token)			
+			this.props.pegarUsuarioTipoDaApi(this.props.token)
+			this.props.pegarSituacaoDaApi(this.props.token)
+			this.props.pegarCategoriaDaApi(this.props.token)
+			this.props.pegarEmpresaDaApi(this.props.token)
+			this.props.pegarEmpresaTipoDaApi(this.props.token)
+			this.props.pegarContaFixaDaApi(this.props.token)
+			this.props.pegarLancamentoDaApi(this.props.token)
+			this.props.pegarLancamentoSituacaoDaApi(this.props.token)
+		}
 	}
 
 	ajudadorDeCampo = event => {
@@ -60,24 +91,27 @@ class Login extends React.Component {
 				camposComErro: [],
 			})
 
-			const usuario = this.props.usuarios
-				.find(usuario => usuario.email === email
-					&& usuario.senha === md5(senha))
-			if(usuario){
-				let tela = 'extratoEmpresa'
-				if(usuario.empresa_id === EMPRESA_ADMINISTRACAO_ID){
-					tela = 'extratoAdministracao'
-				}
-				this.props.salvarUsuarioLogado({usuario_id: usuario.id})
-				this.props.alterarTela(tela)
-			}else{
-				mostrarMensagemDeErro = true
-				camposComErro.push('naoRegistrado')
-				this.setState({
-					mostrarMensagemDeErro,
-					camposComErro,
+			api.login({email, senha})
+				.then(dados => {
+					if(!dados.ok){
+						mostrarMensagemDeErro = true
+						camposComErro.push('naoRegistrado')
+
+						this.setState({
+							mostrarMensagemDeErro,
+							camposComErro,
+						})
+					}
+					if(dados.ok){
+						let tela = TELA_EXTRATO_EMPRESA
+						if(dados.resultado.empresa_id === EMPRESA_ADMINISTRACAO_ID){
+							tela = TELA_EXTRATO_ADMINISTRACAO
+						}
+						this.props.salvarUsuarioLogado(dados.resultado)
+						this.puxarTodosDados()
+						this.props.alterarTela(tela)
+					}
 				})
-			}
 		}
 	}
 
@@ -94,7 +128,7 @@ class Login extends React.Component {
 			<div className="login-wrapper">
 			{/* <h1>Login</h1>
 			<p>usuario: falecomleonardopereira@gmail.com - senha: 123</p> */}
-			<img src={logo} alt="Financeiro" height="100px" />
+			{/* <img src={logo} alt="Financeiro" height="100px" /> */}
 				<FormGroup className="style-form">
 					<Label for="email">Email</Label>
 					<Input 
@@ -156,16 +190,25 @@ class Login extends React.Component {
 	}
 }
 
-function mapStateToProps(state){
-	return {
-		usuarios: state.usuarios,
+function mapStateToProps({usuarioLogado}){
+	return{
+		token: usuarioLogado && usuarioLogado.token,
 	}
 }
 
 function mapDispatchToProps(dispatch){
 	return {
 		salvarUsuarioLogado: (elemento) => dispatch(salvarUsuarioLogado(elemento)),
-	}
+		pegarUsuarioDaApi: (elemento) => dispatch(pegarUsuarioDaApi(elemento)),
+		pegarUsuarioTipoDaApi: (elemento) => dispatch(pegarUsuarioTipoDaApi(elemento)),
+		pegarSituacaoDaApi: (elemento) => dispatch(pegarSituacaoDaApi(elemento)),
+		pegarCategoriaDaApi: (elemento) => dispatch(pegarCategoriaDaApi(elemento)),
+		pegarEmpresaDaApi: (elemento) => dispatch(pegarEmpresaDaApi(elemento)),
+		pegarEmpresaTipoDaApi: (elemento) => dispatch(pegarEmpresaTipoDaApi(elemento)),
+		pegarContaFixaDaApi: (elemento) => dispatch(pegarContaFixaDaApi(elemento)),
+		pegarLancamentoDaApi: (elemento) => dispatch(pegarLancamentoDaApi(elemento)),
+		pegarLancamentoSituacaoDaApi: (elemento) => dispatch(pegarLancamentoSituacaoDaApi(elemento)),
+		}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login)

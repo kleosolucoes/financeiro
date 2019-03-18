@@ -6,11 +6,11 @@ import {
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import Responsive from 'react-responsive';
-import { salvarUsuario, salvarUsuarioSituacao } from '../actions'
-import { pegarDataEHoraAtual } from '../helpers/funcoes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faUserMinus, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { removerUsuarioNaApi, } from '../actions'
+import { USUARIO_TIPO_ADMINISTRACAO, } from '../helpers/constantes'
 library.add(faUserMinus)
 library.add(faTrash)
 
@@ -19,32 +19,16 @@ class Usuario extends React.Component {
 
 	removerUsuario = () => {
 		if(window.confirm('Realmente deseja remover esse usuário?')){
-			let { 
+			const { 
 				usuario,
-				usuarioSituacao,
 				usuarioLogado,
+				removerUsuarioNaApi,
 			} = this.props
 
-			usuario.data_inativacao = pegarDataEHoraAtual()[0]
-			usuario.hora_inativacao = pegarDataEHoraAtual()[1]
-			this.props.salvarUsuario(usuario)
-
-			usuarioSituacao.data_inativacao = pegarDataEHoraAtual()[0]
-			usuarioSituacao.hora_inativacao = pegarDataEHoraAtual()[1]
-			this.props.salvarUsuarioSituacao(usuarioSituacao)
-
-			const novoRegistro = true
-			const elemento = {
-				id: Date.now(),
-				data_criacao: pegarDataEHoraAtual()[0],
-				hora_criacao: pegarDataEHoraAtual()[1],
-				data_inativacao: null,
-				hora_inativacao: null,
-			}
-			elemento.situacao_id = 5 // inativo TODO
-			elemento.usuario_id = usuario.id
+			const elemento = {}
+			elemento.usuario_id = usuario._id
 			elemento.quem_id = usuarioLogado.usuario_id
-			this.props.salvarUsuarioSituacao(elemento, novoRegistro)
+			removerUsuarioNaApi(elemento, usuarioLogado.token)
 			alert('Usuário Removido com sucesso!')
 		}
 	}
@@ -54,7 +38,7 @@ class Usuario extends React.Component {
 		const { 
 			usuario, 
 			usuarioTipo,
-			situacao,
+			idTipoUsuarioLogado,
 		} = this.props
 		return (
 				<tbody>
@@ -62,11 +46,10 @@ class Usuario extends React.Component {
 						<td>{usuario.nome}</td>
 						<Desktop><td>{usuario.data_criacao}</td></Desktop>
 						<td>{usuarioTipo.nome}</td>
-						<Desktop><td>{situacao.nome}</td></Desktop>
 						<Desktop><td>{usuario.email}</td></Desktop>
 				
 				{
-					situacao.id !== 5 &&
+					idTipoUsuarioLogado === USUARIO_TIPO_ADMINISTRACAO &&
 						<Row style={{justifyContent: 'center', marginTop: 8}}>
 							<Col>
 								<Button 
@@ -86,29 +69,25 @@ class Usuario extends React.Component {
 	}
 }
 
-const mapStateToProps = (state, {usuario_id}) => {
-	const usuario = state.usuarios
-		.find(usuario => usuario.id === usuario_id)
-	const usuarioTipo = state.usuarioTipo
-		.find(usuarioTipo => usuarioTipo.id === usuario.usuario_tipo_id)
-	const usuarioSituacao = state.usuarioSituacao
-		.find(usuarioSituacao => usuarioSituacao.usuario_id === usuario.id && usuarioSituacao.data_inativacao === null)
-	const situacao = state.situacoes
-		.find(situacao => situacao.id === usuarioSituacao.situacao_id)
+const mapStateToProps = ({usuarios, usuarioTipo, usuarioLogado}, {usuario_id}) => {
+	const usuarioSelecionado = usuarios && usuarios.find(usuario => usuario._id === usuario_id)
+	const usuarioTipoSelecionado = usuarioTipo && usuarioTipo.find(usuarioTipo => usuarioTipo._id === usuarioSelecionado.usuario_tipo_id)
+
+	const idTipoUsuarioLogado = usuarioLogado && usuarios &&
+		usuarios.find(usuario => usuario._id === usuarioLogado.usuario_id)
+		.usuario_tipo_id
 
 	return {
-		usuario,
-		usuarioTipo,
-		usuarioSituacao,
-		situacao,
-		usuarioLogado: state.usuarioLogado,
+		usuario: usuarioSelecionado,
+		usuarioTipo: usuarioTipoSelecionado,
+		usuarioLogado,
+		idTipoUsuarioLogado,
 	}
 }
 
 function mapDispatchToProps(dispatch){
 	return {
-		salvarUsuario: (elemento) => dispatch(salvarUsuario(elemento)),
-		salvarUsuarioSituacao: (elemento) => dispatch(salvarUsuarioSituacao(elemento)),
+		removerUsuarioNaApi: (elemento, token) => dispatch(removerUsuarioNaApi(elemento, token)),
 	}
 }
 

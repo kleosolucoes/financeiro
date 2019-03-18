@@ -1,7 +1,6 @@
 console.log('Custom service worker')
-// xablau
 
-const nomeDoCachePrincipal = 'financeiro-v008'
+const nomeDoCachePrincipal = 'financeiro-v012'
 self.addEventListener('install', event => {
 	console.log('Install')
 	event.waitUntil(
@@ -16,7 +15,16 @@ self.addEventListener('install', event => {
 				'manifest.json',
 				'favicon.ico',
 				'service-worker-custom.js',
-				'https://circuitodavisaonovo.com.br/api',
+				//'https://glacial-harbor-83832.herokuapp.com/usuario/todos',
+				//'https://glacial-harbor-83832.herokuapp.com/usuario/usuarioTipo',
+				//'https://glacial-harbor-83832.herokuapp.com/usuario/usuarioSituacao',
+				//'https://glacial-harbor-83832.herokuapp.com/situacao/todos',
+				//'https://glacial-harbor-83832.herokuapp.com/categoria/todos',
+				//'https://glacial-harbor-83832.herokuapp.com/empresa/todos',
+				//'https://glacial-harbor-83832.herokuapp.com/empresa/empresaTipo',
+				//'https://glacial-harbor-83832.herokuapp.com/empresa/contaFixa',
+				//'https://glacial-harbor-83832.herokuapp.com/empresa/lancamento',
+				//'https://glacial-harbor-83832.herokuapp.com/empresa/lancamentoSituacao'
 			])
 		})
 		.catch(error => console.log(error)),

@@ -7,7 +7,6 @@ import {
 	CardText,
 } from 'reactstrap'
 import { connect } from 'react-redux'
-// import Lancamentos from './Lancamentos'
 import { SITUACAO_RECEBIDO, SITUACAO_NAO_RECEBIDO } from '../helpers/constantes'
 import './aux.css';
 
@@ -21,12 +20,7 @@ library.add(faFileAlt)
 library.add(faPowerOff)
 library.add(faQuestionCircle)
 
-
 class ExtratoEmpresa extends React.Component {
-
-	state = {
-		api: null,
-	}
 
 	render() {
 		const { 
@@ -109,41 +103,38 @@ class ExtratoEmpresa extends React.Component {
 	}
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = ({situacoes, usuarioLogado, lancamentos, lancamentoSituacao, categorias}) => {
 	let saldo = 0
 	let naoRecebido = 0
-	const usuarioLogado = state.usuarios
-		.find(usuario => usuario.id === state.usuarioLogado.usuario_id)
-
-	const lancamentosFiltrados = state.lancamentos.filter(lancamento => lancamento.empresa_id === usuarioLogado.empresa_id)
+	const lancamentosFiltrados = lancamentos && usuarioLogado && 
+		lancamentos.filter(lancamento => lancamento.empresa_id === usuarioLogado.empresa_id)
 
 	lancamentosFiltrados.forEach(lancamento => {
-		const lancamentoSituacaoAtiva = state.lancamentoSituacao
-			.find(lancamentoSituacao => 
-				lancamento.id === lancamentoSituacao.lancamento_id 
-				&& lancamentoSituacao.data_inativacao === null)
-		const situacaoAtiva = state.situacoes
-			.find(situacao => lancamentoSituacaoAtiva.situacao_id === situacao.id)
+		const lancamentoSituacaoAtiva = lancamentoSituacao && 
+			lancamentoSituacao.find(lancamentoSituacao => lancamento._id === lancamentoSituacao.lancamento_id && lancamentoSituacao.data_inativacao === null)
 
-		const categoriaAtiva = state.categorias
-			.find(categoria => lancamento.categoria_id === categoria.id)
-
-		const valorFormatado = parseFloat(lancamento.valor)
-		if(situacaoAtiva.id === SITUACAO_RECEBIDO){
-			if(categoriaAtiva.credito_debito === 'C'){
-				saldo += valorFormatado
-			}else{
-				saldo -= valorFormatado
+		if(lancamentoSituacaoAtiva){	
+			const situacaoAtiva = situacoes && 
+				situacoes.find(situacao => lancamentoSituacaoAtiva.situacao_id === situacao._id)
+			const categoriaAtiva = categorias && categorias.find(categoria => lancamento.categoria_id === categoria._id)
+			const valorFormatado = parseFloat(lancamento.valor)
+			if(situacaoAtiva._id === SITUACAO_RECEBIDO){
+				if(categoriaAtiva.credito_debito === 'C'){
+					saldo += valorFormatado
+				}else{
+					saldo -= valorFormatado
+				}
 			}
-		}
-		if(situacaoAtiva.id === SITUACAO_NAO_RECEBIDO){
-			naoRecebido += valorFormatado
+			if(situacaoAtiva._id === SITUACAO_NAO_RECEBIDO){
+				naoRecebido += valorFormatado
+			}
 		}
 	})
 
 	return {
 		saldo,
 		naoRecebido,
+		usuarioLogado,
 	}
 }
 

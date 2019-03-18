@@ -8,8 +8,7 @@ import {
 	Button
 } from 'reactstrap'
 import { connect } from 'react-redux'
-import { salvarEmpresa } from '../actions'
-import { pegarDataEHoraAtual } from '../helpers/funcoes'
+import { salvarEmpresaNaApi } from '../actions'
 
 class EmpresaSalvar extends React.Component {
 
@@ -35,6 +34,9 @@ class EmpresaSalvar extends React.Component {
 			mostrarMensagemDeErro,
 			camposComErro,
 		} = this.state
+		const {
+			usuarioLogado,
+		} = this.props
 		camposComErro = []
 
 		mostrarMensagemDeErro = false
@@ -57,19 +59,12 @@ class EmpresaSalvar extends React.Component {
 				camposComErro: [],
 			})
 
-			const novoRegistro = true
-			const elemento = {
-				id: Date.now(),
-				data_criacao: pegarDataEHoraAtual()[0],
-				hora_criacao: pegarDataEHoraAtual()[1],
-				data_inativacao: null,
-				hora_inativacao: null,
-			}
+			const elemento = {}
 			elemento.nome = nome.toUpperCase()
-			elemento.empresa_tipo_id = parseInt(empresa_tipo_id)
-			elemento.usuario_id = this.props.usuario_id
+			elemento.empresa_tipo_id = empresa_tipo_id
+			elemento.usuario_id = usuarioLogado.usuario_id
 
-			this.props.salvarEmpresa(elemento, novoRegistro)
+			this.props.salvarEmpresaNaApi(elemento, usuarioLogado.token)
 			this.props.alternarMostrarSalvarEmpresa()
 			alert('Empresa Salva com sucesso!')
 		}
@@ -105,8 +100,8 @@ class EmpresaSalvar extends React.Component {
 								empresaTipo.map(empresaTipo => {
 									return (
 										<option 
-											key={empresaTipo.id}
-											value={empresaTipo.id}
+											key={empresaTipo._id}
+											value={empresaTipo._id}
 										>
 											{empresaTipo.nome}
 										</option>
@@ -165,14 +160,14 @@ class EmpresaSalvar extends React.Component {
 
 function mapStateToProps(state){
 	return {
-		usuario_id: state.usuarioLogado.usuario_id,
+		usuarioLogado: state.usuarioLogado,
 		empresaTipo: state.empresaTipo,
 	}
 }
 
 function mapDispatchToProps(dispatch){
 	return {
-		salvarEmpresa: (elemento, novo) => dispatch(salvarEmpresa(elemento, novo)),
+		salvarEmpresaNaApi: (elemento, token) => dispatch(salvarEmpresaNaApi(elemento, token)),
 	}
 }
 

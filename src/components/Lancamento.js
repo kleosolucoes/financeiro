@@ -11,13 +11,16 @@ import {
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import Responsive from 'react-responsive';
-import { formatReal, getMoney, pegarDataEHoraAtual } from '../helpers/funcoes'
-import { salvarLancamento, salvarLancamentoSituacao } from '../actions'
+import { formatReal, getMoney, } from '../helpers/funcoes'
+import { 
+	alterarLancamentoNaApi, 
+} from '../actions'
 import { 
 	EMPRESA_ADMINISTRACAO_ID,
 	STRING_DEBITO,
 	STRING_CREDITO
 } from '../helpers/constantes'
+import LancamentoSituacao from './LancamentoSituacao'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExpandArrowsAlt, faEdit } from '@fortawesome/free-solid-svg-icons'
@@ -32,14 +35,20 @@ class Lancamento extends React.Component {
 		mostrarMensagemDeErro: false,
 		camposComErro: [],
 		mostrarTodosLancamentoSituacao: false,
+		lancamentoSituacaoAtual: null,
 	}
 
 	alterarMostrarTodosLancamentoSituacao = () => this.setState({mostrarTodosLancamentoSituacao: !this.state.mostrarTodosLancamentoSituacao})
 
 	componentDidMount(){
+		const {
+			lancamentoSituacao,
+		} = this.props
+		const lancamentoSituacaoAtual = lancamentoSituacao.find(lancamentoSituacao => lancamentoSituacao.data_inativacao === null)
 		this.setState({
 			valor: this.props.lancamento.valor,
 			taxa: this.props.lancamento.taxa,
+			lancamentoSituacaoAtual: lancamentoSituacaoAtual,
 		})
 	}
 
@@ -56,6 +65,7 @@ class Lancamento extends React.Component {
 			valor,
 			taxa,
 			situacao_id,
+			lancamentoSituacaoAtual,
 		} = this.state
 		let {
 			mostrarMensagemDeErro,
@@ -63,7 +73,7 @@ class Lancamento extends React.Component {
 		} = this.state
 		let {
 			lancamento,
-			lancamentoSituacao,
+			usuarioLogado,
 		} = this.props
 		camposComErro = []
 
@@ -88,29 +98,23 @@ class Lancamento extends React.Component {
 				camposComErro: [],
 			})
 
-			lancamento.valor = valor
-			lancamento.taxa = taxa
-			this.props.salvarLancamento(lancamento)
-
-			lancamentoSituacao.data_inativacao = pegarDataEHoraAtual()[0]
-			lancamentoSituacao.hora_inativacao = pegarDataEHoraAtual()[1]
-			this.props.salvarLancamentoSituacao(lancamentoSituacao)
-
-			const novoRegistro = true
-			const elementoAssociativo = {
-				id: Date.now(),
-				data_criacao: pegarDataEHoraAtual()[0],
-				hora_criacao: pegarDataEHoraAtual()[1],
-				data_inativacao: null,
-				hora_inativacao: null,
-				situacao_id: parseInt(situacao_id),
-				lancamento_id: lancamento.id,
-				usuario_id: this.props.usuario_id,
+			const dados = {
+				lancamento_id: lancamento._id,
+				valor,
+				taxa,
+				situacao_id,
+				lancamento_situacao_id: lancamentoSituacaoAtual._id,
+				usuario_id: usuarioLogado.usuario_id,
 			}
 
-			this.props.salvarLancamentoSituacao(elementoAssociativo, novoRegistro)
-			this.setState({situacao_id: 0})
-			alert('Lançamento Salvo com sucesso!')
+			this.props.alterarLancamentoNaApi(dados, this.props.usuarioLogado.token)
+				.then((lancamento_situacao_atual_id) => {
+					this.setState({
+						situacao_id: 0,
+						lancamento_situacao_atual_id,
+					})
+					alert('Lançamento Salvo com sucesso!')
+				})
 		}
 	}
 
@@ -118,16 +122,11 @@ class Lancamento extends React.Component {
 		const Desktop = props => <Responsive {...props} minWidth={992} />;
 		const { 
 			lancamento, 
-			lancamentoSituacaoAtiva,
 			lancamentoSituacao,
-			usuarioSituacao,
-			situacao, 
 			categoria,
-			usuario,
 			empresa,
 			situacoes,
-			empresa_usuario_logado_id,
-			usuarios,
+			usuarioLogado,
 		} = this.props
 		const {
 			valor,
@@ -136,16 +135,23 @@ class Lancamento extends React.Component {
 			camposComErro,
 			situacao_id,
 			mostrarTodosLancamentoSituacao,
+			lancamentoSituacaoAtual,
 		} = this.state
+		let situacao = null
+		if(lancamentoSituacaoAtual){
+			situacao = situacoes.find((situacao) => (
+				situacao._id === lancamentoSituacaoAtual.situacao_id
+			)) 
+			}
 		return (
-			<tr style={{ backgroundColor: 'lightCyan', marginTop: 10}}>
+			<tbody style={{ backgroundColor: 'lightCyan', marginTop: 10}}>
 				{/* <Row>
 					<Col> Id </Col>
 					<Col> {lancamento.id.toString().padStart(8,0)} </Col>
 				</Row> */}
 				
 				{/* {
-					empresa_usuario_logado_id === EMPRESA_ADMINISTRACAO_ID && 
+					usuarioLogado.empresa_id === EMPRESA_ADMINISTRACAO_ID && 
 					<div>
 						<Row>
 							<Col>
@@ -192,14 +198,14 @@ class Lancamento extends React.Component {
 										situacoes &&
 											situacoes
 											.filter(situacao => 
-												situacao.id === 1 
-												|| situacao.id === 2
-												|| situacao.id === 3)
+												situacao._id === SITUACAO_RECEBIDO
+												|| situacao._id === SITUACAO_NAO_RECEBIDO
+												|| situacao._id === SITUACAO_RECUSADO)
 												.map(situacao => {
 													return (
 														<option 
-															key={situacao.id}
-															value={situacao.id}
+															key={situacao._id}
+															value={situacao._id}
 														>
 															{situacao.nome}
 														</option>
@@ -239,8 +245,7 @@ class Lancamento extends React.Component {
 							<Desktop><td>{lancamento.taxa}</td></Desktop>
 							<td>{categoria.nome}</td>
 							<td>{categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO}</td>
-							{/* <Desktop><td>{usuario.nome.split(' ')[0]}</td></Desktop> */}
-							<Desktop><td>{situacao.nome}</td></Desktop>
+							<td>{situacao && situacao.nome}</td>
 							<Desktop><td>{empresa.nome}</td></Desktop>
 							{/* <Desktop><td>{lancamento.descricao}</td></Desktop> */}
 							<Row style={{justifyContent: 'center', marginTop: 8, flexDirection: 'column'}}>
@@ -253,7 +258,7 @@ class Lancamento extends React.Component {
 										<FontAwesomeIcon icon="expand-arrows-alt" size="sm"  />
 									</Button>
 								</Col>
-								{ empresa_usuario_logado_id === EMPRESA_ADMINISTRACAO_ID && 
+								{ usuarioLogado.empresa_id === EMPRESA_ADMINISTRACAO_ID && 
 									<Col style={{paddingLeft: 0, paddingRight: 0, flexGrow: 0}}>
 										<Button 
 											type='button' 
@@ -266,100 +271,61 @@ class Lancamento extends React.Component {
 								}
 							</Row>
 
-				{ lancamentoSituacao && 
-					mostrarTodosLancamentoSituacao && 
-						<div style={{padding: 5}}>
-							{ lancamentoSituacao.map(lancamentoSituacao => (
-								<div key={lancamentoSituacao.id} 
-								style={{padding: 5, marginTop: 5, background: '#fff', borderRadius: 4}}>
-									<Row>
-										<Col> Data </Col>
-										<Col> {lancamentoSituacao.data_criacao} </Col>
-									</Row>
-									<Row>
-										<Col> Situação </Col>
-										<Col>
-											{ situacoes &&
-												situacoes
-												.find(situacao => situacao.id === lancamentoSituacao.situacao_id)
-												.nome
-											}
-										</Col>
-									</Row>
-									<Row>
-										<Col> Quem Mudou a Situação </Col>
-										<Col>
-											{ usuarios &&
-												usuarios
-												.find(usuario => usuario.id === lancamentoSituacao.usuario_id)
-												.nome
-												.split(' ')[0]
-											}
-										</Col>
-									</Row>
+					{ lancamentoSituacao && 
+						mostrarTodosLancamentoSituacao && 
+						<tr> 
+							<td>
+							<Table> 
+								<thead>
 
-								</div>
-								))
-							}
-						</div>
-				}
-				{/* </tr> */}
+								<tr> 
+									<td>Data</td>
+									<td>Nome</td>
+									<td>Usuario</td>
+								</tr>
+								</thead> 
+								<tbody>
+								{
+									lancamentoSituacao.map(lancamentoSituacao => (
+										<LancamentoSituacao 
+											key={lancamentoSituacao._id}
+											lancamento_situacao_id={lancamentoSituacao._id} />
+									))
+								}
+								</tbody>
+							</Table>
+							</td> 
+						</tr>
+					}
 
+				
+			</tbody>
 
-			</tr>
 		)
 	}
 }
 
-const mapStateToProps = (state, {lancamento_id}) => {
-	const lancamento = state.lancamentos
-		.find(lancamento => lancamento.id === lancamento_id)
+const mapStateToProps = ({lancamentos, lancamentoSituacao, empresas, categorias, situacoes, usuarioLogado, usuarios}, {lancamento_id}) => {
+	const lancamentoSelecionado = lancamentos && lancamentos.find(lancamento => lancamento._id === lancamento_id)
+	const todosLancamentoSituacao =  lancamentoSituacao && lancamentoSituacao.filter(lancamentoSituacao => lancamentoSituacao.lancamento_id)
+	const empresa = empresas && empresas.find(empresa => empresa._id === lancamentoSelecionado.empresa_id)
+	const categoria = categorias && categorias.find(categoria => categoria._id === lancamentoSelecionado.categoria_id)
+	const usuario = usuarios && usuarios.find(usuario => usuario._id === lancamentoSelecionado.usuario_id)
 
-	const lancamentoSituacao = state.lancamentoSituacao
-		.filter(lancamentoSituacao => lancamentoSituacao.lancamento_id === lancamento.id)
-
-	const lancamentoSituacaoAtiva = lancamentoSituacao
-		.find(lancamentoSituacao => lancamentoSituacao.data_inativacao === null)
-
-	const usuarioSituacao = state.usuarios
-		.find(usuario => usuario.id === lancamentoSituacaoAtiva.usuario_id)
-
-	const situacao = state.situacoes
-		.find(situacao => situacao.id === lancamentoSituacaoAtiva.situacao_id)
-
-	const usuario = state.usuarios
-		.find(usuario => usuario.id === lancamento.usuario_id)
-
-	const empresa = state.empresas
-		.find(empresa => empresa.id === lancamento.empresa_id)
-
-	const categoria = state.categorias
-		.find(categoria => categoria.id === lancamento.categoria_id)
-
-	const usuario_id = state.usuarioLogado.usuario_id
-	const empresa_usuario_logado_id = state.usuarios
-		.find(usuario => usuario.id === usuario_id)
-		.empresa_id
 	return {
-		lancamento,
-		lancamentoSituacao,
-		lancamentoSituacaoAtiva,
-		usuarioSituacao,
-		situacao,
+		lancamento: lancamentoSelecionado,
+		lancamentoSituacao: todosLancamentoSituacao,
 		categoria,
-		usuario,
 		empresa,
-		situacoes: state.situacoes,
-		usuario_id,
-		empresa_usuario_logado_id,
-		usuarios: state.usuarios,
+		usuarioLogado,
+		usuario,
+		situacoes,
 	}
 }
 
 function mapDispatchToProps(dispatch){
 	return {
-		salvarLancamento: (elemento, novo) => dispatch(salvarLancamento(elemento, novo)),
-		salvarLancamentoSituacao: (elemento, novo) => dispatch(salvarLancamentoSituacao(elemento, novo)),
+		alterarLancamentoNaApi: (elemento, novo) => dispatch(alterarLancamentoNaApi(elemento, novo)),
 	}
 }
 

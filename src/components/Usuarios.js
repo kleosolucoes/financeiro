@@ -62,19 +62,18 @@ class Usuarios extends React.Component {
 										<th>Nome</th>
 										<Desktop><th>Data</th></Desktop>
 										<th>Tipo</th>
-										<Desktop><th>Situação</th></Desktop>
 										<Desktop><th>Email</th></Desktop>
 										<th></th>
 									</tr>
 								</thead>
 							{
-								usuarios.length > 0 &&
+								usuarios &&
 									usuarios
 									.map(usuario => {
 										return (
 											<Usuario
-												key={usuario.id}
-												usuario_id={usuario.id}
+												key={usuario._id}
+												usuario_id={usuario._id}
 											/>
 										)
 									})
@@ -87,11 +86,9 @@ class Usuarios extends React.Component {
 	}
 }
 
-const mapStateToProps = (state, { empresa_id }) => {
-	const usuarios = state.usuarios
-		.filter(usuario => usuario.empresa_id === empresa_id && usuario.data_inativacao === null)
+const mapStateToProps = ({usuarios}, { empresa_id }) => {
 	return {
-		usuarios,
+		usuarios: usuarios && usuarios.filter(usuario => usuario.empresa_id === empresa_id && usuario.data_inativacao === null)
 	}
 }
 

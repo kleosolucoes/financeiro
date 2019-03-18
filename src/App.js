@@ -13,7 +13,13 @@ import {
 	Container,
 } from 'reactstrap'
 import { connect } from 'react-redux'
-import { salvarUsuarioLogado, } from './actions'
+import { 
+	salvarUsuarioLogado, 
+} from './actions'
+import {
+	TELA_EXTRATO_ADMINISTRACAO,
+	TELA_EXTRATO_EMPRESA,
+} from './helpers/constantes'
 
 class App extends React.Component {
 
@@ -26,7 +32,11 @@ class App extends React.Component {
 	}
 
 	sair = () => {
-		this.props.salvarUsuarioLogado({usuario_id: null})
+		this.props.salvarUsuarioLogado({
+			usuario_id: null,
+			empresa_id: null,
+			token: null,
+		})
 		this.alterarTela('login')
 	}
 
@@ -51,7 +61,7 @@ class App extends React.Component {
 							/>
 					}
 					{
-						tela === 'extratoEmpresa' &&
+						tela === TELA_EXTRATO_EMPRESA &&
 							<ExtratoEmpresa />
 					}
 					{
@@ -67,7 +77,7 @@ class App extends React.Component {
 							/>
 					}
 					{
-						tela === 'extratoAdministracao' &&
+						tela === TELA_EXTRATO_ADMINISTRACAO &&
 							<ExtratoAdministracao /> 
 					}
 					{
@@ -95,14 +105,9 @@ class App extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-	let empresa_id = null
-	if(state.usuarioLogado.usuario_id){
-		const usuarioLogado = state.usuarioLogado
-		const usuario = state.usuarios.find(usuario => usuario.id === usuarioLogado.usuario_id)
-		empresa_id = usuario.empresa_id
-	}
 	return {
-		empresa_id,
+		empresa_id: state.usuarioLogado.empresa_id,
+		token: state.usuarioLogado.token,
 	}
 }
 

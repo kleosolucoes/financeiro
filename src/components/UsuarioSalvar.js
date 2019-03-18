@@ -8,9 +8,7 @@ import {
 	Button
 } from 'reactstrap'
 import { connect } from 'react-redux'
-import { salvarUsuario, salvarUsuarioSituacao, } from '../actions'
-import md5 from 'md5'
-import { pegarDataEHoraAtual } from '../helpers/funcoes'
+import { salvarUsuarioNaApi, } from '../actions'
 import { 
 	EMPRESA_ADMINISTRACAO_ID,
 	USUARIO_TIPO_ADMINISTRACAO,
@@ -45,6 +43,9 @@ class UsuarioSalvar extends React.Component {
 			mostrarMensagemDeErro,
 			camposComErro,
 		} = this.state
+		const {
+			usuarioLogado,
+		} = this.props
 		camposComErro = []
 
 		mostrarMensagemDeErro = false
@@ -81,32 +82,14 @@ class UsuarioSalvar extends React.Component {
 				camposComErro: [],
 			})
 
-			const novoRegistro = true
-			const elemento = {
-				id: Date.now(),
-				data_criacao: pegarDataEHoraAtual()[0],
-				hora_criacao: pegarDataEHoraAtual()[1],
-				data_inativacao: null,
-				hora_inativacao: null,
-			}
-			elemento.empresa_id = parseInt(this.props.empresa_id)
-			elemento.usuario_tipo_id = parseInt(usuario_tipo_id)
+			const elemento = {}
+			elemento.empresa_id = this.props.empresa_id
+			elemento.usuario_tipo_id = usuario_tipo_id
 			elemento.nome = nome.toUpperCase()
 			elemento.email = email.toLowerCase()
-			elemento.senha = md5(senha)
+			elemento.senha = senha
 
-			const elementoAssociativo = {
-				id: Date.now(),
-				data_criacao: pegarDataEHoraAtual()[0],
-				hora_criacao: pegarDataEHoraAtual()[1],
-				data_inativacao: null,
-				hora_inativacao: null,
-				situacao_id: 4,  // ativo TODO
-				usuario_id: elemento.id,
-			}
-
-			this.props.salvarUsuario(elemento, novoRegistro)
-			this.props.salvarUsuarioSituacao(elementoAssociativo, novoRegistro)
+			this.props.salvarUsuarioNaApi(elemento, usuarioLogado.token)
 			this.props.alternarMostrarSalvarUsuario()
 			alert('Usuário Salvo com sucesso!')
 		}
@@ -144,19 +127,19 @@ class UsuarioSalvar extends React.Component {
 								usuarioTipo.map(usuarioTipo => {
 									let mostrar = false
 									if(this.props.empresa_id === EMPRESA_ADMINISTRACAO_ID
-										&& (usuarioTipo.id === USUARIO_TIPO_ADMINISTRACAO || usuarioTipo.id === USUARIO_TIPO_ACEITAR_LANCAMENTO)){
+										&& (usuarioTipo._id === USUARIO_TIPO_ADMINISTRACAO || usuarioTipo._id === USUARIO_TIPO_ACEITAR_LANCAMENTO)){
 										mostrar = true
 									}
 									if(this.props.empresa_id !== EMPRESA_ADMINISTRACAO_ID
-										&& usuarioTipo.id !== USUARIO_TIPO_ADMINISTRACAO
-										&& usuarioTipo.id !== USUARIO_TIPO_ACEITAR_LANCAMENTO){
+										&& usuarioTipo._id !== USUARIO_TIPO_ADMINISTRACAO
+										&& usuarioTipo._id !== USUARIO_TIPO_ACEITAR_LANCAMENTO){
 										mostrar = true
 									}
 									if(mostrar){
 										return (
 											<option 
-												key={usuarioTipo.id}
-												value={usuarioTipo.id}
+												key={usuarioTipo._id}
+												value={usuarioTipo._id}
 											>
 												{usuarioTipo.nome}
 											</option>
@@ -215,7 +198,6 @@ class UsuarioSalvar extends React.Component {
 								</Alert>
 							</div>
 					}
-	
 					{
 						mostrarMensagemDeErro &&
 							<div style={{padding: 10}}>
@@ -248,20 +230,17 @@ class UsuarioSalvar extends React.Component {
 	}
 }
 
-function mapStateToProps(state){
-	const usuarioLogado = state.usuarioLogado
-	const usuario = state.usuarios.find(usuario => usuario.id === usuarioLogado.usuario_id)
+function mapStateToProps({usuarios, usuarioTipo, usuarioLogado}){
 	return {
-		usuarioTipo: state.usuarioTipo,
-		usuarios: state.usuarios,
-		empresa_id: usuario.empresa_id,
+		usuarioTipo,
+		usuarios,
+		usuarioLogado,
 	}
 }
 
 function mapDispatchToProps(dispatch){
 	return {
-		salvarUsuario: (elemento, novo) => dispatch(salvarUsuario(elemento, novo)),
-		salvarUsuarioSituacao: (elemento, novo) => dispatch(salvarUsuarioSituacao(elemento, novo)),
+		salvarUsuarioNaApi: (elemento, token) => dispatch(salvarUsuarioNaApi(elemento, token)),
 	}
 }
 

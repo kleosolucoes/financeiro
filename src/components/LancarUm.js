@@ -10,8 +10,9 @@ import {
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import { formatReal, getMoney, pegarDataEHoraAtual } from '../helpers/funcoes'
-import { salvarLancamento, salvarLancamentoSituacao } from '../actions'
-import { SITUACAO_NAO_RECEBIDO } from '../helpers/constantes'
+import { 
+	lancarUmNaApi,
+} from '../actions'
 
 class LancarUm extends React.Component {
 
@@ -94,38 +95,22 @@ class LancarUm extends React.Component {
 				camposComErro: [],
 			})
 
-			const novoRegistro = true
-			const elemento = {
-				id: Date.now(),
-				data_criacao: pegarDataEHoraAtual()[0],
-				hora_criacao: pegarDataEHoraAtual()[1],
-				data_inativacao: null,
-				hora_inativacao: null,
-			}
-
-			elemento.categoria_id = parseInt(categoria_id)
+			const elemento = {}
+			elemento.data_criacao = pegarDataEHoraAtual()[0]
+			elemento.hora_criacao = pegarDataEHoraAtual()[1]
+			elemento.data_inativacao = null
+			elemento.hora_inativacao =  null
+			elemento.categoria_id = categoria_id
 			elemento.valor = valor
 			elemento.taxa = taxa
 			elemento.descricao = descricao
-			const diaData = dia.toString().padStart(2, '0')
-			const mesData = mes.toString().padStart(2, '0')
-			elemento.data = diaData + '/' + mesData + '/' + ano
+			elemento.dia = dia
+			elemento.mes = mes
+			elemento.ano = ano
 			elemento.usuario_id = this.props.usuario_id
-			elemento.empresa_id = parseInt(empresa_id)
+			elemento.empresa_id = empresa_id
 
-			const elementoAssociativo = {
-				id: Date.now(),
-				data_criacao: pegarDataEHoraAtual()[0],
-				hora_criacao: pegarDataEHoraAtual()[1],
-				data_inativacao: null,
-				hora_inativacao: null,
-				situacao_id: SITUACAO_NAO_RECEBIDO,
-				lancamento_id: elemento.id,
-				usuario_id: this.props.usuario_id,
-			}
-
-			this.props.salvarLancamento(elemento, novoRegistro)
-			this.props.salvarLancamentoSituacao(elementoAssociativo, novoRegistro)
+			this.props.lancarUmNaApi(elemento, this.props.token)
 			this.props.alterarTela('extratoAdministracao')
 			alert('Lançamento Salvo com sucesso!')
 		}
@@ -185,8 +170,8 @@ class LancarUm extends React.Component {
 								empresas.map(empresa => {
 									return (
 										<option 
-											key={empresa.id}
-											value={empresa.id}
+											key={empresa._id}
+											value={empresa._id}
 										>
 											{empresa.nome}
 										</option>
@@ -214,8 +199,8 @@ class LancarUm extends React.Component {
 								categorias.map(categoria => {
 									return (
 										<option 
-											key={categoria.id}
-											value={categoria.id}
+											key={categoria._id}
+											value={categoria._id}
 										>
 											{categoria.nome}
 										</option>
@@ -369,13 +354,13 @@ const mapStateToProps = state => {
 		categorias: state.categorias,
 		empresas: state.empresas,
 		usuario_id: state.usuarioLogado.usuario_id,
+		token: state.usuarioLogado.token,
 	}
 }
 
 function mapDispatchToProps(dispatch){
 	return {
-		salvarLancamento: (elemento, novo) => dispatch(salvarLancamento(elemento, novo)),
-		salvarLancamentoSituacao: (elemento, novo) => dispatch(salvarLancamentoSituacao(elemento, novo)),
+		lancarUmNaApi: (elemento, token) => dispatch(lancarUmNaApi(elemento, token)),
 	}
 }
 
