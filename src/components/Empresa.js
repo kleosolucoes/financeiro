@@ -2,6 +2,7 @@ import React from 'react'
 import {
 	Row,
 	Col,
+	Button
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import Usuarios from './Usuarios'
@@ -21,49 +22,30 @@ class Empresa extends React.Component {
 			empresaTipo, 
 		} = this.props
 		return (
-			<div style={{padding:10, backgroundColor: 'lightCyan', marginTop: 10}}>
-				<Row>
-					<Col>
-						Id
-					</Col>
-					<Col>
-						{empresa.id.toString().padStart(8,0)}
-					</Col>
+			<div style={{padding:10, backgroundColor: '#f9f7f7', marginTop: 10}}>
+				<Row style={{textAlign: 'center'}}>
+					{/* <Col> Id <br/> {empresa.id.toString().padStart(8,0)} </Col> */}
+				{/* </Row>
+				<Row> */}
+					{/* <Col> Data <br/> {empresa.data_criacao} </Col> */}
+				{/* </Row>
+				<Row> */}
+					<Col> Nome <br/> {empresa.nome} </Col>
+				{/* </Row>
+				<Row> */}
+					<Col> Tipo <br/> {empresaTipo.nome} </Col>
 				</Row>
-				<Row>
-					<Col>
-						Data
-					</Col>
-					<Col>
-						{empresa.data_criacao}
-					</Col>
-				</Row>
-				<Row>
-					<Col>
-						Nome
-					</Col>
-					<Col>
-						{empresa.nome}
-					</Col>
-				</Row>
-				<Row>
-					<Col>
-						Tipo
-					</Col>
-					<Col>
-						{empresaTipo.nome}
-					</Col>
-				</Row>
-				<div style={{padding: 10, backgroundColor: 'lightblue'}}>
+
+				<div style={{padding: 10}}>
 					<Row>
 						<Col>
-							<button 
+							<Button 
 								type='button' 
 								style={{width: '100%'}}
 								onClick={this.alternarMostrarTodosOsDados}
 							>
 								Mostrar todos dados
-							</button>
+							</Button>
 						</Col>
 					</Row>
 				</div>

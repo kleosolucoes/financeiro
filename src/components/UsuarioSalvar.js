@@ -1,7 +1,6 @@
 import React from 'react'
 import {
 	Row,
-	Col,
 	FormGroup,
 	Label,
 	Input,
@@ -208,7 +207,6 @@ class UsuarioSalvar extends React.Component {
 					</Input>
 					{camposComErro.includes('senha') && <Alert color='danger'>Preencha a Senha</Alert>}
 				</FormGroup>
-				<Row style={{padding: 5}}>
 					{
 						camposComErro.includes('emailJaUtilizado') &&
 							<div style={{padding: 10}}>
@@ -226,24 +224,24 @@ class UsuarioSalvar extends React.Component {
 								</Alert>
 							</div>
 					}
-					<Col>
+				<Row style={{padding: 5, justifyContent: 'flex-end'}}>
+
 						<Button 
 							type='button' 
-							style={{width: '100%'}} 
+							className="botao-lancar"
 							onClick={this.props.alternarMostrarSalvarUsuario}
 						>
 							Voltar
 						</Button> 
-					</Col>
-					<Col>
+
 						<Button 
 							type='button' 
-							style={{width: '100%'}} 
+							style={{marginLeft: 5}} 
+							className="botao-lancar"
 							onClick={this.ajudadorDeSubmissao}
 						>
 							Adicionar
 						</Button> 
-					</Col>
 				</Row>
 			</div>
 		)

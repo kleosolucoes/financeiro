@@ -30,7 +30,7 @@ class Usuarios extends React.Component {
 		} = this.props
 		return (
 			
-			<div style={{ marginTop: 80}}>
+			<div style={{ marginTop: 60}}>
 				{
 					this.state.mostrarSalvarUsuario &&
 						<UsuarioSalvar

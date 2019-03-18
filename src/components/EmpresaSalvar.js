@@ -1,11 +1,11 @@
 import React from 'react'
 import {
 	Row,
-	Col,
 	FormGroup,
 	Label,
 	Input,
 	Alert,
+	Button
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import { salvarEmpresa } from '../actions'
@@ -129,7 +129,6 @@ class EmpresaSalvar extends React.Component {
 					</Input>
 					{camposComErro.includes('nome') && <Alert color='danger'>Preencha o Nome</Alert>}
 				</FormGroup>
-				<Row style={{padding: 5}}>
 					{
 						mostrarMensagemDeErro &&
 							<div style={{padding: 10}}>
@@ -138,24 +137,26 @@ class EmpresaSalvar extends React.Component {
 								</Alert>
 							</div>
 					}
-					<Col>
-						<button 
+				<Row style={{padding: 5, justifyContent: 'flex-end'}}>
+
+						<Button 
 							type='button' 
-							style={{width: '100%'}} 
+							className="botao-lancar"
+							// style={{width: '100%'}} 
 							onClick={this.props.alternarMostrarSalvarEmpresa}
 						>
 							Voltar
-						</button> 
-					</Col>
-					<Col>
-						<button 
+						</Button> 
+
+						<Button 
 							type='button' 
-							style={{width: '100%'}} 
+							className="botao-lancar"
+							style={{marginLeft: 5}} 
 							onClick={this.ajudadorDeSubmissao}
 						>
 							Adicionar
-						</button> 
-					</Col>
+						</Button> 
+
 				</Row>
 			</div>
 		)

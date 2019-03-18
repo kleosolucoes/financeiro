@@ -6,8 +6,11 @@ import {
 	Alert,
 	Label,
 	FormGroup,
+	Table,
+	Button
 } from 'reactstrap'
 import { connect } from 'react-redux'
+import Responsive from 'react-responsive';
 import { formatReal, getMoney, pegarDataEHoraAtual } from '../helpers/funcoes'
 import { salvarLancamento, salvarLancamentoSituacao } from '../actions'
 import { 
@@ -15,6 +18,11 @@ import {
 	STRING_DEBITO,
 	STRING_CREDITO
 } from '../helpers/constantes'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faExpandArrowsAlt, faEdit } from '@fortawesome/free-solid-svg-icons'
+library.add(faExpandArrowsAlt)
+library.add(faEdit)
 
 class Lancamento extends React.Component {
 	state = {
@@ -107,6 +115,7 @@ class Lancamento extends React.Component {
 	}
 
 	render() {
+		const Desktop = props => <Responsive {...props} minWidth={992} />;
 		const { 
 			lancamento, 
 			lancamentoSituacaoAtiva,
@@ -129,27 +138,17 @@ class Lancamento extends React.Component {
 			mostrarTodosLancamentoSituacao,
 		} = this.state
 		return (
-			<div style={{padding:10, backgroundColor: 'lightCyan', marginTop: 10}}>
-				<Row>
-					<Col>
-						Id
-					</Col>
-					<Col>
-						{lancamento.id.toString().padStart(8,0)}
-					</Col>
-				</Row>
-				<Row>
-					<Col>
-						Data
-					</Col>
-					<Col>
-						{lancamento.data}
-					</Col>
-				</Row>
-				{
+			<tr style={{ backgroundColor: 'lightCyan', marginTop: 10}}>
+				{/* <Row>
+					<Col> Id </Col>
+					<Col> {lancamento.id.toString().padStart(8,0)} </Col>
+				</Row> */}
+				
+				{/* {
 					empresa_usuario_logado_id === EMPRESA_ADMINISTRACAO_ID && 
 					<div>
 						<Row>
+							<Col>
 							<FormGroup>
 								<Label for="valor">Valor</Label>
 								<Input 
@@ -163,8 +162,8 @@ class Lancamento extends React.Component {
 								</Input>
 								{camposComErro.includes('valor') && <Alert color='danger'>Preencha o Valor</Alert>}
 							</FormGroup>
-						</Row>
-						<Row>
+						</Col>
+						<Col>
 							<FormGroup>
 								<Label for="taxa">Taxa</Label>
 								<Input 
@@ -176,8 +175,8 @@ class Lancamento extends React.Component {
 								>
 								</Input>
 							</FormGroup>
-						</Row>
-						<Row>
+						</Col>
+						<Col>
 							<FormGroup>
 								<Label for="situacao_id">Situação</Label>
 								<Input 
@@ -210,6 +209,7 @@ class Lancamento extends React.Component {
 								</Input>
 								{camposComErro.includes('situacao_id') && <Alert color='danger'>Selecione a Situação</Alert>}
 							</FormGroup>
+						</Col>
 						</Row>
 						{
 							mostrarMensagemDeErro &&
@@ -221,167 +221,92 @@ class Lancamento extends React.Component {
 						}
 						<Row style={{padding: 5}}>
 							<Col>
-								<button 
+								<Button 
 									type='button' 
 									style={{width: '100%'}}
 									onClick={this.ajudadorDeSubmissao}
-								>Alterar</button> 
+								>
+								Alterar
+								</Button> 
 							</Col>
 						</Row>
 					</div>
-				}
-				{
-					empresa_usuario_logado_id !== EMPRESA_ADMINISTRACAO_ID &&
-						<div>
-							<Row>
-								<Col>
-									Valor
+				} */}
+				
+						{/* <tr> */}
+							<Desktop><td> {lancamento.data} </td></Desktop>
+							<td>{lancamento.valor}</td>
+							<Desktop><td>{lancamento.taxa}</td></Desktop>
+							<td>{categoria.nome}</td>
+							<td>{categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO}</td>
+							{/* <Desktop><td>{usuario.nome.split(' ')[0]}</td></Desktop> */}
+							<Desktop><td>{situacao.nome}</td></Desktop>
+							<Desktop><td>{empresa.nome}</td></Desktop>
+							{/* <Desktop><td>{lancamento.descricao}</td></Desktop> */}
+							<Row style={{justifyContent: 'center', marginTop: 8, flexDirection: 'column'}}>
+								<Col style={{paddingLeft: 0, paddingRight: 0, flexGrow: 0}}>
+									<Button 
+										type='button' 
+										className="botao-acao"
+										onClick={this.alterarMostrarTodosLancamentoSituacao}
+									>
+										<FontAwesomeIcon icon="expand-arrows-alt" size="sm"  />
+									</Button>
 								</Col>
-								<Col>
-									{lancamento.valor}
-								</Col>
+								{ empresa_usuario_logado_id === EMPRESA_ADMINISTRACAO_ID && 
+									<Col style={{paddingLeft: 0, paddingRight: 0, flexGrow: 0}}>
+										<Button 
+											type='button' 
+											className="botao-acao"
+											// onClick={}
+										>
+											<FontAwesomeIcon icon="edit" size="sm"  />
+										</Button>
+									</Col>
+								}
 							</Row>
-							<Row>
-								<Col>
-									Taxa
-								</Col>
-								<Col>
-									{lancamento.taxa}
-								</Col>
-							</Row>
+
+				{ lancamentoSituacao && 
+					mostrarTodosLancamentoSituacao && 
+						<div style={{padding: 5}}>
+							{ lancamentoSituacao.map(lancamentoSituacao => (
+								<div key={lancamentoSituacao.id} 
+								style={{padding: 5, marginTop: 5, background: '#fff', borderRadius: 4}}>
+									<Row>
+										<Col> Data </Col>
+										<Col> {lancamentoSituacao.data_criacao} </Col>
+									</Row>
+									<Row>
+										<Col> Situação </Col>
+										<Col>
+											{ situacoes &&
+												situacoes
+												.find(situacao => situacao.id === lancamentoSituacao.situacao_id)
+												.nome
+											}
+										</Col>
+									</Row>
+									<Row>
+										<Col> Quem Mudou a Situação </Col>
+										<Col>
+											{ usuarios &&
+												usuarios
+												.find(usuario => usuario.id === lancamentoSituacao.usuario_id)
+												.nome
+												.split(' ')[0]
+											}
+										</Col>
+									</Row>
+
+								</div>
+								))
+							}
 						</div>
 				}
-				<Row>
-					<Col>
-						Categoria
-					</Col>
-					<Col>
-						{categoria.nome}
-					</Col>
-				</Row>
-				<Row>
-					<Col>
-						Tipo	
-					</Col>
-					<Col>
-						{categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO}
-					</Col>
-				</Row>
+				{/* </tr> */}
 
-				<Row>
-					<Col>
-						Quem Lançou
-					</Col>
-					<Col>
-						{usuario.nome.split(' ')[0]}
-					</Col>
-				</Row>
-				<Row>
-					<Col>
-						Empresa
-					</Col>
-					<Col>
-						{empresa.nome}
-					</Col>
-				</Row>
-				<Row>
-					<Col>
-						Descrição
-					</Col>
-					<Col>
-						{lancamento.descricao}
-					</Col>
-				</Row>
 
-				<div style={{padding: 5, backgroundColor: 'lightblue'}}>
-					<p>Situação Atual</p>
-					<div key={lancamentoSituacaoAtiva.id} style={{padding: 5, marginTop: 5, backgroundColor: 'lightgreen'}}>
-						<Row>
-							<Col>
-								Data
-							</Col>
-							<Col>
-								{lancamentoSituacaoAtiva.data_criacao}
-							</Col>
-						</Row>
-						<Row>
-							<Col>
-								Situação
-							</Col>
-							<Col>
-								{situacao.nome}
-							</Col>
-						</Row>
-						<Row>
-							<Col>
-								Quem Mudou a Situação
-							</Col>
-							<Col>
-								{usuarioSituacao.nome.split(' ')[0]}
-							</Col>
-						</Row>
-						<Row style={{padding: 5}}>
-							<Col>
-								<button 
-									type='button' 
-									style={{width: '100%'}}
-									onClick={this.alterarMostrarTodosLancamentoSituacao}
-								>
-									Mostrar Todas situacoes
-								</button> 
-							</Col>
-						</Row>
-					</div>
-				</div>
-				{
-					lancamentoSituacao && 
-						mostrarTodosLancamentoSituacao && 
-							<div style={{padding: 5, backgroundColor: 'lightblue'}}>
-								{
-									lancamentoSituacao.map(lancamentoSituacao => (
-										<div key={lancamentoSituacao.id} style={{padding: 5, marginTop: 5, backgroundColor: 'green'}}>
-											<Row>
-												<Col>
-													Data
-												</Col>
-												<Col>
-													{lancamentoSituacao.data_criacao}
-												</Col>
-											</Row>
-											<Row>
-												<Col>
-													Situação
-												</Col>
-												<Col>
-													{
-														situacoes &&
-															situacoes
-															.find(situacao => situacao.id === lancamentoSituacao.situacao_id)
-															.nome
-													}
-												</Col>
-											</Row>
-											<Row>
-												<Col>
-													Quem Mudou a Situação
-												</Col>
-												<Col>
-													{
-														usuarios &&
-															usuarios
-															.find(usuario => usuario.id === lancamentoSituacao.usuario_id)
-															.nome
-															.split(' ')[0]
-													}
-												</Col>
-											</Row>
-
-										</div>
-									))
-								}
-							</div>
-				}
-			</div>
+			</tr>
 		)
 	}
 }

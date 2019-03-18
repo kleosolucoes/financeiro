@@ -1,11 +1,11 @@
 import React from 'react'
 import {
 	Row,
-	Col,
 	FormGroup,
 	Label,
 	Input,
 	Alert,
+	Button
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import { salvarContaFixa } from '../actions'
@@ -165,7 +165,6 @@ class ContaFixaSalvar extends React.Component {
 					{camposComErro.includes('dia_notificacao') && <Alert color='danger'>Selecione o dia para ser notificado</Alert>}
 				</FormGroup>
 
-				<Row style={{padding: 5}}>
 					{
 						mostrarMensagemDeErro &&
 							<div style={{padding: 10}}>
@@ -174,24 +173,25 @@ class ContaFixaSalvar extends React.Component {
 								</Alert>
 							</div>
 					}
-					<Col>
-						<button 
+				<Row style={{padding: 5, justifyContent: 'flex-end'}}>
+
+						<Button 
 							type='button' 
-							style={{width: '100%'}} 
+							className="botao-lancar"
 							onClick={this.props.alternarMostrarSalvarContaFixa}
 						>
 							Voltar
-						</button> 
-					</Col>
-					<Col>
-						<button 
+						</Button> 
+
+						<Button 
 							type='button' 
-							style={{width: '100%'}} 
+							className="botao-lancar"
+							style={{marginLeft: 5}} 
 							onClick={this.ajudadorDeSubmissao}
 						>
 							Adicionar
-						</button> 
-					</Col>
+						</Button> 
+
 				</Row>
 			</div>
 		)

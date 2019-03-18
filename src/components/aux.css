@@ -161,3 +161,15 @@
   display: flex;
   align-items: center;
 }
+
+/* LANÇAMENTOS */
+.botao-acao {
+  width: 25px!important;
+  height: 25px!important;
+  background: #7CC9BC !important;
+  color: #f9f7f7 !important;
+  border: none!important;
+  padding: 0!important;
+  border-radius: 0 !important;
+  border-radius: 4px!important;
+}
