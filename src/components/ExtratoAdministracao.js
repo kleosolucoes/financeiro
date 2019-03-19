@@ -65,7 +65,6 @@ class ExtratoAdministracao extends React.Component {
 						</Col>
 					</Row>
 				</div>	
-
 				<div style={{backgroundColor: 'lightcyan', padding: 20}}>
 					<Row>
 						<Col style={{textAlign: 'center', backgroundColor: '#AAA'}}>
@@ -78,9 +77,9 @@ class ExtratoAdministracao extends React.Component {
 								return (
 									<Row key={categoria._id}>
 										<Col>
-											<a href='#' onClick={() => this.props.alterarTela('lancamentos', categoria._id)}>
+											<button onClick={() => this.props.alterarTela('lancamentos', categoria._id)}>
 												{categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO } - {categoria.nome}
-											</a>
+											</button>
 										</Col>
 										<Col> 
 											{listaDeNaoRecebidoPorCategorias[categoria._id]}

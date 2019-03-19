@@ -223,7 +223,7 @@ export const alterarLancamentoNaApi = (dados, token) => dispatch => {
 	return	api.alterarLancamento(dados, token)
 		.then(dados => {
 			dispatch(salvarLancamento(dados.resultado.lancamento))
-			dispatch(salvarLancamento(dados.resultado.lancamentoSituacao))
+			dispatch(salvarLancamentoSituacao(dados.resultado.lancamentoSituacao))
 			const novoRegistro = true
 			dispatch(salvarLancamentoSituacao(dados.resultado.lancamentoSituacaoNovo, novoRegistro))
 

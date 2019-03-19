@@ -6,6 +6,7 @@ import {
 	Label,
 	Input,
 	Alert,
+	Button,
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import { 
@@ -17,7 +18,6 @@ import {
 	EMPRESA_ADMINISTRACAO_ID,
 } from '../helpers/constantes'
 import * as api from '../helpers/api'
-import Button from 'react-bootstrap-button-loader';
 import logo from '../logo.svg'
 import { 
 	pegarUsuarioDaApi,
@@ -39,11 +39,7 @@ class Login extends React.Component {
 		senha: '',
 		mostrarMensagemDeErro: false,
 		camposComErro: [],
-		loading: false
-	}
-
-	alternarLoading(){
-		this.setState({loading : false})
+		carregando: false
 	}
 
 	puxarTodosDados(){
@@ -95,12 +91,12 @@ class Login extends React.Component {
 			this.setState({
 				mostrarMensagemDeErro,
 				camposComErro,
-				loading: false
 			})
 		}else{
 			this.setState({
 				mostrarMensagemDeErro: false,
 				camposComErro: [],
+				carregando: true,
 			})
 
 			api.login({email, senha})
@@ -136,71 +132,78 @@ class Login extends React.Component {
 			senha,
 			mostrarMensagemDeErro,
 			camposComErro,
+			carregando,
 		} = this.state
 
 		return (
-
-			<div className="login-wrapper">
-			{/* <h1>Login</h1>
-			<p>usuario: falecomleonardopereira@gmail.com - senha: 123</p> */}
-			<img src={logo} alt="Financeiro" height="100px" />
-				<FormGroup className="style-form">
-					<Label for="email">Email</Label>
-					<Input 
-						className="style-input"
-						type="email" 
-						name="email" 
-						id="email" 
-						value={email} 
-						onChange={this.ajudadorDeCampo}
-						invalid={camposComErro.includes('email') ? true : null}
-					>
-					</Input>
-					{camposComErro.includes('email') && <Alert color='danger'>Preencha o Email</Alert>}
-				</FormGroup>
-				<FormGroup className="style-form">
-					<Label for="senha">Senha</Label>
-					<Input 
-						className="style-input"
-						type="password" 
-						name="senha" 
-						id="senha" 
-						value={senha} 
-						onChange={this.ajudadorDeCampo}
-						invalid={camposComErro.includes('senha') ? true : null}
-					>
-					</Input>
-					{camposComErro.includes('senha') && <Alert color='danger'>Preencha a Senha</Alert>}
-				</FormGroup>
-				<Row style={{padding: 5}}>
-					{
-						camposComErro.includes('naoRegistrado') &&
-							<div style={{padding: 10}}>
-								<Alert color='warning'>
-									Usuário/Senha não conferem
-								</Alert>
-							</div>
-					}
-					{
-						mostrarMensagemDeErro &&
-							<div style={{padding: 10}}>
-								<Alert color='warning'>
-									Campos inválidos
-								</Alert>
-							</div>
-					}
-				<Col>
-						<Button 
-							type='button' 
-							loading={this.state.loading}
-							spinColor= '#222'
-							className="style-button-login"
-							onClick={this.ajudadorDeSubmissao}
-						>
-							Entrar
-						</Button> 
-					</Col>
-				</Row>
+			<div>
+				{
+					carregando &&
+						<p>Carregando ... </p>
+				}
+				{
+					!carregando &&
+						<div className="login-wrapper">
+							<img src={logo} alt="Financeiro" height="100px" />
+							<FormGroup className="style-form">
+								<Label for="email">Email</Label>
+								<Input 
+									className="style-input"
+									type="email" 
+									name="email" 
+									id="email" 
+									value={email} 
+									onChange={this.ajudadorDeCampo}
+									invalid={camposComErro.includes('email') ? true : null}
+								>
+								</Input>
+								{camposComErro.includes('email') && <Alert color='danger'>Preencha o Email</Alert>}
+							</FormGroup>
+							<FormGroup className="style-form">
+								<Label for="senha">Senha</Label>
+								<Input 
+									className="style-input"
+									type="password" 
+									name="senha" 
+									id="senha" 
+									value={senha} 
+									onChange={this.ajudadorDeCampo}
+									invalid={camposComErro.includes('senha') ? true : null}
+								>
+								</Input>
+								{camposComErro.includes('senha') && <Alert color='danger'>Preencha a Senha</Alert>}
+							</FormGroup>
+							<Row style={{padding: 5}}>
+								{
+									camposComErro.includes('naoRegistrado') &&
+										<div style={{padding: 10}}>
+											<Alert color='warning'>
+												Usuário/Senha não conferem
+											</Alert>
+										</div>
+								}
+								{
+									mostrarMensagemDeErro &&
+										<div style={{padding: 10}}>
+											<Alert color='warning'>
+												Campos inválidos
+											</Alert>
+										</div>
+								}
+								<Col>
+									<Button 
+										type='button' 
+										loading={this.state.loading}
+										spinColor= '#222'
+										className="style-button-login"
+										onClick={this.ajudadorDeSubmissao}
+									>
+										Entrar
+									</Button> 
+								</Col>
+							</Row>
+						</div>
+				}
 			</div>
 		)
 	}

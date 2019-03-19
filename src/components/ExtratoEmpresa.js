@@ -125,14 +125,14 @@ const mapStateToProps = ({situacoes, usuarioLogado, lancamentos, lancamentoSitua
 				situacoes.find(situacao => lancamentoSituacaoAtiva.situacao_id === situacao._id)
 			const categoriaAtiva = categorias && categorias.find(categoria => lancamento.categoria_id === categoria._id)
 			const valorFormatado = parseFloat(lancamento.valor)
-			if(situacaoAtiva._id === SITUACAO_RECEBIDO){
+			if(situacaoAtiva && situacaoAtiva._id === SITUACAO_RECEBIDO){
 				if(categoriaAtiva.credito_debito === 'C'){
 					saldo += valorFormatado
 				}else{
 					saldo -= valorFormatado
 				}
 			}
-			if(situacaoAtiva._id === SITUACAO_NAO_RECEBIDO){
+			if(situacaoAtiva && situacaoAtiva._id === SITUACAO_NAO_RECEBIDO){
 				naoRecebido += valorFormatado
 			}
 		}

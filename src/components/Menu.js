@@ -34,8 +34,8 @@ class Menu extends React.Component {
 		const { menuAberto } = this.state;
 
 		return (
-			<Navbar fixed="true" color="success" light expand="lg">
-				<NavbarBrand href="#">Financeiro</NavbarBrand>
+			<Navbar fixed="top" style={{background: '#2f8c7c'}} light={true} expand="lg">
+				<NavbarBrand style={{color: '#fff', cursor: "default"}} href="#">Financeiro</NavbarBrand>
 				<NavbarToggler onClick={this.toggleMenu} />
 				<Collapse isOpen={menuAberto} navbar>
 					<Nav className="ml-auto" navbar>
@@ -44,6 +44,7 @@ class Menu extends React.Component {
 								listaDoMenu.map(item => (
 									<NavItem>
 										<NavLink 
+											style={{color: '#fff'}}
 											onClick={() => {this.alterarTela(item)} } 
 											href='#'>
 											{capitalizeFirstLetter(item)}
@@ -53,6 +54,7 @@ class Menu extends React.Component {
 						}
 						<NavItem>
 							<NavLink 
+								style={{color: '#fff'}}
 								onClick={() => {this.props.sair()} } 
 								href='#'>
 								Sair
@@ -80,6 +82,7 @@ function mapStateToProps({usuarioLogado}){
 		}else{
 			listaDoMenu.push('extratoEmpresa')
 			listaDoMenu.push('lancarVarios')
+			listaDoMenu.push('lancamentos')
 			listaDoMenu.push('usuarios')
 		}
 	}

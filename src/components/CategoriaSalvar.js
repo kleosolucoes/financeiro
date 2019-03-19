@@ -1,7 +1,6 @@
 import React from 'react'
 import {
 	Row,
-	Col,
 	FormGroup,
 	Label,
 	Input,

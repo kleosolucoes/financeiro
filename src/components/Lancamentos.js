@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Lancamento from './Lancamento'
+import LancarUm from './LancarUm'
 import Responsive from 'react-responsive';
 import {
 	Label,
@@ -12,7 +13,6 @@ import {
 } from 'reactstrap'
 import { EMPRESA_ADMINISTRACAO_ID } from '../helpers/constantes'
 
-
 class Lancamentos extends React.Component {
 
 	state = {
@@ -20,10 +20,8 @@ class Lancamentos extends React.Component {
 		empresa_id: 0,
 		mes: (new Date().getMonth() + 1),
 		ano: new Date().getFullYear(),
-	}
-
-	componentDidMount(){
-		this.setState({categoria_id: this.props.categoria_id})
+		mostrarAlterarLancamento: false,
+		lancamento_id: null,
 	}
 
 	ajudadorDeCampo = event => {
@@ -31,6 +29,15 @@ class Lancamentos extends React.Component {
 		const name = event.target.name
 		this.setState({[name]: valor})
 	}
+
+	componentDidMount(){
+		this.setState({categoria_id: this.props.categoria_id})
+	}
+
+	alternarMostrarAlterarLancamento = (lancamento_id) => this.setState({
+		mostrarAlterarLancamento: !this.state.mostrarAlterarLancamento,
+		lancamento_id,
+	})
 
 	render() {
 		const Desktop = props => <Responsive {...props} minWidth={992} />;
@@ -45,6 +52,8 @@ class Lancamentos extends React.Component {
 			empresa_id,
 			mes,
 			ano,
+			mostrarAlterarLancamento,
+			lancamento_id,
 		} = this.state
 
 		let lancamentosFiltrados = lancamentos
@@ -76,132 +85,141 @@ class Lancamentos extends React.Component {
 
 		return (
 			<div style={{marginTop: 65}}>
-				<h5>Filtro</h5>
-				<Row>
-					<Col>
-						<FormGroup>
-							<Label for="categoria_id">Categoria</Label>
-							<Input 
-								type="select" 
-								name="categoria_id" 
-								id="categoria_id" 
-								value={categoria_id} 
-								onChange={this.ajudadorDeCampo}
-							>
-								<option value='0'>Todas</option>
-								{
-									categorias &&
-										categorias.map(categoria => {
-											return (
-												<option 
-													key={categoria._id}
-													value={categoria._id}
-												>
-													{categoria.nome}
-												</option>
-											)
-										})
-								}
-							</Input>
-						</FormGroup>
-					</Col>
-					{
-						empresa_usuario_logado_id === EMPRESA_ADMINISTRACAO_ID && 
-							<Col>
-								<FormGroup>
-									<Label for="empresa_id">Empresa</Label>
-									<Input 
-										type="select" 
-										name="empresa_id" 
-										id="empresa_id" 
-										value={empresa_id} 
-										onChange={this.ajudadorDeCampo}
-									>
-										<option value='0'>Todas</option>
-										{
-											empresas &&
-												empresas.map(empresa => {
-													return (
-														<option 
-															key={empresa._id}
-															value={empresa._id}
-														>
-															{empresa.nome}
-														</option>
-													)
-												})
-										}
-									</Input>
-								</FormGroup>
-							</Col>
-					}
-				</Row>
-
-				<Row>
-					<Col style={{padding: 0}}>
-						<FormGroup>
-							<Label for="mes">Mês:</Label>
-							<Input 
-								type="select" 
-								name="mes" 
-								id="mes" 
-								value={mes} 
-								onChange={this.ajudadorDeCampo}
-							>
-								<option value='0'>Todos</option>
-								{
-									arrayMes.map(mes => mes)
-								}
-							</Input>
-						</FormGroup>
-					</Col>
-					<Col style={{paddingLeft: 5}}>
-						<FormGroup>
-							<Label for="ano">Ano:</Label>
-							<Input 
-								type="select" 
-								name="ano" 
-								id="ano" 
-								value={ano} 
-								onChange={this.ajudadorDeCampo}
-							>
-								<option value='0'>Todos</option>
-								{
-									arrayAnos.map(ano => ano)
-								}
-							</Input>
-						</FormGroup>
-					</Col>
-				</Row>
-
-				<Table style={{textAlign: 'center'}}>
-					<thead style={{background: '#7CC9BC', color: '#fff'}}>
-						<tr>
-							<Desktop><td>Data</td></Desktop>
-							<td>Valor</td>
-							<Desktop><td>Taxa</td></Desktop>
-							<td>Categoria</td>
-							<td>Tipo</td>
-							{/* <Desktop><td>Quem Lançou</td></Desktop> */}
-							<Desktop><td>Situação</td></Desktop>
-							<Desktop><td>Empresa</td></Desktop>
-							{/* <Desktop><td>Descrição</td></Desktop> */}
-							<td>#</td>
-						</tr>
-					</thead>
-
 				{
-					lancamentosFiltrados &&
-						lancamentosFiltrados.map(lancamento => 
-							<Lancamento 
-								key={lancamento._id}
-								lancamento_id={lancamento._id} 
-							/>
-						)
-					}
-				</Table>
+					mostrarAlterarLancamento &&
+						<LancarUm 
+							lancamento_id={lancamento_id}
+							alternarMostrarAlterarLancamento={this.alternarMostrarAlterarLancamento}
+						/>
+				}
+				{
+					!mostrarAlterarLancamento &&
+						<div>
+							<h5>Filtro</h5>
+							<Row>
+								<Col>
+									<FormGroup>
+										<Label for="categoria_id">Categoria</Label>
+										<Input 
+											type="select" 
+											name="categoria_id" 
+											id="categoria_id" 
+											value={categoria_id} 
+											onChange={this.ajudadorDeCampo}
+										>
+											<option value='0'>Todas</option>
+											{
+												categorias &&
+													categorias.map(categoria => {
+														return (
+															<option 
+																key={categoria._id}
+																value={categoria._id}
+															>
+																{categoria.nome}
+															</option>
+														)
+													})
+											}
+										</Input>
+									</FormGroup>
+								</Col>
+								{
+									empresa_usuario_logado_id === EMPRESA_ADMINISTRACAO_ID && 
+										<Col>
+											<FormGroup>
+												<Label for="empresa_id">Empresa</Label>
+												<Input 
+													type="select" 
+													name="empresa_id" 
+													id="empresa_id" 
+													value={empresa_id} 
+													onChange={this.ajudadorDeCampo}
+												>
+													<option value='0'>Todas</option>
+													{
+														empresas &&
+															empresas.map(empresa => {
+																return (
+																	<option 
+																		key={empresa._id}
+																		value={empresa._id}
+																	>
+																		{empresa.nome}
+																	</option>
+																)
+															})
+													}
+												</Input>
+											</FormGroup>
+										</Col>
+								}
+							</Row>
+							<Row>
+								<Col style={{padding: 0}}>
+									<FormGroup>
+										<Label for="mes">Mês:</Label>
+										<Input 
+											type="select" 
+											name="mes" 
+											id="mes" 
+											value={mes} 
+											onChange={this.ajudadorDeCampo}
+										>
+											<option value='0'>Todos</option>
+											{
+												arrayMes.map(mes => mes)
+											}
+										</Input>
+									</FormGroup>
+								</Col>
+								<Col style={{paddingLeft: 5}}>
+									<FormGroup>
+										<Label for="ano">Ano:</Label>
+										<Input 
+											type="select" 
+											name="ano" 
+											id="ano" 
+											value={ano} 
+											onChange={this.ajudadorDeCampo}
+										>
+											<option value='0'>Todos</option>
+											{
+												arrayAnos.map(ano => ano)
+											}
+										</Input>
+									</FormGroup>
+								</Col>
+							</Row>
+							<Table style={{textAlign: 'center'}}>
+								<thead style={{background: '#7CC9BC', color: '#fff'}}>
+									<tr>
+										<Desktop><td>Data</td></Desktop>
+										<td>Valor</td>
+										<Desktop><td>Taxa</td></Desktop>
+										<td>Categoria</td>
+										<td>Tipo</td>
+										{/* <Desktop><td>Quem Lançou</td></Desktop> */}
+										<Desktop><td>Situação</td></Desktop>
+										<Desktop><td>Empresa</td></Desktop>
+										{/* <Desktop><td>Descrição</td></Desktop> */}
+										<td>#</td>
+									</tr>
+								</thead>
+								{
+									lancamentosFiltrados &&
+										lancamentosFiltrados.map(lancamento => 
+											<Lancamento 
+												key={lancamento._id}
+												lancamento_id={lancamento._id} 
+												alternarMostrarAlterarLancamento={this.alternarMostrarAlterarLancamento}
+											/>
+										)
+								}
+							</Table>
+						</div>
+				}
 			</div>
-
 		)
 	}
 }
