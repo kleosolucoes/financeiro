@@ -29,6 +29,7 @@ import {
 	CATEGORIA_OFERTA_CREDITO_INSTITUTO_DE_VENCEDORES,
 	CATEGORIA_OFERTA_MOEDA_INSTITUTO_DE_VENCEDORES,
 } from '../helpers/constantes'
+import { Cabecalho } from './Cabecalho';
 
 class LancarVarios extends React.Component {
 
@@ -437,7 +438,10 @@ class LancarVarios extends React.Component {
 		]
 	
 		return (
-			<div style={{marginTop: 80}}>
+			<div style={{marginTop: 70, marginBottom: 20}}> 
+				<Cabecalho 
+					nomePagina="Lançar Entradas"
+				/>
 				<Label style={{fontWeight: 400}} for="data">DATA DE LANÇAMENTO</Label>
 				<Row>
 					<Col> 

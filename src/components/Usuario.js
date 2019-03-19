@@ -44,7 +44,7 @@ class Usuario extends React.Component {
 				<tr>
 					<td>{usuario.nome}</td>
 					<Desktop><td>{usuario.data_criacao}</td></Desktop>
-					<td>{usuarioTipo.nome}</td>
+					<Desktop><td>{usuarioTipo.nome}</td></Desktop>
 					{
 						usuarioLogado.empresa_id === EMPRESA_ADMINISTRACAO_ID &&
 							<td>{empresa && empresa.nome}</td>

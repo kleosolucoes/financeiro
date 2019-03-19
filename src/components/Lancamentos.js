@@ -12,6 +12,7 @@ import {
 	Table
 } from 'reactstrap'
 import { EMPRESA_ADMINISTRACAO_ID } from '../helpers/constantes'
+import { Cabecalho } from './Cabecalho';
 
 class Lancamentos extends React.Component {
 
@@ -84,7 +85,7 @@ class Lancamentos extends React.Component {
 		}
 
 		return (
-			<div style={{marginTop: 65}}>
+			<div style={{marginTop: 70, marginBottom: 20}}> 
 				{
 					mostrarAlterarLancamento &&
 						<LancarUm 
@@ -95,6 +96,9 @@ class Lancamentos extends React.Component {
 				{
 					!mostrarAlterarLancamento &&
 						<div>
+							<Cabecalho 
+								nomePagina= "Lançamentos"
+							/>
 							<h5>Filtro</h5>
 							<Row>
 								<Col>
@@ -156,7 +160,7 @@ class Lancamentos extends React.Component {
 								}
 							</Row>
 							<Row>
-								<Col style={{padding: 0}}>
+								<Col>
 									<FormGroup>
 										<Label for="mes">Mês:</Label>
 										<Input 
@@ -173,7 +177,7 @@ class Lancamentos extends React.Component {
 										</Input>
 									</FormGroup>
 								</Col>
-								<Col style={{paddingLeft: 5}}>
+								<Col>
 									<FormGroup>
 										<Label for="ano">Ano:</Label>
 										<Input 
@@ -198,9 +202,9 @@ class Lancamentos extends React.Component {
 										<td>Valor</td>
 										<Desktop><td>Taxa</td></Desktop>
 										<td>Categoria</td>
-										<td>Tipo</td>
+										<Desktop><td>Tipo</td></Desktop>
 										{/* <Desktop><td>Quem Lançou</td></Desktop> */}
-										<Desktop><td>Situação</td></Desktop>
+										<td>Situação</td>
 										<Desktop><td>Empresa</td></Desktop>
 										{/* <Desktop><td>Descrição</td></Desktop> */}
 										<td>#</td>

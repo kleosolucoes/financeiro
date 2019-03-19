@@ -83,7 +83,7 @@ class Lancamento extends React.Component {
 				<td>{lancamento.valor}</td>
 				<Desktop><td>{lancamento.taxa}</td></Desktop>
 				<td>{categoria.nome}</td>
-				<td>{categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO}</td>
+				<Desktop><td>{categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO}</td></Desktop>
 				<td>{situacao && situacao.nome}</td>
 				<Desktop><td>{empresa.nome}</td></Desktop>
 				{/* <Desktop><td>{lancamento.descricao}</td></Desktop> */}
@@ -116,7 +116,7 @@ class Lancamento extends React.Component {
 								<Col style={{paddingLeft: 0, paddingRight: 0, flexGrow: 0}}>
 									<Button 
 										type='button' 
-										className="botao-acao"
+										className="botao-remover"
 										onClick={() => this.removerLancamento(lancamentoSituacaoAtual._id)}
 									>
 										<FontAwesomeIcon icon="trash" size="sm"  />
@@ -127,29 +127,24 @@ class Lancamento extends React.Component {
 				{ 
 					lancamentoSituacao && 
 						mostrarTodosLancamentoSituacao && 
-							<tr> 
-								<td>
-									<Table> 
-										<thead>
-
-											<tr> 
-												<td>Data</td>
-												<td>Nome</td>
-												<td>Usuario</td>
-											</tr>
-										</thead> 
-										<tbody>
-											{
-												lancamentoSituacao.map(lancamentoSituacao => (
-													<LancamentoSituacao 
-														key={lancamentoSituacao._id}
-														lancamento_situacao_id={lancamentoSituacao._id} />
-												))
-											}
-										</tbody>
-									</Table>
-								</td> 
-							</tr>
+						<tr>
+							<thead>
+								<tr>   
+									<td>Data</td>
+									<td>Nome</td>
+									<td>Usuario</td>
+								</tr>
+								</thead> 
+							<tbody>
+							{
+								lancamentoSituacao.map(lancamentoSituacao => (
+									<LancamentoSituacao 
+										key={lancamentoSituacao._id}
+										lancamento_situacao_id={lancamentoSituacao._id} />
+								))
+							} 
+						   </tbody>  
+						</tr>	
 				}
 			</tbody>
 		)

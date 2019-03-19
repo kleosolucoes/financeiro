@@ -5,6 +5,8 @@ import {
 	Card,
 	CardTitle,
 	CardText,
+	Button,
+	Table
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import { SITUACAO_RECEBIDO, SITUACAO_NAO_RECEBIDO } from '../helpers/constantes'
@@ -38,7 +40,7 @@ class ExtratoAdministracao extends React.Component {
 					<h5 style={{padding: 10, fontWeight: '300', color: '#2f8c7c'}}>Olá, Diego Kort!</h5>
 
 					<Row style={{justifyContent: 'center'}}>
-						<Col> 
+						<Col sm="12" lg="4"> 
 							<Card className="card-saldo">
 								<CardTitle > 
 								{ saldo >= 0 &&	
@@ -51,13 +53,13 @@ class ExtratoAdministracao extends React.Component {
 								<CardText style={{fontSize: 12}}>Saldo</CardText>
 							</Card> 
 						</Col>
-						<Col>
+						<Col sm="12" lg="4">
 							<Card className="card-saldo">
 								<CardTitle style={{color: 'gray'}}>R$ {naoRecebidoCredito}</CardTitle>
 								<CardText style={{fontSize: 12}}>Não Aceitos - Creditos</CardText>
 							</Card>
 						</Col>
-						<Col>
+						<Col sm="12" lg="4">
 							<Card className="card-saldo">
 								<CardTitle style={{color: 'brown'}}>R$ {naoRecebidoDebito}</CardTitle>
 								<CardText style={{fontSize: 12}}>Não Aceitos - Debitos</CardText>
@@ -65,29 +67,38 @@ class ExtratoAdministracao extends React.Component {
 						</Col>
 					</Row>
 				</div>	
-				<div style={{backgroundColor: 'lightcyan', padding: 20}}>
-					<Row>
-						<Col style={{textAlign: 'center', backgroundColor: '#AAA'}}>
+				<div style={{marginTop: 15, backgroundColor: '#f9f7f7'}}>
+					<Row style={{margin: 0}}>
+						<Col style={{textAlign: 'center', backgroundColor: '#2f8c7c', padding: 5, color: '#fff'}}>
 							Não Aceitos
 						</Col>
 					</Row>
+
+					<Table>
+						<thead style={{background: '#7CC9BC', color: '#fff'}}>
+							<tr>
+								<th>Categoria</th>
+								<th>Valor</th>
+							</tr>
+						</thead>
 					{
 						categorias &&
 							categorias.map(categoria => {
 								return (
-									<Row key={categoria._id}>
-										<Col>
-											<button onClick={() => this.props.alterarTela('lancamentos', categoria._id)}>
-												{categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO } - {categoria.nome}
-											</button>
-										</Col>
-										<Col> 
-											{listaDeNaoRecebidoPorCategorias[categoria._id]}
-										</Col>
-									</Row>
+									<tbody key={categoria._id}>
+										<tr>
+											<td><Button className="botaoTipoCategoria"
+											onClick={() => this.props.alterarTela('lancamentos', categoria._id)}
+											>
+											{categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO } - {categoria.nome}
+										</Button></td>
+										<td>{listaDeNaoRecebidoPorCategorias[categoria._id]}</td>
+										</tr>
+									</tbody>
 								)
 							})
 					}
+					</Table>
 				</div>
 			</div>
 		)

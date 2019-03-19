@@ -131,6 +131,7 @@
   border: none!important;
   /* border-radius: 4px!important; */
   color: #2f8c7c !important;
+  color: brown !important;
 }
 .botao-lancar:hover {
   background: #2f8c7c !important;
@@ -167,10 +168,17 @@
 .botao-acao {
   width: 25px!important;
   height: 25px!important;
-  background: #7CC9BC !important;
-  color: #f9f7f7 !important;
+  background: transparent !important;
+  color: #2f8c7c !important;
   border: none!important;
   padding: 0!important;
   border-radius: 0 !important;
   border-radius: 4px!important;
+}
+
+/* EXTRATO ADMINISTRACAO */
+.botaoTipoCategoria{
+  background: transparent!important;
+  border: none!important;
+  color: #2f8c7c!important;
 }

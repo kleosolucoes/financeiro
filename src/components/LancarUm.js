@@ -10,7 +10,6 @@ import {
 	Badge,
 } from 'reactstrap'
 import { connect } from 'react-redux'
-import { OrderBy } from "react-lodash"
 import * as _ from "lodash";
 import { 
 	STRING_DEBITO,
@@ -21,6 +20,7 @@ import {
 	lancarUmNaApi,
 	alterarLancamentoNaApi,
 } from '../actions'
+import { Cabecalho } from './Cabecalho';
 
 class LancarUm extends React.Component {
 
@@ -207,9 +207,9 @@ class LancarUm extends React.Component {
 
 		return (
 			<div style={{marginTop: 70}}>
-			 	<Row style={{justifyContent: 'space-between', alignItems: 'center', padding: 10, marginBottom: 5}}>
-			 		<h5 style={{margin: 0}}>Lançamento Unitário</h5>
-			 	</Row>
+			 	<Cabecalho 
+					nomePagina="Lançar entrada"
+				/>
 				<div className="container-lancar-um">
 					<Row>
 						<Col>
@@ -248,7 +248,7 @@ class LancarUm extends React.Component {
 									lancamento && 
 										empresa &&
 											<p>
-												<Badge color="success">
+												<Badge style={{padding: 5, background: '#2f8c7c'}}>
 													{empresa.nome}
 												</Badge>
 											</p>
@@ -280,7 +280,7 @@ class LancarUm extends React.Component {
 																	key={categoria._id}
 																	value={categoria._id}
 																>
-																	{categoria && categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO} - {categorias.nome}
+																	{categoria && categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO} - {categoria.nome}
 																</option>
 															)
 														})
@@ -293,7 +293,7 @@ class LancarUm extends React.Component {
 									lancamento && 
 										categoria &&
 											<p>
-												<Badge color="success">
+												<Badge style={{padding: 5, background: '#2f8c7c'}}>
 													{categoria.nome}
 												</Badge>
 											</p>
@@ -459,21 +459,22 @@ class LancarUm extends React.Component {
 							</div>
 					}
 				</div>
-				<div style={{padding: 10,}}>
+				<div style={{padding: 10}}>
 					<Row style={{justifyContent: 'flex-end'}}>
 						{
 							lancamento &&
-									<Button
-										type='button' 
-										className="botao-lancar"
-										onClick={() => this.props.alternarMostrarAlterarLancamento(null)}
-									>
-										<b>Voltar</b>
-									</Button>
+							<Button
+								type='button' 
+								className="botao-lancar"
+								onClick={() => this.props.alternarMostrarAlterarLancamento(null)}
+							>
+								<b>Voltar</b>
+							</Button>
 						}
 							<Button
 								type='button' 
 								className="botao-lancar"
+								style={{marginLeft: 5}}
 								onClick={this.ajudadorDeSubmissao}
 							>
 								<b>Salvar</b>

@@ -2,7 +2,6 @@ import React from 'react'
 import {
 	Row,
 	Table,
-	Button,
 	Col,
 	FormGroup,
 	Label,
@@ -12,10 +11,7 @@ import { connect } from 'react-redux'
 import Responsive from 'react-responsive';
 import ContaFixa from './ContaFixa'
 import ContaFixaSalvar from './ContaFixaSalvar'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUserPlus } from '@fortawesome/free-solid-svg-icons'
-library.add(faUserPlus)
+import { CabecalhoBotao } from './Cabecalho';
 
 class ContasFixas extends React.Component {
 
@@ -57,7 +53,7 @@ class ContasFixas extends React.Component {
 		const Desktop = props => <Responsive {...props} minWidth={992} />;
 
 		return (
-			<div style={{padding: 5}}>
+			<div style={{marginTop: 70, marginBottom: 20}}> 
 				{
 					this.state.mostrarSalvarContaFixa &&
 						<ContaFixaSalvar
@@ -68,79 +64,66 @@ class ContasFixas extends React.Component {
 				{
 					!this.state.mostrarSalvarContaFixa &&
 						<div>
-							<Row style={{justifyContent: 'space-between', alignItems: 'center', padding: 10}}>
-								<h5 style={{margin: 0}}>Contas Fixas</h5>
-								<h5>Filtro</h5>
-								<Row>
-									<Col>
-										<FormGroup>
-											<Label for="categoria_id">Categoria</Label>
-											<Input 
-												type="select" 
-												name="categoria_id" 
-												id="categoria_id" 
-												value={categoria_id} 
-												onChange={this.ajudadorDeCampo}
-											>
-												<option value='0'>Todas</option>
-												{
-													categorias &&
-														categorias.map(categoria => {
-															return (
-																<option 
-																	key={categoria._id}
-																	value={categoria._id}
-																>
-																	{categoria.nome}
-																</option>
-															)
-														})
-												}
-											</Input>
-										</FormGroup>
-									</Col>
-									<Col>
-										<FormGroup>
-											<Label for="empresa_id">Empresa</Label>
-											<Input 
-												type="select" 
-												name="empresa_id" 
-												id="empresa_id" 
-												value={empresa_id} 
-												onChange={this.ajudadorDeCampo}
-											>
-												<option value='0'>Todas</option>
-												{
-													empresas &&
-														empresas.map(empresa => {
-															return (
-																<option 
-																	key={empresa._id}
-																	value={empresa._id}
-																>
-																	{empresa.nome}
-																</option>
-															)
-														})
-												}
-											</Input>
-										</FormGroup>
-									</Col>
-								</Row>
-
-
-								<div>
-									<Row style={{justifyContent: 'flex-end', padding: 10}}>
-										<Button 
-											type='button' 
-											className="botao-lancar"
-											onClick={this.alternarMostrarSalvarContaFixa}
+							<CabecalhoBotao 
+								nomePagina= "Contas Fixas"
+								acaoOnClick={this.alternarMostrarSalvarContaFixa}
+							/>
+							<h5>Filtro</h5>
+							<Row>
+								<Col>
+									<FormGroup>
+										<Label for="categoria_id">Categoria</Label>
+										<Input 
+											type="select" 
+											name="categoria_id" 
+											id="categoria_id" 
+											value={categoria_id} 
+											onChange={this.ajudadorDeCampo}
 										>
-											<FontAwesomeIcon icon="user-plus" size="sm" style={{marginRight: 5}} />
-											Adicionar
-										</Button>
-									</Row>
-								</div>
+											<option value='0'>Todas</option>
+											{
+												categorias &&
+													categorias.map(categoria => {
+														return (
+															<option 
+																key={categoria._id}
+																value={categoria._id}
+															>
+																{categoria.nome}
+															</option>
+														)
+													})
+											}
+										</Input>
+									</FormGroup>
+								</Col>
+								<Col>
+									<FormGroup>
+										<Label for="empresa_id">Empresa</Label>
+										<Input 
+											type="select" 
+											name="empresa_id" 
+											id="empresa_id" 
+											value={empresa_id} 
+											onChange={this.ajudadorDeCampo}
+										>
+											<option value='0'>Todas</option>
+											{
+												empresas &&
+													empresas.map(empresa => {
+														return (
+															<option 
+																key={empresa._id}
+																value={empresa._id}
+															>
+																{empresa.nome}
+															</option>
+														)
+													})
+											}
+										</Input>
+									</FormGroup>
+								</Col>
 							</Row>
 							<Table style={{textAlign: 'center'}}>
 								<thead style={{background: '#7CC9BC', color: '#fff'}}>
@@ -151,7 +134,7 @@ class ContasFixas extends React.Component {
 										<th>Categoria</th>
 										<th>Empresa</th>
 										<Desktop><th>Credito/Debito</th></Desktop>
-										<th></th>
+										<th>#</th>
 									</tr>
 								</thead>
 							{

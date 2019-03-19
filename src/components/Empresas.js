@@ -2,14 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Empresa from './Empresa'
 import EmpresaSalvar from './EmpresaSalvar'
-import {
-	Row,
-	Button,
-} from 'reactstrap'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUserPlus } from '@fortawesome/free-solid-svg-icons'
-library.add(faUserPlus)
+import { CabecalhoBotao } from './Cabecalho';
 
 class Empresas extends React.Component {
 
@@ -26,7 +19,7 @@ class Empresas extends React.Component {
 		} = this.props
 
 		return ( 
-			<div style={{marginTop: 80}}> 
+			<div style={{marginTop: 70, marginBottom: 20}}> 
 				{
 					this.state.mostrarSalvarEmpresa && 
 						<EmpresaSalvar
@@ -35,21 +28,10 @@ class Empresas extends React.Component {
 				{
 					!this.state.mostrarSalvarEmpresa && 
 						<div> 
-							<Row style={{justifyContent: 'space-between', alignItems: 'center', padding: 10}}>
-								<h5 style={{margin: 0}}>Empresas</h5>
-								<div>
-									<Row style={{justifyContent: 'flex-end', padding: 10}}>
-										<Button 
-											type='button' 
-											className="botao-lancar"
-											onClick={this.alternarMostrarSalvarEmpresa}
-										>
-											<FontAwesomeIcon icon="user-plus" size="sm" style={{marginRight: 5}} />
-											Adicionar
-										</Button>
-									</Row>
-								</div>
-							</Row>
+							<CabecalhoBotao 
+								nomePagina = "Empresas"
+								acaoOnClick = {this.alternarMostrarSalvarEmpresa}
+							/>
 							
 							{
 								empresas.map(empresa => (

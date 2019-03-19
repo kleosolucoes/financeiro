@@ -1,7 +1,6 @@
 import React from 'react'
 import {
 	Row,
-	Button,
 	Table,
 	Col,
 	FormGroup,
@@ -13,11 +12,7 @@ import Usuario from './Usuario'
 import UsuarioSalvar from './UsuarioSalvar'
 import { EMPRESA_ADMINISTRACAO_ID } from '../helpers/constantes'
 import Responsive from 'react-responsive';
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUserPlus } from '@fortawesome/free-solid-svg-icons'
-library.add(faUserPlus)
-
+import { CabecalhoBotao } from './Cabecalho';
 
 class Usuarios extends React.Component {
 
@@ -54,7 +49,7 @@ class Usuarios extends React.Component {
 	
 		return (
 			
-			<div style={{ marginTop: 60}}>
+			<div style={{marginTop: 70, marginBottom: 20}}> 
 				{
 					this.state.mostrarSalvarUsuario &&
 						<UsuarioSalvar
@@ -65,57 +60,48 @@ class Usuarios extends React.Component {
 				{
 					!this.state.mostrarSalvarUsuario &&
 						<div>
-							<Row style={{justifyContent: 'space-between', alignItems: 'center', padding: 10}}>
-								<h5 style={{margin: 0}}>Usuários</h5>
-								<div>
-									<Row style={{justifyContent: 'flex-end', padding: 10}}>
-										<Button 
-											type='button' 
-											className="botao-lancar"
-											onClick={this.alternarMostrarSalvarUsuario}
-										>
-											<FontAwesomeIcon icon="user-plus" size="sm" style={{marginRight: 5}} />
-											Adicionar
-										</Button>
-									</Row>
-								</div>
-{
+							<CabecalhoBotao 
+								nomePagina="Usuários"
+								acaoOnClick={this.alternarMostrarSalvarUsuario}
+							/>
+					{
 						empresa_usuario_logado_id === EMPRESA_ADMINISTRACAO_ID && 
-							<Col>
-								<FormGroup>
-									<Label for="empresa_id">Empresa</Label>
-									<Input 
-										type="select" 
-										name="empresa_id" 
-										id="empresa_id" 
-										value={empresa_id} 
-										onChange={this.ajudadorDeCampo}
-									>
-										<option value='0'>Todas</option>
-										{
-											empresas &&
-												empresas.map(empresa => {
-													return (
-														<option 
-															key={empresa._id}
-															value={empresa._id}
-														>
-															{empresa.nome}
-														</option>
-													)
-												})
-										}
-									</Input>
-								</FormGroup>
-							</Col>
-					}
+							<Row>
+								<Col>
+									<FormGroup>
+										<Label for="empresa_id">Empresa</Label>
+										<Input 
+											type="select" 
+											name="empresa_id" 
+											id="empresa_id" 
+											value={empresa_id} 
+											onChange={this.ajudadorDeCampo}
+										>
+											<option value='0'>Todas</option>
+											{
+												empresas &&
+													empresas.map(empresa => {
+														return (
+															<option 
+																key={empresa._id}
+																value={empresa._id}
+															>
+																{empresa.nome}
+															</option>
+														)
+													})
+											}
+										</Input>
+									</FormGroup>
+								</Col>
 							</Row>
+					}
 							<Table style={{textAlign: 'center'}}>
 								<thead style={{background: '#7CC9BC', color: '#fff'}}>
 									<tr>
 										<th>Nome</th>
 										<Desktop><th>Data</th></Desktop>
-										<th>Tipo</th>
+										<Desktop><th>Tipo</th></Desktop>
 										{
 											usuarioLogado.empresa_id === EMPRESA_ADMINISTRACAO_ID &&
 												<th>Empresa</th>
