@@ -31,17 +31,17 @@ class ExtratoEmpresa extends React.Component {
 			<div style={{marginTop: 80}}>
 				<div style={{background: '#f9f7f7'}}>
 					<h5 style={{padding: 10, fontWeight: '300', color: '#2f8c7c'}}>Olá, Leonardo Pereira!</h5>
-				
+
 					<Row style={{justifyContent: 'center'}}>
 						<Col> 
 							<Card className="card-saldo">
 								<CardTitle>
-								{ saldo >= 0 &&	
-								<span style={{color: '#2f8c7c'}}> R$ {saldo}</span>
-								}
-								{ saldo < 0 &&	
-								<span style={{color: 'brown'}}> R$ {saldo}</span>
-								}
+									{ saldo >= 0 &&	
+										<span style={{color: '#2f8c7c'}}> R$ {saldo}</span>
+									}
+									{ saldo < 0 &&	
+										<span style={{color: 'brown'}}> R$ {saldo}</span>
+									}
 								</CardTitle>
 								<CardText style={{fontSize: 12}}>Saldo</CardText>
 							</Card> 
@@ -63,34 +63,34 @@ class ExtratoEmpresa extends React.Component {
 						<Row>
 							<Col xs="6" sm="4" style={{paddingTop: 10}}>
 								<Card className="card-menu">
-								<FontAwesomeIcon icon="user" size="lg" />
+									<FontAwesomeIcon icon="user" size="lg" />
 									<h6>Usuário</h6>
 								</Card>
 							</Col>
 							<Col xs="6" sm="4" style={{paddingTop: 10}}>
 								<Card className="card-menu">
-								<FontAwesomeIcon icon="file-invoice-dollar" size="lg" />
+									<FontAwesomeIcon icon="file-invoice-dollar" size="lg" />
 									<h6>Lançar Relatório</h6>
 								</Card>
 							</Col>
 							<Col sm="4" style={{paddingTop: 10}}>
 								<Card className="card-menu">
-								<FontAwesomeIcon icon="file-alt" size="lg" />
+									<FontAwesomeIcon icon="file-alt" size="lg" />
 									<h6>Saldo e Extratos</h6>
 								</Card>
 							</Col>
 						</Row>
 
 						<Row style={{justifyContent: 'center'}}>
-						<Col style={{paddingTop: 10 }}>
+							<Col style={{paddingTop: 10 }}>
 								<Card className="card-menu">
-								<FontAwesomeIcon icon="power-off" size="lg" />
+									<FontAwesomeIcon icon="power-off" size="lg" />
 									<h6>Sair</h6>
 								</Card>
 							</Col>
 							<Col style={{paddingTop: 10 }}>
 								<Card className="card-menu">
-								<FontAwesomeIcon icon="question-circle" size="lg" />
+									<FontAwesomeIcon icon="question-circle" size="lg" />
 									<h6>Suporte</h6>
 								</Card>
 							</Col>
@@ -116,27 +116,29 @@ const mapStateToProps = ({situacoes, usuarioLogado, lancamentos, lancamentoSitua
 	const lancamentosFiltrados = lancamentos && usuarioLogado && 
 		lancamentos.filter(lancamento => lancamento.empresa_id === usuarioLogado.empresa_id)
 
-	lancamentosFiltrados.forEach(lancamento => {
-		const lancamentoSituacaoAtiva = lancamentoSituacao && 
-			lancamentoSituacao.find(lancamentoSituacao => lancamento._id === lancamentoSituacao.lancamento_id && lancamentoSituacao.data_inativacao === null)
+	lancamentosFiltrados
+		.filter(lancamento => lancamento.data_inativacao === null)
+		.forEach(lancamento => {
+			const lancamentoSituacaoAtiva = lancamentoSituacao && 
+				lancamentoSituacao.find(lancamentoSituacao => lancamento._id === lancamentoSituacao.lancamento_id && lancamentoSituacao.data_inativacao === null)
 
-		if(lancamentoSituacaoAtiva){	
-			const situacaoAtiva = situacoes && 
-				situacoes.find(situacao => lancamentoSituacaoAtiva.situacao_id === situacao._id)
-			const categoriaAtiva = categorias && categorias.find(categoria => lancamento.categoria_id === categoria._id)
-			const valorFormatado = parseFloat(lancamento.valor)
-			if(situacaoAtiva && situacaoAtiva._id === SITUACAO_RECEBIDO){
-				if(categoriaAtiva.credito_debito === 'C'){
-					saldo += valorFormatado
-				}else{
-					saldo -= valorFormatado
+			if(lancamentoSituacaoAtiva){	
+				const situacaoAtiva = situacoes && 
+					situacoes.find(situacao => lancamentoSituacaoAtiva.situacao_id === situacao._id)
+				const categoriaAtiva = categorias && categorias.find(categoria => lancamento.categoria_id === categoria._id)
+				const valorFormatado = parseFloat(lancamento.valor)
+				if(situacaoAtiva && situacaoAtiva._id === SITUACAO_RECEBIDO){
+					if(categoriaAtiva.credito_debito === 'C'){
+						saldo += valorFormatado
+					}else{
+						saldo -= valorFormatado
+					}
+				}
+				if(situacaoAtiva && situacaoAtiva._id === SITUACAO_NAO_RECEBIDO){
+					naoRecebido += valorFormatado
 				}
 			}
-			if(situacaoAtiva && situacaoAtiva._id === SITUACAO_NAO_RECEBIDO){
-				naoRecebido += valorFormatado
-			}
-		}
-	})
+		})
 
 	return {
 		saldo,

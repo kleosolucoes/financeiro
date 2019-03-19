@@ -110,7 +110,9 @@ const mapStateToProps = state => {
 		&& state.situacoes
 	){
 		state.categorias.forEach(categoria => listaDeNaoRecebidoPorCategorias[categoria._id.toString()] = 0)
-		state.lancamentos.forEach(lancamento => {
+		state.lancamentos
+			.filter(lancamento => lancamento.data_inativacao === null)
+			.forEach(lancamento => {
 			const lancamentoSituacaoAtiva = state.lancamentoSituacao
 				.find(lancamentoSituacao => lancamento._id.toString() === lancamentoSituacao.lancamento_id 
 					&& lancamentoSituacao.data_inativacao === null)

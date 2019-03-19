@@ -10,9 +10,11 @@ import Responsive from 'react-responsive';
 import { 
 	EMPRESA_ADMINISTRACAO_ID,
 	STRING_DEBITO,
-	STRING_CREDITO
+	STRING_CREDITO,
+	SITUACAO_NAO_RECEBIDO,
 } from '../helpers/constantes'
 import LancamentoSituacao from './LancamentoSituacao'
+import { removerLancamentoNaApi } from '../actions'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExpandArrowsAlt, faEdit } from '@fortawesome/free-solid-svg-icons'
@@ -31,6 +33,22 @@ class Lancamento extends React.Component {
 			valor: this.props.lancamento.valor,
 			taxa: this.props.lancamento.taxa,
 		})
+	}
+
+	removerLancamento = (lancamento_situacao_id) => {
+		if(window.confirm('Realmente deseja remover esse lançamento?')){
+			const {
+				lancamento_id,
+				usuarioLogado,
+				removerLancamentoNaApi
+			} = this.props
+
+			let elemento = {}
+			elemento.lancamento_id = lancamento_id
+			elemento.lancamento_situacao_id = lancamento_situacao_id
+
+			removerLancamentoNaApi(elemento, usuarioLogado.token)
+		}
 	}
 
 	render() {
@@ -79,7 +97,8 @@ class Lancamento extends React.Component {
 							<FontAwesomeIcon icon="expand-arrows-alt" size="sm"  />
 						</Button>
 					</Col>
-					{ usuarioLogado.empresa_id === EMPRESA_ADMINISTRACAO_ID && 
+					{ 
+						usuarioLogado.empresa_id === EMPRESA_ADMINISTRACAO_ID && 
 						<Col style={{paddingLeft: 0, paddingRight: 0, flexGrow: 0}}>
 							<Button 
 								type='button' 
@@ -90,9 +109,23 @@ class Lancamento extends React.Component {
 							</Button>
 						</Col>
 					}
+					{
+						lancamentoSituacaoAtual &&
+							lancamentoSituacaoAtual.situacao_id === SITUACAO_NAO_RECEBIDO &&
+							usuarioLogado.empresa_id !== EMPRESA_ADMINISTRACAO_ID && 
+								<Col style={{paddingLeft: 0, paddingRight: 0, flexGrow: 0}}>
+									<Button 
+										type='button' 
+										className="botao-acao"
+										onClick={() => this.removerLancamento(lancamentoSituacaoAtual._id)}
+									>
+										<FontAwesomeIcon icon="trash" size="sm"  />
+									</Button>
+								</Col>
+					}
 				</Row>
-
-				{ lancamentoSituacao && 
+				{ 
+					lancamentoSituacao && 
 						mostrarTodosLancamentoSituacao && 
 							<tr> 
 								<td>
@@ -141,4 +174,10 @@ const mapStateToProps = ({lancamentos, lancamentoSituacao, empresas, categorias,
 	}
 }
 
-export default connect(mapStateToProps, null)(Lancamento)
+function mapDispatchToProps(dispatch){
+	return {
+		removerLancamentoNaApi: (elemento, token) => dispatch(removerLancamentoNaApi(elemento, token)),
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Lancamento)
