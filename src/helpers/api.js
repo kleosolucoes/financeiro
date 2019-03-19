@@ -1,5 +1,5 @@
-// let api = 'https://glacial-harbor-83832.herokuapp.com'
-let api = 'http://localhost:8080'
+let api = 'https://glacial-harbor-83832.herokuapp.com'
+//api = 'http://localhost:8080'
 
 const headers = {
 	'Content-Type': 'application/json'
@@ -285,6 +285,21 @@ export const removerContaFixa = (dados, token) =>
 export const lancarVarios = (dados, token) =>
 	fetch(
 		`${api}/empresa/lancarVarios`,
+		{
+			headers: {
+				...headers, 
+				'x-access-token': token,
+			},
+			method: "POST",
+			body: JSON.stringify(dados),
+		}
+	)
+		.then(resultado => resultado.json())
+		.then(json => json)
+
+export const removerLancamento = (dados, token) =>
+	fetch(
+		`${api}/empresa/removerLancamento`,
 		{
 			headers: {
 				...headers, 

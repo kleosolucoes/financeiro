@@ -288,3 +288,10 @@ export const lancarVariosNaApi = (dados, token) => dispatch => {
 		})
 }
 
+export const removerLancamentoNaApi = (dados, token) => dispatch => {
+	api.removerLancamento(dados, token)
+		.then(dados => {
+			dispatch(salvarLancamento(dados.resultado.lancamento))
+			dispatch(salvarLancamentoSituacao(dados.resultado.lancamentoSituacao))
+		})
+}

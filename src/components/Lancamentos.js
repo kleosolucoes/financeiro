@@ -234,7 +234,7 @@ const mapStateToProps = (state, { empresa_id })  => {
 		lancamentos = state.lancamentos.filter(lancamento => lancamento.empresa_id === usuarioLogado.empresa_id)
 	}
 	return {
-		lancamentos,
+		lancamentos: lancamentos && lancamentos.filter(lancamento => lancamento.data_inativacao === null),
 		categorias: state.categorias,
 		empresas: state.empresas,
 		empresa_usuario_logado_id: usuarioLogado.empresa_id,
