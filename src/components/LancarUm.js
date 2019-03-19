@@ -10,6 +10,7 @@ import {
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import { OrderBy } from "react-lodash"
+import * as _ from "lodash";
 import { 
 	STRING_DEBITO,
 	STRING_CREDITO
@@ -208,13 +209,15 @@ class LancarUm extends React.Component {
 							{
 							categorias &&
 								categorias.map((categoria) => {
+									// const cat = _.orderBy(categorias, ["nome"]);
+									// console.log(cat)
 									return (
 										<option 
 											key={categoria._id}
 											value={categoria._id}
 										>
-										{/* <OrderBy collection={categoria} iteratees={categoria.nome} orders={'age'} /> */}
 											{categoria.nome} - {categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO}
+											{/* <OrderBy collection={categoria} iteratees={categoria.nome} orders={'asc'} /> */}
 										</option>
 									)
 								})
