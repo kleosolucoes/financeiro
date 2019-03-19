@@ -1,7 +1,6 @@
 import React from 'react'
 import {
 	Row,
-	Col,
 	FormGroup,
 	Label,
 	Input,
@@ -109,7 +108,7 @@ class CategoriaSalvar extends React.Component {
 					</Input>
 					{camposComErro.includes('credito_debito') && <Alert color='danger'>Selecione o Tipo</Alert>}
 				</FormGroup>
-				<Row style={{padding: 5}}>
+
 					{
 						mostrarMensagemDeErro &&
 							<div style={{padding: 10}}>
@@ -118,25 +117,24 @@ class CategoriaSalvar extends React.Component {
 								</Alert>
 							</div>
 					}
-					<Col>
-						<Button 
-							type='button' 
-							style={{width: '100%'}} 
-							onClick={this.props.alternarMostrarAdicionar}
-						>
-							Voltar
-						</Button> 
-					</Col>
-					<Col>
-						<Button 
-							type='button' 
-							style={{width: '100%'}} 
-							onClick={this.ajudadorDeSubmissao}
-						>
-							Adicionar
-						</Button> 
-					</Col>
-				</Row>
+					<Row style={{padding: 5, justifyContent: 'flex-end'}}>
+							<Button 
+								type='button' 
+								className="botao-lancar"
+								style={{marginLeft: 5}} 
+								onClick={this.props.alternarMostrarAdicionar}
+							>
+								Voltar
+							</Button> 
+							<Button 
+								type='button' 
+								className="botao-lancar"
+								style={{marginLeft: 5}} 
+								onClick={this.ajudadorDeSubmissao}
+							>
+								Adicionar
+							</Button> 
+					</Row>
 			</div>
 		)
 	}

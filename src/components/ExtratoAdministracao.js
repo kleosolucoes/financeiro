@@ -40,13 +40,20 @@ class ExtratoAdministracao extends React.Component {
 					<Row style={{justifyContent: 'center'}}>
 						<Col> 
 							<Card className="card-saldo">
-								<CardTitle style={{color: '#2f8c7c'}}>R$ {saldo}</CardTitle>
+								<CardTitle > 
+								{ saldo >= 0 &&	
+									<span style={{color: '#2f8c7c'}}> R$ {saldo}</span>
+								}
+								{ saldo < 0 &&	
+									<span style={{color: 'brown'}}> R$ {saldo}</span>
+								}
+								</CardTitle>
 								<CardText style={{fontSize: 12}}>Saldo</CardText>
 							</Card> 
 						</Col>
 						<Col>
 							<Card className="card-saldo">
-								<CardTitle style={{color: 'brown'}}>R$ {naoRecebidoCredito}</CardTitle>
+								<CardTitle style={{color: 'gray'}}>R$ {naoRecebidoCredito}</CardTitle>
 								<CardText style={{fontSize: 12}}>Não Aceitos - Creditos</CardText>
 							</Card>
 						</Col>

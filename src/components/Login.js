@@ -6,6 +6,7 @@ import {
 	Label,
 	Input,
 	Alert,
+	Button,
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import { 
@@ -17,6 +18,7 @@ import {
 	EMPRESA_ADMINISTRACAO_ID,
 } from '../helpers/constantes'
 import * as api from '../helpers/api'
+import logo from '../logo.svg'
 import { 
 	pegarUsuarioDaApi,
 	pegarUsuarioTipoDaApi,
@@ -37,7 +39,7 @@ class Login extends React.Component {
 		senha: '',
 		mostrarMensagemDeErro: false,
 		camposComErro: [],
-		carregando: false,
+		carregando: false
 	}
 
 	puxarTodosDados(){
@@ -61,6 +63,7 @@ class Login extends React.Component {
 	}
 
 	ajudadorDeSubmissao = () => {
+		this.setState({loading : true})
 		const {
 			email,
 			senha,
@@ -68,15 +71,18 @@ class Login extends React.Component {
 		let {
 			mostrarMensagemDeErro,
 			camposComErro,
+			loading
 		} = this.state
 		camposComErro = []
 
 		mostrarMensagemDeErro = false
 		if(email === ''){
+			loading = false
 			mostrarMensagemDeErro = true
 			camposComErro.push('email')
 		}
 		if(senha === ''){
+			loading = false
 			mostrarMensagemDeErro = true
 			camposComErro.push('senha')
 		}
@@ -95,13 +101,16 @@ class Login extends React.Component {
 
 			api.login({email, senha})
 				.then(dados => {
+					console.log(dados)
 					if(!dados.ok){
 						mostrarMensagemDeErro = true
 						camposComErro.push('naoRegistrado')
+						loading = false
 
 						this.setState({
 							mostrarMensagemDeErro,
 							camposComErro,
+							loading
 						})
 					}
 					if(dados.ok){
@@ -130,11 +139,12 @@ class Login extends React.Component {
 			<div>
 				{
 					carregando &&
-						<p>Carregando ...</p>
+						<p>Carregando ... </p>
 				}
-				{ 
+				{
 					!carregando &&
 						<div className="login-wrapper">
+							<img src={logo} alt="Financeiro" height="100px" />
 							<FormGroup className="style-form">
 								<Label for="email">Email</Label>
 								<Input 
@@ -181,14 +191,15 @@ class Login extends React.Component {
 										</div>
 								}
 								<Col>
-									<button 
+									<Button 
 										type='button' 
-										// style={{width: '100%'}} 
+										loading={this.state.loading}
+										spinColor= '#222'
 										className="style-button-login"
 										onClick={this.ajudadorDeSubmissao}
 									>
 										Entrar
-									</button> 
+									</Button> 
 								</Col>
 							</Row>
 						</div>

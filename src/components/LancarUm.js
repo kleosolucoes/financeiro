@@ -10,6 +10,7 @@ import {
 	Badge,
 } from 'reactstrap'
 import { connect } from 'react-redux'
+import { OrderBy } from "react-lodash"
 import { formatReal, getMoney, pegarDataEHoraAtual } from '../helpers/funcoes'
 import { 
 	lancarUmNaApi,
@@ -449,7 +450,7 @@ class LancarUm extends React.Component {
 					}
 				</div>
 				<div style={{padding: 10,}}>
-					<Row>
+					<Row style={{justifyContent: 'flex-end'}}>
 						{
 							lancamento &&
 								<Col>
@@ -473,8 +474,8 @@ class LancarUm extends React.Component {
 						</Col>
 					</Row>
 				</div>
-
 			</div>
+
 		)
 	}
 }
