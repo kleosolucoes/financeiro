@@ -34,7 +34,7 @@ class Menu extends React.Component {
 		const { menuAberto } = this.state;
 
 		return (
-			<Navbar fixed="true" color="success" light expand="lg">
+			<Navbar fixed="top" color="success" light={true} expand="lg">
 				<NavbarBrand href="#">Financeiro</NavbarBrand>
 				<NavbarToggler onClick={this.toggleMenu} />
 				<Collapse isOpen={menuAberto} navbar>
@@ -80,6 +80,7 @@ function mapStateToProps({usuarioLogado}){
 		}else{
 			listaDoMenu.push('extratoEmpresa')
 			listaDoMenu.push('lancarVarios')
+			listaDoMenu.push('lancamentos')
 			listaDoMenu.push('usuarios')
 		}
 	}

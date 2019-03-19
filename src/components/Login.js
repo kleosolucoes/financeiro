@@ -37,6 +37,7 @@ class Login extends React.Component {
 		senha: '',
 		mostrarMensagemDeErro: false,
 		camposComErro: [],
+		carregando: false,
 	}
 
 	puxarTodosDados(){
@@ -89,6 +90,7 @@ class Login extends React.Component {
 			this.setState({
 				mostrarMensagemDeErro: false,
 				camposComErro: [],
+				carregando: true,
 			})
 
 			api.login({email, senha})
@@ -121,70 +123,76 @@ class Login extends React.Component {
 			senha,
 			mostrarMensagemDeErro,
 			camposComErro,
+			carregando,
 		} = this.state
 
 		return (
-
-			<div className="login-wrapper">
-			{/* <h1>Login</h1>
-			<p>usuario: falecomleonardopereira@gmail.com - senha: 123</p> */}
-			{/* <img src={logo} alt="Financeiro" height="100px" /> */}
-				<FormGroup className="style-form">
-					<Label for="email">Email</Label>
-					<Input 
-						className="style-input"
-						type="email" 
-						name="email" 
-						id="email" 
-						value={email} 
-						onChange={this.ajudadorDeCampo}
-						invalid={camposComErro.includes('email') ? true : null}
-					>
-					</Input>
-					{camposComErro.includes('email') && <Alert color='danger'>Preencha o Email</Alert>}
-				</FormGroup>
-				<FormGroup className="style-form">
-					<Label for="senha">Senha</Label>
-					<Input 
-						className="style-input"
-						type="password" 
-						name="senha" 
-						id="senha" 
-						value={senha} 
-						onChange={this.ajudadorDeCampo}
-						invalid={camposComErro.includes('senha') ? true : null}
-					>
-					</Input>
-					{camposComErro.includes('senha') && <Alert color='danger'>Preencha a Senha</Alert>}
-				</FormGroup>
-				<Row style={{padding: 5}}>
-					{
-						camposComErro.includes('naoRegistrado') &&
-							<div style={{padding: 10}}>
-								<Alert color='warning'>
-									Usuário/Senha não conferem
-								</Alert>
-							</div>
-					}
-					{
-						mostrarMensagemDeErro &&
-							<div style={{padding: 10}}>
-								<Alert color='warning'>
-									Campos inválidos
-								</Alert>
-							</div>
-					}
-				<Col>
-						<button 
-							type='button' 
-							// style={{width: '100%'}} 
-							className="style-button-login"
-							onClick={this.ajudadorDeSubmissao}
-						>
-							Entrar
-						</button> 
-					</Col>
-				</Row>
+			<div>
+				{
+					carregando &&
+						<p>Carregando ...</p>
+				}
+				{ 
+					!carregando &&
+						<div className="login-wrapper">
+							<FormGroup className="style-form">
+								<Label for="email">Email</Label>
+								<Input 
+									className="style-input"
+									type="email" 
+									name="email" 
+									id="email" 
+									value={email} 
+									onChange={this.ajudadorDeCampo}
+									invalid={camposComErro.includes('email') ? true : null}
+								>
+								</Input>
+								{camposComErro.includes('email') && <Alert color='danger'>Preencha o Email</Alert>}
+							</FormGroup>
+							<FormGroup className="style-form">
+								<Label for="senha">Senha</Label>
+								<Input 
+									className="style-input"
+									type="password" 
+									name="senha" 
+									id="senha" 
+									value={senha} 
+									onChange={this.ajudadorDeCampo}
+									invalid={camposComErro.includes('senha') ? true : null}
+								>
+								</Input>
+								{camposComErro.includes('senha') && <Alert color='danger'>Preencha a Senha</Alert>}
+							</FormGroup>
+							<Row style={{padding: 5}}>
+								{
+									camposComErro.includes('naoRegistrado') &&
+										<div style={{padding: 10}}>
+											<Alert color='warning'>
+												Usuário/Senha não conferem
+											</Alert>
+										</div>
+								}
+								{
+									mostrarMensagemDeErro &&
+										<div style={{padding: 10}}>
+											<Alert color='warning'>
+												Campos inválidos
+											</Alert>
+										</div>
+								}
+								<Col>
+									<button 
+										type='button' 
+										// style={{width: '100%'}} 
+										className="style-button-login"
+										onClick={this.ajudadorDeSubmissao}
+									>
+										Entrar
+									</button> 
+								</Col>
+							</Row>
+						</div>
+				}
 			</div>
 		)
 	}
