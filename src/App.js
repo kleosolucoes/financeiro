@@ -21,6 +21,17 @@ import {
 	TELA_EXTRATO_ADMINISTRACAO,
 	TELA_EXTRATO_EMPRESA,
 } from './helpers/constantes'
+import { 
+	pegarUsuarioDaApi,
+	pegarUsuarioTipoDaApi,
+	pegarSituacaoDaApi,
+	pegarCategoriaDaApi,
+	pegarEmpresaDaApi,
+	pegarEmpresaTipoDaApi,
+	pegarContaFixaDaApi,
+	pegarLancamentoDaApi,
+	pegarLancamentoSituacaoDaApi,
+} from './actions'
 
 class App extends React.Component {
 
@@ -45,6 +56,27 @@ class App extends React.Component {
 		this.alterarTela('login')
 	}
 
+	puxarTodosDados = () => {
+		if(this.props.token){
+			this.props.pegarUsuarioDaApi(this.props.token)			
+			this.props.pegarUsuarioTipoDaApi(this.props.token)
+			this.props.pegarSituacaoDaApi(this.props.token)
+			this.props.pegarCategoriaDaApi(this.props.token)
+			this.props.pegarEmpresaDaApi(this.props.token)
+			this.props.pegarEmpresaTipoDaApi(this.props.token)
+			this.props.pegarContaFixaDaApi(this.props.token)
+			this.props.pegarLancamentoDaApi(this.props.token)
+			this.props.pegarLancamentoSituacaoDaApi(this.props.token)
+		}
+	}
+
+	puxarLancamentos = () => {
+		if(this.props.token){
+			this.props.pegarLancamentoDaApi(this.props.token)
+			this.props.pegarLancamentoSituacaoDaApi(this.props.token)
+		}
+	}
+
 	render() {
 		const { tela, categoria_id } = this.state
 		const { empresa_id } = this.props
@@ -67,7 +99,10 @@ class App extends React.Component {
 					}
 					{
 						tela === TELA_EXTRATO_EMPRESA &&
-							<ExtratoEmpresa />
+							<ExtratoEmpresa 
+								puxarLancamentos={this.puxarLancamentos}
+								puxarTodosDados={this.puxarTodosDados}
+							/>
 					}
 					{
 						tela === 'lancarVarios' &&
@@ -85,6 +120,7 @@ class App extends React.Component {
 						tela === TELA_EXTRATO_ADMINISTRACAO &&
 							<ExtratoAdministracao 
 								alterarTela={this.alterarTela}
+								puxarTodosDados={this.puxarTodosDados}	
 							/> 
 					}
 					{
@@ -127,7 +163,16 @@ const mapStateToProps = (state) => {
 function mapDispatchToProps(dispatch){
 	return {
 		salvarUsuarioLogado: (elemento) => dispatch(salvarUsuarioLogado(elemento)),
-	}
+		pegarUsuarioDaApi: (elemento) => dispatch(pegarUsuarioDaApi(elemento)),
+		pegarUsuarioTipoDaApi: (elemento) => dispatch(pegarUsuarioTipoDaApi(elemento)),
+		pegarSituacaoDaApi: (elemento) => dispatch(pegarSituacaoDaApi(elemento)),
+		pegarCategoriaDaApi: (elemento) => dispatch(pegarCategoriaDaApi(elemento)),
+		pegarEmpresaDaApi: (elemento) => dispatch(pegarEmpresaDaApi(elemento)),
+		pegarEmpresaTipoDaApi: (elemento) => dispatch(pegarEmpresaTipoDaApi(elemento)),
+		pegarContaFixaDaApi: (elemento) => dispatch(pegarContaFixaDaApi(elemento)),
+		pegarLancamentoDaApi: (elemento) => dispatch(pegarLancamentoDaApi(elemento)),
+		pegarLancamentoSituacaoDaApi: (elemento) => dispatch(pegarLancamentoSituacaoDaApi(elemento)),
+		}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

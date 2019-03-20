@@ -506,14 +506,14 @@ class LancarVarios extends React.Component {
 				</Row>
 				{
 					tiposDeLancamentos.map(tipoDeLancamento => (
-						<div className="container-item">
+						<div className="container-item" key={tipoDeLancamento.label}>
 							<div style={{padding:10}}>
 								<Row style={{justifyContent: 'center', paddingBottom: 10, paddingTop: 5}}>
 									<h6><b>{tipoDeLancamento.label}</b></h6>
 								</Row>
 									{
 										tipoDeLancamento.campos.map(campo => (
-											<Row>
+											<Row key={campo.name}>
 												<Col>
 													{campo.label}
 												</Col>

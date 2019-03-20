@@ -7,24 +7,7 @@ self.addEventListener('install', event => {
 		caches.open(nomeDoCachePrincipal)
 		.then(cache => {
 			return cache.addAll([
-				'/',
-				'static/js/bundle.js',
-				'static/js/main.chunk.js',
-				'static/js/0.chunk.js',
-				'static/js/1.chunk.js',
-				'manifest.json',
-				'favicon.ico',
-				'service-worker-custom.js',
-				//'https://glacial-harbor-83832.herokuapp.com/usuario/todos',
-				//'https://glacial-harbor-83832.herokuapp.com/usuario/usuarioTipo',
-				//'https://glacial-harbor-83832.herokuapp.com/usuario/usuarioSituacao',
-				//'https://glacial-harbor-83832.herokuapp.com/situacao/todos',
-				//'https://glacial-harbor-83832.herokuapp.com/categoria/todos',
-				//'https://glacial-harbor-83832.herokuapp.com/empresa/todos',
-				//'https://glacial-harbor-83832.herokuapp.com/empresa/empresaTipo',
-				//'https://glacial-harbor-83832.herokuapp.com/empresa/contaFixa',
-				//'https://glacial-harbor-83832.herokuapp.com/empresa/lancamento',
-				//'https://glacial-harbor-83832.herokuapp.com/empresa/lancamentoSituacao'
+				//'service-worker-custom.js',
 			])
 		})
 		.catch(error => console.log(error)),

@@ -278,13 +278,13 @@ export const removerContaFixaNaApi = (dados, token) => dispatch => {
 }
 
 export const lancarVariosNaApi = (dados, token) => dispatch => {
-	const novoRegistro = true
+	//const novoRegistro = true
 	api.lancarVarios(dados, token)
 		.then(dados => {
-			dados.resultado.elementos.forEach(elemento => {
-				dispatch(salvarLancamento(elemento.lancamento, novoRegistro))
-				dispatch(salvarLancamentoSituacao(elemento.lancamentoSituacao, novoRegistro))
-			})
+			//dados.resultado.elementos.forEach(elemento => {
+				//dispatch(salvarLancamento(elemento.lancamento, novoRegistro))
+				//dispatch(salvarLancamentoSituacao(elemento.lancamentoSituacao, novoRegistro))
+			//})
 		})
 }
 

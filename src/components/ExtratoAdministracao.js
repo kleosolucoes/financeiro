@@ -26,6 +26,10 @@ library.add(faList)
 
 class ExtratoAdministracao extends React.Component {
 
+	componentDidMount(){
+		this.props.puxarTodosDados()
+	}
+
 	render() {
 		const { 
 			saldo,
@@ -37,7 +41,18 @@ class ExtratoAdministracao extends React.Component {
 		return (
 			<div style={{marginTop: 80}}>
 				<div style={{background: '#f9f7f7'}}>
-					<h5 style={{padding: 10, fontWeight: '300', color: '#2f8c7c'}}>Olá, Diego Kort!</h5>
+					<Row style={{justifyContent: 'center'}}>
+						<Col> 
+							<h5 style={{padding: 10, fontWeight: '300', color: '#2f8c7c'}}>Olá, Diego Kort!</h5>
+						</Col>
+						<Col>
+							<button 
+								onClick={() => this.props.puxarTodosDados()}
+							>
+								Atualizar
+							</button>
+						</Col>
+					</Row>
 
 					<Row style={{justifyContent: 'center'}}>
 						<Col sm="12" lg="4"> 
@@ -110,9 +125,9 @@ const mapStateToProps = state => {
 	if(state.usuarioLogado){
 		token = state.usuarioLogado.token
 	}
-	let saldo = 0
-	let naoRecebidoCredito = 0
-	let naoRecebidoDebito = 0
+	let saldo = 0.00
+	let naoRecebidoCredito = 0.00
+	let naoRecebidoDebito = 0.00
 	let listaDeNaoRecebidoPorCategorias = []
 	if(
 		state.categorias 
@@ -135,20 +150,23 @@ const mapStateToProps = state => {
 				const categoriaAtiva = state.categorias
 					.find(categoria => lancamento.categoria_id === categoria._id.toString())
 
-				const valorFormatado = parseFloat(lancamento.valor)
-				if(situacaoAtiva._id.toString() === SITUACAO_RECEBIDO){
+				const valorFormatado = parseFloat(lancamento.valor.toFixed(2))
+				if(situacaoAtiva._id === SITUACAO_RECEBIDO){
 					if(categoriaAtiva.credito_debito === 'C'){
 						saldo += valorFormatado
 					}else{
 						saldo -= valorFormatado
 					}
 				}
-				if(situacaoAtiva._id.toString() === SITUACAO_NAO_RECEBIDO){
+				saldo = parseFloat(saldo.toFixed(2))
+				if(situacaoAtiva._id === SITUACAO_NAO_RECEBIDO){
 					if(categoriaAtiva.credito_debito === 'C'){
 						naoRecebidoCredito += valorFormatado
 					}else{
 						naoRecebidoDebito += valorFormatado
 					}
+					naoRecebidoCredito = parseFloat(naoRecebidoCredito.toFixed(2))
+					naoRecebidoDebito = parseFloat(naoRecebidoDebito.toFixed(2))
 					listaDeNaoRecebidoPorCategorias[categoriaAtiva._id] += valorFormatado
 				}
 			}
