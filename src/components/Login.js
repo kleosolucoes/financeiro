@@ -18,7 +18,6 @@ import {
 	EMPRESA_ADMINISTRACAO_ID,
 } from '../helpers/constantes'
 import * as api from '../helpers/api'
-import logo from '../logo.svg'
 
 class Login extends React.Component {
 
@@ -107,12 +106,16 @@ class Login extends React.Component {
 			<div>
 				{
 					carregando &&
-						<p>Carregando ... </p>
+						<Alert color='info' className='text-center'>
+							Carregando ... 
+						</Alert>
 				}
 				{
 					!carregando &&
 						<div className="login-wrapper">
-							<img src={logo} alt="Financeiro" height="100px" />
+							<h1>
+								Financeiro	
+							</h1>
 							<FormGroup className="style-form">
 								<Label for="email">Email</Label>
 								<Input 

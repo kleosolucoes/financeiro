@@ -6,7 +6,8 @@ import {
 	CardTitle,
 	CardText,
 	Button,
-	Table
+	Table,
+	Alert,
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import { SITUACAO_RECEBIDO, SITUACAO_NAO_RECEBIDO } from '../helpers/constantes'
@@ -26,8 +27,25 @@ library.add(faList)
 
 class ExtratoAdministracao extends React.Component {
 
+	state = {
+		carregando: false,
+	}
+
 	componentDidMount(){
+		this.atualizar()
+	}
+
+	atualizar = () => {
+		this.setState({
+			carregando: true,
+		})
 		this.props.puxarTodosDados()
+			.then(() => {
+				this.setState({
+					carregando: false,
+				})
+			})
+
 	}
 
 	render() {
@@ -38,6 +56,9 @@ class ExtratoAdministracao extends React.Component {
 			listaDeNaoRecebidoPorCategorias,
 			categorias,
 		} = this.props
+		const {
+			carregando,
+		} = this.state
 		return (
 			<div style={{marginTop: 80}}>
 				<div style={{background: '#f9f7f7'}}>
@@ -47,40 +68,48 @@ class ExtratoAdministracao extends React.Component {
 						</Col>
 						<Col>
 							<button 
-								onClick={() => this.props.puxarTodosDados()}
+								onClick={() => this.atualizar()}
 							>
 								Atualizar
 							</button>
 						</Col>
 					</Row>
-
-					<Row style={{justifyContent: 'center'}}>
-						<Col sm="12" lg="4"> 
-							<Card className="card-saldo">
-								<CardTitle > 
-								{ saldo >= 0 &&	
-									<span style={{color: '#2f8c7c'}}> R$ {saldo}</span>
-								}
-								{ saldo < 0 &&	
-									<span style={{color: 'brown'}}> R$ {saldo}</span>
-								}
-								</CardTitle>
-								<CardText style={{fontSize: 12}}>Saldo</CardText>
-							</Card> 
-						</Col>
-						<Col sm="12" lg="4">
-							<Card className="card-saldo">
-								<CardTitle style={{color: 'gray'}}>R$ {naoRecebidoCredito}</CardTitle>
-								<CardText style={{fontSize: 12}}>Não Aceitos - Creditos</CardText>
-							</Card>
-						</Col>
-						<Col sm="12" lg="4">
-							<Card className="card-saldo">
-								<CardTitle style={{color: 'brown'}}>R$ {naoRecebidoDebito}</CardTitle>
-								<CardText style={{fontSize: 12}}>Não Aceitos - Debitos</CardText>
-							</Card>
-						</Col>
-					</Row>
+					{
+						carregando &&
+							<Alert color='info' className='text-center'>
+								Carregando ...
+							</Alert>
+					}
+					{
+						!carregando && 
+						<Row style={{justifyContent: 'center'}}>
+							<Col sm="12" lg="4"> 
+								<Card className="card-saldo">
+									<CardTitle > 
+										{ saldo >= 0 &&	
+										<span style={{color: '#2f8c7c'}}> R$ {saldo}</span>
+										}
+										{ saldo < 0 &&	
+										<span style={{color: 'brown'}}> R$ {saldo}</span>
+										}
+									</CardTitle>
+									<CardText style={{fontSize: 12}}>Saldo</CardText>
+								</Card> 
+							</Col>
+							<Col sm="12" lg="4">
+								<Card className="card-saldo">
+									<CardTitle style={{color: 'gray'}}>R$ {naoRecebidoCredito}</CardTitle>
+									<CardText style={{fontSize: 12}}>Não Aceitos - Creditos</CardText>
+								</Card>
+							</Col>
+							<Col sm="12" lg="4">
+								<Card className="card-saldo">
+									<CardTitle style={{color: 'brown'}}>R$ {naoRecebidoDebito}</CardTitle>
+									<CardText style={{fontSize: 12}}>Não Aceitos - Debitos</CardText>
+								</Card>
+							</Col>
+						</Row>
+					}
 				</div>	
 				<div style={{marginTop: 15, backgroundColor: '#f9f7f7'}}>
 					<Row style={{margin: 0}}>
@@ -88,6 +117,12 @@ class ExtratoAdministracao extends React.Component {
 							Não Aceitos
 						</Col>
 					</Row>
+					{
+						carregando &&
+							<Alert color='info' className='text-center'>
+								Carregando ...
+							</Alert>
+					}
 
 					<Table>
 						<thead style={{background: '#7CC9BC', color: '#fff'}}>
@@ -96,23 +131,24 @@ class ExtratoAdministracao extends React.Component {
 								<th>Valor</th>
 							</tr>
 						</thead>
-					{
-						categorias &&
-							categorias.map(categoria => {
-								return (
-									<tbody key={categoria._id}>
-										<tr>
-											<td><Button className="botaoTipoCategoria"
-											onClick={() => this.props.alterarTela('lancamentos', categoria._id)}
-											>
-											{categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO } - {categoria.nome}
-										</Button></td>
-										<td>{listaDeNaoRecebidoPorCategorias[categoria._id]}</td>
-										</tr>
-									</tbody>
-								)
-							})
-					}
+						{
+							!carregando && 
+							categorias &&
+								categorias.map(categoria => {
+									return (
+										<tbody key={categoria._id}>
+											<tr>
+												<td><Button className="botaoTipoCategoria"
+														onClick={() => this.props.alterarTela('lancamentos', categoria._id)}
+													>
+														{categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO } - {categoria.nome}
+												</Button></td>
+												<td>{listaDeNaoRecebidoPorCategorias[categoria._id]}</td>
+											</tr>
+										</tbody>
+									)
+								})
+						}
 					</Table>
 				</div>
 			</div>
@@ -139,39 +175,39 @@ const mapStateToProps = state => {
 		state.lancamentos
 			.filter(lancamento => lancamento.data_inativacao === null)
 			.forEach(lancamento => {
-			const lancamentoSituacaoAtiva = state.lancamentoSituacao
-				.find(lancamentoSituacao => lancamento._id.toString() === lancamentoSituacao.lancamento_id 
-					&& lancamentoSituacao.data_inativacao === null)
+				const lancamentoSituacaoAtiva = state.lancamentoSituacao
+					.find(lancamentoSituacao => lancamento._id.toString() === lancamentoSituacao.lancamento_id 
+						&& lancamentoSituacao.data_inativacao === null)
 
-			if(lancamentoSituacaoAtiva){
-				const situacaoAtiva = state.situacoes
-					.find(situacao => lancamentoSituacaoAtiva.situacao_id === situacao._id.toString())
+				if(lancamentoSituacaoAtiva){
+					const situacaoAtiva = state.situacoes
+						.find(situacao => lancamentoSituacaoAtiva.situacao_id === situacao._id.toString())
 
-				const categoriaAtiva = state.categorias
-					.find(categoria => lancamento.categoria_id === categoria._id.toString())
+					const categoriaAtiva = state.categorias
+						.find(categoria => lancamento.categoria_id === categoria._id.toString())
 
-				const valorFormatado = parseFloat(lancamento.valor.toFixed(2))
-				if(situacaoAtiva._id === SITUACAO_RECEBIDO){
-					if(categoriaAtiva.credito_debito === 'C'){
-						saldo += valorFormatado
-					}else{
-						saldo -= valorFormatado
+					const valorFormatado = parseFloat(lancamento.valor.toFixed(2))
+					if(situacaoAtiva._id === SITUACAO_RECEBIDO){
+						if(categoriaAtiva.credito_debito === 'C'){
+							saldo += valorFormatado
+						}else{
+							saldo -= valorFormatado
+						}
+					}
+					saldo = parseFloat(saldo.toFixed(2))
+					if(situacaoAtiva._id === SITUACAO_NAO_RECEBIDO){
+						if(categoriaAtiva.credito_debito === 'C'){
+							naoRecebidoCredito += valorFormatado
+						}else{
+							naoRecebidoDebito += valorFormatado
+						}
+						listaDeNaoRecebidoPorCategorias[categoriaAtiva._id] += valorFormatado
+						naoRecebidoCredito = parseFloat(naoRecebidoCredito.toFixed(2))
+						naoRecebidoDebito = parseFloat(naoRecebidoDebito.toFixed(2))
+						listaDeNaoRecebidoPorCategorias[categoriaAtiva._id] = parseFloat(listaDeNaoRecebidoPorCategorias[categoriaAtiva._id].toFixed(2))
 					}
 				}
-				saldo = parseFloat(saldo.toFixed(2))
-				if(situacaoAtiva._id === SITUACAO_NAO_RECEBIDO){
-					if(categoriaAtiva.credito_debito === 'C'){
-						naoRecebidoCredito += valorFormatado
-					}else{
-						naoRecebidoDebito += valorFormatado
-					}
-					listaDeNaoRecebidoPorCategorias[categoriaAtiva._id] += valorFormatado
-					naoRecebidoCredito = parseFloat(naoRecebidoCredito.toFixed(2))
-					naoRecebidoDebito = parseFloat(naoRecebidoDebito.toFixed(2))
-					listaDeNaoRecebidoPorCategorias[categoriaAtiva._id] = parseFloat(listaDeNaoRecebidoPorCategorias[categoriaAtiva._id].toFixed(2))
-				}
-			}
-		})
+			})
 	}
 
 	return {

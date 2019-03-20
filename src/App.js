@@ -57,24 +57,15 @@ class App extends React.Component {
 	}
 
 	puxarTodosDados = () => {
-		if(this.props.token){
-			this.props.pegarUsuarioDaApi(this.props.token)			
-			this.props.pegarUsuarioTipoDaApi(this.props.token)
-			this.props.pegarSituacaoDaApi(this.props.token)
-			this.props.pegarCategoriaDaApi(this.props.token)
-			this.props.pegarEmpresaDaApi(this.props.token)
-			this.props.pegarEmpresaTipoDaApi(this.props.token)
-			this.props.pegarContaFixaDaApi(this.props.token)
-			this.props.pegarLancamentoDaApi(this.props.token)
-			this.props.pegarLancamentoSituacaoDaApi(this.props.token)
-		}
-	}
-
-	puxarLancamentos = () => {
-		if(this.props.token){
-			this.props.pegarLancamentoDaApi(this.props.token)
-			this.props.pegarLancamentoSituacaoDaApi(this.props.token)
-		}
+		this.props.pegarUsuarioDaApi(this.props.token)			
+		this.props.pegarUsuarioTipoDaApi(this.props.token)
+		this.props.pegarSituacaoDaApi(this.props.token)
+		this.props.pegarCategoriaDaApi(this.props.token)
+		this.props.pegarEmpresaDaApi(this.props.token)
+		this.props.pegarEmpresaTipoDaApi(this.props.token)
+		this.props.pegarContaFixaDaApi(this.props.token)
+		this.props.pegarLancamentoDaApi(this.props.token)
+		return	this.props.pegarLancamentoSituacaoDaApi(this.props.token)
 	}
 
 	render() {
@@ -100,7 +91,6 @@ class App extends React.Component {
 					{
 						tela === TELA_EXTRATO_EMPRESA &&
 							<ExtratoEmpresa 
-								puxarLancamentos={this.puxarLancamentos}
 								puxarTodosDados={this.puxarTodosDados}
 							/>
 					}
@@ -133,6 +123,7 @@ class App extends React.Component {
 						tela === 'lancamentos' && 
 							<Lancamentos 
 								categoria_id={categoria_id}
+								puxarTodosDados={this.puxarTodosDados}	
 							/>
 					}
 					{

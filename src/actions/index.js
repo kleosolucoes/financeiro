@@ -204,7 +204,7 @@ export const pegarLancamentoDaApi = (token) => dispatch => {
 }
 
 export const pegarLancamentoSituacaoDaApi = (token) => dispatch => {
-	api.lancamentoSituacao(token)
+	return api.lancamentoSituacao(token)
 		.then(dados => {
 			return dispatch(pegarLancamentoSituacao(dados.resultado.elementos))
 		})

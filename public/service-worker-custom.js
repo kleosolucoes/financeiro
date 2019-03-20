@@ -1,13 +1,19 @@
 console.log('Custom service worker')
 
-const nomeDoCachePrincipal = 'financeiro-v012'
+const nomeDoCachePrincipal = 'financeiro-v015'
 self.addEventListener('install', event => {
 	console.log('Install')
 	event.waitUntil(
 		caches.open(nomeDoCachePrincipal)
 		.then(cache => {
 			return cache.addAll([
-				//'service-worker-custom.js',
+				'/',
+				'static/js/bundle.js',
+				'static/js/main.chunk.js',
+				'static/js/0.chunk.js',
+				'static/js/1.chunk.js',
+				'manifest.json',
+				'service-worker-custom.js',
 			])
 		})
 		.catch(error => console.log(error)),

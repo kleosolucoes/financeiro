@@ -9,7 +9,8 @@ import {
 	Input,
 	Row,
 	Col,
-	Table
+	Table,
+	Alert,
 } from 'reactstrap'
 import { EMPRESA_ADMINISTRACAO_ID } from '../helpers/constantes'
 import { Cabecalho } from './Cabecalho';
@@ -23,6 +24,20 @@ class Lancamentos extends React.Component {
 		ano: new Date().getFullYear(),
 		mostrarAlterarLancamento: false,
 		lancamento_id: null,
+		carregando: false,
+	}
+
+	atualizar = () => {
+		this.setState({
+			carregando: true,
+		})
+		this.props.puxarTodosDados()
+			.then(() => {
+				this.setState({
+					carregando: false,
+				})
+			})
+
 	}
 
 	ajudadorDeCampo = event => {
@@ -55,6 +70,7 @@ class Lancamentos extends React.Component {
 			ano,
 			mostrarAlterarLancamento,
 			lancamento_id,
+			carregando,
 		} = this.state
 
 		let lancamentosFiltrados = lancamentos
@@ -88,17 +104,28 @@ class Lancamentos extends React.Component {
 			<div style={{marginTop: 70, marginBottom: 20}}> 
 				{
 					mostrarAlterarLancamento &&
-						<LancarUm 
-							lancamento_id={lancamento_id}
-							alternarMostrarAlterarLancamento={this.alternarMostrarAlterarLancamento}
-						/>
+					<LancarUm 
+						lancamento_id={lancamento_id}
+						alternarMostrarAlterarLancamento={this.alternarMostrarAlterarLancamento}
+					/>
 				}
 				{
 					!mostrarAlterarLancamento &&
 						<div>
-							<Cabecalho 
-								nomePagina= "Lançamentos"
-							/>
+							<Row>
+								<Col>
+									<Cabecalho 
+										nomePagina= "Lançamentos"
+									/>
+								</Col>
+								<Col>
+									<button 
+										onClick={() => this.atualizar()}
+									>
+										Atualizar
+									</button>
+								</Col>
+							</Row>
 							<h5>Filtro</h5>
 							<Row>
 								<Col>
@@ -130,33 +157,33 @@ class Lancamentos extends React.Component {
 								</Col>
 								{
 									empresa_usuario_logado_id === EMPRESA_ADMINISTRACAO_ID && 
-										<Col>
-											<FormGroup>
-												<Label for="empresa_id">Empresa</Label>
-												<Input 
-													type="select" 
-													name="empresa_id" 
-													id="empresa_id" 
-													value={empresa_id} 
-													onChange={this.ajudadorDeCampo}
-												>
-													<option value='0'>Todas</option>
-													{
-														empresas &&
-															empresas.map(empresa => {
-																return (
-																	<option 
-																		key={empresa._id}
-																		value={empresa._id}
-																	>
-																		{empresa.nome}
-																	</option>
-																)
-															})
-													}
-												</Input>
-											</FormGroup>
-										</Col>
+									<Col>
+										<FormGroup>
+											<Label for="empresa_id">Empresa</Label>
+											<Input 
+												type="select" 
+												name="empresa_id" 
+												id="empresa_id" 
+												value={empresa_id} 
+												onChange={this.ajudadorDeCampo}
+											>
+												<option value='0'>Todas</option>
+												{
+													empresas &&
+														empresas.map(empresa => {
+															return (
+																<option 
+																	key={empresa._id}
+																	value={empresa._id}
+																>
+																	{empresa.nome}
+																</option>
+															)
+														})
+												}
+											</Input>
+										</FormGroup>
+									</Col>
 								}
 							</Row>
 							<Row>
@@ -195,32 +222,41 @@ class Lancamentos extends React.Component {
 									</FormGroup>
 								</Col>
 							</Row>
-							<Table style={{textAlign: 'center'}}>
-								<thead style={{background: '#7CC9BC', color: '#fff'}}>
-									<tr>
-										<Desktop><td>Data</td></Desktop>
-										<td>Valor</td>
-										<Desktop><td>Taxa</td></Desktop>
-										<td>Categoria</td>
-										<Desktop><td>Tipo</td></Desktop>
-										{/* <Desktop><td>Quem Lançou</td></Desktop> */}
-										<td>Situação</td>
-										<Desktop><td>Empresa</td></Desktop>
-										{/* <Desktop><td>Descrição</td></Desktop> */}
-										<td>#</td>
-									</tr>
-								</thead>
-								{
-									lancamentosFiltrados &&
-										lancamentosFiltrados.map(lancamento => 
-											<Lancamento 
-												key={lancamento._id}
-												lancamento_id={lancamento._id} 
-												alternarMostrarAlterarLancamento={this.alternarMostrarAlterarLancamento}
-											/>
-										)
-								}
-							</Table>
+							{
+								carregando &&
+									<Alert color="info">
+										Carregando ...
+									</Alert>
+							}
+							{
+								!carregando &&
+									<Table style={{textAlign: 'center'}}>
+										<thead style={{background: '#7CC9BC', color: '#fff'}}>
+											<tr>
+												<Desktop><td>Data</td></Desktop>
+												<td>Valor</td>
+												<Desktop><td>Taxa</td></Desktop>
+												<td>Categoria</td>
+												<Desktop><td>Tipo</td></Desktop>
+												{/* <Desktop><td>Quem Lançou</td></Desktop> */}
+												<td>Situação</td>
+												<Desktop><td>Empresa</td></Desktop>
+												{/* <Desktop><td>Descrição</td></Desktop> */}
+												<td>#</td>
+											</tr>
+										</thead>
+										{
+											lancamentosFiltrados &&
+												lancamentosFiltrados.map(lancamento => 
+													<Lancamento 
+														key={lancamento._id}
+														lancamento_id={lancamento._id} 
+														alternarMostrarAlterarLancamento={this.alternarMostrarAlterarLancamento}
+													/>
+												)
+										}
+									</Table>
+							}
 						</div>
 				}
 			</div>
