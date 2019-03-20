@@ -10,7 +10,6 @@ import {
 	Badge,
 } from 'reactstrap'
 import { connect } from 'react-redux'
-import * as _ from "lodash";
 import { 
 	STRING_DEBITO,
 	STRING_CREDITO
