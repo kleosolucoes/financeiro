@@ -15,7 +15,8 @@ import './aux.css';
 
 // ICONS
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faUser, faFileAlt, faPowerOff, faQuestionCircle, faBriefcase, faList, faFileInvoiceDollar } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faFileAlt, faPowerOff, faQuestionCircle, faBriefcase, faList, faFileInvoiceDollar, faSyncAlt } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 library.add(faUser)
 library.add(faBriefcase)
 library.add(faFileInvoiceDollar)
@@ -23,6 +24,7 @@ library.add(faFileAlt)
 library.add(faPowerOff)
 library.add(faQuestionCircle)
 library.add(faList)
+library.add(faSyncAlt)
 
 class ExtratoAdministracao extends React.Component {
 
@@ -41,17 +43,19 @@ class ExtratoAdministracao extends React.Component {
 		return (
 			<div style={{marginTop: 80}}>
 				<div style={{background: '#f9f7f7'}}>
-					<Row style={{justifyContent: 'center'}}>
+					<Row style={{justifyContent: 'center', margin: 0}}>
 						<Col> 
 							<h5 style={{padding: 10, fontWeight: '300', color: '#2f8c7c'}}>Olá, Diego Kort!</h5>
 						</Col>
-						<Col>
-							<button 
+						{/* <Col> */}
+							<Button 
 								onClick={() => this.props.puxarTodosDados()}
+								style={{height: 40, width: 40, background: "#2f8c7c", margin: 5}}
 							>
-								Atualizar
-							</button>
-						</Col>
+								<FontAwesomeIcon icon="sync-alt" size="sm" />
+								{/* Atualizar */}
+							</Button>
+						{/* </Col> */}
 					</Row>
 
 					<Row style={{justifyContent: 'center'}}>

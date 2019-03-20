@@ -138,7 +138,6 @@ class EmpresaSalvar extends React.Component {
 						<Button 
 							type='button' 
 							className="botao-lancar"
-							// style={{width: '100%'}} 
 							onClick={this.props.alternarMostrarSalvarEmpresa}
 						>
 							Voltar
