@@ -97,7 +97,7 @@ class ExtratoAdministracao extends React.Component {
 						<thead style={{background: '#7CC9BC', color: '#fff'}}>
 							<tr>
 								<th>Categoria</th>
-								<th>Valor</th>
+								<th style={{paddingRight: 30, paddingLeft: 30, verticalAlign: 'middle'}}>Valor</th>
 							</tr>
 						</thead>
 					{
@@ -106,12 +106,15 @@ class ExtratoAdministracao extends React.Component {
 								return (
 									<tbody key={categoria._id}>
 										<tr>
-											<td><Button className="botaoTipoCategoria"
-											onClick={() => this.props.alterarTela('lancamentos', categoria._id)}
-											>
-											{categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO } - {categoria.nome}
-										</Button></td>
-										<td>{listaDeNaoRecebidoPorCategorias[categoria._id]}</td>
+											<td style={{verticalAlign: 'middle'}}>
+												<Button className="botaoTipoCategoria"
+												onClick={() => this.props.alterarTela('lancamentos', categoria._id)}
+												style={{textAlign: "left", padding: 0, }}
+												>
+												{categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO } - {categoria.nome}
+												</Button>
+											</td>
+										<td style={{verticalAlign: 'middle'}}>R$ {listaDeNaoRecebidoPorCategorias[categoria._id]}</td>
 										</tr>
 									</tbody>
 								)

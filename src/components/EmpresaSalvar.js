@@ -10,6 +10,7 @@ import {
 import { connect } from 'react-redux'
 import { salvarEmpresaNaApi } from '../actions'
 import { EMPRESA_TIPO_ADMINISTRACAO_ID } from '../helpers/constantes'
+import { Cabecalho } from './Cabecalho';
 
 class EmpresaSalvar extends React.Component {
 
@@ -84,7 +85,9 @@ class EmpresaSalvar extends React.Component {
 
 		return (
 			<div>
-				<h1>Adicionar Empresa</h1>
+				<Cabecalho 
+					nomePagina="Adicionar Empresa"
+				/>
 				<FormGroup>
 					<Label for="empresa_tipo_id">Tipo</Label>
 					<Input 
