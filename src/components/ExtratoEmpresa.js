@@ -5,6 +5,7 @@ import {
 	Card,
 	CardTitle,
 	CardText,
+	Button
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import { SITUACAO_RECEBIDO, SITUACAO_NAO_RECEBIDO } from '../helpers/constantes'
@@ -14,6 +15,7 @@ import './aux.css';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faFileInvoiceDollar, faFileAlt, faPowerOff, faQuestionCircle } from '@fortawesome/free-solid-svg-icons'
+import { CabecalhoExtrato } from './Cabecalho';
 library.add(faUser)
 library.add(faFileInvoiceDollar)
 library.add(faFileAlt)
@@ -34,48 +36,13 @@ class ExtratoEmpresa extends React.Component {
 		} = this.props
 		return (
 			<div style={{marginTop: 80}}>
-				<div style={{background: '#f9f7f7'}}>
-					<Row style={{justifyContent: 'center'}}>
-						<Col> 
-							<h5 style={{padding: 10, fontWeight: '300', color: '#2f8c7c'}}>Olá, Diego Kort!</h5>
-						</Col>
-						<Col>
-							<button 
-								onClick={() => this.props.puxarLancamentos()}
-							>
-								Atualizar
-							</button>
-						</Col>
-					</Row>
-
-					<Row style={{justifyContent: 'center'}}>
-						<Col> 
-							<Card className="card-saldo">
-								<CardTitle > 
-								{ saldo >= 0 &&	
-									<span style={{color: '#2f8c7c'}}> R$ {saldo}</span>
-								}
-								{ saldo < 0 &&	
-									<span style={{color: 'brown'}}> R$ {saldo}</span>
-								}
-								</CardTitle>
-								<CardText style={{fontSize: 12}}>Saldo</CardText>
-							</Card> 
-						</Col>
-						<Col>
-							<Card className="card-saldo">
-								<CardTitle style={{color: 'gray'}}>R$ {naoRecebidoCredito}</CardTitle>
-								<CardText style={{fontSize: 12}}>Não Aceitos - Creditos</CardText>
-							</Card>
-						</Col>
-						<Col>
-							<Card className="card-saldo">
-								<CardTitle style={{color: 'brown'}}>R$ {naoRecebidoDebito}</CardTitle>
-								<CardText style={{fontSize: 12}}>Não Aceitos - Debitos</CardText>
-							</Card>
-						</Col>
-					</Row>
-				</div>	
+				<CabecalhoExtrato 
+					nomeUsuario="Diego Kort"
+					onClick={() => this.props.puxarTodosDados()}
+					saldo= {saldo}
+					naoRecebidoCredito={naoRecebidoCredito}
+					naoRecebidoDebito={naoRecebidoDebito}
+				/>
 
 				<div className="container-menu-empresa">
 					<div style={{borderTop: '1px solid #2f8c7c', paddingTop: 5, paddingBottom: 5}}>
