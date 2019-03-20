@@ -169,9 +169,10 @@ const mapStateToProps = state => {
 					}else{
 						naoRecebidoDebito += valorFormatado
 					}
+					listaDeNaoRecebidoPorCategorias[categoriaAtiva._id] += valorFormatado
 					naoRecebidoCredito = parseFloat(naoRecebidoCredito.toFixed(2))
 					naoRecebidoDebito = parseFloat(naoRecebidoDebito.toFixed(2))
-					listaDeNaoRecebidoPorCategorias[categoriaAtiva._id] += valorFormatado
+					listaDeNaoRecebidoPorCategorias[categoriaAtiva._id] = parseFloat(listaDeNaoRecebidoPorCategorias[categoriaAtiva._id].toFixed(2))
 				}
 			}
 		})
