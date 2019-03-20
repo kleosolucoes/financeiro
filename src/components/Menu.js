@@ -42,11 +42,11 @@ class Menu extends React.Component {
 						{
 							listaDoMenu &&
 								listaDoMenu.map(item => (
-									<NavItem>
+									<NavItem key={item.componente}>
 										<NavLink 
-											onClick={() => {this.alterarTela(item)} } 
+											onClick={() => {this.alterarTela(item.componente)} } 
 											href='#'>
-											{capitalizeFirstLetter(item)}
+											{capitalizeFirstLetter(item.label)}
 										</NavLink>
 									</NavItem>
 								))
@@ -70,18 +70,51 @@ function mapStateToProps({usuarioLogado}){
 	if(usuarioLogado){
 		const empresa_id = usuarioLogado.empresa_id
 		if(empresa_id === EMPRESA_ADMINISTRACAO_ID){
-			listaDoMenu.push('extratoAdministracao')
-			listaDoMenu.push('lancarUm')
-			listaDoMenu.push('lancamentos')
-			listaDoMenu.push('categorias')
-			listaDoMenu.push('empresas')
-			listaDoMenu.push('usuarios')
-			listaDoMenu.push('contasFixas')
+			listaDoMenu.push({
+				componente: 'extratoAdministracao',
+				label: 'Principal',
+			})
+			listaDoMenu.push({
+				componente: 'lancarUm',
+				label: 'Lançar',
+			})
+			listaDoMenu.push({
+				componente: 'lancamentos',
+				label: 'Lançamentos',
+			})
+			listaDoMenu.push({
+				componente: 'categorias',
+				label: 'Categorias',
+			})
+			listaDoMenu.push({
+				componente: 'empresas',
+				label: 'Empresas',
+			})
+			listaDoMenu.push({
+				componente: 'usuarios',
+				label: 'Usuários',
+			})
+			listaDoMenu.push({
+				componente: 'contasFixas',
+				label: 'Contas Fixas',
+			})
 		}else{
-			listaDoMenu.push('extratoEmpresa')
-			listaDoMenu.push('lancarVarios')
-			listaDoMenu.push('lancamentos')
-			listaDoMenu.push('usuarios')
+			listaDoMenu.push({
+				componente: 'extratoEmpresa',
+				label: 'Principal',
+			})
+			listaDoMenu.push({
+				componente: 'lancarVarios',
+				label: 'Lançar Relatório de Culto',
+			})
+			listaDoMenu.push({
+				componente: 'lancamentos',
+				label: 'Lançamentos',
+			})
+			listaDoMenu.push({
+				componente: 'usuarios',
+				label: 'Usuários',
+			})
 		}
 	}
 	return{

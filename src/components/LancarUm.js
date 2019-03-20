@@ -10,7 +10,6 @@ import {
 	Badge,
 } from 'reactstrap'
 import { connect } from 'react-redux'
-import { OrderBy } from "react-lodash"
 import { formatReal, getMoney, pegarDataEHoraAtual } from '../helpers/funcoes'
 import { 
 	lancarUmNaApi,

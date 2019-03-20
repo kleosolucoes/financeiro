@@ -22,34 +22,56 @@ library.add(faQuestionCircle)
 
 class ExtratoEmpresa extends React.Component {
 
+	componentDidMount(){
+		this.props.puxarTodosDados()
+	}
+
 	render() {
 		const { 
 			saldo,
-			naoRecebido,
+			naoRecebidoCredito,
+			naoRecebidoDebito,
 		} = this.props
 		return (
 			<div style={{marginTop: 80}}>
 				<div style={{background: '#f9f7f7'}}>
-					<h5 style={{padding: 10, fontWeight: '300', color: '#2f8c7c'}}>Olá, Leonardo Pereira!</h5>
+					<Row style={{justifyContent: 'center'}}>
+						<Col> 
+							<h5 style={{padding: 10, fontWeight: '300', color: '#2f8c7c'}}>Olá, Diego Kort!</h5>
+						</Col>
+						<Col>
+							<button 
+								onClick={() => this.props.puxarLancamentos()}
+							>
+								Atualizar
+							</button>
+						</Col>
+					</Row>
 
 					<Row style={{justifyContent: 'center'}}>
 						<Col> 
 							<Card className="card-saldo">
-								<CardTitle>
-									{ saldo >= 0 &&	
-										<span style={{color: '#2f8c7c'}}> R$ {saldo}</span>
-									}
-									{ saldo < 0 &&	
-										<span style={{color: 'brown'}}> R$ {saldo}</span>
-									}
+								<CardTitle > 
+								{ saldo >= 0 &&	
+									<span style={{color: '#2f8c7c'}}> R$ {saldo}</span>
+								}
+								{ saldo < 0 &&	
+									<span style={{color: 'brown'}}> R$ {saldo}</span>
+								}
 								</CardTitle>
 								<CardText style={{fontSize: 12}}>Saldo</CardText>
 							</Card> 
 						</Col>
 						<Col>
 							<Card className="card-saldo">
-								<CardTitle style={{color: 'gray'}}>R$ {naoRecebido}</CardTitle>
-								<CardText style={{fontSize: 12}}>Não Recebido</CardText>
+								<CardTitle style={{color: 'gray'}}>R$ {naoRecebidoCredito}</CardTitle>
+								<CardText style={{fontSize: 12}}>Não Aceitos - Creditos</CardText>
+							</Card>
+						</Col>
+						<Col>
+							<Card className="card-saldo">
+								<CardTitle style={{color: 'brown'}}>R$ {naoRecebidoDebito}</CardTitle>
+								<CardText style={{fontSize: 12}}>Não Aceitos - Debitos</CardText>
 							</Card>
 						</Col>
 					</Row>
@@ -97,22 +119,16 @@ class ExtratoEmpresa extends React.Component {
 						</Row>
 					</div>
 				</div>
-				{/* <div style={{backgroundColor: 'lightcyan', padding: 20}}>
-					<Row>
-						<Col style={{textAlign: 'center', backgroundColor: '#AAA'}}>
-							Lancamentos
-						</Col>
-					</Row>
-					<Lancamentos />
-				</div>	 */}
 			</div>
 		)
 	}
 }
 
 const mapStateToProps = ({situacoes, usuarioLogado, lancamentos, lancamentoSituacao, categorias}) => {
-	let saldo = 0
-	let naoRecebido = 0
+	let saldo = 0.00
+	let naoRecebidoCredito = 0.00
+	let naoRecebidoDebito = 0.00
+	
 	const lancamentosFiltrados = lancamentos && usuarioLogado && 
 		lancamentos.filter(lancamento => lancamento.empresa_id === usuarioLogado.empresa_id)
 
@@ -126,23 +142,33 @@ const mapStateToProps = ({situacoes, usuarioLogado, lancamentos, lancamentoSitua
 				const situacaoAtiva = situacoes && 
 					situacoes.find(situacao => lancamentoSituacaoAtiva.situacao_id === situacao._id)
 				const categoriaAtiva = categorias && categorias.find(categoria => lancamento.categoria_id === categoria._id)
-				const valorFormatado = parseFloat(lancamento.valor)
-				if(situacaoAtiva && situacaoAtiva._id === SITUACAO_RECEBIDO){
+
+
+				const valorFormatado = parseFloat(lancamento.valor.toFixed(2))
+				if(situacaoAtiva._id === SITUACAO_RECEBIDO){
 					if(categoriaAtiva.credito_debito === 'C'){
 						saldo += valorFormatado
 					}else{
 						saldo -= valorFormatado
 					}
 				}
-				if(situacaoAtiva && situacaoAtiva._id === SITUACAO_NAO_RECEBIDO){
-					naoRecebido += valorFormatado
+				saldo = parseFloat(saldo.toFixed(2))
+				if(situacaoAtiva._id === SITUACAO_NAO_RECEBIDO){
+					if(categoriaAtiva.credito_debito === 'C'){
+						naoRecebidoCredito += valorFormatado
+					}else{
+						naoRecebidoDebito += valorFormatado
+					}
+					naoRecebidoCredito = parseFloat(naoRecebidoCredito.toFixed(2))
+					naoRecebidoDebito = parseFloat(naoRecebidoDebito.toFixed(2))
 				}
 			}
 		})
 
 	return {
 		saldo,
-		naoRecebido,
+		naoRecebidoCredito,
+		naoRecebidoDebito,
 		usuarioLogado,
 	}
 }
