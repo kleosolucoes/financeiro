@@ -9,6 +9,7 @@ import {
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import { salvarCategoriaNaApi } from '../actions'
+import {Cabecalho} from './Cabecalho'
 
 class CategoriaSalvar extends React.Component {
 
@@ -78,7 +79,9 @@ class CategoriaSalvar extends React.Component {
 		} = this.state
 		return (
 			<div>
-				<h1>Adicionar Categoria</h1>
+				<Cabecalho 
+					nomePagina="Adicionar Categoria"
+				/>
 				<FormGroup>
 					<Label for="valor">Nome</Label>
 					<Input 

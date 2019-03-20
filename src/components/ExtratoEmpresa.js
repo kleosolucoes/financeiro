@@ -1,10 +1,5 @@
 import React from 'react'
 import {
-	Row,
-	Col,
-	Card,
-	CardTitle,
-	CardText,
 	Alert,
 } from 'reactstrap'
 import { connect } from 'react-redux'
@@ -14,6 +9,7 @@ import './aux.css';
 // ICONS
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faUser, faFileInvoiceDollar, faFileAlt, faPowerOff, faQuestionCircle } from '@fortawesome/free-solid-svg-icons'
+import  CabecalhoExtrato  from './Cabecalho';
 library.add(faUser)
 library.add(faFileInvoiceDollar)
 library.add(faFileAlt)
@@ -64,53 +60,20 @@ class ExtratoEmpresa extends React.Component {
 		return (
 			<div style={{marginTop: 80}}>
 				<div style={{background: '#f9f7f7'}}>
-					<Row style={{justifyContent: 'center'}}>
-						<Col> 
-							<h5 style={{padding: 10, fontWeight: '300', color: '#2f8c7c'}}>Olá, Diego Kort!</h5>
-						</Col>
-						<Col>
-							<button 
-								onClick={() => this.atualizar()}
-							>
-								Atualizar
-							</button>
-						</Col>
-					</Row>
 					{
 						carregando &&
-							<Alert color='info' className='text-center'>
-								Carregando ...
-							</Alert>
+						<Alert color='info' className='text-center'>
+							Carregando ...
+						</Alert>
 					}
 					{
 						!carregando && 
-						<Row style={{justifyContent: 'center'}}>
-							<Col> 
-								<Card className="card-saldo">
-									<CardTitle > 
-										{ saldo >= 0 &&	
-										<span style={{color: '#2f8c7c'}}> R$ {saldo}</span>
-										}
-										{ saldo < 0 &&	
-										<span style={{color: 'brown'}}> R$ {saldo}</span>
-										}
-									</CardTitle>
-									<CardText style={{fontSize: 12}}>Saldo</CardText>
-								</Card> 
-							</Col>
-							<Col>
-								<Card className="card-saldo">
-									<CardTitle style={{color: 'gray'}}>R$ {naoRecebidoCredito}</CardTitle>
-									<CardText style={{fontSize: 12}}>Não Aceitos - Creditos</CardText>
-								</Card>
-							</Col>
-							<Col>
-								<Card className="card-saldo">
-									<CardTitle style={{color: 'brown'}}>R$ {naoRecebidoDebito}</CardTitle>
-									<CardText style={{fontSize: 12}}>Não Aceitos - Debitos</CardText>
-								</Card>
-							</Col>
-						</Row>
+						<CabecalhoExtrato 
+							onClick={() => this.atualizar()}
+							saldo= {saldo}
+							naoRecebidoCredito={naoRecebidoCredito}
+							naoRecebidoDebito={naoRecebidoDebito}
+						/>
 					}
 				</div>	
 			</div>

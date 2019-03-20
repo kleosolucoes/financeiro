@@ -14,6 +14,7 @@ import {
 	USUARIO_TIPO_ADMINISTRACAO,
 	USUARIO_TIPO_ACEITAR_LANCAMENTO,
 } from '../helpers/constantes'
+import { Cabecalho } from './Cabecalho';
 
 class UsuarioSalvar extends React.Component {
 
@@ -125,7 +126,9 @@ class UsuarioSalvar extends React.Component {
 
 		return (
 			<div>
-				<h1>Adicionar Usuário</h1>
+				<Cabecalho 
+					nomePagina="Adicionar Usuário"
+				/>
 				{
 					usuarioLogado.empresa_id === EMPRESA_ADMINISTRACAO_ID &&
 						<FormGroup>

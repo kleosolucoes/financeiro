@@ -2,9 +2,6 @@ import React from 'react'
 import {
 	Row,
 	Col,
-	Card,
-	CardTitle,
-	CardText,
 	Button,
 	Table,
 	Alert,
@@ -16,7 +13,8 @@ import './aux.css';
 
 // ICONS
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faUser, faFileAlt, faPowerOff, faQuestionCircle, faBriefcase, faList, faFileInvoiceDollar } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faFileAlt, faPowerOff, faQuestionCircle, faBriefcase, faList, faFileInvoiceDollar, faSyncAlt } from '@fortawesome/free-solid-svg-icons'
+import CabecalhoExtrato from './Cabecalho'
 library.add(faUser)
 library.add(faBriefcase)
 library.add(faFileInvoiceDollar)
@@ -24,6 +22,7 @@ library.add(faFileAlt)
 library.add(faPowerOff)
 library.add(faQuestionCircle)
 library.add(faList)
+library.add(faSyncAlt)
 
 class ExtratoAdministracao extends React.Component {
 
@@ -62,53 +61,20 @@ class ExtratoAdministracao extends React.Component {
 		return (
 			<div style={{marginTop: 80}}>
 				<div style={{background: '#f9f7f7'}}>
-					<Row style={{justifyContent: 'center'}}>
-						<Col> 
-							<h5 style={{padding: 10, fontWeight: '300', color: '#2f8c7c'}}>Olá, Diego Kort!</h5>
-						</Col>
-						<Col>
-							<button 
-								onClick={() => this.atualizar()}
-							>
-								Atualizar
-							</button>
-						</Col>
-					</Row>
 					{
 						carregando &&
-							<Alert color='info' className='text-center'>
-								Carregando ...
-							</Alert>
+						<Alert color='info' className='text-center'>
+							Carregando ...
+						</Alert>
 					}
 					{
 						!carregando && 
-						<Row style={{justifyContent: 'center'}}>
-							<Col sm="12" lg="4"> 
-								<Card className="card-saldo">
-									<CardTitle > 
-										{ saldo >= 0 &&	
-										<span style={{color: '#2f8c7c'}}> R$ {saldo}</span>
-										}
-										{ saldo < 0 &&	
-										<span style={{color: 'brown'}}> R$ {saldo}</span>
-										}
-									</CardTitle>
-									<CardText style={{fontSize: 12}}>Saldo</CardText>
-								</Card> 
-							</Col>
-							<Col sm="12" lg="4">
-								<Card className="card-saldo">
-									<CardTitle style={{color: 'gray'}}>R$ {naoRecebidoCredito}</CardTitle>
-									<CardText style={{fontSize: 12}}>Não Aceitos - Creditos</CardText>
-								</Card>
-							</Col>
-							<Col sm="12" lg="4">
-								<Card className="card-saldo">
-									<CardTitle style={{color: 'brown'}}>R$ {naoRecebidoDebito}</CardTitle>
-									<CardText style={{fontSize: 12}}>Não Aceitos - Debitos</CardText>
-								</Card>
-							</Col>
-						</Row>
+						<CabecalhoExtrato 
+							onClick={() => this.atualizar()}
+							saldo= {saldo}
+							naoRecebidoCredito={naoRecebidoCredito}
+							naoRecebidoDebito={naoRecebidoDebito}
+						/>
 					}
 				</div>	
 				<div style={{marginTop: 15, backgroundColor: '#f9f7f7'}}>
@@ -128,7 +94,7 @@ class ExtratoAdministracao extends React.Component {
 						<thead style={{background: '#7CC9BC', color: '#fff'}}>
 							<tr>
 								<th>Categoria</th>
-								<th>Valor</th>
+								<th style={{paddingRight: 30, paddingLeft: 30, verticalAlign: 'middle'}}>Valor</th>
 							</tr>
 						</thead>
 						{

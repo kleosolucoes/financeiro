@@ -42,7 +42,7 @@ class Usuario extends React.Component {
 		return (
 			<tbody>
 				<tr>
-					<td>{usuario.nome}</td>
+					<td>{usuario.nome.split(' ')[0]}</td>
 					<Desktop><td>{usuario.data_criacao}</td></Desktop>
 					<Desktop><td>{usuarioTipo.nome}</td></Desktop>
 					{

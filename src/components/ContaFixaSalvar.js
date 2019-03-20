@@ -9,6 +9,7 @@ import {
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import { salvarContaFixaNaApi } from '../actions'
+import { Cabecalho } from './Cabecalho';
 
 class ContaFixaSalvar extends React.Component {
 
@@ -106,7 +107,9 @@ class ContaFixaSalvar extends React.Component {
 
 		return (
 			<div>
-				<h1>Adicionar Conta Fixa</h1>
+				<Cabecalho 
+					nomePagina="Adicionar Conta Fixa"
+				/>
 				<FormGroup>
 					<Label for="empresa_id">Empresa</Label>
 					<Input 
