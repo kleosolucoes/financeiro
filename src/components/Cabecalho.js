@@ -7,9 +7,9 @@ import {
 	CardText,
 	Button,
 } from "reactstrap";
+import { connect } from 'react-redux'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { connect } from 'react-redux'
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons'
 library.add(faUserPlus)
 
@@ -58,7 +58,7 @@ class CabecalhoExtrato extends React.Component {
 					</Col>
 					<Button 
 						onClick={onClick}
-						style={{height: 40, width: 40, background: "#2f8c7c", margin: 5}}
+						style={{height: 40, width: 40, background: 'transparent', color: "#2f8c7c", margin: 5, border: 0}}
 					>
 						<FontAwesomeIcon icon="sync-alt" size="sm" />
 					</Button>

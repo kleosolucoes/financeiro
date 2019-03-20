@@ -1,8 +1,4 @@
 import React from 'react'
-import {
-	Row,
-	Col,
-} from 'reactstrap'
 import { connect } from 'react-redux'
 
 class Empresa extends React.Component {
@@ -13,12 +9,10 @@ class Empresa extends React.Component {
 			empresaTipo, 
 		} = this.props
 		return (
-			<div style={{padding:10, backgroundColor: '#f9f7f7', marginTop: 10}}>
-				<Row style={{textAlign: 'center'}}>
-					<Col> Nome <br/> {empresa && empresa.nome} </Col>
-					<Col> Tipo <br/> {empresaTipo && empresaTipo.nome} </Col>
-				</Row>
-			</div>
+			<tr style={{background: 'transparent'}}>
+				<td style={{color: '#2f8c7c'}}>{empresa && empresa.nome}</td>
+				<td>{empresaTipo && empresaTipo.nome}</td>
+			</tr>
 		)
 	}
 }

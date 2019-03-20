@@ -104,12 +104,15 @@ class ExtratoAdministracao extends React.Component {
 									return (
 										<tbody key={categoria._id}>
 											<tr>
-												<td><Button className="botaoTipoCategoria"
+												<td>
+													<Button className="botaoTipoCategoria"
 														onClick={() => this.props.alterarTela('lancamentos', categoria._id)}
+														style={{textAlign: 'left'}}
 													>
 														{categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO } - {categoria.nome}
-												</Button></td>
-												<td>{listaDeNaoRecebidoPorCategorias[categoria._id]}</td>
+													</Button>
+												</td>
+												<td>R$ {listaDeNaoRecebidoPorCategorias[categoria._id]}</td>
 											</tr>
 										</tbody>
 									)

@@ -11,9 +11,11 @@ import {
 	Col,
 	Table,
 	Alert,
+	Button
 } from 'reactstrap'
 import { EMPRESA_ADMINISTRACAO_ID } from '../helpers/constantes'
 import { Cabecalho } from './Cabecalho';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 class Lancamentos extends React.Component {
 
@@ -118,13 +120,12 @@ class Lancamentos extends React.Component {
 										nomePagina= "Lançamentos"
 									/>
 								</Col>
-								<Col>
-									<button 
-										onClick={() => this.atualizar()}
-									>
-										Atualizar
-									</button>
-								</Col>
+								<Button 
+									onClick={this.atualizar}
+									style={{height: 40, width: 40, background: 'transparent', color: "#2f8c7c", margin: 5, border: 0}}
+								>
+									<FontAwesomeIcon icon="sync-alt" size="sm" />
+								</Button>
 							</Row>
 							<h5>Filtro</h5>
 							<Row>

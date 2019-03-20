@@ -77,9 +77,9 @@ class Lancamento extends React.Component {
 			}
 		}
 		return (
-			<tbody style={{ backgroundColor: 'lightCyan', marginTop: 10}}>
+			<tbody style={{ backgroundColor: '#f9f7f7', marginTop: 10, fontSize: 14}}>
 				<Desktop><td> {lancamento.data} </td></Desktop>
-				<td>{lancamento.valor}</td>
+				<td>R$ {lancamento.valor}</td>
 				<Desktop><td>{lancamento.taxa}</td></Desktop>
 				<td>{categoria.nome}</td>
 				<Desktop><td>{categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO}</td></Desktop>

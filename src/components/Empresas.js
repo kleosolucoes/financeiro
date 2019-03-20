@@ -2,6 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Empresa from './Empresa'
 import EmpresaSalvar from './EmpresaSalvar'
+import {
+	Table
+} from 'reactstrap'
 import { CabecalhoBotao } from './Cabecalho';
 
 class Empresas extends React.Component {
@@ -32,17 +35,28 @@ class Empresas extends React.Component {
 								nomePagina = "Empresas"
 								acaoOnClick = {this.alternarMostrarSalvarEmpresa}
 							/>
-							
+
+							<Table>
+								<thead style={{background: '#7CC9BC', color: '#fff'}}>
+									<tr>
+										<td> Nome </td>
+										<td> Tipo </td> 
+									</tr>
+								</thead>
 							{
 								empresas.map(empresa => (
-									<div key={empresa.id} style={{backgroundColor: '#f9f7f7', marginTop: 10}}>
+									<tbody key={empresa.id} style={{backgroundColor: '#f9f7f7', marginTop: 10}}>
 										<Empresa 
 											key={empresa._id}
 											empresa_id={empresa._id}
 										/>
-									</div>
+									
+									
+									 </tbody>
 								))
 							}
+							</Table>
+
 						</div>
 				}
 			</div>
