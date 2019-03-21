@@ -112,7 +112,7 @@ class ExtratoAdministracao extends React.Component {
 														{categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO } - {categoria.nome}
 													</Button>
 												</td>
-												<td>R$ {listaDeNaoRecebidoPorCategorias[categoria._id].toFixed(2).replace(".",",")}</td>
+												<td>R$ {(listaDeNaoRecebidoPorCategorias[categoria._id]).toLocaleString('pt-BR')}</td>
 											</tr>
 										</tbody>
 									)
