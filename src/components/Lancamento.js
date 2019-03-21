@@ -3,6 +3,9 @@ import {
 	Row,
 	Col,
 	Button,
+	Card,
+	CardBody,
+	CardTitle,
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import Responsive from 'react-responsive';
@@ -11,6 +14,7 @@ import {
 	STRING_DEBITO,
 	STRING_CREDITO,
 	SITUACAO_NAO_RECEBIDO,
+	SITUACAO_RECEBIDO,
 } from '../helpers/constantes'
 import LancamentoSituacao from './LancamentoSituacao'
 import { removerLancamentoNaApi } from '../actions'
@@ -51,7 +55,6 @@ class Lancamento extends React.Component {
 	}
 
 	render() {
-		const Desktop = props => <Responsive {...props} minWidth={992} />;
 		const { 
 			lancamento, 
 			lancamentoSituacao,
@@ -66,6 +69,7 @@ class Lancamento extends React.Component {
 
 		let	lancamentoSituacaoAtual = null
 		let situacao = null
+		let corSituacao = 'text-muted'
 		if(lancamentoSituacao){
 			lancamentoSituacaoAtual = lancamentoSituacao.find(lancamentoSituacao => (
 				lancamentoSituacao.data_inativacao === null
@@ -74,18 +78,84 @@ class Lancamento extends React.Component {
 				situacao = situacoes.find((situacao) => (
 					situacao._id === lancamentoSituacaoAtual.situacao_id
 				)) 
+				if(situacao._id === SITUACAO_RECEBIDO){
+					if(categoria.credito_debito === 'C'){
+						corSituacao = 'text-success'
+					}else{
+						corSituacao = 'text-danger'
+					}
+				}
 			}
 		}
 		return (
-			<tbody style={{ backgroundColor: '#f9f7f7', marginTop: 10, fontSize: 14}}>
-				<Desktop><td> {lancamento.data} </td></Desktop>
-				<td>R$ {lancamento.valor}</td>
-				<Desktop><td>{lancamento.taxa}</td></Desktop>
+			<Card className={corSituacao} style={{fontSize: 14, marginTop: 5}}>
+				<CardBody>
+					<CardTitle style={{marginBottom: 0}}>
+						{lancamento.data}	
+					</CardTitle>
+					<CardTitle style={{marginBottom: 0}}>
+						{categoria && categoria.nome} - R$ {lancamento.valor}
+					</CardTitle>
+					<CardTitle style={{marginBottom: 0}}>
+						{categoria && categoria	=== 'C' ? STRING_CREDITO : STRING_DEBITO} - {situacao && situacao.nome}
+					</CardTitle>
+					<CardTitle style={{marginBottom: 0}}>
+						Empresa: {empresa && empresa.nome}
+					</CardTitle>
+					<Button 
+						outline
+						color='success'
+						type='button' 
+						size='sm'
+						style={{marginLeft: 10}}
+						onClick={() => this.alterarMostrarTodosLancamentoSituacao()}
+					>
+						Situações <FontAwesomeIcon icon="expand-arrows-alt" size="sm"  />
+					</Button>
+					{ 
+					usuarioLogado.empresa_id === EMPRESA_ADMINISTRACAO_ID && 
+					<Button 
+						outline
+						color='success'
+						type='button' 
+						size='sm'
+						style={{marginLeft: 10}}
+						onClick={() => this.props.alternarMostrarAlterarLancamento(lancamento._id)}
+					>
+						Alterar <FontAwesomeIcon icon="edit" size="sm" />
+							</Button>
+					}
+					{
+						lancamentoSituacaoAtual &&
+							lancamentoSituacaoAtual.situacao_id === SITUACAO_NAO_RECEBIDO &&
+							usuarioLogado.empresa_id !== EMPRESA_ADMINISTRACAO_ID && 
+							<Button 
+								outline
+								color='success'
+								type='button' 
+								size='sm'
+								style={{marginLeft: 10}}
+								onClick={() => this.removerLancamento(lancamentoSituacaoAtual._id)}
+							>
+								<FontAwesomeIcon icon="trash" size="sm"  />
+							</Button>
+					}
+					{ 
+					lancamentoSituacao && 
+					mostrarTodosLancamentoSituacao && 
+					lancamentoSituacao.map(lancamentoSituacao => (
+						<LancamentoSituacao 
+							key={lancamentoSituacao._id}
+							lancamento_situacao_id={lancamentoSituacao._id} />
+					))
+					}
+				</CardBody>
+				{/*				<td>{lancamento.data}</td>
 				<td>{categoria.nome}</td>
-				<Desktop><td>{categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO}</td></Desktop>
+				<td>R$ {lancamento.valor}</td>
+				<td>{categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO}</td>
 				<td>{situacao && situacao.nome}</td>
-				<Desktop><td>{empresa.nome}</td></Desktop>
-				{/* <Desktop><td>{lancamento.descricao}</td></Desktop> */}
+				<td>{empresa.nome}</td>
 				<Row style={{justifyContent: 'center', marginTop: 8, flexDirection: 'column'}}>
 					<Col style={{paddingLeft: 0, paddingRight: 0, flexGrow: 0}}>
 						<Button 
@@ -127,25 +197,26 @@ class Lancamento extends React.Component {
 					lancamentoSituacao && 
 						mostrarTodosLancamentoSituacao && 
 						<tr>
-							<thead>
-								<tr>   
-									<td>Data</td>
-									<td>Nome</td>
-									<td>Usuario</td>
+						<th colspan="12" style={{padding: 0}}>
+
+								<tr style={{background: '#eee'}}>
+									<td colspan="4">Data</td>
+									<td colspan="4">Nome</td>
+									<td colspan="4">Usuario</td>
 								</tr>
-								</thead> 
-							<tbody>
 							{
 								lancamentoSituacao.map(lancamentoSituacao => (
 									<LancamentoSituacao 
-										key={lancamentoSituacao._id}
-										lancamento_situacao_id={lancamentoSituacao._id} />
-								))
-							} 
-						   </tbody>  
+									key={lancamentoSituacao._id}
+									lancamento_situacao_id={lancamentoSituacao._id} />
+									))
+								} 
+						</th>
 						</tr>	
+
 				}
-			</tbody>
+				*/}
+			</Card>
 		)
 	}
 }

@@ -1,5 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import {
+	Card,
+	CardBody,
+	CardTitle,
+} from 'reactstrap'
+
 
 class LancamentoSituacao extends React.Component {
 
@@ -9,18 +15,18 @@ class LancamentoSituacao extends React.Component {
 			situacao,
 			usuario,
 		} = this.props
+		let corCard = 'text-muted'
 		return (
-			<tr>
-				<td>
-					{lancamentoSituacao.data_criacao}
-				</td>
-				<td>
-					{situacao.nome}
-				</td>
-				<td>
-					{usuario.nome.split(' ')[0]}
-				</td>
-			</tr>
+			<Card className={corCard} style={{marginTop: 5}}>
+				<CardBody>
+					<CardTitle style={{marginBottom: 0}}>
+						{lancamentoSituacao.data_criacao} - {situacao && situacao.nome}		
+					</CardTitle>
+					<CardTitle style={{marginBottom: 0}}>
+						Usuário: {usuario && usuario.nome.split(' ')[0]}		
+					</CardTitle>
+				</CardBody>
+			</Card>
 		)
 	}
 }
