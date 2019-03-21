@@ -1,14 +1,11 @@
 import React from 'react'
 import {
-	Row,
-	Col,
 	Button,
 	Card,
 	CardBody,
 	CardTitle,
 } from 'reactstrap'
 import { connect } from 'react-redux'
-import Responsive from 'react-responsive';
 import { 
 	EMPRESA_ADMINISTRACAO_ID,
 	STRING_DEBITO,
