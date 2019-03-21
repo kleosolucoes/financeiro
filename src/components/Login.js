@@ -86,7 +86,6 @@ class Login extends React.Component {
 							tela = TELA_EXTRATO_ADMINISTRACAO
 						}
 						this.props.salvarUsuarioLogado(dados.resultado)
-						//this.puxarTodosDados()
 						this.props.alterarTela(tela)
 					}
 				})

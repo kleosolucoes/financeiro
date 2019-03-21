@@ -2,16 +2,14 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Lancamento from './Lancamento'
 import LancarUm from './LancarUm'
-import Responsive from 'react-responsive';
 import {
 	Label,
 	FormGroup,
 	Input,
 	Row,
 	Col,
-	Table,
 	Alert,
-	Button
+	Button,
 } from 'reactstrap'
 import { EMPRESA_ADMINISTRACAO_ID } from '../helpers/constantes'
 import { Cabecalho } from './Cabecalho';
@@ -58,7 +56,6 @@ class Lancamentos extends React.Component {
 	})
 
 	render() {
-		const Desktop = props => <Responsive {...props} minWidth={992} />;
 		const { 
 			lancamentos, 
 			categorias,
@@ -231,32 +228,14 @@ class Lancamentos extends React.Component {
 							}
 							{
 								!carregando &&
-									<Table style={{textAlign: 'center'}}>
-										<thead style={{background: '#7CC9BC', color: '#fff'}}>
-											<tr>
-												<Desktop><td>Data</td></Desktop>
-												<td>Categoria</td>
-												<td>Valor</td>
-												<Desktop><td>Taxa</td></Desktop>
-												<Desktop><td>Tipo</td></Desktop>
-												{/* <Desktop><td>Quem Lançou</td></Desktop> */}
-												<td>Situação</td>
-												<Desktop><td>Empresa</td></Desktop>
-												{/* <Desktop><td>Descrição</td></Desktop> */}
-												<td>#</td>
-											</tr>
-										</thead>
-										{
-											lancamentosFiltrados &&
-												lancamentosFiltrados.map(lancamento => 
-													<Lancamento 
-														key={lancamento._id}
-														lancamento_id={lancamento._id} 
-														alternarMostrarAlterarLancamento={this.alternarMostrarAlterarLancamento}
-													/>
-												)
-										}
-									</Table>
+									lancamentosFiltrados &&
+									lancamentosFiltrados.map(lancamento => 
+										<Lancamento 
+											key={lancamento._id}
+											lancamento_id={lancamento._id} 
+											alternarMostrarAlterarLancamento={this.alternarMostrarAlterarLancamento}
+										/>
+									)
 							}
 						</div>
 				}
