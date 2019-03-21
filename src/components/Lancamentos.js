@@ -235,9 +235,9 @@ class Lancamentos extends React.Component {
 										<thead style={{background: '#7CC9BC', color: '#fff'}}>
 											<tr>
 												<Desktop><td>Data</td></Desktop>
+												<td>Categoria</td>
 												<td>Valor</td>
 												<Desktop><td>Taxa</td></Desktop>
-												<td>Categoria</td>
 												<Desktop><td>Tipo</td></Desktop>
 												{/* <Desktop><td>Quem Lançou</td></Desktop> */}
 												<td>Situação</td>

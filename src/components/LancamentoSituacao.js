@@ -11,15 +11,9 @@ class LancamentoSituacao extends React.Component {
 		} = this.props
 		return (
 			<tr>
-				<td>
-					{lancamentoSituacao.data_criacao}
-				</td>
-				<td>
-					{situacao.nome}
-				</td>
-				<td>
-					{usuario.nome.split(' ')[0]}
-				</td>
+				<td colspan="4">{lancamentoSituacao.data_criacao}</td>
+				<td colspan="4">{situacao.nome}</td>
+				<td colspan="4">{usuario.nome.split(' ')[0]}</td>
 			</tr>
 		)
 	}

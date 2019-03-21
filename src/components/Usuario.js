@@ -42,17 +42,17 @@ class Usuario extends React.Component {
 		return (
 			<tbody>
 				<tr>
-					<td>{usuario.nome.split(' ')[0]}</td>
-					<Desktop><td>{usuario.data_criacao}</td></Desktop>
+					<td style={{color: '#2f8c7c', verticalAlign: 'middle'}}>{usuario.nome.split(' ')[0]}</td>
+					<Desktop><td style={{verticalAlign: 'middle'}}>{usuario.data_criacao}</td></Desktop>
 					<Desktop><td>{usuarioTipo.nome}</td></Desktop>
 					{
 						usuarioLogado.empresa_id === EMPRESA_ADMINISTRACAO_ID &&
-							<td>{empresa && empresa.nome}</td>
-						}
-					<Desktop><td>{usuario.email}</td></Desktop>
+							<td style={{verticalAlign: 'middle'}}>{empresa && empresa.nome}</td>
+					}
+					<Desktop><td style={{verticalAlign: 'middle'}}>{usuario.email}</td></Desktop>
 					{
 						usuario._id !== usuarioLogado.usuario_id &&
-							<td>
+							<td style={{verticalAlign: 'middle'}}>
 								<Button 
 									type='button' 
 									className="botao-remover"

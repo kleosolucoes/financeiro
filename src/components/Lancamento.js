@@ -3,6 +3,7 @@ import {
 	Row,
 	Col,
 	Button,
+	Table
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import Responsive from 'react-responsive';
@@ -79,9 +80,9 @@ class Lancamento extends React.Component {
 		return (
 			<tbody style={{ backgroundColor: '#f9f7f7', marginTop: 10, fontSize: 14}}>
 				<Desktop><td> {lancamento.data} </td></Desktop>
+				<td>{categoria.nome}</td>
 				<td>R$ {lancamento.valor}</td>
 				<Desktop><td>{lancamento.taxa}</td></Desktop>
-				<td>{categoria.nome}</td>
 				<Desktop><td>{categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO}</td></Desktop>
 				<td>{situacao && situacao.nome}</td>
 				<Desktop><td>{empresa.nome}</td></Desktop>
@@ -127,23 +128,27 @@ class Lancamento extends React.Component {
 					lancamentoSituacao && 
 						mostrarTodosLancamentoSituacao && 
 						<tr>
-							<thead>
-								<tr>   
-									<td>Data</td>
-									<td>Nome</td>
-									<td>Usuario</td>
+						<th colspan="12" style={{padding: 0}}>
+
+							{/* <thead> */}
+								<tr style={{background: '#eee'}}>
+									<td colspan="4">Data</td>
+									<td colspan="4">Nome</td>
+									<td colspan="4">Usuario</td>
 								</tr>
-								</thead> 
-							<tbody>
+								{/* </thead>  */}
+							{/* <tbody style={{background: '#eee'}}> */}
 							{
 								lancamentoSituacao.map(lancamentoSituacao => (
 									<LancamentoSituacao 
-										key={lancamentoSituacao._id}
-										lancamento_situacao_id={lancamentoSituacao._id} />
-								))
-							} 
-						   </tbody>  
+									key={lancamentoSituacao._id}
+									lancamento_situacao_id={lancamentoSituacao._id} />
+									))
+								} 
+						   {/* </tbody>   */}
+						</th>
 						</tr>	
+
 				}
 			</tbody>
 		)
