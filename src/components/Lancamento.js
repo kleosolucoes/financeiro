@@ -3,7 +3,6 @@ import {
 	Row,
 	Col,
 	Button,
-	Table
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import Responsive from 'react-responsive';
@@ -81,7 +80,7 @@ class Lancamento extends React.Component {
 			<tbody style={{ backgroundColor: '#f9f7f7', marginTop: 10, fontSize: 14}}>
 				<Desktop><td> {lancamento.data} </td></Desktop>
 				<td>{categoria.nome}</td>
-				<td>R$ {lancamento.valor}</td>
+				<td>R$ {lancamento.valor.toFixed(2).replace(".",",")}</td>
 				<Desktop><td>{lancamento.taxa}</td></Desktop>
 				<Desktop><td>{categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO}</td></Desktop>
 				<td>{situacao && situacao.nome}</td>

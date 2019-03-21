@@ -69,11 +69,12 @@ class CabecalhoExtrato extends React.Component {
 					<Col sm="12" lg="4">
 						<Card className="card-saldo">
 							<CardTitle> 
+								
 								{ saldo >= 0 &&	
-								<span style={{color: '#2f8c7c'}}> R$ {saldo}</span>
+								<span style={{color: '#2f8c7c'}}> R$ {saldo.toFixed(2).replace(".",",")}</span>
 								}
 								{ saldo < 0 &&	
-								<span style={{color: 'brown'}}> R$ {saldo}</span>
+								<span style={{color: 'brown'}}> R$ {saldo.toFixed(2).replace(".",",")}</span>
 								}
 							</CardTitle>
 							<CardText style={{fontSize: 12}}>Saldo</CardText>
@@ -82,14 +83,14 @@ class CabecalhoExtrato extends React.Component {
 
 					<Col sm="12" lg="4">
 						<Card className="card-saldo">
-							<CardTitle style={{color: 'gray'}}>R$ {naoRecebidoCredito}</CardTitle>
+							<CardTitle style={{color: 'gray'}}>R$ {naoRecebidoCredito.toFixed(2).replace(".",",")}</CardTitle>
 							<CardText style={{fontSize: 12}}>Não Aceitos - Creditos</CardText>
 						</Card>
 					</Col>
 
 					<Col sm="12" lg="4">
 						<Card className="card-saldo">
-							<CardTitle style={{color: 'brown'}}>R$ {naoRecebidoDebito}</CardTitle>
+							<CardTitle style={{color: 'brown'}}>R$ {naoRecebidoDebito.toFixed(2).replace(".",",")}</CardTitle>
 							<CardText style={{fontSize: 12}}>Não Aceitos - Debitos</CardText>
 						</Card>
 					</Col>
