@@ -91,7 +91,7 @@ class Lancamento extends React.Component {
 						{lancamento.data}	
 					</CardTitle>
 					<CardTitle style={{marginBottom: 0}}>
-						{categoria && categoria.nome} - R$ {lancamento.valor}
+						{categoria && categoria.nome} - R$ {(lancamento.valor).toLocaleString('pt-BR')}
 					</CardTitle>
 					<CardTitle style={{marginBottom: 0}}>
 						{categoria && categoria	=== 'C' ? STRING_CREDITO : STRING_DEBITO} - {situacao && situacao.nome}
