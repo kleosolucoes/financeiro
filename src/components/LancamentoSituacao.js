@@ -17,7 +17,7 @@ class LancamentoSituacao extends React.Component {
 		} = this.props
 		let corCard = 'text-muted'
 		return (
-			<Card className={corCard} style={{marginTop: 5}}>
+			<Card className={corCard} style={{marginTop: 10}}>
 				<CardBody>
 					<CardTitle style={{marginBottom: 0}}>
 						{lancamentoSituacao.data_criacao} - {situacao && situacao.nome}		
