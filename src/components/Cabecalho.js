@@ -73,11 +73,13 @@ class CabecalhoExtrato extends React.Component {
 					<Col sm="12" lg="4">
 						<Card className="card-saldo">
 							<CardTitle> 
+								
 								{ saldo >= 0 &&	
-								<span style={{color: '#2f8c7c'}}> R$ {saldo}</span>
+								<span style={{color: '#2f8c7c'}}> R$ {(saldo).toLocaleString('pt-BR')}</span>
+								
 								}
 								{ saldo < 0 &&	
-								<span style={{color: 'brown'}}> R$ {saldo}</span>
+								<span style={{color: 'brown'}}> R$ {(saldo).toLocaleString('pt-BR')}</span>
 								}
 							</CardTitle>
 							<CardText style={{fontSize: 12}}>Saldo</CardText>

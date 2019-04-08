@@ -228,13 +228,13 @@ class Lancamentos extends React.Component {
 							}
 							{
 								!carregando &&
-									lancamentosFiltrados &&
-									lancamentosFiltrados.map(lancamento => 
-										<Lancamento 
-											key={lancamento._id}
-											lancamento_id={lancamento._id} 
-											alternarMostrarAlterarLancamento={this.alternarMostrarAlterarLancamento}
-										/>
+								lancamentosFiltrados &&
+								lancamentosFiltrados.map(lancamento => 
+									<Lancamento 
+									key={lancamento._id}
+									lancamento_id={lancamento._id} 
+									alternarMostrarAlterarLancamento={this.alternarMostrarAlterarLancamento}
+									/>
 									)
 							}
 						</div>

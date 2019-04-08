@@ -4,6 +4,7 @@ import {
 	Card,
 	CardBody,
 	CardTitle,
+	Col
 } from 'reactstrap'
 import { connect } from 'react-redux'
 import { 
@@ -85,58 +86,64 @@ class Lancamento extends React.Component {
 			}
 		}
 		return (
-			<Card className={corSituacao} style={{fontSize: 14, marginTop: 5}}>
-				<CardBody>
-					<CardTitle style={{marginBottom: 0}}>
+			<Card className={corSituacao} style={{fontSize: 14, marginTop: 8, borderTop: '4px solid'}}>
+				<CardBody style={{display: 'flex', flexDirection: 'column', padding: 8, background: '#f9f7f7'}}>
+					<div style={{display: 'flex', justifyContent: 'flex-end'}}>
 						{lancamento.data}	
-					</CardTitle>
-					<CardTitle style={{marginBottom: 0}}>
-						{categoria && categoria.nome} - R$ {lancamento.valor}
-					</CardTitle>
-					<CardTitle style={{marginBottom: 0}}>
-						{categoria && categoria	=== 'C' ? STRING_CREDITO : STRING_DEBITO} - {situacao && situacao.nome}
-					</CardTitle>
-					<CardTitle style={{marginBottom: 0}}>
+					</div>
+					<CardTitle style={{marginBottom: 0, color: '#222'}}>
 						Empresa: {empresa && empresa.nome}
 					</CardTitle>
-					<Button 
-						outline
-						color='success'
-						type='button' 
-						size='sm'
-						style={{marginLeft: 10}}
-						onClick={() => this.alterarMostrarTodosLancamentoSituacao()}
-					>
-						Situações <FontAwesomeIcon icon="expand-arrows-alt" size="sm"  />
-					</Button>
-					{ 
-					usuarioLogado.empresa_id === EMPRESA_ADMINISTRACAO_ID && 
-					<Button 
-						outline
-						color='success'
-						type='button' 
-						size='sm'
-						style={{marginLeft: 10}}
-						onClick={() => this.props.alternarMostrarAlterarLancamento(lancamento._id)}
-					>
-						Alterar <FontAwesomeIcon icon="edit" size="sm" />
-							</Button>
-					}
-					{
-						lancamentoSituacaoAtual &&
-							lancamentoSituacaoAtual.situacao_id === SITUACAO_NAO_RECEBIDO &&
-							usuarioLogado.empresa_id !== EMPRESA_ADMINISTRACAO_ID && 
-							<Button 
-								outline
-								color='success'
-								type='button' 
-								size='sm'
-								style={{marginLeft: 10}}
-								onClick={() => this.removerLancamento(lancamentoSituacaoAtual._id)}
-							>
-								<FontAwesomeIcon icon="trash" size="sm"  />
-							</Button>
-					}
+					<CardTitle style={{margin: '5px 0px', color: '#222'}}>
+						{categoria && categoria.nome} - R$ {(lancamento.valor).toLocaleString('pt-BR')}
+					</CardTitle>
+					<CardTitle style={{marginBottom: 0, color: '#222'}}>
+						{categoria && categoria.credito_debito	=== 'C' ? STRING_CREDITO : STRING_DEBITO} - {situacao && situacao.nome}
+					</CardTitle>
+					
+					<div style={{display: 'flex', justifyContent: 'space-around', marginTop: 15}}>
+					<Col lg="4" style={{padding: 0, paddingRight: 5}}>
+						<Button 
+							className="botao-lancar"
+							style={{width: '100%'}}
+							onClick={() => this.alterarMostrarTodosLancamentoSituacao()}
+						>
+							<FontAwesomeIcon icon="expand-arrows-alt" size="sm" style={{marginRight: 5}} />
+							Situações 
+						</Button>
+					</Col>
+
+						{ 
+						usuarioLogado.empresa_id === EMPRESA_ADMINISTRACAO_ID && 
+						<Col lg="4" style={{padding: 0, paddingLeft: 5}}>
+						<Button 
+							className="botao-lancar"
+							style={{width: '100%'}}
+							onClick={() => this.props.alternarMostrarAlterarLancamento(lancamento._id)}
+						>
+							<FontAwesomeIcon icon="edit" size="sm" style={{marginRight: 5}} />
+							Alterar 
+						</Button>
+						</Col>
+
+						}
+						{
+							lancamentoSituacaoAtual &&
+								lancamentoSituacaoAtual.situacao_id === SITUACAO_NAO_RECEBIDO &&
+								usuarioLogado.empresa_id !== EMPRESA_ADMINISTRACAO_ID && 
+								<Col lg="4" style={{padding: 0, paddingLeft: 5}}>
+								<Button 
+									className="botao-lancar"
+									style={{width: '100%', color: 'brown'}}
+									onClick={() => this.removerLancamento(lancamentoSituacaoAtual._id)}
+								>
+									<FontAwesomeIcon icon="trash" size="sm" style={{marginRight: 5}} />
+									Excluir
+								</Button>
+								</Col>
+						}
+
+					</div>
 					{ 
 					lancamentoSituacao && 
 					mostrarTodosLancamentoSituacao && 
@@ -149,6 +156,8 @@ class Lancamento extends React.Component {
 				</CardBody>
 				{/*				<td>{lancamento.data}</td>
 				<td>{categoria.nome}</td>
+				<td>R$ {(lancamento.valor).toLocaleString('pt-BR')}</td>
+				<Desktop><td>{lancamento.taxa}</td></Desktop>
 				<td>R$ {lancamento.valor}</td>
 				<td>{categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO}</td>
 				<td>{situacao && situacao.nome}</td>
