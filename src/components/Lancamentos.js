@@ -20,8 +20,12 @@ class Lancamentos extends React.Component {
 	state = {
 		categoria_id: 0,
 		empresa_id: 0,
-		mes: (new Date().getMonth() + 1),
-		ano: new Date().getFullYear(),
+		diaInicial: new Date().getDate(),
+		mesInicial: (new Date().getMonth() + 1),
+		anoInicial: new Date().getFullYear(),
+		diaFinal: new Date().getDate(),
+		mesFinal: (new Date().getMonth() + 1),
+		anoFinal: new Date().getFullYear(),
 		mostrarAlterarLancamento: false,
 		lancamento_id: null,
 		carregando: false,
@@ -65,8 +69,12 @@ class Lancamentos extends React.Component {
 		const {
 			categoria_id,
 			empresa_id,
-			mes,
-			ano,
+			diaInicial,
+			mesInicial,
+			anoInicial,
+			diaFinal,
+			mesFinal,
+			anoFinal,
 			mostrarAlterarLancamento,
 			lancamento_id,
 			carregando,
@@ -81,13 +89,34 @@ class Lancamentos extends React.Component {
 			lancamentosFiltrados = lancamentosFiltrados
 				.filter(lancamento => lancamento.empresa_id === empresa_id)
 		}
-		if(mes && parseInt(mes) !== 0){
+		if(anoInicial && parseInt(anoInicial) !== 0){
 			lancamentosFiltrados = lancamentosFiltrados
-				.filter(lancamento => parseInt(lancamento.data.split('/')[1]) === parseInt(mes))
+				.filter(lancamento => parseInt(lancamento.data.split('/')[2]) >= parseInt(anoInicial))
+			if(mesInicial && parseInt(mesInicial) !== 0){
+				lancamentosFiltrados = lancamentosFiltrados
+					.filter(lancamento => parseInt(lancamento.data.split('/')[1]) >= parseInt(mesInicial))
+				if(diaInicial && parseInt(diaInicial) !== 0){
+					lancamentosFiltrados = lancamentosFiltrados
+						.filter(lancamento => parseInt(lancamento.data.split('/')[0]) >= parseInt(diaInicial))
+				}
+			}
 		}
-		if(ano && parseInt(ano) !== 0){
+		if(anoFinal && parseInt(anoFinal) !== 0){
 			lancamentosFiltrados = lancamentosFiltrados
-				.filter(lancamento => parseInt(lancamento.data.split('/')[2]) === parseInt(ano))
+				.filter(lancamento => parseInt(lancamento.data.split('/')[2]) <= parseInt(anoFinal))
+			if(mesFinal && parseInt(mesFinal) !== 0){
+				lancamentosFiltrados = lancamentosFiltrados
+					.filter(lancamento => parseInt(lancamento.data.split('/')[1]) <= parseInt(mesFinal))
+				if(diaFinal && parseInt(diaFinal) !== 0){
+					lancamentosFiltrados = lancamentosFiltrados
+						.filter(lancamento => parseInt(lancamento.data.split('/')[0]) <= parseInt(diaFinal))
+				}
+			}
+		}
+	
+		let arrayDias = []
+		for(let indiceDias = 1; indiceDias <= 31; indiceDias++){
+			arrayDias.push(<option key={indiceDias} value={indiceDias}>{indiceDias}</option>)
 		}
 		let arrayMes = []
 		for(let indiceMes = 1; indiceMes <= 12; indiceMes++){
@@ -185,14 +214,34 @@ class Lancamentos extends React.Component {
 								}
 							</Row>
 							<Row>
+								<Label style={{paddingLeft:15}}>Período Inicial:</Label>
+							</Row>
+							<Row>
 								<Col>
 									<FormGroup>
-										<Label for="mes">Mês:</Label>
+										<Label for="diaInicial">Dia:</Label>
 										<Input 
 											type="select" 
-											name="mes" 
-											id="mes" 
-											value={mes} 
+											name="diaInicial" 
+											id="diaInicial" 
+											value={diaInicial} 
+											onChange={this.ajudadorDeCampo}
+										>
+											<option value='0'>Todos</option>
+											{
+												arrayDias.map(dia => dia)
+											}
+										</Input>
+									</FormGroup>
+								</Col>
+								<Col>
+									<FormGroup>
+										<Label for="mesInicial">Mês:</Label>
+										<Input 
+											type="select" 
+											name="mesInicial" 
+											id="mesInicial" 
+											value={mesInicial} 
 											onChange={this.ajudadorDeCampo}
 										>
 											<option value='0'>Todos</option>
@@ -204,12 +253,68 @@ class Lancamentos extends React.Component {
 								</Col>
 								<Col>
 									<FormGroup>
-										<Label for="ano">Ano:</Label>
+										<Label for="anoInicial">Ano:</Label>
 										<Input 
 											type="select" 
-											name="ano" 
-											id="ano" 
-											value={ano} 
+											name="anoInicial" 
+											id="anoInicial" 
+											value={anoInicial} 
+											onChange={this.ajudadorDeCampo}
+										>
+											<option value='0'>Todos</option>
+											{
+												arrayAnos.map(ano => ano)
+											}
+										</Input>
+									</FormGroup>
+								</Col>
+							</Row>
+							<Row>
+								<Label style={{paddingLeft:15}}>Período Final:</Label>
+							</Row>
+							<Row>
+								<Col>
+									<FormGroup>
+										<Label for="diaFinal">Dia:</Label>
+										<Input 
+											type="select" 
+											name="diaFinal" 
+											id="diaFinal" 
+											value={diaFinal} 
+											onChange={this.ajudadorDeCampo}
+										>
+											<option value='0'>Todos</option>
+											{
+												arrayDias.map(dia => dia)
+											}
+										</Input>
+									</FormGroup>
+								</Col>
+								<Col>
+									<FormGroup>
+										<Label for="mesFinal">Mês:</Label>
+										<Input 
+											type="select" 
+											name="mesFinal" 
+											id="mesFinal" 
+											value={mesFinal} 
+											onChange={this.ajudadorDeCampo}
+										>
+											<option value='0'>Todos</option>
+											{
+												arrayMes.map(mes => mes)
+											}
+										</Input>
+									</FormGroup>
+								</Col>
+								<Col>
+									<FormGroup>
+										<Label for="anoFinal">Ano:</Label>
+										<Input 
+											type="select" 
+											name="anoFinal" 
+											id="anoFinal" 
+											value={anoFinal} 
 											onChange={this.ajudadorDeCampo}
 										>
 											<option value='0'>Todos</option>
