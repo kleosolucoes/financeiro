@@ -7,6 +7,10 @@ import {
 	CardText,
 	Button,
 } from "reactstrap";
+import { 
+	STRING_DEBITO,
+	STRING_CREDITO,
+} from '../helpers/constantes'
 import { connect } from 'react-redux'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -83,14 +87,14 @@ class CabecalhoExtrato extends React.Component {
 					<Col sm="12" lg="4">
 						<Card className="card-saldo">
 							<CardTitle style={{color: 'gray'}}>R$ {naoRecebidoCredito}</CardTitle>
-							<CardText style={{fontSize: 12}}>Não Aceitos - Creditos</CardText>
+							<CardText style={{fontSize: 12}}>Não Aceitos - {STRING_CREDITO}</CardText>
 						</Card>
 					</Col>
 
 					<Col sm="12" lg="4">
 						<Card className="card-saldo">
 							<CardTitle style={{color: 'brown'}}>R$ {naoRecebidoDebito}</CardTitle>
-							<CardText style={{fontSize: 12}}>Não Aceitos - Debitos</CardText>
+							<CardText style={{fontSize: 12}}>Não Aceitos - {STRING_DEBITO}</CardText>
 						</Card>
 					</Col>
 				</Row>
