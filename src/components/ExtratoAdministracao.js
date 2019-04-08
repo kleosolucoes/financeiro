@@ -7,8 +7,21 @@ import {
 	Alert,
 } from 'reactstrap'
 import { connect } from 'react-redux'
-import { SITUACAO_RECEBIDO, SITUACAO_NAO_RECEBIDO } from '../helpers/constantes'
-import { STRING_DEBITO, STRING_CREDITO, } from '../helpers/constantes'
+import { 
+	SITUACAO_RECEBIDO, 
+	SITUACAO_NAO_RECEBIDO,
+	CATEGORIA_DIZIMO_DEBITO,
+	CATEGORIA_DIZIMO_CREDITO,
+	CATEGORIA_OFERTA_DEBITO,
+	CATEGORIA_OFERTA_CREDITO,
+	CATEGORIA_OFERTA_ESPECIAL_DEBITO,
+	CATEGORIA_OFERTA_ESPECIAL_CREDITO,
+	CATEGORIA_OFERTA_DEBITO_INSTITUTO_DE_VENCEDORES,
+	CATEGORIA_OFERTA_CREDITO_INSTITUTO_DE_VENCEDORES,
+	CATEGORIA_CARTAO,
+	STRING_DEBITO,
+	STRING_CREDITO,
+} from '../helpers/constantes'
 import './aux.css';
 
 // ICONS
@@ -48,6 +61,7 @@ class ExtratoAdministracao extends React.Component {
 	}
 
 	render() {
+		console.log(this.props)
 		const { 
 			saldo,
 			naoRecebidoCredito,
@@ -89,7 +103,6 @@ class ExtratoAdministracao extends React.Component {
 								Carregando ...
 							</Alert>
 					}
-
 					<Table>
 						<thead style={{background: '#7CC9BC', color: '#fff'}}>
 							<tr>
@@ -99,20 +112,23 @@ class ExtratoAdministracao extends React.Component {
 						</thead>
 						{
 							!carregando && 
-							categorias &&
-								categorias.map(categoria => {
+							listaDeNaoRecebidoPorCategorias &&
+								listaDeNaoRecebidoPorCategorias.map(item => {
+									const categoria = categorias.find(categoria => categoria._id === item._id)
 									return (
-										<tbody key={categoria._id}>
+										<tbody key={`categoriaNaoRecebido${item._id}`}>
 											<tr>
 												<td>
 													<Button className="botaoTipoCategoria"
-														onClick={() => this.props.alterarTela('lancamentos', categoria._id)}
+														onClick={() => this.props.alterarTela('lancamentos', item._id)}
 														style={{textAlign: 'left'}}
 													>
 														{categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO } - {categoria.nome}
 													</Button>
 												</td>
-												<td>R$ {listaDeNaoRecebidoPorCategorias[categoria._id]}</td>
+												<td>
+													R$ {item.valor}
+												</td>
 											</tr>
 										</tbody>
 									)
@@ -134,13 +150,31 @@ const mapStateToProps = state => {
 	let naoRecebidoCredito = 0.00
 	let naoRecebidoDebito = 0.00
 	let listaDeNaoRecebidoPorCategorias = []
+	let somaCartao = 0
 	if(
 		state.categorias 
 		&& state.lancamentoSituacao
 		&& state.lancamentos
 		&& state.situacoes
 	){
-		state.categorias.forEach(categoria => listaDeNaoRecebidoPorCategorias[categoria._id.toString()] = 0)
+		state.categorias
+			.forEach(categoria => {
+				if(
+					categoria._id !== CATEGORIA_DIZIMO_DEBITO &&
+					categoria._id !== CATEGORIA_DIZIMO_CREDITO &&
+					categoria._id !== CATEGORIA_OFERTA_DEBITO &&
+					categoria._id !== CATEGORIA_OFERTA_CREDITO &&
+					categoria._id !== CATEGORIA_OFERTA_ESPECIAL_DEBITO &&
+					categoria._id !== CATEGORIA_OFERTA_ESPECIAL_CREDITO &&
+					categoria._id !== CATEGORIA_OFERTA_DEBITO_INSTITUTO_DE_VENCEDORES &&
+					categoria._id !== CATEGORIA_OFERTA_CREDITO_INSTITUTO_DE_VENCEDORES
+				){
+					const item = {}
+					item._id = categoria._id
+					item.valor = 0
+					listaDeNaoRecebidoPorCategorias.push(item)
+				}
+			})
 		state.lancamentos
 			.filter(lancamento => lancamento.data_inativacao === null)
 			.forEach(lancamento => {
@@ -170,10 +204,23 @@ const mapStateToProps = state => {
 						}else{
 							naoRecebidoDebito += valorFormatado
 						}
-						listaDeNaoRecebidoPorCategorias[categoriaAtiva._id] += valorFormatado
 						naoRecebidoCredito = parseFloat(naoRecebidoCredito.toFixed(2))
 						naoRecebidoDebito = parseFloat(naoRecebidoDebito.toFixed(2))
-						listaDeNaoRecebidoPorCategorias[categoriaAtiva._id] = parseFloat(listaDeNaoRecebidoPorCategorias[categoriaAtiva._id].toFixed(2))
+						//listaDeNaoRecebidoPorCategorias[categoriaAtiva._id] += valorFormatado
+						if(
+							categoriaAtiva._id === CATEGORIA_DIZIMO_DEBITO ||
+							categoriaAtiva._id === CATEGORIA_DIZIMO_CREDITO ||
+							categoriaAtiva._id === CATEGORIA_OFERTA_DEBITO ||
+							categoriaAtiva._id === CATEGORIA_OFERTA_CREDITO ||
+							categoriaAtiva._id === CATEGORIA_OFERTA_ESPECIAL_DEBITO ||
+							categoriaAtiva._id === CATEGORIA_OFERTA_ESPECIAL_CREDITO ||
+							categoriaAtiva._id === CATEGORIA_OFERTA_DEBITO_INSTITUTO_DE_VENCEDORES ||
+							categoriaAtiva._id === CATEGORIA_OFERTA_CREDITO_INSTITUTO_DE_VENCEDORES
+						){
+							somaCartao += valorFormatado
+						}else{
+							//listaDeNaoRecebidoPorCategorias[categoriaAtiva._id] = parseFloat(listaDeNaoRecebidoPorCategorias[categoriaAtiva._id].toFixed(2))
+						}
 					}
 				}
 			})
