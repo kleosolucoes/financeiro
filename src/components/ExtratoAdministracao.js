@@ -171,7 +171,7 @@ const mapStateToProps = state => {
 				){
 					const item = {}
 					item._id = categoria._id
-					item.valor = 0
+					item.valor = '0.00'
 					listaDeNaoRecebidoPorCategorias.push(item)
 				}
 			})
@@ -189,7 +189,7 @@ const mapStateToProps = state => {
 					const categoriaAtiva = state.categorias
 						.find(categoria => lancamento.categoria_id === categoria._id.toString())
 
-					const valorFormatado = parseFloat(lancamento.valor.toFixed(2))
+					let valorFormatado = parseFloat(lancamento.valor.toFixed(2))
 					if(situacaoAtiva._id === SITUACAO_RECEBIDO){
 						if(categoriaAtiva.credito_debito === 'C'){
 							saldo += valorFormatado
@@ -206,7 +206,7 @@ const mapStateToProps = state => {
 						}
 						naoRecebidoCredito = parseFloat(naoRecebidoCredito.toFixed(2))
 						naoRecebidoDebito = parseFloat(naoRecebidoDebito.toFixed(2))
-						//listaDeNaoRecebidoPorCategorias[categoriaAtiva._id] += valorFormatado
+						let item = null
 						if(
 							categoriaAtiva._id === CATEGORIA_DIZIMO_DEBITO ||
 							categoriaAtiva._id === CATEGORIA_DIZIMO_CREDITO ||
@@ -218,9 +218,22 @@ const mapStateToProps = state => {
 							categoriaAtiva._id === CATEGORIA_OFERTA_CREDITO_INSTITUTO_DE_VENCEDORES
 						){
 							somaCartao += valorFormatado
+							valorFormatado = somaCartao
+							item = listaDeNaoRecebidoPorCategorias
+								.find(item => item._id === CATEGORIA_CARTAO)
 						}else{
-							//listaDeNaoRecebidoPorCategorias[categoriaAtiva._id] = parseFloat(listaDeNaoRecebidoPorCategorias[categoriaAtiva._id].toFixed(2))
+							item = listaDeNaoRecebidoPorCategorias
+								.find(item => item._id === categoriaAtiva._id)
 						}
+						item.valor = valorFormatado.toFixed(2)
+						listaDeNaoRecebidoPorCategorias = listaDeNaoRecebidoPorCategorias
+							.map(itemNaLista => {
+								if(itemNaLista._id === item._id){
+									return item
+								}else{
+									return itemNaLista
+								}
+							})
 					}
 				}
 			})
