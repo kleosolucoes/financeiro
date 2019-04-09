@@ -17,29 +17,29 @@
   align-items: stretch;
 }
 .style-input {
-  background: #fff!important;
-  border: 1px solid #ddd!important;
+  background: #fff !important;
+  border: 1px solid #ddd !important;
   border-radius: 5px;
   height: 44px;
   padding: 0 15px;
   font-size: 14px;
 }
 .style-button-login {
-  margin: 10px 0 0!important;
-  background: transparent!important;
-  border-radius: 5px!important;
-  height: 44px!important;
-  border: 1px solid #2f8c7c!important;
-  color: #2f8c7c!important;
-  font-weight: bold!important;
-  cursor: pointer!important;
-  font-size: 16px!important;
-  max-width: 280px!important;
-  width: 100%!important;
+  margin: 10px 0 0 !important;
+  background: transparent !important;
+  border-radius: 5px !important;
+  height: 44px !important;
+  border: 1px solid #2f8c7c !important;
+  color: #2f8c7c !important;
+  font-weight: bold !important;
+  cursor: pointer !important;
+  font-size: 16px !important;
+  max-width: 280px !important;
+  width: 100% !important;
 }
 .style-button-login:hover {
-  color: #fff!important;
-  background: #2f8c7c!important;
+  color: #fff !important;
+  background: #2f8c7c !important;
 }
 
 /* EXTRATO */
@@ -108,8 +108,8 @@
 .total-categoria-lancado {
   text-align: center;
   align-items: center;
-  background: #7CC9BC!important;
-  color: #fff!important;
+  background: #7cc9bc !important;
+  color: #fff !important;
   margin-top: 10px;
   padding: 10px;
 }
@@ -124,13 +124,13 @@
 .botao-lancar {
   /* width: 100%; */
   background: transparent !important;
-  border: 1px solid #2f8c7c!important;
+  border: 1px solid #2f8c7c !important;
   color: #2f8c7c !important;
 }
 .botao-remover {
   width: 100%;
   background: transparent !important;
-  border: none!important;
+  border: none !important;
   /* border-radius: 4px!important; */
   color: #2f8c7c !important;
   color: brown !important;
@@ -141,46 +141,52 @@
 }
 
 /* USUARIO */
-.container-usuario{
+.container-usuario {
   margin-top: 15px;
   border-radius: 4px;
   background: #f9f7f7 !important;
   color: #2f8c7c !important;
-  border: 1px solid #ddd!important;
+  border: 1px solid #ddd !important;
   /* box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12); */
 }
 
 /* CATEGORIAS */
-.container-categoria{
+.container-categoria {
   margin-top: 10px;
   padding: 5px;
   border-radius: 4px;
   background: #f9f7f7 !important;
   color: #2f8c7c !important;
-  border: 1px solid #ddd!important;
+  border: 1px solid #ddd !important;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
 }
-.col-style{
-  padding: 0px 5px!important;
+.col-style {
+  padding: 0px 5px !important;
   display: flex;
   align-items: center;
 }
 
 /* LANÇAMENTOS */
 .botao-acao {
-  width: 25px!important;
-  height: 25px!important;
+  width: 25px !important;
+  height: 25px !important;
   background: transparent !important;
   color: #2f8c7c !important;
-  border: none!important;
-  padding: 0!important;
+  border: none !important;
+  padding: 0 !important;
   border-radius: 0 !important;
-  border-radius: 4px!important;
+  border-radius: 4px !important;
+}
+.container-lancamentos {
+  padding: 5px;
+  border-radius: 4px;
+  background: #f9f7f7 !important;
+  color: #2f8c7c !important;
 }
 
 /* EXTRATO ADMINISTRACAO */
-.botaoTipoCategoria{
-  background: transparent!important;
-  border: none!important;
-  color: #2f8c7c!important;
+.botaoTipoCategoria {
+  background: transparent !important;
+  border: none !important;
+  color: #2f8c7c !important;
 }
