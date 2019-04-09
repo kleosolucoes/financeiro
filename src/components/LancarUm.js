@@ -12,7 +12,8 @@ import {
 import { connect } from 'react-redux'
 import { 
 	STRING_DEBITO,
-	STRING_CREDITO
+	STRING_CREDITO,
+	DARKGREEN
 } from '../helpers/constantes'
 import { formatReal, getMoney, pegarDataEHoraAtual } from '../helpers/funcoes'
 import { 
@@ -247,7 +248,7 @@ class LancarUm extends React.Component {
 									lancamento && 
 										empresa &&
 											<p>
-												<Badge style={{padding: 5, background: '#2f8c7c'}}>
+												<Badge style={{padding: 5, background: DARKGREEN}}>
 													{empresa.nome}
 												</Badge>
 											</p>
@@ -292,7 +293,7 @@ class LancarUm extends React.Component {
 									lancamento && 
 										categoria &&
 											<p>
-												<Badge style={{padding: 5, background: '#2f8c7c'}}>
+												<Badge style={{padding: 5, background: DARKGREEN}}>
 													{categoria.nome}
 												</Badge>
 											</p>

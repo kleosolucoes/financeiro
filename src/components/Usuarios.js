@@ -10,7 +10,7 @@ import {
 import { connect } from 'react-redux'
 import Usuario from './Usuario'
 import UsuarioSalvar from './UsuarioSalvar'
-import { EMPRESA_ADMINISTRACAO_ID } from '../helpers/constantes'
+import { EMPRESA_ADMINISTRACAO_ID, LIGHTGREEN } from '../helpers/constantes'
 import Responsive from 'react-responsive';
 import { CabecalhoBotao } from './Cabecalho';
 
@@ -97,7 +97,7 @@ class Usuarios extends React.Component {
 							</Row>
 					}
 							<Table style={{textAlign: 'center'}}>
-								<thead style={{background: '#7CC9BC', color: '#fff'}}>
+								<thead style={{background: LIGHTGREEN, color: '#fff'}}>
 									<tr>
 										<th>Nome</th>
 										<Desktop><th>Data</th></Desktop>

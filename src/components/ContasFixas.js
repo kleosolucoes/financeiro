@@ -12,6 +12,7 @@ import Responsive from 'react-responsive';
 import ContaFixa from './ContaFixa'
 import ContaFixaSalvar from './ContaFixaSalvar'
 import { CabecalhoBotao } from './Cabecalho';
+import { LIGHTGREEN } from '../helpers/constantes';
 
 class ContasFixas extends React.Component {
 
@@ -126,7 +127,7 @@ class ContasFixas extends React.Component {
 								</Col>
 							</Row>
 							<Table style={{textAlign: 'center'}}>
-								<thead style={{background: '#7CC9BC', color: '#fff'}}>
+								<thead style={{background: LIGHTGREEN, color: '#fff'}}>
 									<tr>
 										<Desktop><th>Data</th></Desktop>
 										<th>Gerar dia</th>

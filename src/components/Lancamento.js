@@ -13,6 +13,7 @@ import {
 	STRING_CREDITO,
 	SITUACAO_NAO_RECEBIDO,
 	SITUACAO_RECEBIDO,
+	LIGHTGRAY,
 } from '../helpers/constantes'
 import LancamentoSituacao from './LancamentoSituacao'
 import { removerLancamentoNaApi } from '../actions'
@@ -87,7 +88,7 @@ class Lancamento extends React.Component {
 		}
 		return (
 			<Card className={corSituacao} style={{fontSize: 14, marginTop: 8, borderTop: '4px solid'}}>
-				<CardBody style={{display: 'flex', flexDirection: 'column', padding: 8, background: '#f9f7f7'}}>
+				<CardBody style={{display: 'flex', flexDirection: 'column', padding: 8, background: LIGHTGRAY}}>
 					<div style={{display: 'flex', justifyContent: 'flex-end'}}>
 						{lancamento.data}	
 					</div>

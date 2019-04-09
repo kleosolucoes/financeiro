@@ -10,6 +10,8 @@ import {
 import { 
 	STRING_DEBITO,
 	STRING_CREDITO,
+	DARKGREEN,
+	LIGHTGRAY,
 } from '../helpers/constantes'
 import { connect } from 'react-redux'
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -55,14 +57,14 @@ class CabecalhoExtrato extends React.Component {
 			naoRecebidoCredito,
 		} = this.props
 		return (
-			<div style={{background: '#f9f7f7'}}>
+			<div style={{background: LIGHTGRAY}}>
 				<Row style={{justifyContent: 'center', margin: 0}}>
 					<Col> 
-						<h5 style={{padding: 10, fontWeight: '300', color: '#2f8c7c'}}>Olá, {usuario && usuario.nome.split(' ')[0]}!</h5>
+						<h5 style={{padding: 10, fontWeight: '300', color: DARKGREEN}}>Olá, {usuario && usuario.nome.split(' ')[0]}!</h5>
 					</Col>
 					<Button 
 						onClick={onClick}
-						style={{height: 40, width: 40, background: 'transparent', color: "#2f8c7c", margin: 5, border: 0}}
+						style={{height: 40, width: 40, background: 'transparent', color: DARKGREEN, margin: 5, border: 0}}
 					>
 						<FontAwesomeIcon icon="sync-alt" size="sm" />
 					</Button>
@@ -75,7 +77,7 @@ class CabecalhoExtrato extends React.Component {
 							<CardTitle> 
 								
 								{ saldo >= 0 &&	
-								<span style={{color: '#2f8c7c'}}> R$ {(saldo).toLocaleString('pt-BR')}</span>
+								<span style={{color: DARKGREEN}}> R$ {(saldo).toLocaleString('pt-BR')}</span>
 								
 								}
 								{ saldo < 0 &&	

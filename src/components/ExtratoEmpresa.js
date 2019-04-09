@@ -3,7 +3,7 @@ import {
 	Alert,
 } from 'reactstrap'
 import { connect } from 'react-redux'
-import { SITUACAO_RECEBIDO, SITUACAO_NAO_RECEBIDO } from '../helpers/constantes'
+import { SITUACAO_RECEBIDO, SITUACAO_NAO_RECEBIDO, LIGHTGRAY } from '../helpers/constantes'
 import './aux.css';
 
 // ICONS
@@ -59,7 +59,7 @@ class ExtratoEmpresa extends React.Component {
 	
 		return (
 			<div style={{marginTop: 80}}>
-				<div style={{background: '#f9f7f7'}}>
+				<div style={{background: LIGHTGRAY}}>
 					{
 						carregando &&
 						<Alert color='info' className='text-center'>

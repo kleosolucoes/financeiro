@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { DARKGREEN } from '../helpers/constantes';
 
 class Empresa extends React.Component {
 
@@ -10,7 +11,7 @@ class Empresa extends React.Component {
 		} = this.props
 		return (
 			<tr style={{background: 'transparent'}}>
-				<td style={{color: '#2f8c7c'}}>{empresa && empresa.nome}</td>
+				<td style={{color: DARKGREEN}}>{empresa && empresa.nome}</td>
 				<td>{empresaTipo && empresaTipo.nome}</td>
 			</tr>
 		)

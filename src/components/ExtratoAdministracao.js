@@ -21,6 +21,9 @@ import {
 	CATEGORIA_CARTAO,
 	STRING_DEBITO,
 	STRING_CREDITO,
+	DARKGREEN,
+	LIGHTGREEN,
+	LIGHTGRAY,
 } from '../helpers/constantes'
 import './aux.css';
 
@@ -74,7 +77,7 @@ class ExtratoAdministracao extends React.Component {
 		} = this.state
 		return (
 			<div style={{marginTop: 80}}>
-				<div style={{background: '#f9f7f7'}}>
+				<div style={{background: LIGHTGRAY}}>
 					{
 						carregando &&
 						<Alert color='info' className='text-center'>
@@ -91,9 +94,9 @@ class ExtratoAdministracao extends React.Component {
 						/>
 					}
 				</div>	
-				<div style={{marginTop: 15, backgroundColor: '#f9f7f7'}}>
+				<div style={{marginTop: 15, backgroundColor: LIGHTGRAY}}>
 					<Row style={{margin: 0}}>
-						<Col style={{textAlign: 'center', backgroundColor: '#2f8c7c', padding: 5, color: '#fff'}}>
+						<Col style={{textAlign: 'center', backgroundColor: DARKGREEN, padding: 5, color: '#fff'}}>
 							Não Aceitos
 						</Col>
 					</Row>
@@ -104,7 +107,7 @@ class ExtratoAdministracao extends React.Component {
 							</Alert>
 					}
 					<Table>
-						<thead style={{background: '#7CC9BC', color: '#fff'}}>
+						<thead style={{background: LIGHTGREEN, color: '#fff'}}>
 							<tr>
 								<th>Categoria</th>
 								<th style={{paddingRight: 30, paddingLeft: 30, verticalAlign: 'middle'}}>Valor</th>

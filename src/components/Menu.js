@@ -10,7 +10,7 @@ import {
 	NavLink,
 } from 'reactstrap'
 import { connect } from 'react-redux'
-import { EMPRESA_ADMINISTRACAO_ID } from '../helpers/constantes'
+import { EMPRESA_ADMINISTRACAO_ID, DARKGREEN } from '../helpers/constantes'
 
 class Menu extends React.Component {
 	state = {
@@ -34,7 +34,7 @@ class Menu extends React.Component {
 		const { menuAberto } = this.state;
 
 		return (
-			<Navbar fixed="top" style={{background: '#2f8c7c'}} light={true} expand="lg">
+			<Navbar fixed="top" style={{background: DARKGREEN}} light={true} expand="lg">
 				<NavbarBrand style={{color: '#fff', cursor: "default"}} href="#">Financeiro</NavbarBrand>
 				<NavbarToggler onClick={this.toggleMenu} />
 				<Collapse isOpen={menuAberto} navbar>
