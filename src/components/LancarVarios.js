@@ -16,18 +16,22 @@ import {
 	CATEGORIA_DIZIMO_DEBITO,
 	CATEGORIA_DIZIMO_CREDITO,
 	CATEGORIA_DIZIMO_MOEDA,
+	CATEGORIA_DIZIMO_CHEQUE,
 	CATEGORIA_OFERTA_DINHEIRO,
 	CATEGORIA_OFERTA_DEBITO,
 	CATEGORIA_OFERTA_CREDITO,
 	CATEGORIA_OFERTA_MOEDA,
+	CATEGORIA_OFERTA_CHEQUE,
 	CATEGORIA_OFERTA_ESPECIAL_DINHEIRO,
 	CATEGORIA_OFERTA_ESPECIAL_DEBITO,
 	CATEGORIA_OFERTA_ESPECIAL_CREDITO,
 	CATEGORIA_OFERTA_ESPECIAL_MOEDA,
+	CATEGORIA_OFERTA_ESPECIAL_CHEQUE,
 	CATEGORIA_OFERTA_DINHEIRO_INSTITUTO_DE_VENCEDORES,
 	CATEGORIA_OFERTA_DEBITO_INSTITUTO_DE_VENCEDORES,
 	CATEGORIA_OFERTA_CREDITO_INSTITUTO_DE_VENCEDORES,
 	CATEGORIA_OFERTA_MOEDA_INSTITUTO_DE_VENCEDORES,
+	CATEGORIA_OFERTA_CHEQUE_INSTITUTO_DE_VENCEDORES,
 } from '../helpers/constantes'
 import { Cabecalho } from './Cabecalho';
 
@@ -41,18 +45,22 @@ class LancarVarios extends React.Component {
 		dizimoDebito: '0.00',
 		dizimoCredito: '0.00',
 		dizimoMoeda: '0.00',
+		dizimoCheque: '0.00',
 		ofertaDinheiro: '0.00',
 		ofertaDebito: '0.00',
 		ofertaCredito: '0.00',
 		ofertaMoeda: '0.00',
+		ofertaCheque: '0.00',
 		ofertaEspecialDinheiro: '0.00',
 		ofertaEspecialDebito: '0.00',
 		ofertaEspecialCredito: '0.00',
 		ofertaEspecialMoeda: '0.00',
+		ofertaEspecialCheque: '0.00',
 		ofertaDinheiroInstitutoDeVencedores: '0.00',
 		ofertaDebitoInstitutoDeVencedores: '0.00',
 		ofertaCreditoInstitutoDeVencedores: '0.00',
 		ofertaMoedaInstitutoDeVencedores: '0.00',
+		ofertaChequeInstitutoDeVencedores: '0.00',
 		mostrarMensagemDeErro: false,
 		camposComErro: [],
 	}
@@ -77,18 +85,22 @@ class LancarVarios extends React.Component {
 			dizimoDebito,
 			dizimoCredito,
 			dizimoMoeda,
+			dizimoCheque,
 			ofertaDinheiro,
 			ofertaDebito,
 			ofertaCredito,
 			ofertaMoeda,
+			ofertaCheque,
 			ofertaEspecialDinheiro,
 			ofertaEspecialDebito,
 			ofertaEspecialCredito,
 			ofertaEspecialMoeda,
+			ofertaEspecialCheque,
 			ofertaDinheiroInstitutoDeVencedores,
 			ofertaDebitoInstitutoDeVencedores,
 			ofertaCreditoInstitutoDeVencedores,
 			ofertaMoedaInstitutoDeVencedores,
+			ofertaChequeInstitutoDeVencedores,
 			dia,
 			mes,
 			ano,
@@ -128,7 +140,7 @@ class LancarVarios extends React.Component {
 			})
 
 			let elementos = []
-			for(let indiceDeValores = 1; indiceDeValores <= 16; indiceDeValores++){
+			for(let indiceDeValores = 1; indiceDeValores <= 20; indiceDeValores++){
 				const elemento = {}
 				switch(indiceDeValores){
 					case 1: 
@@ -195,6 +207,22 @@ class LancarVarios extends React.Component {
 						elemento.valor = ofertaMoedaInstitutoDeVencedores
 						elemento.categoria_id = CATEGORIA_OFERTA_MOEDA_INSTITUTO_DE_VENCEDORES
 						break;
+					case 17: 
+						elemento.valor = dizimoCheque
+						elemento.categoria_id = CATEGORIA_DIZIMO_CHEQUE
+						break;
+					case 18: 
+						elemento.valor = ofertaCheque
+						elemento.categoria_id = CATEGORIA_OFERTA_CHEQUE
+						break;
+					case 19: 
+						elemento.valor = ofertaEspecialCheque
+						elemento.categoria_id = CATEGORIA_OFERTA_ESPECIAL_CHEQUE
+						break;
+					case 20: 
+						elemento.valor = ofertaChequeInstitutoDeVencedores
+						elemento.categoria_id = CATEGORIA_OFERTA_CHEQUE_INSTITUTO_DE_VENCEDORES
+						break;
 					default:
 						break;
 				}
@@ -221,18 +249,22 @@ class LancarVarios extends React.Component {
 			dizimoDebito,
 			dizimoCredito,
 			dizimoMoeda,
+			dizimoCheque,
 			ofertaDinheiro,
 			ofertaDebito,
 			ofertaCredito,
 			ofertaMoeda,
+			ofertaCheque,
 			ofertaEspecialDinheiro,
 			ofertaEspecialDebito,
 			ofertaEspecialCredito,
 			ofertaEspecialMoeda,
+			ofertaEspecialCheque,
 			ofertaDinheiroInstitutoDeVencedores,
 			ofertaDebitoInstitutoDeVencedores,
 			ofertaCreditoInstitutoDeVencedores,
 			ofertaMoedaInstitutoDeVencedores,
+			ofertaChequeInstitutoDeVencedores,
 			dia,
 			mes,
 			ano,
@@ -254,22 +286,28 @@ class LancarVarios extends React.Component {
 		}
 
 		let total = formatReal( 
-			(getMoney(dizimoDinheiro) +
+			(
+				getMoney(dizimoDinheiro) +
 				getMoney(dizimoDebito) +
 				getMoney(dizimoCredito) +
 				getMoney(dizimoMoeda) +
+				getMoney(dizimoCheque) +
 				getMoney(ofertaDinheiro) +
 				getMoney(ofertaDebito) +
 				getMoney(ofertaCredito) +
 				getMoney(ofertaMoeda) +
+				getMoney(ofertaCheque) +
 				getMoney(ofertaEspecialDinheiro) +
 				getMoney(ofertaEspecialDebito) +
 				getMoney(ofertaEspecialCredito) +
+				getMoney(ofertaEspecialCheque) +
 				getMoney(ofertaDinheiroInstitutoDeVencedores) +
 				getMoney(ofertaDebito) +
 				getMoney(ofertaCreditoInstitutoDeVencedores) +
 				getMoney(ofertaMoedaInstitutoDeVencedores) +
-				getMoney(ofertaEspecialMoeda))
+				getMoney(ofertaEspecialMoeda) +
+				getMoney(ofertaChequeInstitutoDeVencedores)
+			)
 			.toString()
 			.padStart(3, '0')
 		)
@@ -278,7 +316,8 @@ class LancarVarios extends React.Component {
 				getMoney(dizimoCredito) +
 				getMoney(dizimoDebito) +
 				getMoney(dizimoDinheiro) +
-				getMoney(dizimoMoeda)
+				getMoney(dizimoMoeda) +
+				getMoney(dizimoCheque)
 			).toString()
 			.padStart(3, '0')
 		)
@@ -287,7 +326,8 @@ class LancarVarios extends React.Component {
 				getMoney(ofertaCredito) +
 				getMoney(ofertaDebito) +
 				getMoney(ofertaDinheiro) +
-				getMoney(ofertaMoeda)
+				getMoney(ofertaMoeda) +
+				getMoney(ofertaCheque)
 			).toString()
 			.padStart(3, '0')
 		)
@@ -296,7 +336,8 @@ class LancarVarios extends React.Component {
 				getMoney(ofertaEspecialCredito) +
 				getMoney(ofertaEspecialDebito) +
 				getMoney(ofertaEspecialDinheiro) +
-				getMoney(ofertaEspecialMoeda)
+				getMoney(ofertaEspecialMoeda) +
+				getMoney(ofertaEspecialCheque)
 			).toString()
 			.padStart(3, '0')
 		)
@@ -305,7 +346,8 @@ class LancarVarios extends React.Component {
 				getMoney(ofertaDinheiroInstitutoDeVencedores) +
 				getMoney(ofertaDebitoInstitutoDeVencedores) +
 				getMoney(ofertaCreditoInstitutoDeVencedores) +
-				getMoney(ofertaMoedaInstitutoDeVencedores)
+				getMoney(ofertaMoedaInstitutoDeVencedores) +
+				getMoney(ofertaChequeInstitutoDeVencedores)
 			).toString()
 			.padStart(3, '0')
 		)
@@ -350,6 +392,12 @@ class LancarVarios extends React.Component {
 						name: 'dizimoMoeda',
 						valor: dizimoMoeda,
 					},
+					{
+						label: 'Cheque',
+						name: 'dizimoCheque',
+						valor: dizimoCheque,
+					},
+	
 				],
 				total: totalDizimo,
 				labelTotal: 'DÍZIMO',
@@ -376,6 +424,11 @@ class LancarVarios extends React.Component {
 						label: 'Moeda',
 						name: 'ofertaMoeda',
 						valor: ofertaMoeda,
+					},
+					{
+						label: 'Cheque',
+						name: 'ofertaCheque',
+						valor: ofertaCheque,
 					},
 				],
 				total: totalOferta,
@@ -404,6 +457,11 @@ class LancarVarios extends React.Component {
 						name: 'ofertaEspecialMoeda',
 						valor: ofertaEspecialMoeda,
 					},
+					{
+						label: 'Cheque',
+						name: 'ofertaEspecialCheque',
+						valor: ofertaEspecialCheque,
+					},
 				],
 				total: totalOfertaEspecial,
 				labelTotal: 'OFERTA ESPECIAL',
@@ -430,6 +488,11 @@ class LancarVarios extends React.Component {
 						label: 'Moeda',
 						name: 'ofertaMoedaInstitutoDeVencedores',
 						valor: ofertaMoedaInstitutoDeVencedores,
+					},
+					{
+						label: 'Cheque',
+						name: 'ofertaChequeInstitutoDeVencedores',
+						valor: ofertaChequeInstitutoDeVencedores,
 					},
 				],
 				total: totalOfertaInstitutoDeVencedores,
