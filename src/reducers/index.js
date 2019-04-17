@@ -9,6 +9,7 @@ import {
 	SALVAR_USUARIO,
 	PEGAR_USUARIO_TIPO,
 	PEGAR_CATEGORIAS,
+	PEGAR_CATEGORIA_TIPO,
 	SALVAR_CATEGORIA,
 	PEGAR_EMPRESAS,
 	SALVAR_EMPRESA,
@@ -95,6 +96,15 @@ function categorias(state = [], action){
 				})
 				return [...estadoAtualizado]
 			}
+		default:
+			return state
+	}
+}
+
+function categoriaTipo(state = [], action){
+	switch(action.type){
+		case PEGAR_CATEGORIA_TIPO:
+			return [...action.elementos]
 		default:
 			return state
 	}
@@ -199,6 +209,7 @@ export default combineReducers({
 	empresaTipo,
 	empresas,
 	categorias,
+	categoriaTipo,
 	lancamentos,
 	usuarios,
 	situacoes,

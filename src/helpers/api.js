@@ -1,5 +1,5 @@
 let api = 'https://glacial-harbor-83832.herokuapp.com'
-//api = 'http://localhost:8080'
+api = 'http://localhost:8080'
 
 const headers = {
 	'Content-Type': 'application/json'
@@ -67,6 +67,20 @@ export const situacao = (token) =>
 export const categoria = (token) =>
 	fetch(
 		`${api}/categoria/todos`,
+		{
+			headers: {
+				...headers, 
+				'x-access-token': token,
+			},
+			method: "GET",
+		}
+	)
+		.then(resultado => resultado.json())
+		.then(json => json)
+
+export const categoriaTipo = (token) =>
+	fetch(
+		`${api}/categoria/categoriaTipo`,
 		{
 			headers: {
 				...headers, 

@@ -10,17 +10,6 @@ import { connect } from 'react-redux'
 import { 
 	SITUACAO_RECEBIDO, 
 	SITUACAO_NAO_RECEBIDO,
-	CATEGORIA_DIZIMO_DEBITO,
-	CATEGORIA_DIZIMO_CREDITO,
-	CATEGORIA_OFERTA_DEBITO,
-	CATEGORIA_OFERTA_CREDITO,
-	CATEGORIA_OFERTA_ESPECIAL_DEBITO,
-	CATEGORIA_OFERTA_ESPECIAL_CREDITO,
-	CATEGORIA_OFERTA_DEBITO_INSTITUTO_DE_VENCEDORES,
-	CATEGORIA_OFERTA_CREDITO_INSTITUTO_DE_VENCEDORES,
-	CATEGORIA_CARTAO,
-	STRING_DEBITO,
-	STRING_CREDITO,
 } from '../helpers/constantes'
 import './aux.css';
 
@@ -61,13 +50,11 @@ class ExtratoAdministracao extends React.Component {
 	}
 
 	render() {
-		console.log(this.props)
 		const { 
 			saldo,
 			naoRecebidoCredito,
 			naoRecebidoDebito,
-			listaDeNaoRecebidoPorCategorias,
-			categorias,
+			listaDeNaoRecebidoPorCategoriaTipo,
 		} = this.props
 		const {
 			carregando,
@@ -112,22 +99,21 @@ class ExtratoAdministracao extends React.Component {
 						</thead>
 						{
 							!carregando && 
-							listaDeNaoRecebidoPorCategorias &&
-								listaDeNaoRecebidoPorCategorias.map(item => {
-									const categoria = categorias.find(categoria => categoria._id === item._id)
+							listaDeNaoRecebidoPorCategoriaTipo &&
+								listaDeNaoRecebidoPorCategoriaTipo.map(categoriaTipo => {
 									return (
-										<tbody key={`categoriaNaoRecebido${item._id}`}>
+										<tbody key={`categoriaNaoRecebido${categoriaTipo._id}`}>
 											<tr>
 												<td>
 													<Button className="botaoTipoCategoria"
-														onClick={() => this.props.alterarTela('lancamentos', item._id)}
+														onClick={() => this.props.alterarTela('lancamentos', categoriaTipo._id)}
 														style={{textAlign: 'left'}}
 													>
-														{categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO } - {categoria.nome}
+														{categoriaTipo.nome}
 													</Button>
 												</td>
 												<td>
-													R$ {item.valor}
+													R$ {categoriaTipo.valor}
 												</td>
 											</tr>
 										</tbody>
@@ -149,32 +135,18 @@ const mapStateToProps = state => {
 	let saldo = 0.00
 	let naoRecebidoCredito = 0.00
 	let naoRecebidoDebito = 0.00
-	let listaDeNaoRecebidoPorCategorias = []
-	let somaCartao = 0
+	let listaDeNaoRecebidoPorCategoriaTipo = []
 	if(
 		state.categorias 
 		&& state.lancamentoSituacao
 		&& state.lancamentos
 		&& state.situacoes
+		&& state.categoriaTipo
 	){
-		state.categorias
-			.forEach(categoria => {
-				if(
-					categoria._id !== CATEGORIA_DIZIMO_DEBITO &&
-					categoria._id !== CATEGORIA_DIZIMO_CREDITO &&
-					categoria._id !== CATEGORIA_OFERTA_DEBITO &&
-					categoria._id !== CATEGORIA_OFERTA_CREDITO &&
-					categoria._id !== CATEGORIA_OFERTA_ESPECIAL_DEBITO &&
-					categoria._id !== CATEGORIA_OFERTA_ESPECIAL_CREDITO &&
-					categoria._id !== CATEGORIA_OFERTA_DEBITO_INSTITUTO_DE_VENCEDORES &&
-					categoria._id !== CATEGORIA_OFERTA_CREDITO_INSTITUTO_DE_VENCEDORES
-				){
-					const item = {}
-					item._id = categoria._id
-					item.valor = '0.00'
-					listaDeNaoRecebidoPorCategorias.push(item)
-				}
-			})
+		listaDeNaoRecebidoPorCategoriaTipo = state.categoriaTipo.map(categoriaTipo => {
+			categoriaTipo.valor = 0
+			return categoriaTipo
+		})
 		state.lancamentos
 			.filter(lancamento => lancamento.data_inativacao === null)
 			.forEach(lancamento => {
@@ -196,8 +168,8 @@ const mapStateToProps = state => {
 						}else{
 							saldo -= valorFormatado
 						}
+						saldo = parseFloat(saldo.toFixed(2))
 					}
-					saldo = parseFloat(saldo.toFixed(2))
 					if(situacaoAtiva._id === SITUACAO_NAO_RECEBIDO){
 						if(categoriaAtiva.credito_debito === 'C'){
 							naoRecebidoCredito += valorFormatado
@@ -206,34 +178,18 @@ const mapStateToProps = state => {
 						}
 						naoRecebidoCredito = parseFloat(naoRecebidoCredito.toFixed(2))
 						naoRecebidoDebito = parseFloat(naoRecebidoDebito.toFixed(2))
-						let item = null
-						if(
-							categoriaAtiva._id === CATEGORIA_DIZIMO_DEBITO ||
-							categoriaAtiva._id === CATEGORIA_DIZIMO_CREDITO ||
-							categoriaAtiva._id === CATEGORIA_OFERTA_DEBITO ||
-							categoriaAtiva._id === CATEGORIA_OFERTA_CREDITO ||
-							categoriaAtiva._id === CATEGORIA_OFERTA_ESPECIAL_DEBITO ||
-							categoriaAtiva._id === CATEGORIA_OFERTA_ESPECIAL_CREDITO ||
-							categoriaAtiva._id === CATEGORIA_OFERTA_DEBITO_INSTITUTO_DE_VENCEDORES ||
-							categoriaAtiva._id === CATEGORIA_OFERTA_CREDITO_INSTITUTO_DE_VENCEDORES
-						){
-							somaCartao += valorFormatado
-							valorFormatado = somaCartao
-							item = listaDeNaoRecebidoPorCategorias
-								.find(item => item._id === CATEGORIA_CARTAO)
-						}else{
-							item = listaDeNaoRecebidoPorCategorias
-								.find(item => item._id === categoriaAtiva._id)
+
+						if(categoriaAtiva.categoria_tipo_id){
+							listaDeNaoRecebidoPorCategoriaTipo = 
+								listaDeNaoRecebidoPorCategoriaTipo
+								.map(categoriaTipo => {
+									if(categoriaTipo._id === categoriaAtiva.categoria_tipo_id){
+										categoriaTipo.valor += valorFormatado
+										categoriaTipo.valor = parseFloat(categoriaTipo.valor.toFixed(2))
+									}
+									return categoriaTipo
+								})
 						}
-						item.valor = valorFormatado.toFixed(2)
-						listaDeNaoRecebidoPorCategorias = listaDeNaoRecebidoPorCategorias
-							.map(itemNaLista => {
-								if(itemNaLista._id === item._id){
-									return item
-								}else{
-									return itemNaLista
-								}
-							})
 					}
 				}
 			})
@@ -243,7 +199,7 @@ const mapStateToProps = state => {
 		saldo,
 		naoRecebidoCredito,
 		naoRecebidoDebito,
-		listaDeNaoRecebidoPorCategorias,
+		listaDeNaoRecebidoPorCategoriaTipo,
 		categorias: state.categorias,
 		lancamentos: state.lancamentos,
 		token,

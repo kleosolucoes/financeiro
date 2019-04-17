@@ -13,6 +13,7 @@ export const PEGAR_USUARIO_TIPO = 'PEGAR_USUARIO_TIPO'
 
 export const PEGAR_CATEGORIAS = 'PEGAR_CATEGORIAS'
 export const SALVAR_CATEGORIA = 'SALVAR_CATEGORIA'
+export const PEGAR_CATEGORIA_TIPO = 'PEGAR_CATEGORIA_TIPO'
 
 export const PEGAR_EMPRESAS = 'PEGAR_EMPRESAS'
 export const SALVAR_EMPRESA = 'SALVAR_EMPRESA'
@@ -50,6 +51,13 @@ export function salvarCategoria(elemento, novo = false){
 		type: SALVAR_CATEGORIA,
 		elemento,
 		novo,
+	}
+}
+
+export function pegarCategoriaTipo(elementos){ 
+	return {
+		type: PEGAR_CATEGORIA_TIPO,
+		elementos,
 	}
 }
 
@@ -189,6 +197,13 @@ export const pegarCategoriaDaApi = (token) => dispatch => {
 		})
 }
 
+export const pegarCategoriaTipoDaApi = (token) => dispatch => {
+	api.categoriaTipo(token)
+		.then(dados => {
+			return dispatch(pegarCategoriaTipo(dados.resultado.elementos))
+		})
+}
+
 export const pegarContaFixaDaApi = (token) => dispatch => {
 	api.contaFixa(token)
 		.then(dados => {
@@ -278,13 +293,8 @@ export const removerContaFixaNaApi = (dados, token) => dispatch => {
 }
 
 export const lancarVariosNaApi = (dados, token) => dispatch => {
-	//const novoRegistro = true
 	api.lancarVarios(dados, token)
 		.then(dados => {
-			//dados.resultado.elementos.forEach(elemento => {
-				//dispatch(salvarLancamento(elemento.lancamento, novoRegistro))
-				//dispatch(salvarLancamentoSituacao(elemento.lancamentoSituacao, novoRegistro))
-			//})
 		})
 }
 

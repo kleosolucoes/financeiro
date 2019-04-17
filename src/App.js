@@ -26,6 +26,7 @@ import {
 	pegarUsuarioTipoDaApi,
 	pegarSituacaoDaApi,
 	pegarCategoriaDaApi,
+	pegarCategoriaTipoDaApi,
 	pegarEmpresaDaApi,
 	pegarEmpresaTipoDaApi,
 	pegarContaFixaDaApi,
@@ -61,6 +62,7 @@ class App extends React.Component {
 		this.props.pegarUsuarioTipoDaApi(this.props.token)
 		this.props.pegarSituacaoDaApi(this.props.token)
 		this.props.pegarCategoriaDaApi(this.props.token)
+		this.props.pegarCategoriaTipoDaApi(this.props.token)
 		this.props.pegarEmpresaDaApi(this.props.token)
 		this.props.pegarEmpresaTipoDaApi(this.props.token)
 		this.props.pegarContaFixaDaApi(this.props.token)
@@ -158,12 +160,13 @@ function mapDispatchToProps(dispatch){
 		pegarUsuarioTipoDaApi: (elemento) => dispatch(pegarUsuarioTipoDaApi(elemento)),
 		pegarSituacaoDaApi: (elemento) => dispatch(pegarSituacaoDaApi(elemento)),
 		pegarCategoriaDaApi: (elemento) => dispatch(pegarCategoriaDaApi(elemento)),
+		pegarCategoriaTipoDaApi: (elemento) => dispatch(pegarCategoriaTipoDaApi(elemento)),
 		pegarEmpresaDaApi: (elemento) => dispatch(pegarEmpresaDaApi(elemento)),
 		pegarEmpresaTipoDaApi: (elemento) => dispatch(pegarEmpresaTipoDaApi(elemento)),
 		pegarContaFixaDaApi: (elemento) => dispatch(pegarContaFixaDaApi(elemento)),
 		pegarLancamentoDaApi: (elemento) => dispatch(pegarLancamentoDaApi(elemento)),
 		pegarLancamentoSituacaoDaApi: (elemento) => dispatch(pegarLancamentoSituacaoDaApi(elemento)),
-		}
+	}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)
