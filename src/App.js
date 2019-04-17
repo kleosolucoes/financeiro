@@ -38,13 +38,13 @@ class App extends React.Component {
 
 	state = {
 		tela: 'login',
-		categoria_id: 0,
+		categoria_tipo_id: 0,
 	}
 
-	alterarTela = (tela, categoria_id = 0) => {
+	alterarTela = (tela, categoria_tipo_id = 0) => {
 		this.setState({
 			tela,
-			categoria_id,
+			categoria_tipo_id,
 		})
 	}
 
@@ -71,7 +71,7 @@ class App extends React.Component {
 	}
 
 	render() {
-		const { tela, categoria_id } = this.state
+		const { tela, categoria_tipo_id } = this.state
 		const { empresa_id } = this.props
 		return (
 			<Container>
@@ -124,7 +124,7 @@ class App extends React.Component {
 					{
 						tela === 'lancamentos' && 
 							<Lancamentos 
-								categoria_id={categoria_id}
+								categoria_tipo_id={categoria_tipo_id}
 								puxarTodosDados={this.puxarTodosDados}	
 							/>
 					}

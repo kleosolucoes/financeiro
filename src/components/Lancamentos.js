@@ -51,7 +51,7 @@ class Lancamentos extends React.Component {
 	}
 
 	componentDidMount(){
-		this.setState({categoria_id: this.props.categoria_id})
+		this.setState({categoria_tipo_id: this.props.categoria_tipo_id})
 	}
 
 	alternarMostrarAlterarLancamento = (lancamento_id) => this.setState({
