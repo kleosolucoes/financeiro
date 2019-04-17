@@ -35,7 +35,7 @@ class Menu extends React.Component {
 
 		return (
 			<Navbar fixed="top" style={{background: DARKGREEN}} light={true} expand="lg">
-				<NavbarBrand style={{color: '#fff', cursor: "default"}} href="#">Financeiro</NavbarBrand>
+				<NavbarBrand style={{color: '#fff', cursor: "default"}} href="#">Caixa Regional</NavbarBrand>
 				<NavbarToggler onClick={this.toggleMenu} />
 				<Collapse isOpen={menuAberto} navbar>
 					<Nav className="ml-auto" navbar>

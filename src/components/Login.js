@@ -17,6 +17,7 @@ import {
 	TELA_EXTRATO_EMPRESA,
 	EMPRESA_ADMINISTRACAO_ID,
 } from '../helpers/constantes'
+import logo from '../caixa.png'
 import * as api from '../helpers/api'
 
 class Login extends React.Component {
@@ -112,9 +113,10 @@ class Login extends React.Component {
 				{
 					!carregando &&
 						<div className="login-wrapper">
-							<h1>
+						<img src={logo} width="160px" height="130px" />
+							{/* <h1>
 								Financeiro	
-							</h1>
+							</h1> */}
 							<FormGroup className="style-form">
 								<Label for="email">Email</Label>
 								<Input 
