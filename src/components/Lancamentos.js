@@ -19,6 +19,7 @@ class Lancamentos extends React.Component {
 
 	state = {
 		categoria_tipo_id: 0,
+		categoria_id: 0,
 		empresa_id: 0,
 		diaInicial: new Date().getDate(),
 		mesInicial: (new Date().getMonth() + 1),
@@ -41,7 +42,6 @@ class Lancamentos extends React.Component {
 					carregando: false,
 				})
 			})
-
 	}
 
 	ajudadorDeCampo = event => {
@@ -69,6 +69,7 @@ class Lancamentos extends React.Component {
 		} = this.props
 		const {
 			categoria_tipo_id,
+			categoria_id,
 			empresa_id,
 			diaInicial,
 			mesInicial,
@@ -80,7 +81,7 @@ class Lancamentos extends React.Component {
 			lancamento_id,
 			carregando,
 		} = this.state
-
+		let categoriasFiltradas = categorias
 		let lancamentosFiltrados = lancamentos
 		if(categoria_tipo_id && parseInt(categoria_tipo_id) !== 0){
 			lancamentosFiltrados = lancamentosFiltrados
@@ -92,6 +93,11 @@ class Lancamentos extends React.Component {
 						return false
 					}
 				})
+			categoriasFiltradas = categorias.filter(categoria => categoria.categoria_tipo_id === categoria_tipo_id)
+		}
+		if(categoria_id && parseInt(categoria_id) !== 0){
+			lancamentosFiltrados = lancamentosFiltrados
+				.filter(lancamento => lancamento.categoria_id === categoria_id)
 		}
 		if(empresa_id && parseInt(empresa_id) !== 0){
 			lancamentosFiltrados = lancamentosFiltrados
@@ -166,7 +172,7 @@ class Lancamentos extends React.Component {
 							<Row>
 								<Col>
 									<FormGroup>
-										<Label for="categoria_tipo_id">Categoria Tipo</Label>
+										<Label for="categoria_tipo_id">Grupo</Label>
 										<Input 
 											type="select" 
 											name="categoria_tipo_id" 
@@ -191,8 +197,39 @@ class Lancamentos extends React.Component {
 										</Input>
 									</FormGroup>
 								</Col>
-								{
-									empresa_usuario_logado_id === EMPRESA_ADMINISTRACAO_ID && 
+							</Row>
+							<Row>
+								<Col>
+									<FormGroup>
+										<Label for="categoria_id">Categoria</Label>
+										<Input 
+											type="select" 
+											name="categoria_id" 
+											id="categoria_id" 
+											value={categoria_id} 
+											onChange={this.ajudadorDeCampo}
+										>
+											<option value='0'>Todas</option>
+											{
+												categoriasFiltradas &&
+													categoriasFiltradas.map(categoria => {
+														return (
+															<option 
+																key={categoria._id}
+																value={categoria._id}
+															>
+																{categoria.nome}
+															</option>
+														)
+													})
+											}
+										</Input>
+									</FormGroup>
+								</Col>
+							</Row>
+							{
+								empresa_usuario_logado_id === EMPRESA_ADMINISTRACAO_ID && 
+								<Row>
 									<Col>
 										<FormGroup>
 											<Label for="empresa_id">Empresa</Label>
@@ -220,8 +257,8 @@ class Lancamentos extends React.Component {
 											</Input>
 										</FormGroup>
 									</Col>
-								}
-							</Row>
+								</Row>
+							}
 							<Row>
 								<Col sm="6">
 									<Label>Período Inicial</Label>

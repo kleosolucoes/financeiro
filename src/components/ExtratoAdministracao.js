@@ -96,7 +96,7 @@ class ExtratoAdministracao extends React.Component {
 					<Table>
 						<thead style={{background: LIGHTGREEN, color: '#fff'}}>
 							<tr>
-								<th>Categoria</th>
+								<th>Grupo</th>
 								<th style={{paddingRight: 30, paddingLeft: 30, verticalAlign: 'middle'}}>Valor</th>
 							</tr>
 						</thead>
