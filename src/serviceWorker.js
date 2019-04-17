@@ -22,7 +22,7 @@ const isLocalhost = Boolean(
 
 export function register(config) {
 	//if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
-	if ('serviceWorker' in navigator) {
+	if ('serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window) {
 		// The URL constructor is available in all browsers that support SW.
 		const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
 		if (publicUrl.origin !== window.location.origin) {
@@ -93,6 +93,17 @@ function registerValidSW(swUrl, config) {
 					}
 				};
 			};
+
+			displayNotification(registration)
+			registration.pushManager.getSubscription().then(function(sub) {
+				if (sub === null) {
+					// Update UI to ask user to register for Push
+					console.log('Not subscribed to push service!');
+				} else {
+					// We have a subscription, update the database
+					console.log('Subscription object: ', sub);
+				}
+			});
 		})
 		.catch(error => {
 			console.error('Error during service worker registration:', error);
@@ -132,5 +143,20 @@ export function unregister() {
 		navigator.serviceWorker.ready.then(registration => {
 			registration.unregister();
 		});
+	}
+}
+
+function displayNotification(registration) {
+	if (Notification.permission === 'granted') {
+		var options = {
+			body: 'Here is a notification body!',
+			icon: 'images/example.png',
+			vibrate: [100, 50, 100],
+			data: {
+				dateOfArrival: Date.now(),
+				primaryKey: 1
+			}
+		};
+		registration.showNotification('Hello world!', options)
 	}
 }

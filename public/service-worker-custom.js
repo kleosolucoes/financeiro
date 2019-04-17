@@ -1,19 +1,19 @@
 console.log('Custom service worker')
 
-const nomeDoCachePrincipal = 'financeiro-v016'
+const nomeDoCachePrincipal = 'financeiro-v0009'
 self.addEventListener('install', event => {
 	console.log('Install')
 	event.waitUntil(
 		caches.open(nomeDoCachePrincipal)
 		.then(cache => {
 			return cache.addAll([
-				'/',
-				'static/js/bundle.js',
-				'static/js/main.chunk.js',
-				'static/js/0.chunk.js',
-				'static/js/1.chunk.js',
-				'manifest.json',
-				'service-worker-custom.js',
+				//'/',
+				//'static/js/bundle.js',
+				//'static/js/main.chunk.js',
+				//'static/js/0.chunk.js',
+				//'static/js/1.chunk.js',
+				//'manifest.json',
+				//'service-worker-custom.js',
 			])
 		})
 		.catch(error => console.log(error)),
@@ -48,13 +48,54 @@ self.addEventListener('fetch', event => {
 	event.respondWith(
 		caches.match(event.request)
 		.then(response => {
-			console.log('request ', event.request.url)
+			//console.log('request ', event.request.url)
 			if(response) {
-				console.log('caches.match')
+				//console.log('caches.match')
 				return response
 			}
-			console.log('buscando fetch')
+			//console.log('buscando fetch')
 			return fetch(event.request)
 		})
 	)
 })
+
+self.addEventListener('notificationclose', function(e) {
+	var notification = e.notification;
+	var primaryKey = notification.data.primaryKey;
+
+	console.log('Closed notification: ' + primaryKey);
+});
+
+self.addEventListener('notificationclick', function(e) {
+	var notification = e.notification;
+	var primaryKey = notification.data.primaryKey;
+	var action = e.action;
+
+	if (action === 'close') {
+		notification.close();
+	} else {
+		clients.openWindow('http://www.example.com');
+		notification.close();
+	}
+});
+
+self.addEventListener('push', function(e) {
+	var options = {
+		body: 'This notification was generated from a push!',
+		icon: 'images/example.png',
+		vibrate: [100, 50, 100],
+		data: {
+			dateOfArrival: Date.now(),
+			primaryKey: '2'
+		},
+		actions: [
+			{action: 'explore', title: 'Explore this new world',
+				icon: 'images/checkmark.png'},
+			{action: 'close', title: 'Close',
+				icon: 'images/xmark.png'},
+		]
+	};
+	e.waitUntil(
+		self.registration.showNotification('Hello world!', options)
+	);
+});
