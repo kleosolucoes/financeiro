@@ -45,7 +45,7 @@ class Empresas extends React.Component {
 								</thead>
 							{
 								empresas.map(empresa => (
-									<tbody key={empresa.id} style={{backgroundColor: '#f9f7f7', marginTop: 10}}>
+									<tbody key={empresa._id} style={{backgroundColor: '#f9f7f7', marginTop: 10}}>
 										<Empresa 
 											key={empresa._id}
 											empresa_id={empresa._id}

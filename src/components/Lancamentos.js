@@ -18,7 +18,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 class Lancamentos extends React.Component {
 
 	state = {
-		categoria_id: 0,
+		categoria_tipo_id: 0,
 		empresa_id: 0,
 		diaInicial: new Date().getDate(),
 		mesInicial: (new Date().getMonth() + 1),
@@ -62,12 +62,13 @@ class Lancamentos extends React.Component {
 	render() {
 		const { 
 			lancamentos, 
+			categoriaTipo,
 			categorias,
 			empresas,
 			empresa_usuario_logado_id,
 		} = this.props
 		const {
-			categoria_id,
+			categoria_tipo_id,
 			empresa_id,
 			diaInicial,
 			mesInicial,
@@ -81,9 +82,16 @@ class Lancamentos extends React.Component {
 		} = this.state
 
 		let lancamentosFiltrados = lancamentos
-		if(categoria_id && parseInt(categoria_id) !== 0){
+		if(categoria_tipo_id && parseInt(categoria_tipo_id) !== 0){
 			lancamentosFiltrados = lancamentosFiltrados
-				.filter(lancamento => lancamento.categoria_id === categoria_id)
+				.filter(lancamento => {
+					const categoriaDoLancamento = categorias.find(categoria => lancamento.categoria_id === categoria._id)
+					if(categoriaDoLancamento.categoria_tipo_id === categoria_tipo_id){
+						return true
+					}else{
+						return false
+					}
+				})
 		}
 		if(empresa_id && parseInt(empresa_id) !== 0){
 			lancamentosFiltrados = lancamentosFiltrados
@@ -157,24 +165,24 @@ class Lancamentos extends React.Component {
 							<Row>
 								<Col>
 									<FormGroup>
-										<Label for="categoria_id">Categoria</Label>
+										<Label for="categoria_tipo_id">Categoria Tipo</Label>
 										<Input 
 											type="select" 
-											name="categoria_id" 
-											id="categoria_id" 
-											value={categoria_id} 
+											name="categoria_tipo_id" 
+											id="categoria_tipo_id" 
+											value={categoria_tipo_id} 
 											onChange={this.ajudadorDeCampo}
 										>
 											<option value='0'>Todas</option>
 											{
-												categorias &&
-													categorias.map(categoria => {
+												categoriaTipo &&
+													categoriaTipo.map(categoriaTipo => {
 														return (
 															<option 
-																key={categoria._id}
-																value={categoria._id}
+																key={categoriaTipo._id}
+																value={categoriaTipo._id}
 															>
-																{categoria.nome}
+																{categoriaTipo.nome}
 															</option>
 														)
 													})
@@ -360,6 +368,7 @@ const mapStateToProps = (state, { empresa_id })  => {
 	}
 	return {
 		lancamentos: lancamentos && lancamentos.filter(lancamento => lancamento.data_inativacao === null),
+		categoriaTipo: state.categoriaTipo,
 		categorias: state.categorias,
 		empresas: state.empresas,
 		empresa_usuario_logado_id: usuarioLogado.empresa_id,

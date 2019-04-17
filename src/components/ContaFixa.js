@@ -1,7 +1,5 @@
 import React from 'react'
 import {
-	Row,
-	Col,
 	Button
 } from 'reactstrap'
 import { connect } from 'react-redux'
@@ -40,28 +38,24 @@ class ContaFixa extends React.Component {
 		const Desktop = props => <Responsive {...props} minWidth={992} />;
 		return (
 			<tbody>
-					<tr>
-						<Desktop><td> {contaFixa && contaFixa.data_criacao} </td></Desktop>
-						<td> {contaFixa && contaFixa.dia_gerar} </td>
-						<Desktop><td> {contaFixa && contaFixa.dia_notificacao} </td></Desktop>
-						<td> {categoria && categoria.nome}  </td>
-						<td> {empresa && empresa.nome}  </td>
-						<Desktop><td> {categoria && categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO} </td></Desktop>
-						
-				<Row style={{padding: 5}}>
-					<Col>
+				<tr>
+					<Desktop><td> {contaFixa && contaFixa.data_criacao} </td></Desktop>
+					<td> {contaFixa && contaFixa.dia_gerar} </td>
+					<Desktop><td> {contaFixa && contaFixa.dia_notificacao} </td></Desktop>
+					<td> {categoria && categoria.nome}  </td>
+					<td> {empresa && empresa.nome}  </td>
+					<Desktop><td> {categoria && categoria.credito_debito === 'C' ? STRING_CREDITO : STRING_DEBITO} </td></Desktop>
+					<td style={{padding: 5}}>
 						<Button 
 							type='button' 
 							className="botao-remover"
 							style={{width: '100%', borderRadius: 0}}
 							onClick={this.removerContaFixa}
-			 			>
-			 				<FontAwesomeIcon icon="trash" size="sm" style={{marginRight: 5}} />
+						>
+							<FontAwesomeIcon icon="trash" size="sm" style={{marginRight: 5}} />
 						</Button> 
-					</Col>
-			 	</Row>
-
-			</tr>
+					</td>
+				</tr>
 			</tbody>
 		)
 	}

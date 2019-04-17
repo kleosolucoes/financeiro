@@ -7,6 +7,11 @@ import {
 	Alert,
 	Button
 } from 'reactstrap'
+import { 
+	STRING_DEBITO, 
+	STRING_CREDITO,
+} from '../helpers/constantes'
+
 import { connect } from 'react-redux'
 import { salvarCategoriaNaApi } from '../actions'
 import {Cabecalho} from './Cabecalho'
@@ -16,6 +21,7 @@ class CategoriaSalvar extends React.Component {
 	state = {
 		nome: '',
 		credito_debito: 0,
+		categoria_tipo_id: 0,
 		mostrarMensagemDeErro: false,
 		camposComErro: [],
 	}
@@ -30,6 +36,7 @@ class CategoriaSalvar extends React.Component {
 		const {
 			nome,
 			credito_debito,
+			categoria_tipo_id,
 		} = this.state
 		let {
 			mostrarMensagemDeErro,
@@ -50,6 +57,11 @@ class CategoriaSalvar extends React.Component {
 			mostrarMensagemDeErro = true
 			camposComErro.push('credito_debito')
 		}
+		if(parseInt(categoria_tipo_id) === 0){
+			mostrarMensagemDeErro = true
+			camposComErro.push('categoria_tipo_id')
+		}
+
 		if(mostrarMensagemDeErro){
 			this.setState({
 				mostrarMensagemDeErro,
@@ -64,6 +76,7 @@ class CategoriaSalvar extends React.Component {
 			const elemento = {}
 			elemento.credito_debito = credito_debito
 			elemento.nome = nome
+			elemento.categoria_tipo_id = categoria_tipo_id
 			this.props.salvarCategoriaNaApi(elemento, usuarioLogado.token)
 			this.props.alternarMostrarAdicionar()
 			alert('Categoria Salva com sucesso!')
@@ -74,9 +87,13 @@ class CategoriaSalvar extends React.Component {
 		const {
 			nome,
 			credito_debito,
+			categoria_tipo_id,
 			mostrarMensagemDeErro,
 			camposComErro,
 		} = this.state
+		const {
+			categoriaTipo,
+		} = this.props
 		return (
 			<div>
 				<Cabecalho 
@@ -93,59 +110,85 @@ class CategoriaSalvar extends React.Component {
 						invalid={camposComErro.includes('nome') ? true : null}
 					>
 					</Input>
-					{camposComErro.includes('nome') && <Alert color='danger'>Preencha o nome</Alert>}
-				</FormGroup>
-				<FormGroup>
-					<Label for="credito_debito">Crédito/Débito</Label>
-					<Input 
-						type="select" 
-						name="credito_debito" 
-						id="credito_debito" 
-						value={credito_debito} 
-						onChange={this.ajudadorDeCampo}
-						invalid={camposComErro.includes('credito_debito') ? true : null}
-					>
-						<option value='0'>Selecione</option>
-						<option value='C'>Crédito</option>
-						<option value='D'>Débito</option>
-					</Input>
-					{camposComErro.includes('credito_debito') && <Alert color='danger'>Selecione o Tipo</Alert>}
-				</FormGroup>
-
+				{camposComErro.includes('nome') && <Alert color='danger'>Preencha o nome</Alert>}
+			</FormGroup>
+			<FormGroup>
+				<Label for="credito_debito">{STRING_CREDITO}/{STRING_DEBITO}</Label>
+				<Input 
+					type="select" 
+					name="credito_debito" 
+					id="credito_debito" 
+					value={credito_debito} 
+					onChange={this.ajudadorDeCampo}
+					invalid={camposComErro.includes('credito_debito') ? true : null}
+				>
+					<option value='0'>Selecione</option>
+					<option value='C'>{STRING_CREDITO}</option>
+					<option value='D'>{STRING_DEBITO}</option>
+				</Input>
+			{camposComErro.includes('credito_debito') && <Alert color='danger'>Selecione se é Receita ou Despesa</Alert>}
+			</FormGroup>
+			<FormGroup>
+				<Label for="categoria_tipo_id">Categoria Tipo</Label>
+				<Input 
+					type="select" 
+					name="categoria_tipo_id" 
+					id="categoria_tipo_id" 
+					value={categoria_tipo_id} 
+					onChange={this.ajudadorDeCampo}
+				>
+					<option value='0'>Selecione</option>
 					{
-						mostrarMensagemDeErro &&
-							<div style={{padding: 10}}>
-								<Alert color='warning'>
-									Campos inválidos
-								</Alert>
-							</div>
+						categoriaTipo &&
+							categoriaTipo.map(categoriaTipo => {
+								return (
+									<option 
+										key={categoriaTipo._id}
+										value={categoriaTipo._id}
+									>
+										{categoriaTipo.nome}
+									</option>
+								)
+							})
 					}
-					<Row style={{padding: 5, justifyContent: 'flex-end'}}>
-							<Button 
-								type='button' 
-								className="botao-lancar"
-								style={{marginLeft: 5}} 
-								onClick={this.props.alternarMostrarAdicionar}
-							>
-								Voltar
-							</Button> 
-							<Button 
-								type='button' 
-								className="botao-lancar"
-								style={{marginLeft: 5}} 
-								onClick={this.ajudadorDeSubmissao}
-							>
-								Adicionar
-							</Button> 
-					</Row>
-			</div>
+				</Input>
+			</FormGroup>
+			{camposComErro.includes('categoria_tipo_id') && <Alert color='danger'>Selecione o Tipo da Categoria</Alert>}
+		{
+			mostrarMensagemDeErro &&
+				<div style={{padding: 10}}>
+					<Alert color='warning'>
+						Campos inválidos
+					</Alert>
+				</div>
+		}
+		<Row style={{padding: 5, justifyContent: 'flex-end'}}>
+			<Button 
+				type='button' 
+				className="botao-lancar"
+				style={{marginLeft: 5}} 
+				onClick={this.props.alternarMostrarAdicionar}
+			>
+				Voltar
+			</Button> 
+			<Button 
+				type='button' 
+				className="botao-lancar"
+				style={{marginLeft: 5}} 
+				onClick={this.ajudadorDeSubmissao}
+			>
+				Adicionar
+			</Button> 
+		</Row>
+	</div>
 		)
 	}
 }
 
-function mapStateToProps({usuarioLogado}){
+function mapStateToProps({usuarioLogado, categoriaTipo}){
 	return {
 		usuarioLogado,
+		categoriaTipo,
 	}
 }
 

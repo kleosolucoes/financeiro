@@ -56,7 +56,7 @@ class Categorias extends React.Component {
 							categorias.map(categoria => {
 								
 								return (
-									<tbody>
+									<tbody key={categoria._id}>
 										<tr>
 											<Desktop><th>{categoria.data_criacao}</th></Desktop>
 											<td>{categoria.nome}</td>
