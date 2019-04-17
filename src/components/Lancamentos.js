@@ -11,7 +11,7 @@ import {
 	Alert,
 	Button,
 } from 'reactstrap'
-import { EMPRESA_ADMINISTRACAO_ID } from '../helpers/constantes'
+import { EMPRESA_ADMINISTRACAO_ID, DARKGREEN } from '../helpers/constantes'
 import { Cabecalho } from './Cabecalho';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -156,11 +156,12 @@ class Lancamentos extends React.Component {
 								</Col>
 								<Button 
 									onClick={this.atualizar}
-									style={{height: 40, width: 40, background: 'transparent', color: "#2f8c7c", margin: 5, border: 0}}
+									style={{height: 40, width: 40, background: 'transparent', color: DARKGREEN, margin: 5, border: 0}}
 								>
 									<FontAwesomeIcon icon="sync-alt" size="sm" />
 								</Button>
 							</Row>
+							<div className="container-lancamentos">
 							<h5>Filtro</h5>
 							<Row>
 								<Col>
@@ -222,117 +223,121 @@ class Lancamentos extends React.Component {
 								}
 							</Row>
 							<Row>
-								<Label style={{paddingLeft:15}}>Período Inicial:</Label>
+								<Col sm="6">
+									<Label>Período Inicial</Label>
+									<Row>
+									<Col>
+										<FormGroup>
+											<Label for="diaInicial">Dia</Label>
+											<Input 
+												type="select" 
+												name="diaInicial" 
+												id="diaInicial" 
+												value={diaInicial} 
+												onChange={this.ajudadorDeCampo}
+											>
+												<option value='0'>Todos</option>
+												{
+													arrayDias.map(dia => dia)
+												}
+											</Input>
+										</FormGroup>
+									</Col>
+									<Col style={{paddingRight:0, paddingLeft:0}}>
+										<FormGroup>
+											<Label for="mesInicial">Mês</Label>
+											<Input 
+												type="select" 
+												name="mesInicial" 
+												id="mesInicial" 
+												value={mesInicial} 
+												onChange={this.ajudadorDeCampo}
+											>
+												<option value='0'>Todos</option>
+												{
+													arrayMes.map(mes => mes)
+												}
+											</Input>
+										</FormGroup>
+									</Col>
+									<Col>
+										<FormGroup>
+											<Label for="anoInicial">Ano</Label>
+											<Input 
+												type="select" 
+												name="anoInicial" 
+												id="anoInicial" 
+												value={anoInicial} 
+												onChange={this.ajudadorDeCampo}
+											>
+												<option value='0'>Todos</option>
+												{
+													arrayAnos.map(ano => ano)
+												}
+											</Input>
+										</FormGroup>
+									</Col>
+									</Row>
+								</Col>
+
+								<Col sm="6">
+								<Label>Período Final</Label>
+								<Row>
+									<Col>
+										<FormGroup>
+											<Label for="diaFinal">Dia</Label>
+											<Input 
+												type="select" 
+												name="diaFinal" 
+												id="diaFinal" 
+												value={diaFinal} 
+												onChange={this.ajudadorDeCampo}
+											>
+												<option value='0'>Todos</option>
+												{
+													arrayDias.map(dia => dia)
+												}
+											</Input>
+										</FormGroup>
+									</Col>
+									<Col style={{paddingRight:0, paddingLeft:0}}>
+										<FormGroup>
+											<Label for="mesFinal">Mês</Label>
+											<Input 
+												type="select" 
+												name="mesFinal" 
+												id="mesFinal" 
+												value={mesFinal} 
+												onChange={this.ajudadorDeCampo}
+											>
+												<option value='0'>Todos</option>
+												{
+													arrayMes.map(mes => mes)
+												}
+											</Input>
+										</FormGroup>
+									</Col>
+									<Col>
+										<FormGroup>
+											<Label for="anoFinal">Ano</Label>
+											<Input 
+												type="select" 
+												name="anoFinal" 
+												id="anoFinal" 
+												value={anoFinal} 
+												onChange={this.ajudadorDeCampo}
+											>
+												<option value='0'>Todos</option>
+												{
+													arrayAnos.map(ano => ano)
+												}
+											</Input>
+										</FormGroup>
+									</Col>
+								</Row>
+								</Col>
 							</Row>
-							<Row>
-								<Col>
-									<FormGroup>
-										<Label for="diaInicial">Dia:</Label>
-										<Input 
-											type="select" 
-											name="diaInicial" 
-											id="diaInicial" 
-											value={diaInicial} 
-											onChange={this.ajudadorDeCampo}
-										>
-											<option value='0'>Todos</option>
-											{
-												arrayDias.map(dia => dia)
-											}
-										</Input>
-									</FormGroup>
-								</Col>
-								<Col>
-									<FormGroup>
-										<Label for="mesInicial">Mês:</Label>
-										<Input 
-											type="select" 
-											name="mesInicial" 
-											id="mesInicial" 
-											value={mesInicial} 
-											onChange={this.ajudadorDeCampo}
-										>
-											<option value='0'>Todos</option>
-											{
-												arrayMes.map(mes => mes)
-											}
-										</Input>
-									</FormGroup>
-								</Col>
-								<Col>
-									<FormGroup>
-										<Label for="anoInicial">Ano:</Label>
-										<Input 
-											type="select" 
-											name="anoInicial" 
-											id="anoInicial" 
-											value={anoInicial} 
-											onChange={this.ajudadorDeCampo}
-										>
-											<option value='0'>Todos</option>
-											{
-												arrayAnos.map(ano => ano)
-											}
-										</Input>
-									</FormGroup>
-								</Col>
-							</Row>
-							<Row>
-								<Label style={{paddingLeft:15}}>Período Final:</Label>
-							</Row>
-							<Row>
-								<Col>
-									<FormGroup>
-										<Label for="diaFinal">Dia:</Label>
-										<Input 
-											type="select" 
-											name="diaFinal" 
-											id="diaFinal" 
-											value={diaFinal} 
-											onChange={this.ajudadorDeCampo}
-										>
-											<option value='0'>Todos</option>
-											{
-												arrayDias.map(dia => dia)
-											}
-										</Input>
-									</FormGroup>
-								</Col>
-								<Col>
-									<FormGroup>
-										<Label for="mesFinal">Mês:</Label>
-										<Input 
-											type="select" 
-											name="mesFinal" 
-											id="mesFinal" 
-											value={mesFinal} 
-											onChange={this.ajudadorDeCampo}
-										>
-											<option value='0'>Todos</option>
-											{
-												arrayMes.map(mes => mes)
-											}
-										</Input>
-									</FormGroup>
-								</Col>
-								<Col>
-									<FormGroup>
-										<Label for="anoFinal">Ano:</Label>
-										<Input 
-											type="select" 
-											name="anoFinal" 
-											id="anoFinal" 
-											value={anoFinal} 
-											onChange={this.ajudadorDeCampo}
-										>
-											<option value='0'>Todos</option>
-											{
-												arrayAnos.map(ano => ano)
-											}
-										</Input>
-									</FormGroup>
-								</Col>
-							</Row>
+							</div>
 							{
 								carregando &&
 									<Alert color="info">

@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faUserMinus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { removerUsuarioNaApi, } from '../actions'
-import { EMPRESA_ADMINISTRACAO_ID } from  '../helpers/constantes'
+import { EMPRESA_ADMINISTRACAO_ID, DARKGREEN } from  '../helpers/constantes'
 library.add(faUserMinus)
 library.add(faTrash)
 
@@ -42,7 +42,7 @@ class Usuario extends React.Component {
 		return (
 			<tbody>
 				<tr>
-					<td style={{color: '#2f8c7c', verticalAlign: 'middle'}}>{usuario.nome.split(' ')[0]}</td>
+					<td style={{color: DARKGREEN, verticalAlign: 'middle'}}>{usuario.nome.split(' ')[0]}</td>
 					<Desktop><td style={{verticalAlign: 'middle'}}>{usuario.data_criacao}</td></Desktop>
 					<Desktop><td>{usuarioTipo.nome}</td></Desktop>
 					{

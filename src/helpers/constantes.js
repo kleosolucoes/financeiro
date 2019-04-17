@@ -42,3 +42,7 @@ export const CATEGORIA_TIPO_CARTAO = '5cb754a6fb6fc041ab92e0a0'
 export const CATEGORIA_TIPO_CHEQUE = '5cb754edfb6fc041ab92e0ad'
 export const CATEGORIA_TIPO_MOEDA = '5cb75529fb6fc041ab92e0e5'
 export const CATEGORIA_TIPO_DESPESA = '5cb76bc3fb6fc041ab92f02f'
+
+export const DARKGREEN = '#2F8C7C'
+export const LIGHTGREEN = '#7CC9BC'
+export const LIGHTGRAY = '#F9F7F7'

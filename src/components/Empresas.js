@@ -6,6 +6,7 @@ import {
 	Table
 } from 'reactstrap'
 import { CabecalhoBotao } from './Cabecalho';
+import { LIGHTGREEN, LIGHTGRAY } from '../helpers/constantes';
 
 class Empresas extends React.Component {
 
@@ -37,7 +38,7 @@ class Empresas extends React.Component {
 							/>
 
 							<Table>
-								<thead style={{background: '#7CC9BC', color: '#fff'}}>
+								<thead style={{background: LIGHTGREEN, color: '#fff'}}>
 									<tr>
 										<td> Nome </td>
 										<td> Tipo </td> 
@@ -45,7 +46,7 @@ class Empresas extends React.Component {
 								</thead>
 							{
 								empresas.map(empresa => (
-									<tbody key={empresa._id} style={{backgroundColor: '#f9f7f7', marginTop: 10}}>
+									<tbody key={empresa._id} style={{backgroundColor: LIGHTGRAY, marginTop: 10}}>
 										<Empresa 
 											key={empresa._id}
 											empresa_id={empresa._id}

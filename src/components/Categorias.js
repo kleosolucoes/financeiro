@@ -5,7 +5,7 @@ import {
 import { connect } from 'react-redux'
 import { salvarCategoria } from '../actions'
 import CategoriaSalvar from './CategoriaSalvar'
-import { STRING_DEBITO, STRING_CREDITO, } from '../helpers/constantes'
+import { STRING_DEBITO, STRING_CREDITO, LIGHTGREEN, } from '../helpers/constantes'
 import Responsive from 'react-responsive';
 import { CabecalhoBotao } from './Cabecalho';
 
@@ -45,7 +45,7 @@ class Categorias extends React.Component {
 							acaoOnClick={this.alternarMostrarAdicionar}
 						/>
 						<Table style={{textAlign: 'center'}}>
-							<thead style={{background: '#7CC9BC', color: '#fff'}}>
+							<thead style={{background: LIGHTGREEN, color: '#fff'}}>
 								<tr>
 									<Desktop><th>Data Criação</th></Desktop>
 									<th>Nome</th>
