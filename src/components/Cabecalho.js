@@ -50,10 +50,20 @@ class CabecalhoExtrato extends React.Component {
 		const {
 			usuario,
 			onClick,
+		} = this.props
+		let {
 			saldo,
 			naoRecebidoDebito,
 			naoRecebidoCredito,
 		} = this.props
+	
+		let corSaldo = '#2f8c7c'
+		if(saldo < 0){
+			corSaldo = 'brown'
+		}
+		saldo = Number(saldo).toFixed(2)
+		naoRecebidoDebito = Number(naoRecebidoDebito).toFixed(2)
+		naoRecebidoCredito = Number(naoRecebidoCredito).toFixed(2)
 		return (
 			<div style={{background: '#f9f7f7'}}>
 				<Row style={{justifyContent: 'center', margin: 0}}>
@@ -73,14 +83,7 @@ class CabecalhoExtrato extends React.Component {
 					<Col sm="12" lg="4">
 						<Card className="card-saldo">
 							<CardTitle> 
-								
-								{ saldo >= 0 &&	
-								<span style={{color: '#2f8c7c'}}> R$ {(saldo).toLocaleString('pt-BR')}</span>
-								
-								}
-								{ saldo < 0 &&	
-								<span style={{color: 'brown'}}> R$ {(saldo).toLocaleString('pt-BR')}</span>
-								}
+								<span style={{color: corSaldo}}> R$ {saldo}</span>
 							</CardTitle>
 							<CardText style={{fontSize: 12}}>Saldo</CardText>
 						</Card> 

@@ -101,6 +101,9 @@ class ExtratoAdministracao extends React.Component {
 							!carregando && 
 							listaDeNaoRecebidoPorCategoriaTipo &&
 								listaDeNaoRecebidoPorCategoriaTipo.map(categoriaTipo => {
+									if(categoriaTipo.valor === 0){
+										categoriaTipo.valor = '0.00'
+									}
 									return (
 										<tbody key={`categoriaNaoRecebido${categoriaTipo._id}`}>
 											<tr>
@@ -144,7 +147,7 @@ const mapStateToProps = state => {
 		&& state.categoriaTipo
 	){
 		listaDeNaoRecebidoPorCategoriaTipo = state.categoriaTipo.map(categoriaTipo => {
-			categoriaTipo.valor = 0
+			categoriaTipo.valor = 0.00
 			return categoriaTipo
 		})
 		state.lancamentos
