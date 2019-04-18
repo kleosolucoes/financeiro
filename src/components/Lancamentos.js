@@ -197,8 +197,8 @@ class Lancamentos extends React.Component {
 										</Input>
 									</FormGroup>
 								</Col>
-							</Row>
-							<Row>
+							{/* </Row>
+							<Row> */}
 								<Col>
 									<FormGroup>
 										<Label for="categoria_id">Categoria</Label>
@@ -261,7 +261,7 @@ class Lancamentos extends React.Component {
 							}
 							<Row>
 								<Col sm="6">
-									<Label>Período Inicial</Label>
+									<Label><b>Período Inicial</b></Label>
 									<Row>
 									<Col>
 										<FormGroup>
@@ -318,7 +318,7 @@ class Lancamentos extends React.Component {
 								</Col>
 
 								<Col sm="6">
-								<Label>Período Final</Label>
+								<Label><b>Período Final</b></Label>
 								<Row>
 									<Col>
 										<FormGroup>

@@ -119,7 +119,7 @@ class ExtratoAdministracao extends React.Component {
 													</Button>
 												</td>
 												<td>
-													R$ {categoriaTipo.valor}
+													R$ {Number(categoriaTipo.valor).toFixed(2)}
 												</td>
 											</tr>
 										</tbody>

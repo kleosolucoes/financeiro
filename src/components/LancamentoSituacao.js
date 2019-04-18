@@ -20,10 +20,10 @@ class LancamentoSituacao extends React.Component {
 			<Card className={corCard} style={{marginTop: 10}}>
 				<CardBody>
 					<CardTitle style={{marginBottom: 0}}>
-						{lancamentoSituacao.data_criacao} - {situacao && situacao.nome}		
+						{lancamentoSituacao.data_criacao} - {lancamentoSituacao.hora_criacao}
 					</CardTitle>
 					<CardTitle style={{marginBottom: 0}}>
-						Usuário: {usuario && usuario.nome.split(' ')[0]}		
+						Usuário: {usuario && usuario.nome.split(' ')[0]} - {situacao && situacao.nome}		
 					</CardTitle>
 				</CardBody>
 			</Card>
