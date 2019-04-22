@@ -3,7 +3,6 @@ import {
 	Row,
 	Col,
 	FormGroup,
-	Label,
 	Input,
 	Alert,
 	Button,
@@ -16,9 +15,14 @@ import {
 	TELA_EXTRATO_ADMINISTRACAO,
 	TELA_EXTRATO_EMPRESA,
 	EMPRESA_ADMINISTRACAO_ID,
+	DARKGREEN,
 } from '../helpers/constantes'
 import logo from '../caixa.png'
 import * as api from '../helpers/api'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faUser, faLock } from '@fortawesome/free-solid-svg-icons'
+library.add(faUser, faLock)
 
 class Login extends React.Component {
 
@@ -113,22 +117,34 @@ class Login extends React.Component {
 				{
 					!carregando &&
 						<div className="login-wrapper">
+<<<<<<< HEAD
 							<img src={logo} alt="logo" width="160px" height="130px" />
+=======
+						<img src={logo} width="160px" height="130px" alt="Caixa Regional" />
+>>>>>>> 3dbdf05a809937e0dea79dae7c1f008766e0f90f
 							{/* <h1>
 								Financeiro	
 							</h1> */}
-							<FormGroup className="style-form">
-								<Label for="email">Email</Label>
+							<FormGroup className="style-form" style={{marginTop: 33}}>
+								{/* <Label for="email">Email</Label> */}
+								<div style={{display: 'flex', alignItems: 'center', justifyContent: 'center',
+    								border: '1px solid #2f8c7c', borderRadius: 4}}>
+								<div style={{padding: '0px 10px'}}>
+									<FontAwesomeIcon icon="user" size="sm" style={{color: DARKGREEN}} />
+								</div>
 								<Input 
 									className="style-input"
+									placeholder="Email"
+									style={{border: 0}}
 									type="email" 
 									name="email" 
 									id="email" 
 									value={email} 
 									onChange={this.ajudadorDeCampo}
 									invalid={camposComErro.includes('email') ? true : null}
-								>
+									>
 								</Input>
+<<<<<<< HEAD
 							{camposComErro.includes('email') && <Alert color='danger'>Preencha o Email</Alert>}
 						</FormGroup>
 						<FormGroup className="style-form">
@@ -173,6 +189,61 @@ class Login extends React.Component {
 						</Col>
 					</Row>
 				</div>
+=======
+								</div>
+								{camposComErro.includes('email') && <Alert color='danger'>Preencha o Email</Alert>}
+							</FormGroup>
+							<FormGroup className="style-form">
+								{/* <Label for="senha">Senha</Label> */}
+								<div style={{display: 'flex', alignItems: 'center', justifyContent: 'center',
+    								border: '1px solid #2f8c7c', borderRadius: 4}}>
+								<div style={{padding: '0px 10px'}}>
+									<FontAwesomeIcon icon="lock" size="sm" style={{color: DARKGREEN}} />
+								</div>
+								<Input 
+									className="style-input"
+									placeholder="Senha"
+									style={{border: 0}}
+									type="password" 
+									name="senha" 
+									id="senha" 
+									value={senha} 
+									onChange={this.ajudadorDeCampo}
+									invalid={camposComErro.includes('senha') ? true : null}
+								>
+								</Input>
+								</div>
+								{camposComErro.includes('senha') && <Alert color='danger'>Preencha a Senha</Alert>}
+							</FormGroup>
+							<Row style={{padding: 5}}>
+								{
+									camposComErro.includes('naoRegistrado') &&
+										<div style={{padding: 10}}>
+											<Alert color='warning'>
+												Usuário/Senha não conferem
+											</Alert>
+										</div>
+								}
+								{
+									mostrarMensagemDeErro &&
+										<div style={{padding: 10}}>
+											<Alert color='warning'>
+												Campos inválidos
+											</Alert>
+										</div>
+								}
+								<Col>
+									<Button 
+										type='button' 
+										className="style-button-login"
+										onClick={this.ajudadorDeSubmissao}
+									>
+										Entrar
+									</Button> 
+								</Col>
+							</Row>
+						</div>
+>>>>>>> 3dbdf05a809937e0dea79dae7c1f008766e0f90f
 				}
 			</div>
 		)

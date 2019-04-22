@@ -15,7 +15,6 @@ import {
 	LIGHTGRAY,
 } from '../helpers/constantes'
 import './aux.css';
-
 // ICONS
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faUser, faFileAlt, faPowerOff, faQuestionCircle, faBriefcase, faList, faFileInvoiceDollar, faSyncAlt } from '@fortawesome/free-solid-svg-icons'
@@ -120,7 +119,7 @@ class ExtratoAdministracao extends React.Component {
 													</Button>
 												</td>
 												<td>
-													R$ {categoriaTipo.valor}
+													R$ {Number(categoriaTipo.valor).toFixed(2)}
 												</td>
 											</tr>
 										</tbody>

@@ -96,7 +96,8 @@ class Lancamento extends React.Component {
 						Empresa: {empresa && empresa.nome}
 					</CardTitle>
 					<CardTitle style={{margin: '5px 0px', color: '#222'}}>
-						{categoria && categoria.nome} - R$ {(lancamento.valor).toLocaleString('pt-BR')}
+						{/* {categoria && categoria.nome} - R$ {(lancamento.valor).toLocaleString('pt-BR')} */}
+						{categoria && categoria.nome} - R$ {Number(lancamento.valor).toFixed(2)}
 					</CardTitle>
 					<CardTitle style={{marginBottom: 0, color: '#222'}}>
 						{categoria && categoria.credito_debito	=== 'C' ? STRING_CREDITO : STRING_DEBITO} - {situacao && situacao.nome}
