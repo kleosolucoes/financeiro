@@ -33,6 +33,7 @@ import {
 	pegarLancamentoDaApi,
 	pegarLancamentoSituacaoDaApi,
 } from './actions'
+import firebase from 'firebase'
 
 class App extends React.Component {
 
@@ -70,6 +71,19 @@ class App extends React.Component {
 		return	this.props.pegarLancamentoSituacaoDaApi(this.props.token)
 	}
 
+	askForPermissioToReceiveNotifications = async () => {
+		try {
+			const messaging = firebase.messaging();
+			await messaging.requestPermission();
+			const token = await messaging.getToken();
+			console.log('token do usuário:', token);
+
+			return token;
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
 	render() {
 		const { tela, categoria_tipo_id } = this.state
 		const { empresa_id } = this.props
@@ -94,6 +108,7 @@ class App extends React.Component {
 						tela === TELA_EXTRATO_EMPRESA &&
 							<ExtratoEmpresa 
 								puxarTodosDados={this.puxarTodosDados}
+								askForPermissioToReceiveNotifications={this.askForPermissioToReceiveNotifications}
 							/>
 					}
 					{
@@ -113,6 +128,7 @@ class App extends React.Component {
 							<ExtratoAdministracao 
 								alterarTela={this.alterarTela}
 								puxarTodosDados={this.puxarTodosDados}	
+								askForPermissioToReceiveNotifications={this.askForPermissioToReceiveNotifications}
 							/> 
 					}
 					{

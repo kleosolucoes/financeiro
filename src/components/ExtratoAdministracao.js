@@ -37,6 +37,7 @@ class ExtratoAdministracao extends React.Component {
 
 	componentDidMount(){
 		this.atualizar()
+		this.props.askForPermissioToReceiveNotifications()
 	}
 
 	atualizar = () => {

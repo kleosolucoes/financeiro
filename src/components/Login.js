@@ -19,7 +19,6 @@ import {
 } from '../helpers/constantes'
 import logo from '../caixa.png'
 import * as api from '../helpers/api'
-import firebase from 'firebase'
 
 class Login extends React.Component {
 
@@ -30,49 +29,6 @@ class Login extends React.Component {
 		camposComErro: [],
 		carregando: false
 	}
-
-	askForPermissioToReceiveNotifications = async () => {
-		try {
-			const messaging = firebase.messaging();
-			await messaging.requestPermission();
-			const token = await messaging.getToken();
-			console.log('token do usuário:', token);
-
-			return token;
-		} catch (error) {
-			console.error(error);
-		}
-	}
-
-	notificar = () => {
-		const url = 'https://fcm.googleapis.com/fcm/send'
-		const dados = {
-			"notification": {
-				"title": "Firebase",
-				"body": "Firebase is awesome",
-				"click_action": "http://localhost:3000/",
-				"icon": "http://url-to-an-icon/icon.png"
-			},
-			"to": "cXMyNCb15nY:APA91bHjp_i9yoxAFm5Y6SYzx7nEcIZhqALP89MKD-R-Y-FTA0UoboxNFEubwnBBBkXSLmCL1ioEIfD6yqSzTy0nnVGnpJhchNOKLSbYCX9Tg0XF0H5LHP1d-WOF6xQMNU-QDnWpHWP0"
-		}
-		const headers = {
-			'Content-Type': 'application/json',
-			'Authorization': 'key=AAAAaxLu8dw:APA91bHkcGqxMUG4QDK03goQqSR8YVLahDbenU-pCIDOIJtidCsOrMzWR4XBRl-F7kwkVcd8K4z5krj8cOnkrs_WkncFeqiN3m1aP77lRFIo2BeLGhsNYQf5xwugteZ4FH0oggj7zDks'
-		}
-
-		fetch(
-			url,
-			{
-				headers,
-				method: "POST",
-				body: JSON.stringify(dados),
-			}
-		)
-			.then(resultado => resultado.json())
-			.then(json => json)
-
-	}
-
 
 	ajudadorDeCampo = event => {
 		let valor = event.target.value
@@ -157,18 +113,7 @@ class Login extends React.Component {
 				{
 					!carregando &&
 						<div className="login-wrapper">
-							<button
-								onClick={()=>this.askForPermissioToReceiveNotifications()}
-							>
-							permissao
-							</button>
-							<button
-								onClick={()=>this.notificar()}
-							>
-							notificar
-							</button>
-	
-						<img src={logo} width="160px" height="130px" />
+							<img src={logo} alt="logo" width="160px" height="130px" />
 							{/* <h1>
 								Financeiro	
 							</h1> */}
@@ -184,50 +129,50 @@ class Login extends React.Component {
 									invalid={camposComErro.includes('email') ? true : null}
 								>
 								</Input>
-								{camposComErro.includes('email') && <Alert color='danger'>Preencha o Email</Alert>}
-							</FormGroup>
-							<FormGroup className="style-form">
-								<Label for="senha">Senha</Label>
-								<Input 
-									className="style-input"
-									type="password" 
-									name="senha" 
-									id="senha" 
-									value={senha} 
-									onChange={this.ajudadorDeCampo}
-									invalid={camposComErro.includes('senha') ? true : null}
-								>
-								</Input>
-								{camposComErro.includes('senha') && <Alert color='danger'>Preencha a Senha</Alert>}
-							</FormGroup>
-							<Row style={{padding: 5}}>
-								{
-									camposComErro.includes('naoRegistrado') &&
-										<div style={{padding: 10}}>
-											<Alert color='warning'>
-												Usuário/Senha não conferem
-											</Alert>
-										</div>
-								}
-								{
-									mostrarMensagemDeErro &&
-										<div style={{padding: 10}}>
-											<Alert color='warning'>
-												Campos inválidos
-											</Alert>
-										</div>
-								}
-								<Col>
-									<Button 
-										type='button' 
-										className="style-button-login"
-										onClick={this.ajudadorDeSubmissao}
-									>
-										Entrar
-									</Button> 
-								</Col>
-							</Row>
-						</div>
+							{camposComErro.includes('email') && <Alert color='danger'>Preencha o Email</Alert>}
+						</FormGroup>
+						<FormGroup className="style-form">
+							<Label for="senha">Senha</Label>
+							<Input 
+								className="style-input"
+								type="password" 
+								name="senha" 
+								id="senha" 
+								value={senha} 
+								onChange={this.ajudadorDeCampo}
+								invalid={camposComErro.includes('senha') ? true : null}
+							>
+							</Input>
+						{camposComErro.includes('senha') && <Alert color='danger'>Preencha a Senha</Alert>}
+					</FormGroup>
+					<Row style={{padding: 5}}>
+						{
+							camposComErro.includes('naoRegistrado') &&
+							<div style={{padding: 10}}>
+								<Alert color='warning'>
+									Usuário/Senha não conferem
+								</Alert>
+							</div>
+						}
+						{
+							mostrarMensagemDeErro &&
+								<div style={{padding: 10}}>
+									<Alert color='warning'>
+										Campos inválidos
+									</Alert>
+								</div>
+						}
+						<Col>
+							<Button 
+								type='button' 
+								className="style-button-login"
+								onClick={this.ajudadorDeSubmissao}
+							>
+								Entrar
+							</Button> 
+						</Col>
+					</Row>
+				</div>
 				}
 			</div>
 		)

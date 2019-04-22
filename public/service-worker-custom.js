@@ -59,32 +59,27 @@ self.addEventListener('fetch', event => {
 	)
 })
 
-//self.addEventListener('notificationclose', function(e) {
-//	var notification = e.notification;
-//	var primaryKey = notification.data.primaryKey;
-//
-//	console.log('Closed notification: ' + primaryKey);
-//});
+self.addEventListener('notificationclose', function(e) {
+	var notification = e.notification;
+	console.log('Closed notification: ' + notification);
+});
 
-//self.addEventListener('notificationclick', function(e) {
-//	var notification = e.notification;
-//	var primaryKey = notification.data.primaryKey;
-//	var action = e.action;
-//
-//	if (action === 'close') {
-//		notification.close();
-//	} else {
-//		clients.openWindow('http://www.example.com');
-//		notification.close();
-//	}
-//});
+self.addEventListener('notificationclick', function(e) {
+	var notification = e.notification;
+	var action = e.action;
+	if (action === 'close') {
+		notification.close();
+	} else {
+		clients.openWindow('http://www.example.com');
+		notification.close();
+	}
+});
 
 self.addEventListener('push', function(event) {
-	console.log('Push received: ', event.data.json());
-	const dados = event.data.json().notification
+	console.log('Push received: ', event)
 	event.waitUntil(
-		self.registration.showNotification(dados.title, {
-			body: dados.message,
+		self.registration.showNotification('TRUTA', {
+			body: 'FOI ABESTADO',
 		})
 	);
 });

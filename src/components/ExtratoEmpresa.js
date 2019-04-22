@@ -32,6 +32,7 @@ class ExtratoEmpresa extends React.Component {
 					carregando: false,
 				})
 			})
+		this.props.askForPermissioToReceiveNotifications()
 	}
 
 	atualizar = () => {

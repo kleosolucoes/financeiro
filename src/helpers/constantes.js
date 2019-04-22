@@ -46,5 +46,3 @@ export const CATEGORIA_TIPO_DESPESA = '5cb76bc3fb6fc041ab92f02f'
 export const DARKGREEN = '#2F8C7C'
 export const LIGHTGREEN = '#7CC9BC'
 export const LIGHTGRAY = '#F9F7F7'
-
-//export const PUBLIC_KEY = "BLHCbFqkY_001v2441pITZWI3mcBskw_gVuLqxzI-FEw-INIemr8u2bJpQmPeSRi1pJ7kpbTJe9VfddJNQ_ZmQk" 

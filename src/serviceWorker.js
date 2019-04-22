@@ -9,7 +9,6 @@
 
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read http://bit.ly/CRA-PWA
-import { PUBLIC_KEY } from './helpers/constantes'
 import firebase from 'firebase';
 
 const isLocalhost = Boolean(
@@ -61,6 +60,7 @@ function registerValidSW(swUrl, config) {
 	navigator.serviceWorker
 		.register(swUrl)
 		.then(registration => {
+			firebase.messaging().useServiceWorker(registration);
 			registration.onupdatefound = () => {
 				const installingWorker = registration.installing;
 				if (installingWorker == null) {
@@ -95,34 +95,6 @@ function registerValidSW(swUrl, config) {
 					}
 				};
 			};
-
-			firebase.messaging().useServiceWorker(registration);
-
-
-			//			registration.pushManager.getSubscription().then(function(sub) {
-			//				if (sub === null) {
-			//					// Update UI to ask user to register for Push
-			//					console.log('Not subscribed to push service!');
-			//					const vapidPublicKey = urlB64ToUint8Array(PUBLIC_KEY)
-			//					registration.pushManager.subscribe({
-			//						applicationServerKey: vapidPublicKey,
-			//						userVisibleOnly: true
-			//					}).then(function(sub) {
-			//						console.log('Nova: ', sub);
-			//					}).catch(function(e) {
-			//						if (Notification.permission === 'denied') {
-			//							console.warn('Permission for notifications was denied');
-			//						} else {
-			//							console.error('Unable to subscribe to push', e);
-			//						}
-			//					});
-			//
-			//				} else {
-			//					// We have a subscription, update the database
-			//					console.log('TEM object: ', sub);
-			//				}
-			//				inscreverPush(sub)
-			//			});
 		})
 		.catch(error => {
 			console.error('Error during service worker registration:', error);
@@ -163,33 +135,4 @@ export function unregister() {
 			registration.unregister();
 		});
 	}
-}
-
-function urlB64ToUint8Array(base64String) {
-	const padding = '='.repeat((4 - base64String.length % 4) % 4);
-	const base64 = (base64String + padding)
-		.replace(/\-/g, '+')
-		.replace(/_/g, '/');
-
-	const rawData = window.atob(base64);
-	const outputArray = new Uint8Array(rawData.length);
-
-	for (let i = 0; i < rawData.length; ++i) {
-		outputArray[i] = rawData.charCodeAt(i);
-	}
-	return outputArray;
-}
-
-function inscreverPush(subscription) {
-	fetch('http://localhost:8080/push/inscrever', {
-		method: 'post',
-		headers: {
-			'Accept': 'application/json',
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify(subscription)
-	})
-		.then(resultado => resultado.json())
-		.then(json => console.log('json: ', json))
-		.catch(error => console.log('error: ',error))
 }
