@@ -292,20 +292,23 @@ class LancarVarios extends React.Component {
 				getMoney(dizimoCredito) +
 				getMoney(dizimoMoeda) +
 				getMoney(dizimoCheque) +
+
 				getMoney(ofertaDinheiro) +
 				getMoney(ofertaDebito) +
 				getMoney(ofertaCredito) +
 				getMoney(ofertaMoeda) +
 				getMoney(ofertaCheque) +
+
 				getMoney(ofertaEspecialDinheiro) +
 				getMoney(ofertaEspecialDebito) +
 				getMoney(ofertaEspecialCredito) +
+				getMoney(ofertaEspecialMoeda) +
 				getMoney(ofertaEspecialCheque) +
+
 				getMoney(ofertaDinheiroInstitutoDeVencedores) +
-				getMoney(ofertaDebito) +
+				getMoney(ofertaDebitoInstitutoDeVencedores) +
 				getMoney(ofertaCreditoInstitutoDeVencedores) +
 				getMoney(ofertaMoedaInstitutoDeVencedores) +
-				getMoney(ofertaEspecialMoeda) +
 				getMoney(ofertaChequeInstitutoDeVencedores)
 			)
 			.toString()
