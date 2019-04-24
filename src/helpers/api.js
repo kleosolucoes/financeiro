@@ -1,5 +1,5 @@
 let api = 'https://glacial-harbor-83832.herokuapp.com'
-api = 'http://localhost:8080'
+//api = 'https://139.99.130.162:3001'
 
 const headers = {
 	'Content-Type': 'application/json'
